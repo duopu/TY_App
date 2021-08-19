@@ -1,14 +1,18 @@
 @color-yellow:#FFB55B;
 .custom-tabs {
+	display: flex;
+	align-items: center;
 	margin:20rpx;
 	width: 100%;
 	height: 72rpx;
+	text-align: center;
 	&-item {
+		flex: 1;
 		padding: 0 24rpx;
-		display: inline-flex;
+		
 		position: relative;
-		line-height: 72rpx;
 		font-size: 26rpx;
+		line-height: 72rpx;
 		color: #666666;
 		transition: all 0.1s ease-out;
 		&.on {
