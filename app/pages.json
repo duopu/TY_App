@@ -1,55 +1,83 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		
-		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText":"",
-				"enablePullDownRefresh": false,
-				"navigationStyle":"custom"
-			}
-		},{
-			"path": "pages-business/my/index/index",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-		}
-	    ,{
-            "path" : "pages-user/main/index/index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/validate-code/validate-code",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/reset-password/reset-password",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#fff",
-		"backgroundColor": "#F8F8F8"
-	},
-	"easycom": {
-		"autoscan": true //是否自动扫描组件
-	}
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages-user/main/index/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages-business/my/index/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/validate-code/validate-code",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/reset-password/reset-password",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    }
+  ],
+  "tabBar": {
+    "backgroundColor": "#FFFFFF",
+    "color": "#999999",
+    "selectedColor": "#222222",
+    "borderStyle": "white",
+    "list": [
+      {
+        "iconPath": "assets/images/tabbars/index-select.png",
+        "selectedIconPath": "",
+        "text": "首页",
+        "pagePath": "pages-user/main/index/index"
+      },
+      {
+        "iconPath": "assets/images/tabbars/classify.png",
+        "selectedIconPath": "",
+        "text": "分类",
+        "pagePath": "pages-user/classify/index/index"
+      },
+      {
+        "iconPath": "assets/images/tabbars/course.png",
+        "selectedIconPath": "",
+        "text": "课程表",
+        "pagePath": "pages-user/course/index/index"
+      },
+      {
+        "iconPath": "assets/images/tabbars/mine.png",
+        "selectedIconPath": "",
+        "text": "我的",
+        "pagePath": "pages-user/mine/index/index"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#F8F8F8"
+  },
+  "easycom": {
+    "autoscan": true
+    //是否自动扫描组件
+  }
 }
