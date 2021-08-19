@@ -1,23 +1,55 @@
 <script>
-export default {
-	onLaunch: function() {
-		// setRemInit();
-		console.log('App Launch');
-	},
-	onShow: function() {
-		console.log('App Show');
-	},
-	onHide: function() {
-		console.log('App Hide');
-	},
-	onResize() {
-		window.reload()
-	}
-};
+	import config from './utils/config.js';
+
+	export default {
+		// 全局数据对象
+		globalData: {
+			user: {}
+		},
+
+		onLaunch: function() {
+			// setRemInit();
+			console.log('App Launch');
+
+			// 从本地恢复登录信息;
+			uni.getStorage({
+				key: config.storageKeys.loginUserKey,
+				success: res => {
+					console.log('本地用户信息', res.data);
+					const user = res.data;
+					if (user.appToken) {
+						// 内存保存
+						getApp().globalData.user = user;
+					} else {
+						// 本地无用户信息，去登录页
+						uni.reLaunch({
+							url: '/pages/login/login'
+						});
+					}
+				},
+				fail(err) {
+					console.log('失败', err);
+					uni.reLaunch({
+						url: '/pages/login/login'
+					});
+				}
+			});
+		},
+		onShow: function() {
+			console.log('App Show');
+		},
+		onHide: function() {
+			console.log('App Hide');
+		},
+		onResize() {
+			window.reload()
+		}
+	};
 </script>
 
 <style lang="less">
 	@import './less/common.less';
+
 	page {
 		--safe-area-inset-top: 0;
 		--safe-area-inset-right: 0;
@@ -28,6 +60,7 @@ export default {
 		height: 100%;
 		box-sizing: border-box;
 	}
+
 	@supports (top: constant(safe-area-inset-top)) {
 		page {
 			--safe-area-inset-top: constant(safe-area-inset-top);
@@ -36,6 +69,7 @@ export default {
 			--safe-area-inset-left: constant(safe-area-inset-left);
 		}
 	}
+
 	@supports (top: env(safe-area-inset-top)) {
 		page {
 			--safe-area-inset-top: env(safe-area-inset-top);

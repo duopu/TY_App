@@ -12,17 +12,17 @@
     <view class="form-wrapper">
       <!-- 手机号/验证码登录 -->
       <view v-if="loginMethod === 0">
-        <input class="input" placeholder-style="input-placeholder" type="text" value="" placeholder="请输入手机号"/>
+        <input class="input" placeholder-style="input-placeholder" type="text" v-model="phone" placeholder="请输入手机号"/>
         <view class="helper">未注册手机号验证后自动注册</view>
         <view class="login-btn" @click="onGetCode">获取验证码</view>
         <view class="huo">或</view>
-        <view class="password-login" @click="() => (loginMethod = 1)">密码登录</view>
+        <view class="password-login" @click="loginMethod = 1">密码登录</view>
       </view>
       <!-- 密码登录 -->
       <view v-else>
-        <input class="input" placeholder-style="input-placeholder" type="text" value="" placeholder="请输入手机号或用户名"/>
+        <input class="input" placeholder-style="input-placeholder" type="text" v-model="phone" placeholder="请输入手机号或用户名"/>
         <view class="flex-center-between input-with-icon">
-          <input class="input" placeholder-style="input-placeholder" type="password" value="" placeholder="请输入密码"/>
+          <input class="input" placeholder-style="input-placeholder" :type="eye == 1 ? 'password' : 'text'" v-model="pwd" placeholder="请输入密码"/>
           <image class="icon" v-if="eye == 1" @click="toggleEye" src="../../static/images/login/eye-close.png"
                  mode="aspectFill"></image>
           <image class="icon" v-if="eye == 2" @click="toggleEye" src="../../static/images/login/eye.png"
@@ -31,7 +31,7 @@
         <navigator url="../reset-password/reset-password" class="helper forget" @click="forget">忘记密码？</navigator>
         <view class="login-btn">登录</view>
         <view class="huo">或</view>
-        <view class="password-login" @click="() => (loginMethod = 0)">快速登录</view>
+        <view class="password-login" @click="loginMethod = 0">快速登录</view>
       </view>
     </view>
     <!-- 底部 -->
@@ -60,7 +60,9 @@ export default {
 		return {
 			roleStatus: 0, //0-用户版 1-商家版
 			loginMethod: 0, //0-手机号/验证码，1-密码登录
-			eye: 1
+			eye: 1, // 密码登录， 密码输入框的那个小眼睛 标记
+			phone:'',// 手机号
+			pwd:'',// 密码
 		};
 	},
 	methods: {
@@ -74,9 +76,16 @@ export default {
 		},
 		// 验证码 按钮
 		onGetCode() {
-			uni.navigateTo({
-				url: '/pages/validate-code/validate-code'
-			});
+			if(!this.phone){
+				this.$tool.showToast('请输入手机号')
+				return
+			}
+			// 发送验证码
+			this.$http.post('/user/getSmsCode',{phone:this.phone,smsType:1},true).then(res=>{
+				uni.navigateTo({
+					url: '/pages/validate-code/validate-code'
+				});
+			})
 		},
 		forget() {
 			uni.navigateTo({

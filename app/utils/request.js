@@ -26,7 +26,7 @@ export default {
 				mask: true,
 			})
 		}
-
+		
 		return uni.request(options).then(response => {
 			
 			const res = response[1].data
@@ -34,12 +34,16 @@ export default {
 			const msg = res.message;
 			const data = res.data;
 			const success = res.success;
-			console.log('========================');
+			console.log('============接口请求============');
 			console.log('请求地址', url);
 			console.log('请求参数', options);
-			console.log('响应数据', data);
 			console.log('全部响应', res);
-
+			console.log(`
+				【【 字符串表示 】】
+				请求信息：${JSON.stringify(options)}
+				响应信息：${JSON.stringify(res)}
+			`);
+			
 			if (loading) {
 				uni.hideLoading()
 			}
