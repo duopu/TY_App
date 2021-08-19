@@ -11,11 +11,11 @@
       <view class="item">
         <input class="input" placeholder-class="input-placeholder" type="text" value=""
                placeholder="请输入密码(6～20位任意字符组合)"/>
-        <image class="icon" src="../../assets/images/login/eye-close.png"></image>
+        <image class="icon" src="../../static/images/login/eye-close.png"></image>
       </view>
       <view class="item">
         <input class="input" placeholder-class="input-placeholder" type="text" value="" placeholder="请再次输入密码"/>
-        <image class="icon" src="../../assets/images/login/eye-close.png"></image>
+        <image class="icon" src="../../static/images/login/eye-close.png"></image>
       </view>
     </view>
     <view class="login-btn">确认</view>

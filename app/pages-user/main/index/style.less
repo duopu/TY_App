@@ -1,11 +1,72 @@
+@color-yellow:#FFB55B;
+
+.page-wrapper{
+	height: 100%;
+	overflow: hidden;
+}
+// 头部
+.top{
+	padding-top: var(--status-bar-height);
+	flex-shrink: 0;
+	margin: 24rpx 20rpx;
+	.image-eduction{
+		width: 208rpx;
+		height: 42rpx;
+	}
+	.color-yellow{
+		color: @color-yellow;
+	}
+	.line{
+		margin: auto 16rpx;
+		width: 2rpx;
+		height: 24rpx;
+		background-color: @color-yellow;
+		border-radius: 2rpx;
+		opacity: 0.3;
+	}
+	.icon-image{
+		width: 40rpx;
+		height: 40rpx;
+		& + .icon-image{
+			margin-left: 24rpx;
+		}
+	}
+	.custom-tabs{
+		height: 72rpx;
+		&-item{
+			position: relative;
+			line-height: 72rpx;
+			display: inline-flex;
+			font-size: 26rpx;
+			color: #666666;
+			&.on::after{
+				content: '';
+				position: absolute;
+				margin-left: -10rpx;
+				left: 50%;
+				bottom: 0;
+				left: 50%;
+				width: 20rpx;
+				height: 6rpx;
+				border-radius: 10rpx;
+				background-color: @color-yellow;
+				position: absolute;
+			}
+		}
+	}
+}
+
+
+
+
 .index-page {
-  padding: 24 rpx 20 rpx;
+  padding: 24rpx 20rpx;
 
 
 }
 
 .head {
-  margin-bottom: 20 rpx;
+  margin-bottom: 20rpx;
 
   .lf {
     display: flex;
@@ -13,64 +74,64 @@
     align-items: center;
 
     .shul {
-      width: 2 rpx;
-      height: 24 rpx;
+      width: 2rpx;
+      height: 24rpx;
       background-color: #FFB55B;
-      margin: 0 16 rpx;
+      margin: 0 16rpx;
     }
 
     .slogn {
       color: #FFB55B;
-      font-size: 26 rpx;
+      font-size: 26rpx;
     }
   }
 
   .head-icon {
-    width: 40 rpx;
-    height: 40 rpx;
-    margin: 0 12 rpx;
+    width: 40rpx;
+    height: 40rpx;
+    margin: 0 12rpx;
   }
 }
 
 .tech {
-  width: 208 rpx;
-  height: 42 rpx;
+  width: 208rpx;
+  height: 42rpx;
 }
 
 .tabs {
   flex-wrap: wrap;
 
   .tab {
-    margin-right: 48 rpx;
+    margin-right: 48rpx;
     color: #666666;
-    font-size: 26 rpx;
+    font-size: 26rpx;
     position: relative;
   }
 
   .act {
     color: #000000;
-    font-size: 32 rpx;
+    font-size: 32rpx;
     font-weight: bold;
   }
 
   .underline {
-    width: 20 rpx;
-    height: 6 rpx;
+    width: 20rpx;
+    height: 6rpx;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 10 rpx;
+    margin-top: 10rpx;
   }
 }
 
 .swiper {
-  border-radius: 30 rpx;
+  border-radius: 30rpx;
   overflow: hidden;
-  margin: 20 rpx 0 20 rpx;
+  margin: 20rpx 0 20rpx;
 
   .swiper-img {
     width: 100%;
-    height: 324 rpx;
+    height: 324rpx;
   }
 }
 
@@ -80,8 +141,8 @@
     text-align: center;
 
     image {
-      width: 80 rpx;
-      height: 80 rpx;
+      width: 80rpx;
+      height: 80rpx;
     }
 
     .name {
@@ -93,48 +154,48 @@
 
 // 资讯
 .zixun {
-  margin: 40 rpx 0 48 rpx;
+  margin: 40rpx 0 48rpx;
 
   .zixun-item {
-    width: 347 rpx;
+    width: 347rpx;
 
     .title {
-      font-size: 30 rpx;
+      font-size: 30rpx;
       font-style: italic;
       font-weight: bold;
       background-color: #E8F0FF;
       // height: 40rpx;
-      padding: 12 rpx 22 rpx;
-      border-radius: 20 rpx 20 rpx 0 0;
+      padding: 12rpx 22rpx;
+      border-radius: 20rpx 20rpx 0 0;
     }
 
     .zx-img {
-      width: 348 rpx;
-      height: 126 rpx;
-      border-radius: 0 0 20 rpx 20 rpx;
+      width: 348rpx;
+      height: 126rpx;
+      border-radius: 0 0 20rpx 20rpx;
     }
 
     .zhin {
       background-color: #E8F0FF;
-      margin-top: 16 rpx;
+      margin-top: 16rpx;
       text-overflow: ellipsis;
       color: #222222;
-      font-size: 22 rpx;
-      border-radius: 20 rpx;
+      font-size: 22rpx;
+      border-radius: 20rpx;
       overflow: hidden;
       white-space: nowrap;
-      padding: 20 rpx 16 rpx;
+      padding: 20rpx 16rpx;
     }
 
     .day {
-      height: 150 rpx;
+      height: 150rpx;
       background: linear-gradient(134deg, #FDF8F8 0%, #F9EEED 100%);
-      margin-bottom: 16 rpx;
-      border-radius: 20 rpx;
+      margin-bottom: 16rpx;
+      border-radius: 20rpx;
 
       .day-img {
-        width: 68 rpx;
-        height: 77 rpx;
+        width: 68rpx;
+        height: 77rpx;
       }
     }
 
@@ -142,16 +203,16 @@
       .btm-item {
         // height: 120rpx;
         background-color: #FFEFE2;
-        padding: 24 rpx 16 rpx;
-        border-radius: 20 rpx;
+        padding: 24rpx 16rpx;
+        border-radius: 20rpx;
         color: #FD8D2F;
 
         .btm-title {
-          font-size: 26 rpx;
+          font-size: 26rpx;
         }
 
         .sub {
-          font-size: 18 rpx;
+          font-size: 18rpx;
         }
       }
 
@@ -166,8 +227,8 @@
 // 直播
 .live {
   .zbsm {
-    width: 48 rpx;
-    height: 48 rpx;
+    width: 48rpx;
+    height: 48rpx;
   }
 
   .shul {
@@ -178,30 +239,30 @@
   }
 
   .bold {
-    font-size: 30 rpx;
+    font-size: 30rpx;
     color: #222222;
     font-weight: bold;
   }
 
   .norm {
     color: #999999;
-    font-size: 26 rpx;
+    font-size: 26rpx;
   }
 
   .more-text {
     color: #222222;
-    font-size: 26 rpx;
+    font-size: 26rpx;
   }
 
   .more {
-    width: 32 rpx;
-    height: 32 rpx;
+    width: 32rpx;
+    height: 32rpx;
   }
 
   .tabs {
     .tab {
       color: #222222;
-      font-size: 26 rpx;
+      font-size: 26rpx;
     }
 
     .act {
@@ -210,14 +271,14 @@
   }
 
   .banner {
-    padding: 24 rpx 0;
-    border-radius: 20 rpx;
+    padding: 24rpx 0;
+    border-radius: 20rpx;
     overflow: hidden;
 
     image {
       width: 100%;
-      height: 220 rpx;
-      border-radius: 20 rpx;
+      height: 220rpx;
+      border-radius: 20rpx;
     }
   }
 }
@@ -225,8 +286,8 @@
 // 题库
 .question {
   .zbsm {
-    width: 48 rpx;
-    height: 48 rpx;
+    width: 48rpx;
+    height: 48rpx;
   }
 
   .shul {
@@ -237,37 +298,37 @@
   }
 
   .bold {
-    font-size: 30 rpx;
+    font-size: 30rpx;
     color: #222222;
     font-weight: bold;
   }
 
   .norm {
     color: #999999;
-    font-size: 26 rpx;
+    font-size: 26rpx;
   }
 
   .more-text {
     color: #222222;
-    font-size: 26 rpx;
+    font-size: 26rpx;
   }
 
   .more {
-    width: 32 rpx;
-    height: 32 rpx;
+    width: 32rpx;
+    height: 32rpx;
   }
 
   .slide {
     .item {
-      width: 566 rpx;
-      height: 192 rpx;
+      width: 566rpx;
+      height: 192rpx;
       background-color: #F8F8F8;
-      border-radius: 20 rpx;
-      padding: 32 rpx 18 rpx;
+      border-radius: 20rpx;
+      padding: 32rpx 18rpx;
       position: relative;
 
       .title {
-        font-size: 28 rpx;
+        font-size: 28rpx;
         color: #222222;
         font-weight: bold;
 
@@ -276,41 +337,41 @@
           background: linear-gradient(180deg, #6D88F7 0%, #91A6FF 100%);
           border-radius: 4px;
           color: #fff;
-          font-size: 22 rpx;
-          padding: 0 16 rpx;
-          margin-right: 20 rpx;
+          font-size: 22rpx;
+          padding: 0 16rpx;
+          margin-right: 20rpx;
         }
       }
 
       .bottom {
         position: absolute;
-        bottom: 18 rpx;
+        bottom: 18rpx;
         left: 0;
-        width: 560 rpx;
-        padding: 0 16 rpx;
+        width: 560rpx;
+        padding: 0 16rpx;
 
         .images {
           .avatar {
-            width: 56 rpx;
-            height: 56 rpx;
-            border-radius: 56 rpx;
-            margin-right: 8 rpx;
+            width: 56rpx;
+            height: 56rpx;
+            border-radius: 56rpx;
+            margin-right: 8rpx;
           }
         }
 
         .description {
           color: #666666;
-          font-size: 24 rpx;
+          font-size: 24rpx;
         }
 
         .rt {
           text-align: right;
           color: #999999;
-          font-size: 20 rpx;
+          font-size: 20rpx;
 
           .price {
             color: #FF705B;
-            font-size: 34 rpx;
+            font-size: 34rpx;
             font-weight: bold;
           }
         }
@@ -323,8 +384,8 @@
 
 .zhuanh {
   .zbsm {
-    width: 48 rpx;
-    height: 48 rpx;
+    width: 48rpx;
+    height: 48rpx;
   }
 
   .shul {
@@ -335,67 +396,67 @@
   }
 
   .bold {
-    font-size: 30 rpx;
+    font-size: 30rpx;
     color: #222222;
     font-weight: bold;
   }
 
   .norm {
     color: #999999;
-    font-size: 26 rpx;
+    font-size: 26rpx;
   }
 
   .more-text {
     color: #222222;
-    font-size: 26 rpx;
+    font-size: 26rpx;
   }
 
   .more {
-    width: 32 rpx;
-    height: 32 rpx;
+    width: 32rpx;
+    height: 32rpx;
   }
 
   .z-item {
-    width: 220 rpx;
-    background-image: url(../../../assets/images/index/bg1.png);
+    width: 220rpx;
+    background-image: url(../../../static/images/index/bg1.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    padding: 30 rpx 52 rpx;
-    border-radius: 40 rpx;
+    padding: 30rpx 52rpx;
+    border-radius: 40rpx;
     text-align: center;
     position: relative;
 
     .title {
       color: #222222;
-      font-size: 28 rpx;
+      font-size: 28rpx;
       font-weight: 600;
     }
 
     view {
       color: #666666;
-      font-size: 22 rpx;
-      margin: 22 rpx 0;
+      font-size: 22rpx;
+      margin: 22rpx 0;
     }
 
     .ft {
       color: #222;
-      font-size: 24 rpx;
-      margin-top: 10 rpx;
+      font-size: 24rpx;
+      margin-top: 10rpx;
     }
 
     .btn {
-      width: 160 rpx;
-      height: 56 rpx;
+      width: 160rpx;
+      height: 56rpx;
       text-align: center;
-      line-height: 56 rpx;
+      line-height: 56rpx;
       background-color: #FFB55B;
       color: #fff;
       position: absolute;
-      bottom: -56 rpx;
+      bottom: -56rpx;
       left: 50%;
       transform: translateX(-50%);
       z-index: 999;
-      border-radius: 56 rpx;
+      border-radius: 56rpx;
     }
   }
 }
@@ -403,24 +464,24 @@
 .kec {
   .bea {
     .item {
-      padding: 24 rpx 0;
+      padding: 24rpx 0;
 
       .preview {
-        width: 240 rpx;
-        height: 160 rpx;
-        border-radius: 20 rpx;
+        width: 240rpx;
+        height: 160rpx;
+        border-radius: 20rpx;
       }
 
       .info {
-        width: 430 rpx;
-        height: 160 rpx;
+        width: 430rpx;
+        height: 160rpx;
         position: relative;
-        padding-left: 20 rpx;
+        padding-left: 20rpx;
 
         .title {
           font-weight: 600;
           color: #222222;
-          font-size: 28 rpx;
+          font-size: 28rpx;
         }
 
         .bottom {
@@ -430,13 +491,13 @@
 
           .price {
             color: #FF705B;
-            font-size: 34 rpx;
+            font-size: 34rpx;
             font-weight: bold;
-            margin-right: 20 rpx;
+            margin-right: 20rpx;
           }
 
           .desc {
-            font-size: 24 rpx;
+            font-size: 24rpx;
             color: #666666;
           }
         }
@@ -447,37 +508,37 @@
 
 .types {
   background-color: #fff;
-  padding: 32 rpx;
-  border-radius: 20 rpx 20 rpx 0 0;
+  padding: 32rpx;
+  border-radius: 20rpx 20rpx 0 0;
 
   .title {
-    font-size: 34 rpx;
+    font-size: 34rpx;
     color: #000;
     font-weight: bold;
-    padding-bottom: 32 rpx;
+    padding-bottom: 32rpx;
   }
 
   .content {
     .item {
       .item-title {
-        font-size: 30 rpx;
+        font-size: 30rpx;
         font-weight: bold;
-        margin-bottom: 30 rpx;
+        margin-bottom: 30rpx;
       }
 
       .item-content {
         flex-wrap: wrap;
 
         .item-a {
-          width: 88 rpx;
-          height: 88 rpx;
-          border-radius: 88 rpx;
+          width: 88rpx;
+          height: 88rpx;
+          border-radius: 88rpx;
         }
 
         .datum {
-          width: 88 rpx;
+          width: 88rpx;
           text-align: center;
-          margin: 0 70 rpx 30 rpx 0;
+          margin: 0 70rpx 30rpx 0;
 
           &:nth-child(4n+0) {
             margin-right: 0;
@@ -485,7 +546,7 @@
 
           .name {
             color: #666666;
-            font-size: 24 rpx;
+            font-size: 24rpx;
           }
         }
       }
@@ -493,13 +554,13 @@
   }
 
   .btn {
-    margin-top: 10 rpx;
-    width: 336 rpx;
-    height: 96 rpx;
-    border-radius: 96 rpx;
+    margin-top: 10rpx;
+    width: 336rpx;
+    height: 96rpx;
+    border-radius: 96rpx;
     background-color: #222222;
     color: #fff;
-    line-height: 96 rpx;
+    line-height: 96rpx;
     text-align: center;
     position: relative;
     left: 50%;

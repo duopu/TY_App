@@ -1,66 +1,36 @@
+<!-- 首页 -->
 <template>
-  <view class="index-page">
-    <view class="head fl bet aln">
-      <view class="lf">
-        <image class="tech" src="../../../assets/images/index/tech.png" mode=""></image>
-        <view class="shul">
-
-        </view>
-        <view class="slogn">
-          slogn可换
-        </view>
-      </view>
-      <view class="flex bet aln">
-        <image class="head-icon" src="../../../assets/images/index/search.png" mode=""></image>
-        <image class="head-icon" src="../../../assets/images/index/msg.png" mode=""></image>
-      </view>
-    </view>
-    <view class="tabs fl aln">
-      <view class="tab act">
-        <view class="">
-          推荐
-        </view>
-        <image class="underline" src="../../../assets/images/login/underline.png" mode=""></image>
-      </view>
-      <view class="tab">
-        <view class="">
-          活动
-        </view>
-      </view>
-      <view class="tab">
-        <view class="">
-          高新转行
-        </view>
-      </view>
-      <view class="tab">
-        <view class="">
-          认证
-        </view>
-      </view>
-      <view class="tab">
-        <view class="">
-          提升
-        </view>
-      </view>
-      <view class="tab">
-        <view class="">
-          好物
-        </view>
-      </view>
-    </view>
-
+  <view class="page-wrapper">
+	<!-- 头部 -->
+	<view class="top">
+		<view class="flex-center-between">
+			<view class="flex-center">
+				<image class="image-eduction" src="../../../static/images/index/eduction-course.png" mode="aspectFill"></image>
+				<text class="line"></text>
+				<text class="color-yellow">slogn可换</text>
+			</view>
+			<view class="flex-center">
+				<image class="icon-image" src="../../../static/images/icons/icon-search.svg" mode="aspectFill"></image>
+				<image class="icon-image" src="../../../static/images/icons/icon-message.svg" mode="aspectFill"></image>
+			</view>
+		</view>
+		<!-- 横向滚动菜单 -->
+		<scroll-view scroll-x="true" class="custom-tabs">
+			<view class="custom-tabs-item"></view>
+		</scroll-view>
+	</view>
     <!-- 轮播图 -->
     <view class="swiper">
       <swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
               :duration="duration">
         <swiper-item>
-          <image class="swiper-img" src="../../../assets/images/login/advert.png" mode=""></image>
+          <image class="swiper-img" src="../../../static/images/login/advert.png" mode=""></image>
         </swiper-item>
         <swiper-item>
-          <image class="swiper-img" src="../../../assets/images/login/advert.png" mode=""></image>
+          <image class="swiper-img" src="../../../static/images/login/advert.png" mode=""></image>
         </swiper-item>
         <swiper-item>
-          <image class="swiper-img" src="../../../assets/images/login/advert.png" mode=""></image>
+          <image class="swiper-img" src="../../../static/images/login/advert.png" mode=""></image>
         </swiper-item>
       </swiper>
     </view>
@@ -69,31 +39,31 @@
     <!-- 宫格 -->
     <view class="grid fl bet aln">
       <view class="item">
-        <image src="../../../assets/images/index/type.png" mode=""></image>
+        <image src="../../../static/images/index/type.png" mode=""></image>
         <view class="name">
           分类
         </view>
       </view>
       <view class="item">
-        <image src="../../../assets/images/index/zhib.png" mode=""></image>
+        <image src="../../../static/images/index/zhib.png" mode=""></image>
         <view class="name">
           大咖直播
         </view>
       </view>
       <view class="item">
-        <image src="../../../assets/images/index/tiku.png" mode=""></image>
+        <image src="../../../static/images/index/tiku.png" mode=""></image>
         <view class="name">
           考试题库
         </view>
       </view>
       <view class="item">
-        <image src="../../../assets/images/index/zhuanh.png" mode=""></image>
+        <image src="../../../static/images/index/zhuanh.png" mode=""></image>
         <view class="name">
           高新转行
         </view>
       </view>
       <view class="item">
-        <image src="../../../assets/images/index/kec.png" mode=""></image>
+        <image src="../../../static/images/index/kec.png" mode=""></image>
         <view class="name">
           精品课程
         </view>
@@ -108,7 +78,7 @@
           <view class="title">
             最新资讯
           </view>
-          <image class="zx-img" src="../../../assets/images/login/advert.png" mode=""></image>
+          <image class="zx-img" src="../../../static/images/login/advert.png" mode=""></image>
         </view>
         <view class="zhin">
           人工智能体系课，从入门到实战你觉得行就来
@@ -116,7 +86,7 @@
       </view>
       <view class="zixun-item">
         <view class="day fl bet aln">
-          <image class="day-img" src="../../../assets/images/index/type.png" mode=""></image>
+          <image class="day-img" src="../../../static/images/index/type.png" mode=""></image>
           <view class="">
             每日任务
           </view>
@@ -149,7 +119,7 @@
       <view class="head fl bet aln">
         <view class="lf">
           <view class="fl aln">
-            <image class="zbsm" src="../../../assets/images/index/zbsm.png" mode=""></image>
+            <image class="zbsm" src="../../../static/images/index/zbsm.png" mode=""></image>
             <view class="bold">
               大咖直播
             </view>
@@ -167,7 +137,7 @@
           <view class="more-text" @click="open">
             更多
           </view>
-          <image class="more" src="../../../assets/images/index/more.png" mode=""></image>
+          <image class="more" src="../../../static/images/index/more.png" mode=""></image>
         </view>
       </view>
 
@@ -183,7 +153,7 @@
         </view>
       </view>
       <view class="banner">
-        <image src="../../../assets/images/index/live_img.png" mode=""></image>
+        <image src="../../../static/images/index/live_img.png" mode=""></image>
       </view>
     </view>
 
@@ -193,7 +163,7 @@
       <view class="head fl bet aln">
         <view class="lf">
           <view class="fl aln">
-            <image class="zbsm" src="../../../assets/images/index/tikum.png" mode=""></image>
+            <image class="zbsm" src="../../../static/images/index/tikum.png" mode=""></image>
             <view class="bold">
               考试题库
             </view>
@@ -205,7 +175,7 @@
           <view class="more-text">
             更多
           </view>
-          <image class="more" src="../../../assets/images/index/more.png" mode=""></image>
+          <image class="more" src="../../../static/images/index/more.png" mode=""></image>
         </view>
       </view>
 
@@ -221,9 +191,9 @@
               <view class="bottom fl aln bet">
                 <view class="fl aln bet">
                   <view class="imgs">
-                    <image class="avatar" src="../../../assets/images/index/avatar.jpg" mode=""></image>
-                    <image class="avatar" src="../../../assets/images/index/avatar.jpg" mode=""></image>
-                    <image class="avatar" src="../../../assets/images/index/avatar.jpg" mode=""></image>
+                    <image class="avatar" src="../../../static/images/index/avatar.jpg" mode=""></image>
+                    <image class="avatar" src="../../../static/images/index/avatar.jpg" mode=""></image>
+                    <image class="avatar" src="../../../static/images/index/avatar.jpg" mode=""></image>
                   </view>
                   <view class="description">
                     ···等836人已报名
@@ -250,7 +220,7 @@
       <view class="head fl bet aln">
         <view class="lf">
           <view class="fl aln">
-            <image class="zbsm" src="../../../assets/images/index/zhuanhm.png" mode=""></image>
+            <image class="zbsm" src="../../../static/images/index/zhuanhm.png" mode=""></image>
             <view class="bold">
               高薪转行
             </view>
@@ -263,7 +233,7 @@
           <view class="more-text">
             更多
           </view>
-          <image class="more" src="../../../assets/images/index/more.png" mode=""></image>
+          <image class="more" src="../../../static/images/index/more.png" mode=""></image>
         </view>
       </view>
 
@@ -303,7 +273,7 @@
       <view class="head fl bet aln">
         <view class="lf">
           <view class="fl aln">
-            <image class="zbsm" src="../../../assets/images/index/kecm.png" mode=""></image>
+            <image class="zbsm" src="../../../static/images/index/kecm.png" mode=""></image>
             <view class="bold">
               精品课程
             </view>
@@ -315,7 +285,7 @@
           <view class="more-text">
             更多
           </view>
-          <image class="more" src="../../../assets/images/index/more.png" mode=""></image>
+          <image class="more" src="../../../static/images/index/more.png" mode=""></image>
         </view>
       </view>
 
@@ -332,7 +302,7 @@
       </view>
       <view class="bea">
         <view class="item fl aln bet" v-for="item in 4" :key='item'>
-          <image class="preview" src="../../../assets/images/index/avatar.jpg" mode=""></image>
+          <image class="preview" src="../../../static/images/index/avatar.jpg" mode=""></image>
           <view class="info">
             <view class="title">
               幼儿美术基础(免费特级/少儿美术/儿童绘画/随到随学)
@@ -362,7 +332,7 @@
             </view>
             <view class="fl aln bet item-content">
               <view class="datum" v-for="index  in 8" :key='index'>
-                <image class="item-a" src="../../../assets/images/index/avatar.jpg" mode=""></image>
+                <image class="item-a" src="../../../static/images/index/avatar.jpg" mode=""></image>
                 <view class="name">
                   名称
                 </view>
@@ -395,9 +365,6 @@
     onLoad() {
     },
     created() {
-      this.$nextTick(function () {
-        // this.$refs.popup.open('bottom')
-      })
     },
 
     methods: {

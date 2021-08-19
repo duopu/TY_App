@@ -4,7 +4,7 @@
     {
       "path": "pages-user/main/index/index",
       "style": {
-        "navigationBarTitleText": "",
+		"navigationStyle":"custom",
         "enablePullDownRefresh": false
       }
     },
@@ -45,25 +45,25 @@
     "borderStyle": "white",
     "list": [
       {
-        "iconPath": "assets/images/tabbars/index-select.png",
-        "selectedIconPath": "",
+        "iconPath": "",
+        "selectedIconPath": "static/images/tabbars/index-select.png",
         "text": "首页",
         "pagePath": "pages-user/main/index/index"
       },
       {
-        "iconPath": "assets/images/tabbars/classify.png",
+        "iconPath": "static/images/tabbars/classify.png",
         "selectedIconPath": "",
         "text": "分类",
         "pagePath": "pages-user/classify/index/index"
       },
       {
-        "iconPath": "assets/images/tabbars/course.png",
+        "iconPath": "static/images/tabbars/course.png",
         "selectedIconPath": "",
         "text": "课程表",
         "pagePath": "pages-user/course/index/index"
       },
       {
-        "iconPath": "assets/images/tabbars/mine.png",
+        "iconPath": "static/images/tabbars/mine.png",
         "selectedIconPath": "",
         "text": "我的",
         "pagePath": "pages-user/mine/index/index"

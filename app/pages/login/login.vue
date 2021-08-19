@@ -23,9 +23,9 @@
         <input class="input" placeholder-style="input-placeholder" type="text" value="" placeholder="请输入手机号或用户名"/>
         <view class="flex-center-between input-with-icon">
           <input class="input" placeholder-style="input-placeholder" type="password" value="" placeholder="请输入密码"/>
-          <image class="icon" v-if="eye == 1" @click="toggleEye" src="../../assets/images/login/eye-close.png"
+          <image class="icon" v-if="eye == 1" @click="toggleEye" src="../../static/images/login/eye-close.png"
                  mode="aspectFill"></image>
-          <image class="icon" v-if="eye == 2" @click="toggleEye" src="../../assets/images/login/eye.png"
+          <image class="icon" v-if="eye == 2" @click="toggleEye" src="../../static/images/login/eye.png"
                  mode="aspectFill"></image>
         </view>
         <navigator url="../reset-password/reset-password" class="helper forget" @click="forget">忘记密码？</navigator>
@@ -45,11 +45,11 @@
       </view>
 
       <view class="methods flex-center-center">
-        <image class="methods-image" src="../../assets/images/login/qq.png" mode="aspectFill"></image>
-        <image class="methods-image" src="../../assets/images/login/wx.png" mode="aspectFill"></image>
-        <image class="methods-image" src="../../assets/images/login/zfb.png" mode="aspectFill"></image>
+        <image class="methods-image" src="../../static/images/login/qq.png" mode="aspectFill"></image>
+        <image class="methods-image" src="../../static/images/login/wx.png" mode="aspectFill"></image>
+        <image class="methods-image" src="../../static/images/login/zfb.png" mode="aspectFill"></image>
       </view>
-      <image class="advert-image" src="../../assets/images/login/advert.png" mode="aspectFill"></image>
+      <image class="advert-image" src="../../static/images/login/advert.png" mode="aspectFill"></image>
     </view>
   </view>
 </template>

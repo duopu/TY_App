@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>编组</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFB55B" offset="0%"></stop>
+            <stop stop-color="#FFCB8D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页" transform="translate(-345.000000, -56.000000)">
+            <g id="编组" transform="translate(345.000000, 56.000000)">
+                <rect id="矩形" fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" opacity="0" x="0" y="0" width="20" height="20"></rect>
+                <path d="M15,3 L5,3 C3.34314575,3 2,4.34314575 2,6 L2,12 C2,13.6568542 3.34314575,15 5,15 L8.41666667,15 L8.41666667,15 L8,17 L11.5833333,15 L15,15 C16.6568542,15 18,13.6568542 18,12 L18,6 C18,4.34314575 16.6568542,3 15,3 Z" id="路径" stroke="#222222" stroke-linecap="round" stroke-linejoin="round"></path>
+                <line x1="6" y1="8" x2="6" y2="9" id="路径" stroke="url(#linearGradient-1)" stroke-linecap="round"></line>
+                <line x1="14" y1="8" x2="14" y2="9" id="路径" stroke="url(#linearGradient-1)" stroke-linecap="round"></line>
+                <line x1="10" y1="9.5" x2="10" y2="11.5" id="路径" stroke="#222222" stroke-linecap="round" stroke-linejoin="round"></line>
+            </g>
+        </g>
+    </g>
+</svg>
