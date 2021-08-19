@@ -1,3 +1,16 @@
+https://lanhuapp.com/url/lvUkH
+密码: 5QWs
+
+腾云教育 产品原型
+后台管理：https://org.modao.cc/app/bdd1b7a336d47641c2d874711e8483b88639e38d?simulator_type=device&sticky#screen=sknfus5a1m5iwby
+
+电脑PC端：https://org.modao.cc/app/403821c5b5ebca7b00115aa2430d42b66814f1f0?simulator_type=device&sticky
+
+商家端APP：https://org.modao.cc/app/b37cf84a5033c669ccdcdf25fc8829c429ae47d1?simulator_type=device&sticky
+
+用户端APP：https://org.modao.cc/app/ff97080809ea38a66ed67bb3c0c29ee356f29c50?simulator_type=device&sticky
+
+
 ### 3 分钟了解如何进入开发
 
 欢迎使用云效 Codeup，通过阅读以下内容，你可以快速熟悉 Codeup ，并立即开始今天的工作。
