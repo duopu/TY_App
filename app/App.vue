@@ -9,6 +9,9 @@ export default {
 	},
 	onHide: function() {
 		console.log('App Hide');
+	},
+	onResize() {
+		window.reload()
 	}
 };
 </script>

@@ -1,0 +1,63 @@
+@color-red:#FF6F5B;
+@color-yellow:#FFB55B;
+.page-wrapper{
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	box-sizing: border-box;
+	.color-red{
+		color:@color-red;
+	}
+	.color-6{
+		color: #666666;
+	}
+}
+.custom-tabs{
+	display: flex;
+	&-item{
+		flex: 1;
+	}
+}
+//课程列表项
+.course-lists-item{
+	padding: 30rpx 0;
+	display: flex;
+	justify-content: space-between;
+	.item-image{
+		margin-right: 24rpx;
+		width: 240rpx;
+		height: 160rpx;
+		border-radius: 20rpx;
+		overflow: hidden;
+		flex-shrink: 0;
+	}
+	.item-content{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		flex: 1;
+		.icon-image{
+			width: 48rpx;
+			height: 48rpx;
+			
+		}
+		.name{
+			margin-bottom: 10rpx;
+			font-size: 28rpx;
+		}
+		.btn{
+			padding: 0 28rpx;
+			font-size: 26rpx;
+			&.btn-block{
+				&.black{
+					height: 56rpx;
+					line-height: 56rpx;
+					color: #FFFFFF;
+					background-color: #222222;
+					border-radius: 32rpx;
+				}
+			}
+		}
+	}
+	
+}
