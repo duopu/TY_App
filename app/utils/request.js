@@ -10,9 +10,10 @@ export default {
 			'Content-Type': method == 'POST' ? 'application/json; charset=utf-8' : 'application/x-www-form-urlencoded',
 			'x-uid':1
 		}
-		const globalData = getApp().globalData
-		if (globalData.token) {
-			header.Authorization = globalData.token
+		const user = getApp().globalData.user
+		if (user.token) {
+			console.log('注入token',user.token);
+			header.Authorization = user.token
 		}
 		let options = {}
 		options.header = header;
@@ -51,7 +52,6 @@ export default {
 				return data;
 			} else if(rescode == 202){
 				
-				getApp().globalData.token = '';
 				getApp().globalData.user = {};
 
 				uni.removeStorage({
