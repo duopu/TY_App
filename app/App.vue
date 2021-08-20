@@ -8,33 +8,33 @@
 		},
 
 		onLaunch: function() {
-			// setRemInit();
-			console.log('App Launch');
+			// // setRemInit();
+			// console.log('App Launch');
 
-			// 从本地恢复登录信息;
-			uni.getStorage({
-				key: config.storageKeys.loginUserKey,
-				success: res => {
-					console.log('本地用户信息', res.data);
-					const user = res.data;
-					if (user.appToken) {
-						// 内存保存
-						getApp().globalData.user = user;
-					} else {
-						// 本地无用户信息，去登录页
-						uni.reLaunch({
-							url: '/pages/login/login'
-						});
-					}
-				},
-				fail(err) {
-					console.log('失败', err);
-					uni.reLaunch({
-						url: '/pages/login/login'
-					});
-				}
-			});
-		},
+			// // 从本地恢复登录信息;
+			// uni.getStorage({
+			// 	key: config.storageKeys.loginUserKey,
+			// 	success: res => {
+			// 		console.log('本地用户信息', res.data);
+			// 		const user = res.data;
+			// 		if (user.appToken) {
+			// 			// 内存保存
+			// 			getApp().globalData.user = user;
+			// 		} else {
+			// 			// 本地无用户信息，去登录页
+			// 			uni.reLaunch({
+			// 				url: '/pages/login/login'
+			// 			});
+			// 		}
+			// 	},
+			// 	fail(err) {
+			// 		console.log('失败', err);
+			// 		uni.reLaunch({
+			// 			url: '/pages/login/login'
+			// 		});
+			// 	}
+			// });
+		}, 
 		onShow: function() {
 			console.log('App Show');
 		},
