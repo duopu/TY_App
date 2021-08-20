@@ -17,7 +17,7 @@
 				success: res => {
 					console.log('本地用户信息', res.data);
 					const user = res.data;
-					if (user.appToken) {
+					if (user.token) {
 						// 内存保存
 						getApp().globalData.user = user;
 					} else {
