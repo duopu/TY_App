@@ -66,15 +66,32 @@
 	export default {
 		data() {
 			return {
-				categoryList:[] //资讯分类数据
+				categoryList:[], //资讯分类数据
+				articleList:[] //文章列表数据
 			};
 		},
 		onLoad() {
-			// 发送验证码
-			this.$http.get('/article/queryCategoryList',{},true).then(res=>{
-				this.categoryList = res
-			})
-		}
+			this.getCategoryList();
+		},
+		methods: {
+			/**
+			 * 获取资讯分类
+			 */
+			getCategoryList() {
+				this.$http.get('/article/queryCategoryList',{},true).then(res=>{
+					this.categoryList = res
+				})
+			},
+			
+			/** 获取文章列表
+			 * @param {Object} categoryId 文章分类ID
+			 */
+			getArticelList(categoryId){
+				this.$http.get('/article/queryPage',{articleCategoryId:categoryId, page:1, size:20},true).then(res=>{
+					this.articleList = res.content;
+				})
+			}
+		},
 	}
 </script>
 
