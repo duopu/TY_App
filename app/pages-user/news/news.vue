@@ -41,13 +41,13 @@
 				</view>
 				<view class="bottom bflex">
 					<view class="fl aln">
-						<image class="avatar" src="../../assets/imgs/index/avatar.jpg" mode=""></image>
+						<image class="avatar" src="../../static/images/index/avatar.jpg" mode=""></image>
 						<view class="name">
 							商家有山
 						</view>
 					</view>
 					<view class="fl aln">
-						<image class="eye" src="../../assets/imgs/index/eye.png" mode=""></image>
+						<image class="eye" src="../../static/images/index/eye.png" mode=""></image>
 						<view class="nums">
 							28267
 						</view>
@@ -66,8 +66,14 @@
 	export default {
 		data() {
 			return {
-
+				categoryList:[] //资讯分类数据
 			};
+		},
+		onLoad() {
+			// 发送验证码
+			this.$http.get('/article/queryCategoryList',{},true).then(res=>{
+				this.categoryList = res
+			})
 		}
 	}
 </script>
