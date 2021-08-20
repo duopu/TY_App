@@ -10,14 +10,11 @@
 	flex-shrink: 0;
 	.logo {
 		margin: 60rpx auto 70rpx;
-		width: 144rpx;
-		height: 144rpx;
-		font-family: 'zihun35hao-jindianyahei';
-		font-size: 26rpx;
-		text-align: center;
-		color: #ffffff;
-		border-radius: 32rpx;
-		background: linear-gradient(135deg, #ffcc8f 0%, #ffb55b 100%);
+		.logo-image{
+			width: 144rpx;
+			height: 144rpx;
+			border-radius: 32rpx;
+		}
 	}
 	.tabs-title {
 		margin-bottom: 20rpx;
@@ -58,8 +55,7 @@
 		padding: 32rpx 0;
 		font-size: 28rpx;
 		border-bottom: 2rpx solid #dfe0e6;
-
-		&-placeholder {
+		&-placeholder,&::placeholder {
 			color: #cccccc;
 		}
 	}
@@ -102,9 +98,10 @@
 	.input-with-icon {
 		margin-top: 40rpx;
 		border-bottom: 2rpx solid #dfe0e6;
-
-		input {
-			border-bottom: 0;
+		.input {
+			flex: 1;
+			border: none;
+			outline: none;
 		}
 
 		.icon {

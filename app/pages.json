@@ -2,6 +2,23 @@
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+		    "path" : "pages-user/main/consult/details",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages-user/main/consult/consult",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "最新资讯",
+				"navigationBarTextStyle":"black",
+		        "enablePullDownRefresh": false
+		    }
+		},{
 			"path": "pages-user/course/index/index",
 			"style": {
 				"navigationBarTitleText": "课程表",
@@ -64,9 +81,9 @@
 				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": false
 			}
-
 		}
-	],
+	   
+    ],
 	"tabBar": {
 		"backgroundColor": "#FFFFFF",
 		"color": "#999999",
@@ -100,9 +117,9 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#fff",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarTitleText": "腾云教育APP",
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#ffffff"
 	},
 	"easycom": {
 		"autoscan": true

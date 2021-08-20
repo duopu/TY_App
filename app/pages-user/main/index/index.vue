@@ -15,7 +15,7 @@
 				</view>
 			</view>
 			<!-- 横向-菜单 -->
-			<custom-horizontal-tabs :data="tabsData" :current-index="tabIndex" @change="getTabIndex"></custom-horizontal-tabs>
+			<custom-horizontal-tabs class="custom-tabs" :data="tabsData" :current-index="tabIndex" @change="getTabIndex"></custom-horizontal-tabs>
 		</view>
 		<scroll-view scroll-y="true" class="content">
 			<!-- 轮播图 -->

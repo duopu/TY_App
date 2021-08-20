@@ -1,0 +1,86 @@
+@color-yellow:#FFB55B;
+
+.page-wrapper{
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
+	.font-24{
+		font-size: 24rpx;
+	}
+}
+// 咨询列表
+.consult{
+	&-top{
+		flex-shrink: 0;
+		width: auto;
+		white-space: nowrap;
+		.item{
+			min-width: 105rpx;
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
+			line-height: 72rpx;
+			&.on{
+				font-weight: bold;
+				color: @color-yellow;
+			}
+		}
+	}
+	&-lists{
+		flex: 1;
+		padding: 0 20rpx;
+		height: 100%;
+		overflow: hidden;
+		box-sizing: border-box;
+	}
+}
+//咨询详情
+.consult-details{
+	.article{
+		&-title{
+			margin: 20rpx 20rpx 0;
+			font-size: 30rpx;
+		}
+		&-desc{
+			margin: 40rpx 20rpx 0;
+			.avatar-image {
+				margin-right: 16rpx;
+				width: 72rpx;
+				height: 72rpx;
+				border-radius: 50%;
+			}
+			.time {
+				margin-left: 44rpx;
+				color: #999999;
+			}
+			.icon-image {
+				margin-right: 8rpx;
+				width: 48rpx;
+				height: 48rpx;
+			}
+		}
+	}
+	.font-24{
+		font-size: 24rpx;
+	}
+	.title{
+		padding: 40rpx 20rpx 0;
+		font-size: 30rpx;
+		border-top: 1px solid #DFE0E6;
+	}
+	
+	.lists-item{
+		margin: auto 20rpx;
+	}
+	.content{
+		margin: 32rpx 20rpx 40rpx;
+		line-height: 1.8;
+		.row{
+			& + .row{
+				margin-top: 20rpx;
+			}
+		}
+	}
+	
+}

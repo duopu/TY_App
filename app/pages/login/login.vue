@@ -2,7 +2,9 @@
 <template>
 	<view class="login-page">
     <view class="top">
-      <view class="logo flex-center-center">腾云教育</view>
+      <view class="logo flex-center-center">
+		  <image class="logo-image" src="../../static/images/logo.png" mode="aspectFill"></image>
+	  </view>
       <!-- tabs -->
       <view class="flex-center tabs-title">
         <view class="tabs-title-item" :class="{ on: roleStatus === 0 }" @click="onChangeRole(0)">用户版</view>
@@ -12,7 +14,7 @@
     <view class="form-wrapper">
       <!-- 手机号/验证码登录 -->
       <view v-if="loginMethod === 0">
-        <input class="input" placeholder-style="input-placeholder" type="text" v-model="phone" placeholder="请输入手机号"/>
+        <input class="input" placeholder-class="input-placeholder" type="text" v-model="phone" placeholder="请输入手机号"/>
         <view class="helper">未注册手机号验证后自动注册</view>
         <view class="login-btn" @click="onGetCode">获取验证码</view>
         <view class="huo">或</view>
@@ -20,9 +22,9 @@
       </view>
       <!-- 密码登录 -->
       <view v-else>
-        <input class="input" placeholder-style="input-placeholder" type="text" v-model="phone" placeholder="请输入手机号或用户名"/>
+        <input class="input" placeholder-class="input-placeholder" type="text" v-model="phone" placeholder="请输入手机号或用户名"/>
         <view class="flex-center-between input-with-icon">
-          <input class="input" placeholder-style="input-placeholder" :type="eye == 1 ? 'password' : 'text'" v-model="pwd" placeholder="请输入密码"/>
+          <input class="input" placeholder-class="input-placeholder" :type="eye == 1 ? 'password' : 'text'" v-model="pwd" placeholder="请输入密码"/>
           <image class="icon" v-if="eye == 1" @click="toggleEye" src="../../static/images/login/eye-close.png"
                  mode="aspectFill"></image>
           <image class="icon" v-if="eye == 2" @click="toggleEye" src="../../static/images/login/eye.png"
@@ -49,7 +51,7 @@
         <image class="methods-image" src="../../static/images/login/wx.png" mode="aspectFill"></image>
         <image class="methods-image" src="../../static/images/login/zfb.png" mode="aspectFill"></image>
       </view>
-      <image class="advert-image" src="../../static/images/login/advert.png" mode="aspectFill"></image>
+      <image class="advert-image" src="../../static/images/other/advertise.png" mode="aspectFill"></image>
     </view>
   </view>
 </template>
