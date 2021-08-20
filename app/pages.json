@@ -11,6 +11,15 @@
 		    
 		},
 		{
+		    "path" : "pages-user/main/live/room",
+		    "style" :                                                                                    
+		    {
+		        "navigationStyle":"custom",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
 		    "path" : "pages-user/main/consult/details",
 		    "style" :                                                                                    
 		    {
