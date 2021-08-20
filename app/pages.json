@@ -6,6 +6,7 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "",
+				"navigationBarTextStyle":"black",
 		        "enablePullDownRefresh": false
 		    }
 		    
@@ -16,7 +17,7 @@
 		    {
 		        "navigationBarTitleText": "最新资讯",
 				"navigationBarTextStyle":"black",
-		        "enablePullDownRefresh": false
+		        "enablePullDownRefresh": true
 		    }
 		},{
 			"path": "pages-user/course/index/index",
