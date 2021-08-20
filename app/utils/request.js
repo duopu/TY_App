@@ -90,13 +90,17 @@ export default {
 			};
 		})
 	},
-	// get 方法
+	// get 方法 url:请求路由   data:携带参数   loading：是否显示loading效果
 	get(url = '', data = {}, loading = false) {
 		return this.request(url, data, 'GET', loading);
 	},
-	// post 方法
+	// post 方法 url:请求路由   data:携带参数   loading：是否显示loading效果
 	post(url = '', data = {}, loading = false) {
 		return this.request(url, data, 'POST', loading);
+	},
+	// delete 方法 url:请求路由   data:携带参数   loading：是否显示loading效果
+	delete(url = '', data = {}, loading = false) {
+		return this.request(url, data, 'DELETE', loading);
 	},
 	upload( data = {}, loading = false) {
 
