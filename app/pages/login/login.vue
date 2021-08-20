@@ -83,9 +83,9 @@ export default {
 				return
 			}
 			// 发送验证码
-			this.$http.post('/user/getSmsCode',{phone:this.phone,smsType:1},true).then(res=>{
+			this.$http.get('/user/getSmsCode',{phone:this.phone,smsType:1},true).then(res=>{
 				uni.navigateTo({
-					url: '/pages/validate-code/validate-code'
+					url: `/pages/validate-code/validate-code?phone=${this.phone}&roleStatus=${this.roleStatus}`
 				});
 			})
 		},
