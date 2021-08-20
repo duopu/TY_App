@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Search</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFB55B" offset="0%"></stop>
+            <stop stop-color="#FFCB8D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="高薪转行" transform="translate(-345.000000, -52.000000)">
+            <g id="Search" transform="translate(345.000000, 52.000000)">
+                <rect id="矩形" fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="20" height="20"></rect>
+                <line x1="15" y1="16" x2="17" y2="18" id="路径" stroke="url(#linearGradient-1)" stroke-linecap="round"></line>
+                <circle id="椭圆形" stroke="url(#linearGradient-1)" fill="#FFFFFF" stroke-linecap="round" cx="10" cy="10" r="8"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

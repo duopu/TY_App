@@ -1,0 +1,30 @@
+.page-wrapper{
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
+}
+.salary{
+	&-top{
+		padding-top: var(--status-bar-height);
+		flex-shrink: 0;
+		.custom-tabs{
+			margin: atuo 0;
+			flex: 1;
+		}
+		.icon-image{
+			margin-right: 20rpx;
+			flex-shrink: 0;
+			width: 40rpx;
+			height: 40rpx;
+		}
+	}
+	&-lists{
+		padding: 0 20rpx;
+		flex: 1;
+		height: 100%;
+		overflow: hidden;
+		box-sizing: border-box;
+		
+	}
+}
