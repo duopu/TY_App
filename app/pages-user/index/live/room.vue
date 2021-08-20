@@ -68,7 +68,7 @@ export default {
 		};
 	},
 	methods:{
-		// 获取tab index
+		// 切换 tab
 		getCurrentIndex(value){
 			this.tabsIndex = value;
 		}
