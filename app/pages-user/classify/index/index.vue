@@ -5,7 +5,7 @@
 		<view class="title text-bold">我的兴趣</view>
 		<view class="classify-lists block-box">
 			<view class="classify-lists-item" v-for="(item, index) in interestCategoryVOList" :key="item.categoryId">
-				<image class="item-image" src="" mode="aspectFill"></image>
+				<image class="item-image" :src="item.img" mode="aspectFill"></image>
 				<text class="text-bold text-ellipsis">{{item.categoryName}}</text>
 			</view>
 			<view class="classify-lists-item">
@@ -17,7 +17,7 @@
 		<view class="title text-bold">热门分类</view>
 		<view class="classify-lists block-box">
 			<view class="classify-lists-item" v-for="(item, index) in hotCategoryVOList" :key="item.categoryId">
-				<image class="item-image" src="" mode="aspectFill"></image>
+				<image class="item-image" :src="item.img" mode="aspectFill"></image>
 				<text class="text-bold text-ellipsis">{{item.categoryName}}</text>
 			</view>
 		</view>
@@ -26,7 +26,7 @@
 			<view class="title text-bold">{{item.categoryName}}</view>
 			<view class="classify-lists block-box">
 				<view class="classify-lists-item" v-for="(node, nodeIndex) in item.nodes" :key="node.categoryId">
-					<image class="item-image" src="" mode="aspectFill"></image>
+					<image class="item-image" :src="item.img" mode="aspectFill"></image>
 					<text class="text-bold text-ellipsis">{{item.categoryName}}</text>
 				</view>
 			</view>
