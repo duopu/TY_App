@@ -8,7 +8,7 @@
 				<image class="item-image" :src="item.img" mode="aspectFill"></image>
 				<text class="text-bold text-ellipsis">{{item.categoryName}}</text>
 			</view>
-			<view class="classify-lists-item">
+			<view class="classify-lists-item" @click="onAddMore">
 				<view class="item-border">+</view>
 				<text class="text-bold text-ellipsis">更多</text>
 			</view>
@@ -31,10 +31,12 @@
 				</view>
 			</view>
 		</block>
-		
-		
+
+
 		<!-- slot -->
 		<view class="slot-item"></view>
+		<!-- 弹窗 -->
+		<classify-category-popup ref="categoryPopup"></classify-category-popup>
 	</view>
 </template>
 
@@ -48,14 +50,20 @@ export default {
 		};
 	},
 	onLoad() {
-		
+
 		// 获取全部分类
 		this.$http.get('/category/queryAll',{},true).then(res=>{
 			this.hotCategoryVOList = res.hotCategoryVOList;
 			this.interestCategoryVOList = res.interestCategoryVOList;
 			this.categoryVOList = res.categoryVOList;
 		})
-	}
+	},
+  methods:{
+    // 更多
+    onAddMore(){
+      this.$refs.categoryPopup.open();
+    }
+  }
 };
 </script>
 

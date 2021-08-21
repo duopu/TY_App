@@ -9,7 +9,11 @@
 					<view class="flex-center account">关联其他账号 ></view>
 				</view>
 			</view>
-			<view class="state-lists"></view>
+			<view class="state-lists" :class="{on:showState}" @click="changeState">
+				<view class="state-lists-item">在线</view>
+				<view class="state-lists-item">忙碌</view>
+				<view class="state-lists-item">离线</view>
+			</view>
 		</view>
 		<!-- 公告 -->
 		<view class="block-box notice">
@@ -26,7 +30,7 @@
 		<view class="order-lists flex-center block-box">
 			<view class="order-lists-item" @click="onJump(item)" v-for="(item, index) in ordersStateData" :key="index">
 				<image class="item-image" :src="item.icon" mode="aspectFill" />
-				<view class="number-tips">{{ item.number }}</view>
+				<view class="number-tips" v-if="item.number">{{ item.number }}</view>
 				<text>{{ item.label }}</text>
 			</view>
 		</view>
@@ -75,6 +79,8 @@ export default {
 	name: 'businessIndex',
 	data() {
 		return {
+			// 显示当前用户状态
+			showState:false, 
 			// 订单
 			ordersStateData: [
 				{
@@ -144,8 +150,8 @@ export default {
 		};
 	},
 	methods: {
-		onJump(value) {
-			console.log(value);
+		changeState(value) {
+			this.showState = !this.showState
 		}
 	}
 };
