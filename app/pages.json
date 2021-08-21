@@ -28,10 +28,8 @@
 			"path": "pages-user/index/consult/details",
 			"style": {
 				"navigationBarTitleText": "",
-				"navigationBarTextStyle": "black",
 				"enablePullDownRefresh": false
 			}
-
 		},
 		{
 			"path": "pages-user/index/consult/consult",
@@ -55,7 +53,7 @@
 				"enablePullDownRefresh": false
 			}
 		},
-		
+
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -105,16 +103,15 @@
 				"navigationStyle":"custom",
 				"enablePullDownRefresh": false
 			}
-
 		}
 	    ,{
             "path" : "pages-user/index/search/search",
-            "style" :                                                                                    
+            "style" :
             {
                 "navigationStyle":"custom",
                 "enablePullDownRefresh": false
             }
-            
+
         }
     ],
 	"tabBar": {
