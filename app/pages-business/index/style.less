@@ -48,6 +48,27 @@
 			font-size: 24rpx;
 			color: rgba(#000000,.16);
 		}
+		.state-lists{
+			width: 116rpx;
+			height: 44rpx;
+			text-align: center;
+			overflow: hidden;
+			&-item{
+				width: 116rpx;
+				height: 44rpx;
+				line-height: 44rpx;
+				font-size: 18rpx;
+				border: 1rpx solid #FFFFFF;
+				color: #FFFFFF;
+				background-color: rgba(#ffffff,.32);
+				border-radius: 2rpx;
+				box-sizing: border-box;
+				
+			}
+			&.on{
+				overflow: initial;
+			}
+		}
 	}
 	.block-box{
 		background-color: #ffffff;

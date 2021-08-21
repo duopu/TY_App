@@ -107,7 +107,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages-user/index/search/search",
+            "style" :                                                                                    
+            {
+                "navigationStyle":"custom",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"tabBar": {
 		"backgroundColor": "#FFFFFF",
 		"color": "#999999",

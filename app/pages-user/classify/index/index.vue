@@ -8,9 +8,9 @@
 				<image class="item-image" src="" mode="aspectFill"></image>
 				<text class="text-bold text-ellipsis">二级类目</text>
 			</view>
-			<view class="classify-lists-item">
+			<view class="classify-lists-item" @click="onAddMore">
 				<view class="item-border">+</view>
-				<text class="text-bold text-ellipsis">更多</text>
+				<text class="text-bold text-ellipsis" >更多</text>
 			</view>
 		</view>
 		<!-- 热门分类 -->
@@ -31,6 +31,8 @@
 		</view>
 		<!-- slot -->
 		<view class="slot-item"></view>
+		<!-- 弹窗 -->
+		<classify-category-popup ref="categoryPopup"></classify-category-popup>
 	</view>
 </template>
 
@@ -38,7 +40,14 @@
 export default {
 	data() {
 		return {};
+	},
+	methods:{
+		// 更多
+		onAddMore(){
+			this.$refs.categoryPopup.open();
+		}
 	}
+	
 };
 </script>
 
