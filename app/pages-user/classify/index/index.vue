@@ -6,7 +6,7 @@
 		<view class="classify-lists block-box">
 			<view class="classify-lists-item" v-for="(item, index) in interestCategoryVOList" :key="item.categoryId">
 				<image class="item-image" :src="item.img" mode="aspectFill"></image>
-				<text class="text-bold text-ellipsis">{{item.categoryName}}</text>
+				<text class="text-bold text-ellipsis">{{item.interestName}}</text>
 			</view>
 			<view class="classify-lists-item" @click="onAddMore">
 				<view class="item-border">+</view>
@@ -36,7 +36,11 @@
 		<!-- slot -->
 		<view class="slot-item"></view>
 		<!-- 弹窗 -->
-		<classify-category-popup ref="categoryPopup"></classify-category-popup>
+		<classify-category-popup ref="categoryPopup" 
+			:data="{hotCategoryVOList:hotCategoryVOList,
+					interestCategoryVOList:interestCategoryVOList,
+					categoryVOList:categoryVOList}" 
+			@submitSuccess="getAllCategory()"></classify-category-popup>
 	</view>
 </template>
 
@@ -50,20 +54,24 @@ export default {
 		};
 	},
 	onLoad() {
-
-		// 获取全部分类
-		this.$http.get('/category/queryAll',{},true).then(res=>{
-			this.hotCategoryVOList = res.hotCategoryVOList;
-			this.interestCategoryVOList = res.interestCategoryVOList;
-			this.categoryVOList = res.categoryVOList;
-		})
+		this.getAllCategory();
 	},
-  methods:{
-    // 更多
-    onAddMore(){
-      this.$refs.categoryPopup.open();
-    }
-  }
+	methods:{
+		
+		// 获取全部分类
+		getAllCategory(){
+			this.$http.get('/category/queryAll',{},true).then(res=>{
+				this.hotCategoryVOList = res.hotCategoryVOList;
+				this.interestCategoryVOList = res.interestCategoryVOList;
+				this.categoryVOList = res.categoryVOList;
+			})
+		},
+		
+		// 更多
+		onAddMore(){
+		  this.$refs.categoryPopup.open();
+		}
+	}
 };
 </script>
 
