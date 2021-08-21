@@ -1,50 +1,40 @@
-//课程列表项
 .course-lists-item {
 	padding: 30rpx 0;
-	display: flex;
-	justify-content: space-between;
-	& + .course-lists-item{
-		border-top: 1rpx solid #DFE0E6;
+	align-items: stretch;
+	& + .course-lists-item {
+		border-top: 1px solid #dfe0e6;
 	}
 	.item-image {
 		margin-right: 24rpx;
+		flex-shrink: 0;
 		width: 240rpx;
 		height: 160rpx;
 		border-radius: 20rpx;
 		overflow: hidden;
-		flex-shrink: 0;
 	}
-	.item-content {
+	.item-right {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		flex: 1;
-		.icon-image {
-			width: 48rpx;
-			height: 48rpx;
-		}
+		overflow: hidden;
 		.name {
-			margin-bottom: 10rpx;
 			font-size: 28rpx;
 		}
-		.learn-color{
-			color: #666;
-		}
-		.learn-process{
-			color:#FF6F5B;
-		}
-		.btn {
-			padding: 0 28rpx;
-			font-size: 26rpx;
-			&.btn-block {
-				&.black {
-					height: 56rpx;
-					line-height: 56rpx;
-					color: #ffffff;
-					background-color: #222222;
-					border-radius: 32rpx;
-				}
+	}
+	.item-desc {
+		display: flex;
+		align-items: baseline;
+		.price {
+			font-size: 34rpx;
+			color: #ff705b;
+			&.unit {
+				font-size: 24rpx;
 			}
+		}
+		.number {
+			margin-left: 24rpx;
+			font-size: 24rpx;
+			color: #666666;
 		}
 	}
 }

@@ -113,6 +113,15 @@
             }
 
         }
+        ,{
+            "path" : "pages-user/classify/details/details",
+            "style" :                                                                                    
+            {
+                "navigationStyle":"custom",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 		"backgroundColor": "#FFFFFF",

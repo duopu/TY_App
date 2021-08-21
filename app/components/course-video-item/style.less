@@ -1,0 +1,50 @@
+//课程列表项
+.course-lists-item {
+	padding: 30rpx 0;
+	display: flex;
+	justify-content: space-between;
+	& + .course-lists-item{
+		border-top: 1rpx solid #DFE0E6;
+	}
+	.item-image {
+		margin-right: 24rpx;
+		width: 240rpx;
+		height: 160rpx;
+		border-radius: 20rpx;
+		overflow: hidden;
+		flex-shrink: 0;
+	}
+	.item-content {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		flex: 1;
+		.icon-image {
+			width: 48rpx;
+			height: 48rpx;
+		}
+		.name {
+			margin-bottom: 10rpx;
+			font-size: 28rpx;
+		}
+		.learn-color{
+			color: #666;
+		}
+		.learn-process{
+			color:#FF6F5B;
+		}
+		.btn {
+			padding: 0 28rpx;
+			font-size: 26rpx;
+			&.btn-block {
+				&.black {
+					height: 56rpx;
+					line-height: 56rpx;
+					color: #ffffff;
+					background-color: #222222;
+					border-radius: 32rpx;
+				}
+			}
+		}
+	}
+}

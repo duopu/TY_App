@@ -1,7 +1,7 @@
 <!-- tab 我的题库 -->
 <template>
 	<scroll-view scroll-y="true" class="course-lists">
-		<course-lists-item :state="1" v-for="(item, index) in ['', '', '', '', '', '', '']" :key="index"></course-lists-item>
+		<course-video-item :state="1" v-for="(item, index) in ['', '', '', '', '', '', '']" :key="index"></course-video-item>
 	</scroll-view>
 </template>
 

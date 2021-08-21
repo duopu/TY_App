@@ -1,41 +1,27 @@
-<!-- 课程列表项 -->
+<!-- 高薪转行 -->
 <template>
-	<!-- 项 -->
-	<view class="course-lists-item">
-		<image src="../../static/images/course/demo.png" mode="aspectFill" class="item-image"></image>
-		<view class="item-content">
-			<view>
-				<view class="name text-bold text-ellipsis">5天英语全能挑战</view>
-				<view class="learn-color" v-if="state === 0">
-					已学习
-					<text class="learn-process">80%</text>
-				</view>
-			</view>
-			<view class="flex-center-between">
-				<view class="flex-center flex-1">
-					<image src="../../static/images/course/shop.png" mode="aspectFill" class="icon-image"></image>
-					<text>商家名</text>
-				</view>
-				<button class="btn btn-block black" v-if="state === 0">观看学习</button>
-				<button class="btn btn-block black" v-else-if="state === 1">开始做题</button>
+	<view class="course-lists-item flex-center-between">
+		<image class="item-image" src="../../static/images/other/demo.png" mode="aspectFill"></image>
+		<view class="item-right">
+			<view class="name text-bold">幼儿美术基础(免费特级/少儿美术/儿童绘画/随到随学)</view>
+			<view class="item-desc">
+				<text class="unit price">￥</text>
+				<view class="price">500</view>
+				<view class="number">38人最近报名</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-export default {
-	name: 'course-lists-item',
-	props: {
-		state: {
-			type: Number,
-			default: 0
+	export default {
+		name:"course-lists-item",
+		data() {
+			return {
+				
+			};
 		}
-	},
-	data() {
-		return {};
 	}
-};
 </script>
 
 <style lang="less" src="./style.less"></style>

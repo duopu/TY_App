@@ -1,9 +1,127 @@
-.custom-search-bar {
-}
 .search {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+
 	&-top {
+		padding: calc(var(--status-bar-height) + 8rpx) 20rpx 8rpx;
+		.icon-arrow {
+			flex-shrink: 0;
+			margin-right: 24rpx;
+			width: 48rpx;
+			height: 48rpx;
+		}
+	}
+}
+// 内容
+.search-content {
+	flex: 1;
+	height: 100%;
+	overflow: hidden;
+	.title {
+		display: inline-block;
+		width: auto;
+		position: relative;
+		margin: 60rpx 20rpx 10rpx;
+		font-size: 30rpx;
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 6rpx;
+			width: 100%;
+			left: 0;
+			height: 8rpx;
+			background-color: #ffb55b;
+			z-index: -1;
+		}
+	}
+	.history-lists {
+		display: flex;
+		flex-wrap: wrap;
+		margin-left: 20rpx;
+		margin-right: -24rpx;
+		.item {
+			margin-top: 24rpx;
+			margin-right: 24rpx;
+			padding: 14rpx;
+			background-color: #f8f8f8;
+			border-radius: 8rpx;
+		}
+	}
+}
+// 热门
+.hot-lists {
+	margin-top: 70rpx;
+	width: auto;
+	white-space: nowrap;
+	.lists-item {
+		margin-right: 20rpx;
+		display: inline-block;
+		padding: 30rpx;
+		width: 290rpx;
+		min-height: 660rpx;
+		border: 3rpx dashed;
+		border-radius: 8rpx;
+		&.yellow {
+			margin-left: 20rpx;
+			border-color: #ffb55b;
+			background-color: #fff5f6;
+		}
+		&.blue {
+			border-color: #9ea7ff;
+			background-color: #fcf5ff;
+		}
+		&.red {
+			border-color: #ff9e9e;
+			background-color: #fff3f3;
+		}
+		.hot-title {
+			.icon-hot {
+				margin-left: -10rpx;
+				width: 40rpx;
+				height: 40rpx;
+			}
+			.icon-text {
+				margin-left: 8rpx;
+				width: 160rpx;
+				height: 36rpx;
+			}
+		}
+		.row {
+			margin-top: 32rpx;
+			.serial-number {
+				min-width: 30rpx;
+				flex-shrink: 0;
+				margin-right: 20rpx;
+				font-family: YouSheBiaoTiHei;
+				&.on {
+					color: #ffb55b;
+				}
+			}
+			.text {
+				flex: 1;
+				width: 100%;
+				overflow: hidden;
+			}
+		}
+	}
+}
+//搜索结果
+.search-result{
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 100%;
+	overflow: hidden;
+	::v-deep .custom-tabs{
+		margin-bottom: 0;
+	}
+	.lists{
+		padding:0 20rpx;
+		flex: 1;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		box-sizing: border-box;
 	}
 }

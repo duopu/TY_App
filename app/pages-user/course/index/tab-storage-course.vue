@@ -1,7 +1,7 @@
 <!-- tab 缓存课程 -->
 <template>
 	<scroll-view scroll-y="true" class="course-lists">
-		<course-lists-item v-for="(item, index) in ['', '', '', '', '', '', '']" :key="index"></course-lists-item>
+		<course-video-item v-for="(item, index) in ['', '', '', '', '', '', '']" :key="index"></course-video-item>
 	</scroll-view>
 </template>
 

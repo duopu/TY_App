@@ -1,24 +1,42 @@
 <!-- 搜索界面 -->
 <template>
 	<view class="page-wrapper search">
+		<!-- 头部 -->
 		<view class="flex-center search-top">
-			<image mode="aspectFill" src="" class="arrow"></image>
-			<view class="flex-center custom-search-bar">
-				<input type="text" placeholder="搜索课程、机构、老师">
-				<button class="btn-yellow">搜索</button>
-			</view>
+			<image mode="aspectFill" src="" class="icon-arrow"></image>
+			<custom-search placeholder="搜索课程、机构、老师" @input="getSearchInput"></custom-search>
 		</view>
+		<!-- 内容 -->
+		<!-- 默认 -->
+		<search-default v-if="!showResult"></search-default>
+		<!-- 结果 -->
+		<search-result v-else="showResult"></search-result>
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				
-			};
+import searchDefault from './search-default.vue';
+import searchResult from './search-reuslt.vue';
+export default {
+	components: {
+		searchResult,
+		searchDefault
+	},
+	data() {
+		return {
+			searchInput: '',
+			showResult: false,
+			
+		};
+	},
+	methods: {
+		// 获取搜索内容
+		getSearchInput(value) {
+			this.showResult = true;
+			this.searchInput = value;
 		}
 	}
+};
 </script>
 
 <style lang="less" src="./style.less"></style>
