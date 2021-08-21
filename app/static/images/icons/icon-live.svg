@@ -1,0 +1,34 @@
+<svg id="组件_29_2" data-name="组件 29 – 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ffb55b;
+        opacity: 0;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5 {
+        fill: none;
+      }
+
+      .cls-3, .cls-4, .cls-5 {
+        stroke: #e9323e;
+        stroke-linejoin: round;
+      }
+
+      .cls-4, .cls-5 {
+        stroke-linecap: round;
+      }
+
+      .cls-4 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <circle id="椭圆_4" data-name="椭圆 4" class="cls-1" cx="12" cy="12" r="12"/>
+  <g id="组_139" data-name="组 139" transform="translate(2.559 2.391)">
+    <rect id="矩形_22" data-name="矩形 22" class="cls-2" width="19.218" height="19.218"/>
+    <rect id="矩形_23" data-name="矩形 23" class="cls-3" width="13.212" height="12.011" transform="translate(1.201 3.603)"/>
+    <path id="路径_45" data-name="路径 45" class="cls-4" d="M39.355,14,36,16.831v2.726l3.355,2.831Z" transform="translate(-21.358 -8.585)"/>
+    <path id="路径_46" data-name="路径 46" class="cls-5" d="M17,19l2.516,2.1L17,23.194" transform="translate(-10.327 -11.488)"/>
+  </g>
+</svg>
