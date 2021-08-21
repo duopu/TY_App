@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="直播间" transform="translate(-341.000000, -60.000000)">
+            <g id="icon" transform="translate(341.000000, 60.000000)">
+                <rect id="矩形" stroke="#979797" fill="#D8D8D8" opacity="0" x="0.5" y="0.5" width="23" height="23"></rect>
+                <path d="M17.6213203,6.06067966 L5.37867966,18.3033203 M5.37867966,6.06067966 L17.6213203,18.3033203" id="形状" stroke="#222222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

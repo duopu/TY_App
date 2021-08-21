@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>分享</title>
+    <desc>Created with Sketch.</desc>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="直播间" transform="translate(-337.000000, -737.000000)">
+            <g id="分享" transform="translate(337.000000, 737.000000)">
+                <rect id="矩形" fill="#222222" opacity="0" x="0" y="0" width="28" height="28"></rect>
+                <polyline id="路径" stroke="#222222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="23 21 23 22.5555556 5 22.5555556 5 21"></polyline>
+                <polyline id="路径" stroke="#222222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="17.3333333 5 21.2222222 8.88888889 17.3333333 12.7777778"></polyline>
+                <path d="M21.2222222,8.88888889 C13.4444444,8.88888889 8,10.0555556 8,15.1111111" id="路径" stroke="#222222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>
