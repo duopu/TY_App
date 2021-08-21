@@ -106,7 +106,7 @@
 			 */
 			itemOnClick(articleId){
 				uni.navigateTo({
-					url: `/pages-user/main/consult/details?articleId=${articleId}`
+					url: `/pages-user/index/consult/details?articleId=${articleId}`
 				});
 			}
 		}
