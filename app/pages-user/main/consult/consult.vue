@@ -3,7 +3,7 @@
 	<view class="page-wrapper consult">
 		<!-- 菜单 -->
 		<scroll-view scroll-x="true" class="consult-top">
-			<view class="item" :class="{'on':currentCategoryId === item.id}" v-for="(item,index) in categoryList" :key="item.id" @click="changeTabs(item.id)">{{item.name}}</view>
+			<view class="item" :class="{'on':currentCategoryId === item.articleCategoryId}" v-for="(item,index) in categoryList" :key="item.id" @click="changeTabs(item.articleCategoryId)">{{item.name}}</view>
 		</scroll-view>
 		<!-- 列表 -->
 		<view class="consult-lists">
@@ -62,7 +62,7 @@
 				this.$http.get('/article/queryCategoryList',{},true).then(res=>{
 					this.categoryList = res;
 					if(res.length > 0 ){
-						this.currentCategoryId = res[0].id;
+						this.currentCategoryId = res[0].articleCategoryId;
 						this.getArticelList(this.currentCategoryId);
 					}
 					

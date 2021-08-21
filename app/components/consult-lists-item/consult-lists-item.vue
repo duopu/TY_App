@@ -4,7 +4,7 @@
 		<view class="name text-bold">{{data.title}}</view>
 		<view class="flex-center-between">
 			<view class="flex-center">
-				<image class="avatar-image" src="../../static/images/other/demo.png" mode="aspectFill"></image>
+				<image class="avatar-image" :src="data.avatar" mode="aspectFill"></image>
 				<text>{{data.userName}}</text>
 			</view>
 			<view class="flex-center">
@@ -26,6 +26,7 @@
 				default () {
 					return {
 						articleId: undefined,
+						avatar: "../../static/images/other/demo.png",
 						title: '标题',
 						userName: '昵称',
 						readNum: 0,
@@ -42,7 +43,6 @@
 		
 		methods: {
 			itemOnClick(){
-				console.log("data == ",this.data);
 				this.$emit('clickItem', this.data.articleId);
 			}
 		}
