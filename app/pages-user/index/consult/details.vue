@@ -38,15 +38,16 @@
 			// 查询文章详情
 			this.$http.get('/article/queryInfo',{articleId:option.articleId},true).then(res=>{
 				this.detail = res;
+				this.aboutList = res.relevantArticleVOList;
 			})
 		},
 		methods: {
-			/** 列表行点击
+			/** 相关文章行点击
 			 * @param {Object} articleId 为文章id
 			 */
 			itemOnClick(articleId){
 				uni.navigateTo({
-					url: `/pages-user/main/consult/details?articleId=${articleId}`
+					url: `/pages-user/index/consult/details?articleId=${articleId}`
 				});
 			}
 		}
