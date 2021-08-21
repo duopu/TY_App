@@ -1,44 +1,51 @@
 // 弹性布局
-.flex-center{
+.flex {
 	display: flex;
+}
+.flex-center {
+	.flex;
 	align-items: center;
 }
-.flex-center-between{
-	display: flex;
-	align-items: center;
+.flex-center-between {
+	.flex-center;
 	justify-content: space-between;
 }
-.flex-center-center{
-	display: flex;
-	align-items: center;
+.flex-center-center {
+	.flex-center;
 	justify-content: center;
 }
-.flex-column-center{
-	display: flex;
+.flex-column{
+	.flex;
 	flex-direction: column;
+}
+.flex-column-center {
+	.flex-column;
 	align-items: center;
 }
-.flex-center-wrap{
-	display: flex;
-	align-items: center;
+.flex-column-between{
+	.flex-column;
+	justify-content: space-between;
+}
+.flex-center-wrap {
+	.flex-center;
 	flex-wrap: wrap;
 }
-.flex-1{
+.flex-1 {
 	flex: 1;
 }
-.flex-end{
-	display: flex;
+.flex-baseline {
+	.flex;
 	align-items: baseline;
 }
 // 加粗
-.text-bold{
+.text-bold {
 	font-weight: bold;
 }
 // 去除button自带样式
-button{
+button {
 	border: 0;
 	border-radius: 0;
-	&::after{
+	&::after {
 		content: none;
 	}
 }
@@ -50,13 +57,13 @@ button{
 	color: transparent;
 }
 //换行
-.text-ellipsis{
+.text-ellipsis {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
 // 占位符
-.slot-item{
+.slot-item {
 	margin-top: 40rpx;
 	height: 1rpx;
 }

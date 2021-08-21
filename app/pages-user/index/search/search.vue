@@ -8,9 +8,9 @@
 		</view>
 		<!-- 内容 -->
 		<!-- 默认 -->
-		<search-default v-if="!showResult"></search-default>
+		<search-default v-if="!searchInput"></search-default>
 		<!-- 结果 -->
-		<search-result v-else="showResult"></search-result>
+		<search-result v-else="searchInput"></search-result>
 	</view>
 </template>
 
@@ -25,14 +25,12 @@ export default {
 	data() {
 		return {
 			searchInput: '',
-			showResult: false,
 			
 		};
 	},
 	methods: {
 		// 获取搜索内容
 		getSearchInput(value) {
-			this.showResult = true;
 			this.searchInput = value;
 		}
 	}
