@@ -1,58 +1,6 @@
 {
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages-user/index/index/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages-user/index/live/live",
-			"style": {
-				"navigationBarTitleText": "大咖直播",
-				"enablePullDownRefresh": false
-			}
-
-		},
-		{
-			"path": "pages-user/index/live/room",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false
-			}
-
-		},
-		{
-			"path": "pages-user/index/consult/details",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages-user/index/consult/consult",
-			"style": {
-				"navigationBarTitleText": "最新资讯",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": true
-			}
-		}, {
-			"path": "pages-user/course/index/index",
-			"style": {
-				"navigationBarTitleText": "课程表",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-		}, {
-			"path": "pages-user/classify/index/index",
-			"style": {
-				"navigationBarTitleText": "全部分类",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-		},
 
 		{
 			"path": "pages/login/login",
@@ -60,13 +8,6 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages-business/my/index/index",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
 			}
 		},
 		{
@@ -82,47 +23,130 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
+		}
+	],
+	"subPackages": [{
+			"root": "pages-user",
+			"pages": [{
+					"path": "index/index/index",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "index/live/live",
+					"style": {
+						"navigationBarTitleText": "大咖直播",
+						"enablePullDownRefresh": false
+					}
+
+				},
+				{
+					"path": "index/search/search",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "classify/details/details",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				},
+				{
+					"path": "index/live/room",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				},
+				{
+					"path": "index/salary/salary",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				},
+				{
+					"path": "index/consult/details",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "index/consult/consult",
+					"style": {
+						"navigationBarTitleText": "最新资讯",
+						"navigationBarTextStyle": "black",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "course/index/index",
+					"style": {
+						"navigationBarTitleText": "课程表",
+						"navigationBarTextStyle": "black",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "classify/index/index",
+					"style": {
+						"navigationBarTitleText": "全部分类",
+						"navigationBarTextStyle": "black",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "mine/index/index",
+					"style": {
+						"navigationBarTitleText": "我的",
+						"enablePullDownRefresh": false
+					}
+				}
+
+			]
 		},
 		{
-			"path": "pages-user/mine/index/index",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"enablePullDownRefresh": false
-			}
+			"root": "pages-business",
+			"pages": [{
+					"path": "main/main",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "my/index/index",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "consult/publish-article/publish-article",
+					"style": {
+						"navigationStyle":"custom",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "index/notice/notice",
+					"style": {
+						"navigationBarTitleText": "公告",
+						"enablePullDownRefresh": false
+					}
+				}
+			]
 		}
-		, {
-			"path": "pages-user/index/salary/salary",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "pages-business/main/main",
-			"style": {
-				"navigationStyle":"custom",
-				"enablePullDownRefresh": false
-			}
-		}
-	    ,{
-            "path" : "pages-user/index/search/search",
-            "style" :
-            {
-                "navigationStyle":"custom",
-                "enablePullDownRefresh": false
-            }
-
-        }
-        ,{
-            "path" : "pages-user/classify/details/details",
-            "style" :                                                                                    
-            {
-                "navigationStyle":"custom",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"tabBar": {
 		"backgroundColor": "#FFFFFF",
 		"color": "#999999",

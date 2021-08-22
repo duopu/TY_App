@@ -5,7 +5,7 @@
 		<view class="flex-center-between">
 			<view class="flex-center">
 				<image class="avatar-image" :src="data.avatar" mode="aspectFill"></image>
-				<text>{{data.userName}}</text>
+				<text class="merchant">{{data.userName}}</text>
 			</view>
 			<view class="flex-center">
 				<image class="icon-image" src="../../static/images/icons/icon-eye.svg" mode="aspectFill"></image>
@@ -26,7 +26,7 @@
 				default () {
 					return {
 						articleId: undefined,
-						avatar: "../../static/images/other/demo.png",
+						avatar: "../../static/images/other/girl.png",
 						title: '标题',
 						userName: '昵称',
 						readNum: 0,
