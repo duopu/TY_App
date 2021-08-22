@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import BusinessIndex from '../index/index.vue';
+import BusinessIndex from '../index/index/index.vue';
 export default {
 	components:{
 		BusinessIndex
