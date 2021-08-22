@@ -1,7 +1,6 @@
 {
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -133,7 +132,7 @@
 				{
 					"path": "consult/publish-article/publish-article",
 					"style": {
-						"navigationStyle":"custom",
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
 				},
@@ -143,6 +142,54 @@
 						"navigationBarTitleText": "公告",
 						"enablePullDownRefresh": false
 					}
+				},
+				{
+					"path": "index/goods/goods",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				},
+				{
+					"path": "my/about/about",
+					"style": {
+						"navigationBarTitleText": "关于腾讯云课堂",
+						"enablePullDownRefresh": false
+					}
+
+				},
+				{
+					"path": "my/help/help",
+					"style": {
+						"navigationBarTitleText": "帮助与反馈",
+						"enablePullDownRefresh": false
+					}
+
+				},
+				{
+					"path": "my/money/money",
+					"style": {
+						"navigationBarTitleText": "保证金",
+						"enablePullDownRefresh": false
+					}
+
+				},
+				{
+					"path": "my/account/account",
+					"style": {
+						"navigationBarTitleText": "账号安全",
+						"enablePullDownRefresh": false
+					}
+
+				}, 
+				{
+					"path": "my/relate-account/relate-account",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+
 				}
 			]
 		}
