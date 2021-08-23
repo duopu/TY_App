@@ -144,26 +144,6 @@
 				</view>
 			</view>
 		</scroll-view>
-		<!-- 
-		<uni-popup ref="popup" v-if="typesShow" type="bottom">
-			<view class="types">
-				<view class="title">我的兴趣</view>
-				<view class="content">
-					<view class="item">
-						<view class="item-title">热门分类</view>
-						<view class="fl aln bet item-content">
-							<view class="datum" v-for="index in 8" :key="index">
-								<image class="item-a" src="../../../static/images/index/avatar.jpg" mode=""></image>
-								<view class="name">名称</view>
-							</view>
-						</view>
-					</view>
-				</view>
-
-				<view class="btn" @click="close">确定</view>
-			</view>
-		</uni-popup>
- -->
 	</view>
 </template>
 
@@ -209,13 +189,6 @@ export default {
 		// 横向菜单，返回值
 		getTabIndex(value) {
 			this.tabIndex = value;
-		},
-		open() {
-			// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
-			this.$refs.popup.open('top');
-		},
-		close() {
-			this.$refs.popup.close();
 		}
 	}
 };
