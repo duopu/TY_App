@@ -56,7 +56,6 @@
 							url: '/pages-business/main/index/index'
 						});
 					}
-					
 				})
 			}
 		}
