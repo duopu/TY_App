@@ -79,6 +79,7 @@
 				}
 
 				this.$http.get('/article/queryPage',{articleCategoryId:this.currentCategoryId, page:this.page, size:this.pageSize},true).then(res=>{
+					
 					if(this.page == 1){
 						uni.stopPullDownRefresh();
 						this.articleList = res.content;
@@ -86,7 +87,7 @@
 						this.articleList = this.articleList.concat(res.content);
 					}
 					
-					if(this.page * this.pageSize < res.totalSize){
+					if(this.page * this.pageSize > res.totalSize){
 						this.status = "noMore"
 					}else{
 						this.status = "more"
