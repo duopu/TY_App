@@ -1,0 +1,32 @@
+.popup {
+	z-index: 99;
+}
+.popup-content {
+	padding-top: calc(var(--status-bar-height) + 170rpx);
+	padding-bottom: 40rpx;
+	background-color: #ffffff;
+	border-radius: 0 0 32rpx 32rpx;
+	.sort-item {
+		padding-left: 10%;
+		height: 80rpx;
+		color: #666666;
+		&.on {
+			color: #222222;
+			font-weight: bold;
+			.icon-dui {
+				display: block;
+			}
+		}
+		.slot-image {
+			flex-shrink: 0;
+			margin-right: 16rpx;
+			width: 32rpx;
+		}
+		.icon-dui {
+			display: none;
+
+			width: 32rpx;
+			height: 32rpx;
+		}
+	}
+}
