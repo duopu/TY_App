@@ -2,13 +2,13 @@
 <template>
 	<view class="page-wrapper main">
 		<!-- 首页 -->
-		<business-index v-if="tabbarsIndex === 0"></business-index>
+		<business-index v-show="tabbarsIndex === 0"></business-index>
 		<!-- 消息 -->
-		<message-index v-else-if="tabbarsIndex === 1"></message-index>
+		<message-index v-show="tabbarsIndex === 1"></message-index>
 		<!-- 资讯 -->
-		<consult-index v-else-if="tabbarsIndex === 2"></consult-index>
+		<consult-index v-show="tabbarsIndex === 2"></consult-index>
 		<!-- 我的 -->
-		<my-index v-else></my-index>
+		<my-index v-show="tabbarsIndex === 3"></my-index>
 		<!-- 底部 -->
 		<view class="main-tabbars-bottom flex-center-center">
 			<view class="tabbers-item" @click="changeTabs(index)" :class="{ on: tabbarsIndex === index }" v-for="(item, index) in tabbarsData" :key="index">
@@ -33,7 +33,7 @@ export default {
 	},
 	data() {
 		return {
-			tabbarsIndex: 3,
+			tabbarsIndex: 0,
 			tabbarsData: [
 				{
 					defaultImage: '',

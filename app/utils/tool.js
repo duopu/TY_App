@@ -1,3 +1,4 @@
+import config from "./config.js"
 
 const showToastMessage = (title,icon,callback)=>{
 	const duration = 1500;
@@ -22,8 +23,20 @@ const showSuccess = (title,callback)=>{
 	showToastMessage(title,'success',callback);
 }
 
+const logout = ()=>{
+	getApp().globalData.user = {};
+	uni.removeStorage({
+		key:config.storageKeys.loginUserKey,
+	})
+	
+	uni.reLaunch({
+		url:'/pages/login/login'
+	})
+}
+
 
 export default {
 	showToast,
 	showSuccess,
+	logout
 }

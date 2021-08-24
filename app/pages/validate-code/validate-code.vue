@@ -39,6 +39,7 @@
 					loginType: 1
 				}
 				this.$http.post('/user/login', param, true).then(res => {
+					res = {...res,roleStatus:this.roleStatus}
 					// 本地保存
 					uni.setStorage({
 						key: config.storageKeys.loginUserKey,
@@ -48,14 +49,14 @@
 					getApp().globalData.user = res;
 					
 					if(this.roleStatus == '0'){
-						// 跳转首页页面
+						// 跳转首页页面 
 						uni.reLaunch({
 							url: '/pages-user/index/index/index'
 						});
 					}else{
 						// 跳转首页页面
 						uni.reLaunch({
-							url: '/pages-business/main/index/index'
+							url: '/pages-business/main/main'
 						});
 					}
 				})
