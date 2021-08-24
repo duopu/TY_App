@@ -87,7 +87,7 @@
 						this.articleList = this.articleList.concat(res.content);
 					}
 					
-					if(this.page * this.pageSize > res.totalSize){
+					if(res.totalSize <= this.page * this.pageSize){
 						this.status = "noMore"
 					}else{
 						this.status = "more"

@@ -1,15 +1,34 @@
 <!-- tab 我的题库 -->
 <template>
-	<scroll-view scroll-y="true" class="course-lists">
-		<course-video-item :state="1" v-for="(item, index) in ['', '', '', '', '', '', '']" :key="index"></course-video-item>
-	</scroll-view>
+	<my-scroll-view class="course-lists" :pageSize="pageSize" @loadData="onLoadData">
+		<template v-slot:list="slotProps">
+			<course-video-item :state="1"
+			v-for="(item, index) in slotProps.list"
+			:key="index" 
+			:data="item"></course-video-item>
+		</template>
+	</my-scroll-view>
 </template>
 
 <script>
 export default {
 	name: 'tab-question-bank',
 	data() {
-		return {};
+		return {
+			pageSize: 20,
+		};
+	},
+	onLoad() {
+		
+	},
+	methods: {
+		onLoadData(page, callback){
+			this.$http.get('/questionBank/queryListByUser',{page:page, size:this.pageSize},true).then(res=>{
+				callback(res);
+			}).catch( err => {
+				callback(null);
+			})
+		}
 	}
 };
 </script>

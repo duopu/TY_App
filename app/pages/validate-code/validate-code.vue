@@ -45,6 +45,8 @@
 						data: res
 					});
 					
+					getApp().globalData.user = res;
+					
 					if(this.roleStatus == '0'){
 						// 跳转首页页面
 						uni.reLaunch({

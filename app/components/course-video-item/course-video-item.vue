@@ -5,7 +5,7 @@
 		<image src="../../static/images/course/demo.png" mode="aspectFill" class="item-image"></image>
 		<view class="item-content">
 			<view>
-				<view class="name text-bold text-ellipsis">5天英语全能挑战</view>
+				<view class="name text-bold text-ellipsis">{data.title}</view>
 				<view class="learn-color" v-if="state === 0">
 					已学习
 					<text class="learn-process">80%</text>
@@ -13,7 +13,7 @@
 			</view>
 			<view class="flex-center-between">
 				<view class="flex-center flex-1">
-					<image src="../../static/images/course/shop.png" mode="aspectFill" class="icon-image"></image>
+					<image :src="data.thumbnail" mode="aspectFill" class="icon-image"></image>
 					<text>商家名</text>
 				</view>
 				<button class="btn btn-block black" v-if="state === 0">观看学习</button>
@@ -30,6 +30,10 @@ export default {
 		state: {
 			type: Number,
 			default: 0
+		},
+		data: {
+			title: '',
+			thumbnail: '../../static/images/course/shop.png',
 		}
 	},
 	data() {
