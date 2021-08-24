@@ -15,13 +15,14 @@
 			uni.getStorage({
 				key: config.storageKeys.loginUserKey,
 				success: res => {
-					console.log('本地用户信息', res.data);
 					const user = res.data;
 					if (user.token) {
+						console.log('本地用户信息',user);
 						// 内存保存
 						getApp().globalData.user = user;
 					} else {
 						// 本地无用户信息，去登录页
+						console.log('本地无用户信息,去登录页');
 						uni.reLaunch({
 							url: '/pages/login/login'
 						});

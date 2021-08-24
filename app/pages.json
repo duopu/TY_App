@@ -2,6 +2,13 @@
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages-user/index/index/index",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "",
@@ -20,13 +27,6 @@
 			"path": "pages/reset-password/reset-password",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages-user/index/index/index",
-			"style": {
-				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -61,7 +61,6 @@
 						"navigationBarTitleText": "大咖直播",
 						"enablePullDownRefresh": false
 					}
-
 				},
 				{
 					"path": "index/search/search",

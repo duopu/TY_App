@@ -5,11 +5,13 @@
 
 	&-top {
 		padding: calc(var(--status-bar-height) + 8rpx) 20rpx 8rpx;
+		z-index: 100;
 		.icon-arrow {
 			flex-shrink: 0;
 			margin-right: 24rpx;
 			width: 48rpx;
 			height: 48rpx;
+			
 		}
 	}
 	&-lists{
@@ -26,6 +28,7 @@
 	flex-shrink: 0;
 	padding: 18rpx 0;
 	text-align: center;
+	z-index: 100;
 	&-item{
 		flex: 1;
 	}
