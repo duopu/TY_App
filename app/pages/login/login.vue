@@ -78,6 +78,17 @@ export default {
 		},
 		// 验证码 按钮
 		onGetCode() {
+			uni.reLaunch({
+				url: '/pages-business/main/main',
+				success: () => {
+					console.log('更新成功');
+			
+				},
+				fail: (err) => {
+					console.log('更新失败', err);
+				}
+			});
+			
 			if(!this.phone){
 				this.$tool.showToast('请输入手机号')
 				return
