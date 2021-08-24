@@ -7,15 +7,21 @@
 			<custom-search placeholder="搜索" @input="getSearchInput"></custom-search>
 		</view>
 		<view class="flex-center filter">
-			<view class="filter-item" @click="openSortPopup">综合排序</view>
-			<view class="filter-item">云计算</view>
-			<view class="filter-item">筛选</view>
+			<view class="filter-item" @click="openSortPopup()">综合排序</view>
+			<view class="filter-item" @click="opencloudPopup()">云计算</view>
+			<view class="filter-item" @click="openFilterPopup()">筛选</view>
 		</view>
 		<scroll-view scroll-y="true" class="classify-details-lists">
-			<course-lists-item v-for="(item, index) in ['', '', '', '', '', '', '', '', '', '']" :key="index"></course-lists-item>
+			<block v-for="(item, index) in ['', '', '', '', '', '', '', '', '', '']" :key="index">
+				<course-lists-item :data="{}"></course-lists-item>
+			</block>
 		</scroll-view>
 		<!-- 综合排序 -->
 		<classify-sort-popup :current-index="sortIndex" ref="sortPopup" @select="getSortIndex"></classify-sort-popup>
+		<!-- 云计算 -->
+		<classify-cloud-popup ref="cloudPopup"></classify-cloud-popup>
+		<!-- 筛选 -->
+		<classify-filter-popup ref="filterPopup"></classify-filter-popup>
 	</view>
 </template>
 
@@ -24,7 +30,7 @@ export default {
 	data() {
 		return {
 			searchInput: '',
-			sortIndex:0,
+			sortIndex: 0
 		};
 	},
 	methods: {
@@ -34,10 +40,22 @@ export default {
 		},
 		// 打开综合排序弹窗
 		openSortPopup() {
-			this.$refs.sortPopup.open();
+			this.$refs.cloudPopup.close();
+			this.$refs.sortPopup.toggle();
+		},
+		//云计算
+		opencloudPopup(){
+			this.$refs.sortPopup.close();
+			this.$refs.cloudPopup.toggle();
+		},
+		//筛选
+		openFilterPopup(){
+			this.$refs.sortPopup.close();
+			this.$refs.cloudPopup.close();
+			this.$refs.filterPopup.toggle();
 		},
 		// 当前综合排序
-		getSortIndex(value){
+		getSortIndex(value) {
 			this.sortIndex = value;
 		}
 	}
