@@ -49,14 +49,14 @@
 					getApp().globalData.user = res;
 					
 					if(this.roleStatus == '0'){
-						// 跳转首页页面
+						// 跳转首页页面 
 						uni.reLaunch({
 							url: '/pages-user/index/index/index'
 						});
 					}else{
 						// 跳转首页页面
 						uni.reLaunch({
-							url: '/pages-business/main/mian'
+							url: '/pages-business/main/main'
 						});
 					}
 				})
