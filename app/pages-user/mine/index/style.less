@@ -1,0 +1,191 @@
+.my {
+	display: flex;
+	flex-direction: column;
+	background-image: url(../../../static/images/my/my-bg.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.my-top {
+	padding: 24rpx 28rpx;
+	flex-shrink: 0;
+	.icons {
+		width: 44rpx;
+		height: 44rpx;
+	}
+	.m-left-20{
+		margin-left: 20rpx;
+	}
+	.right {
+		position: relative;
+		.tips-number {
+			position: absolute;
+			top: -5rpx;
+			right: -20rpx;
+			padding: 0 10rpx;
+			height: 22rpx;
+			font-size: 20rpx;
+			color: #ffffff;
+			line-height: 22rpx;
+			background: #f94747;
+			border: 2rpx solid #feefdb;
+			border-radius: 12rpx;
+			z-index: 1;
+		}
+	}
+}
+.my-content {
+	flex: 1;
+	height: 100%;
+	overflow: hidden;
+	.avatar {
+		margin: 20rpx 36rpx;
+		&-image {
+			width: 124rpx;
+			height: 124rpx;
+			border-radius: 50%;
+		}
+		.right {
+			margin-left: 30rpx;
+		}
+		.name {
+			font-size: 36rpx;
+		}
+		.icon-arrow {
+			width: 48rpx;
+			height: 48rpx;
+		}
+		.level {
+			margin-top: 4rpx;
+			display: inline-block;
+			padding: 2rpx 20rpx;
+			font-size: 28rpx;
+			line-height: 42rpx;
+			color: #f6a837;
+			background-color: #faf1e5;
+			text-transform: uppercase;
+			border-radius: 22rpx;
+		}
+	}
+	.task-lists {
+		margin-top: 46rpx;
+		.item {
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+			flex: 1;
+		}
+		.text {
+			font-size: 36rpx;
+		}
+		.desc {
+			margin-top: 10rpx;
+		}
+	}
+	.vip {
+		margin: 38rpx 36rpx 0;
+		padding: 20rpx 30rpx;
+		background-image: linear-gradient(287deg, #2e281c 0%, #757071 100%);
+		border-radius: 20rpx 20rpx 0rpx 0rpx;
+		.vip-image {
+			margin-right: 16rpx;
+			width: 56rpx;
+			height: 56rpx;
+		}
+		.name {
+			color: #ffffff;
+			font-size: 32rpx;
+		}
+		.desc {
+			font-size: 24rpx;
+			color: #ccccca;
+		}
+	}
+}
+.my-list-box {
+	margin-top: 40rpx;
+	padding-top: 48rpx;
+	background-color: #ffffff;
+	border-radius: 58rpx 58rpx 0 0;
+	.title {
+		margin-left: 30rpx;
+		font-size: 34rpx;
+	}
+	.service-lists {
+		margin-bottom: 56rpx;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		.item {
+			flex-basis: 25%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			margin-top: 48rpx;
+			&-image {
+				width: 64rpx;
+				height: 64rpx;
+			}
+		}
+		.text {
+			margin-top: 22rpx;
+			color: #666666;
+			font-size: 24rpx;
+		}
+	}
+	.course-lists {
+		margin-bottom: 80rpx;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		.item {
+			margin-top: 38rpx;
+			flex-basis: 25%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			&-image {
+				width: 108rpx;
+				height: 108rpx;
+			}
+			.text{
+				margin-top: 38rpx;
+				font-size: 24rpx;
+			}
+		}
+	}
+	.other-lists {
+		margin: 54rpx 38rpx auto 42rpx;
+		.item {
+			margin-top: 46rpx;
+			display: flex;
+			justify-content: space-between;
+			&:last-child{
+				.right{
+					border-bottom: none;
+				}
+			}
+			&-image {
+				margin-bottom: 46rpx;
+				margin-right: 20rpx;
+				width: 40rpx;
+				height: 40rpx;
+			}
+			.right {
+				flex: 1;
+				padding-bottom: 46rpx;
+				border-bottom: 1rpx solid #e1e2e5;
+			}
+			.text {
+				font-size: 28rpx;
+			}
+			.icon-arrow {
+				width: 32rpx;
+				height: 32rpx;
+			}
+		}
+	}
+}
