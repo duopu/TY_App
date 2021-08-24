@@ -53,7 +53,7 @@
 			</view>
 		</view>
 		<!-- 退出登录 -->
-		<button class="btn-border-yellow text-bold">退出登录</button>
+		<button class="btn-border-yellow text-bold" @click="logout">退出登录</button>
 	</view>
 </template>
 
@@ -66,7 +66,9 @@
 			}
 		},
 		methods: {
-			
+			logout(){
+				this.$tool.logout();
+			}
 		}
 	}
 </script>

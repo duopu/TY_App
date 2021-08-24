@@ -24,8 +24,8 @@
 						if (user.roleStatus == '0') {
 							uni.reLaunch({
 								url: '/pages-user/index/index/index'
-							});
-						} else {
+							}); 
+						} else { 
 							uni.reLaunch({
 								url: '/pages-business/main/main',
 							});
