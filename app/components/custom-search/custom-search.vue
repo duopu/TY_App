@@ -23,7 +23,11 @@ export default {
 	methods:{
 		// 搜索
 		onSearch(){
-			this.$emit('input',this.searchInput);
+			if(this.searchInput.length > 0){
+				this.$emit('input',this.searchInput);
+			}else {
+				this.$tool.showToast("请输入关键字");
+			}
 		}
 	}
 };

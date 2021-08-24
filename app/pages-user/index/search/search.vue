@@ -10,7 +10,7 @@
 		<!-- 默认 -->
 		<search-default v-if="!searchInput"></search-default>
 		<!-- 结果 -->
-		<search-result v-else="searchInput"></search-result>
+		<search-result v-else="searchInput" :searchText="searchInput"></search-result>
 	</view>
 </template>
 

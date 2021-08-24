@@ -5,7 +5,8 @@
 			<course-video-item :state="1"
 			v-for="(item, index) in slotProps.list"
 			:key="index" 
-			:data="item"></course-video-item>
+			:data="item"
+			 @clickItem="itemClick"></course-video-item>
 		</template>
 	</my-scroll-view>
 </template>
@@ -23,11 +24,20 @@ export default {
 	},
 	methods: {
 		onLoadData(page, callback){
-			this.$http.get('/questionBank/queryListByUser',{page:page, size:this.pageSize},true).then(res=>{
+			this.$http.get('/questionBank/queryPageByUser',{page:page, size:this.pageSize},true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);
 			})
+		},
+		
+		/**题库行点击
+		 * @param {Object} questionBankId  题库ID
+		 */
+		itemClick(questionBankId){
+			// uni.navigateTo({
+			// 	url: `/pages-user/index/consult/details?articleId=${articleId}`
+			// });
 		}
 	}
 };

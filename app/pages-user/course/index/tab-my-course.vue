@@ -1,15 +1,42 @@
 <!-- tab 我的题库 -->
 <template>
-	<scroll-view scroll-y="true" class="course-lists">
-		<course-video-item v-for="(item, index) in ['', '', '', '', '', '', '']" :key="index"></course-video-item>
-	</scroll-view>
+	<my-scroll-view class="course-lists" :pageSize="pageSize" @loadData="onLoadData">
+		<template v-slot:list="slotProps">
+			<course-video-item v-for="(item, index) in slotProps.list"
+			:key="index" 
+			:data="item"
+			 @clickItem="itemClick"></course-video-item>
+		</template>
+	</my-scroll-view>
 </template>
 
 <script>
 export default {
 	name:'tab-my-course',
 	data() {
-		return {};
+		return {
+			pageSize: 20,
+		};
+	},
+	methods:{
+		onLoadData(page, callback){
+			//TODO: 这里把请求路径改成课程路径即可，其他的就不用动了
+			this.$http.get('/questionBank/queryPageByUser',{page:page, size:this.pageSize},true).then(res=>{
+				callback(res);
+			}).catch( err => {
+				callback(null);
+			})
+		},
+		
+		/**课程行点击
+		 * @param {Object} goodsId  课程ID
+		 */
+		itemClick(goodsId){
+			console.log("itemClick");
+			// uni.navigateTo({
+			// 	url: `/pages-user/index/consult/details?articleId=${articleId}`
+			// });
+		}
 	}
 };
 </script>
