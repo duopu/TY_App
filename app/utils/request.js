@@ -40,7 +40,7 @@ export default {
 			console.log('请求参数', options);
 			console.log('全部响应', res);
 			console.log(`
-				【【 字符串表示 】】
+				【【 字符串表示 ，方便给后端发报错信息 】】
 				请求信息：${JSON.stringify(options)}
 				响应信息：${JSON.stringify(res)}
 			`);

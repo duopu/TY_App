@@ -1,0 +1,32 @@
+.popup-content {
+	height: 40vh;
+	padding-top: calc(var(--status-bar-height) + 170rpx);
+	background-color: #ffffff;
+	border-radius: 0 0 32rpx 32rpx;
+	overflow: hidden;
+}
+.sorts {
+	height: 100%;
+	color: #666666;
+	overflow: hidden;
+	&-content {
+		display: flex;
+	}
+	&-column {
+		flex: 1;
+		&.first{
+			.sorts-item.on {
+				background-color: #f8f8f8;
+			}
+		}
+	}
+	&-item {
+		padding-left: 40rpx;
+		height: 80rpx;
+		line-height: 80rpx;
+		&.on {
+			color: #222222;
+			font-weight: bold;
+		}
+	}
+}
