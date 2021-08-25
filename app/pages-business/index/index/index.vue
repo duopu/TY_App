@@ -10,9 +10,9 @@
 				</view>
 			</view>
 			<view class="state-lists" :class="{on:showState}" @click="changeState">
-				<view class="state-lists-item">在线</view>
-				<view class="state-lists-item">忙碌</view>
-				<view class="state-lists-item">离线</view>
+				<view v-show="showState || (!showState && userStatus === 1)" @click="userStatus = 1"  class="state-lists-item">在线</view>
+				<view v-show="showState || (!showState && userStatus === 2)" @click="userStatus = 2" class="state-lists-item">忙碌</view>
+				<view v-show="showState || (!showState && userStatus === 3)" @click="userStatus = 3" class="state-lists-item">离线</view>
 			</view>
 		</view>
 		<!-- 公告 -->
@@ -79,8 +79,9 @@ export default {
 	name: 'businessIndex',
 	data() {
 		return {
-			// 显示当前用户状态
-			showState:false, 
+			// 显示当前用户状态\
+			showState:false,
+			userStatus: 1,
 			// 订单
 			ordersStateData: [
 				{
@@ -148,6 +149,9 @@ export default {
 				]
 			}
 		};
+	},
+	created(data) {
+		console.log(getApp().globalData.user)
 	},
 	methods: {
 		changeState(value) {
