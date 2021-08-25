@@ -4,15 +4,18 @@
 		<!-- 历史搜索 -->
 		<view class="title text-bold">历史搜索</view>
 		<view class="history-lists">
-			<view class="item">一级建造师</view>
-			<view class="item">注册会计师</view>
-			<view class="item">注册会计师</view>
+			<view class="item" 
+			v-for="(item,index) in historyList" 
+			:key="`history-list-${index}`" 
+			@click="tagClick(item.name,0)">{{item.name}}</view>
 		</view>
 		<!-- 热门搜索 -->
 		<view class="title text-bold">热门搜索</view>
 		<view class="history-lists">
-			<view class="item">中级经济师</view>
-			<view class="item">题库</view>
+			<view class="item" 
+			v-for="(item,index) in topList" 
+			:key="`top-list-${index}`" 
+			@click="tagClick(item.name,0)">{{item.name}}</view>
 		</view>
 		<!--热门课程/热搜机构/优秀教师 -->
 		<scroll-view scroll-x="true" class="hot-lists">
@@ -22,9 +25,12 @@
 					<image class="icon-hot" src="../../../static/images/search/hot1.png" mode="aspectFill"></image>
 					<image class="icon-text" src="../../../static/images/search/hotkc.png" mode="aspectFill"></image>
 				</view>
-				<view class="flex-center row" v-for="(item, index) in ['', '', '', '', '', '', '', '', '', '']" :key="index">
+				<view class="flex-center row" 
+				v-for="(item, index) in courseVOList" 
+				:key="`course-list-${index}`" 
+				@click="tagClick(item.name,0)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
-					<text class="text-ellipsis text">教师资格证基础</text>
+					<text class="text-ellipsis text">{{item.classNum}}</text>
 				</view>
 			</view>
 			<!-- 热搜机构 -->
@@ -33,9 +39,12 @@
 					<image class="icon-hot" src="../../../static/images/search/hot2.png" mode="aspectFill"></image>
 					<image class="icon-text" src="../../../static/images/search/hotjg.png" mode="aspectFill"></image>
 				</view>
-				<view class="flex-center row" v-for="(item, index) in ['', '', '', '', '', '', '', '', '', '']" :key="index">
+				<view class="flex-center row"
+				v-for="(item, index) in storeVOList" 
+				:key="`store-list-${index}`" 
+				@click="tagClick(item.name,1)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
-					<text class="text-ellipsis text">商家弦子</text>
+					<text class="text-ellipsis text">{{item.storeName}}</text>
 				</view>
 			</view>
 			<!-- 优秀教师 -->
@@ -44,9 +53,12 @@
 					<image class="icon-hot" src="../../../static/images/search/hot3.png" mode="aspectFill"></image>
 					<image class="icon-text" src="../../../static/images/search/hotjs.png" mode="aspectFill"></image>
 				</view>
-				<view class="flex-center row" v-for="(item, index) in ['', '', '', '', '', '', '', '', '', '']" :key="index">
+				<view class="flex-center row" 
+				v-for="(item, index) in teacherVOList" 
+				:key="`teacher-list-${index}`" 
+				@click="tagClick(item.name,2)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
-					<text class="text-ellipsis text">教师的山</text>
+					<text class="text-ellipsis text">{{item.name}}</text>
 				</view>
 			</view>
 		</scroll-view>
@@ -56,10 +68,56 @@
 <script>
 export default {
 	name: 'searchDefault',
+	emits:['tagClick'],
 	data() {
-		return {};
+		return {
+			historyList:this.$store.state.historySearchList, //历史搜索
+			topList:[], //热门搜索
+			courseVOList:[], //热门课程
+			storeVOList:[], //热搜机构
+			teacherVOList:[] //优秀教师
+		};
 	},
-	methods: {}
+	created() {
+		this.loadTopList();
+		this.loadHotTop();
+	},
+	watch: {
+		"$store.state.historySearchList": {
+			handler:function(newVal,oldVal){
+				this.historyList = newVal
+			}
+		}
+	},
+	methods: {
+		/**
+		 * 查询热门搜索
+		 */
+		loadTopList(){
+			this.$http.get('/search/queryTopList',{},true).then(res=>{
+				this.topList = res;
+			})
+		},
+		
+		/**
+		 * 查询热门课程、热搜机构、优秀教师
+		 */
+		loadHotTop(){
+			this.$http.get('/goods/queryHotTop',{},true).then(res=>{
+				this.courseVOList = res.courseVOList;
+				this.storeVOList = res.storeVOList;
+				this.teacherVOList = res.teacherVOList;
+			})
+		},
+		
+		/** 标签被点击
+		 * @param {Object} value
+		 * @param {Object} tabType
+		 */
+		tagClick(value, tabType){
+			this.$emit('tagClick',{search:value, tabType: tabType})
+		}
+	}
 };
 </script>
 

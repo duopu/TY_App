@@ -2,7 +2,7 @@
 <template>
 	<!-- 项 -->
 	<view class="course-lists-item" @click="itemOnClick()">
-		<image src="../../static/images/course/demo.png" mode="aspectFill" class="item-image"></image>
+		<image :src="data.thumbnail" mode="aspectFill" class="item-image"></image>
 		<view class="item-content">
 			<view>
 				<view class="name text-bold text-ellipsis">{{data.title}}</view>

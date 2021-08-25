@@ -35,6 +35,10 @@
 					});
 				}
 			});
+			
+			// 从本地读取搜索历史信息
+			this.$store.dispatch('initHistroySearchAction')
+		
 		},
 		onShow: function() {
 			console.log('App Show');

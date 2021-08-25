@@ -1,6 +1,6 @@
 <template>
 	<view class="group-lists-item">
-		<image class="item-image" src="../../static/images/other/girl.png" mode="aspectFill"></image>
+		<image class="item-image" :src="data.avatar" mode="aspectFill"></image>
 		<view class="item-right flex-column-between">
 			<view class="flex-column">
 				<view class="name text-ellipsis text-bold">{{data.storeName}}</view>
@@ -8,7 +8,7 @@
 			</view>
 			<view class="flex-center">
 				<view class="color-yellow">店铺推荐指数</view>
-				<image class="icon-star" :src="item < 3 ? iconStarSelect:iconStar" mode="aspectFill" v-for="item in [1, 2, 3, 4, 5]" :key="item"></image>
+				<rate class="rate" :number="data.score" :max="5"></rate>
 			</view>
 		</view>
 	</view>
@@ -23,7 +23,8 @@
 				default:{
 					storeName:'',
 					storeDesc:'',
-					avatar:'../../static/images/other/girl.png'
+					avatar:'../../static/images/other/girl.png',
+					score:0
 				}
 			}
 		},

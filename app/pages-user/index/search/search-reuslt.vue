@@ -9,7 +9,7 @@
 					<template v-slot:list="slotProps">
 						<course-lists-item 
 						v-for="(item, index) in slotProps.list"
-						:key="'goods-${index}'" 
+						:key="`goods-${index}`" 
 						:data="item"></course-lists-item>
 					</template>
 				</my-scroll-view>
@@ -20,43 +20,21 @@
 					<template v-slot:list="slotProps">
 						<merchanism-lists-item 
 						v-for="(item, index) in slotProps.list"
-						:key="'mechanism-${index}'" 
+						:key="`mechanism-${index}`" 
 						:data="item"></merchanism-lists-item>
 					</template>
 				</my-scroll-view>
-				<!-- <scroll-view class="lists" scroll-y="true">
-					<view class="group-lists-item" v-for="(item, index) in ['', '', '', '', '', '', '']" :key="index">
-						<image class="item-image" src="../../../static/images/other/girl.png" mode="aspectFill"></image>
-						<view class="item-right flex-column-between">
-							<view class="flex-column">
-								<view class="name text-ellipsis text-bold">店铺名称</view>
-								<view class="desc">补充说明</view>
-							</view>
-							<view class="flex-center">
-								<view class="color-yellow">店铺推荐指数</view>
-								<image class="icon-star" :src="item < 3 ? iconStarSelect:iconStar" mode="aspectFill" v-for="item in [1, 2, 3, 4, 5]" :key="item"></image>
-							</view>
-						</view>
-					</view>
-				</scroll-view> -->
 			</swiper-item>
 			<swiper-item>
 				<!-- 老师 -->
-				<scroll-view class="lists" scroll-y="true">
-					<view class="teacher-lists-item" v-for="(item, index) in ['', '', '', '', '', '', '']" :key="index">
-						<image class="item-image" src="../../../static/images/other/girl.png" mode="aspectFill"></image>
-						<view class="item-right flex-column-between">
-							<view class="flex-column">
-								<view class="name text-ellipsis text-bold">店铺名称</view>
-								<view class="desc">补充说明</view>
-							</view>
-							<view class="flex-center color-6">
-								<text class="color-yellow">30</text>
-								个课程
-							</view>
-						</view>
-					</view>
-				</scroll-view>
+				<my-scroll-view ref="teacher_sv" class="lists" :pageSize="pageSize" @loadData="onLoadTeacherData">
+					<template v-slot:list="slotProps">
+						<teacher-lists-item 
+						v-for="(item, index) in slotProps.list"
+						:key="`teacher-${index}`" 
+						:data="item"></teacher-lists-item>
+					</template>
+				</my-scroll-view>
 			</swiper-item>
 		</swiper>
 	</view>
@@ -69,24 +47,32 @@ export default {
 		searchText:{   //搜索关键字
 			type:String,
 			default:""
+		},
+		currentTabIndex: { //当前Tab选中的下标
+			type:Number,
+			default:0
 		}
 	},
 	data() {
 		return {
 			tabsData: ['课程', '机构', '老师'],
-			tabsIdex: 0,
-			// iconStar: '../../../static/images/icons/icon-star.svg',
-			// iconStarSelect: '../../../static/images/icons/icon-star-selected.svg',
+			tabsIdex: this.currentTabIndex,
 			pageSize: 20,
 			searchString:this.searchText
 		};
 	},
 	watch: {
 		searchText(newV,oldV){
-			this.searchString = newV;
-			// 搜索内容变化时，重新刷新所有列表内容
-			this.$refs.goods_sv.onRefresh();
-			this.$refs.mechanism_sv.onRefresh();
+			if(newV.length > 0){
+				this.searchString = newV;
+				// 搜索内容变化时，重新刷新所有列表内容
+				this.$refs.goods_sv.onRefresh();
+				this.$refs.mechanism_sv.onRefresh();
+				this.$refs.teacher_sv.onRefresh();
+			}
+		},
+		currentTabIndex(newV,oldV){
+			this.tabsIdex = newV;
 		}
 	},
 	methods: {
@@ -110,7 +96,7 @@ export default {
 		 * @param {Object} callback
 		 */
 		onLoadGoodsData(page, callback){
-			this.$http.get('/goods/queryPage',{page:page, size:this.pageSize, title:this.searchString},true).then(res=>{
+			this.$http.get('/goods/queryPage',{page:page, size:this.pageSize, goodsName:this.searchString},true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);
@@ -123,6 +109,18 @@ export default {
 		 */
 		onLoadMechanismData(page, callback){
 			this.$http.get('/merchantSettle/queryMerchantPage',{page:page, size:this.pageSize, storeName:this.searchString},true).then(res=>{
+				callback(res);
+			}).catch( err => {
+				callback(null);
+			})
+		},
+		
+		/** 老师搜索
+		 * @param {Object} page
+		 * @param {Object} callback
+		 */
+		onLoadTeacherData(page, callback){
+			this.$http.get('/teacher/queryTeacherPage',{page:page, size:this.pageSize, name:this.searchString},true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);

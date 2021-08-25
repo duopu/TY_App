@@ -6,5 +6,7 @@ export default {
 	storageKeys:{
 		// 登录用户的信息
 		loginUserKey:'storageLoginUserKey',
+		// 历史搜索
+		historySearchKey:'storageHistorySearchKey'
 	},
 }

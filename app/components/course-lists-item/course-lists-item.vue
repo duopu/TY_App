@@ -1,13 +1,13 @@
 <!-- 高薪转行 -->
 <template>
-	<view class="course-lists-item flex-center-between">
-		<image class="item-image" src="../../static/images/other/demo.png" mode="aspectFill"></image>
+	<view class="course-lists-item">
+		<image class="item-image" :src="data.thumbnail" mode="aspectFill"></image>
 		<view class="item-right">
-			<view class="name text-bold">{{data.title}}</view>
+			<view class="name text-bold">{{data.goodsName}}</view>
 			<view class="item-desc">
 				<text class="unit price">￥</text>
 				<view class="price">{{data.price}}</view>
-				<view class="number">38人最近报名</view>
+				<view class="number">{{data.sales}}人最近报名</view>
 			</view>
 		</view>
 	</view>
@@ -20,8 +20,10 @@
 			data: {
 				type:Object,
 				default:{
-					title:'',
-					price:0
+					goodsName:'',
+					thumbnail: '../../static/images/other/demo.png',
+					price:0,
+					sales:0
 				}
 			}
 		},
