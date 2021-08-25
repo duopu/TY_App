@@ -1,10 +1,13 @@
 .index {
-	padding: 20rpx;
+	padding:0 20rpx;
 	flex: 1;
 	height: 100%;
 	background-color: #f4f5f9;
 	box-sizing: border-box;
 	padding-top: var(--status-bar-height);
+	background-image: url(../../../static/images/my/business-my-bg.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
 	.icon-arrow {
 		width: 32rpx;
 		height: 32rpx;
@@ -31,6 +34,7 @@
 		}
 	}
 	&-top{
+		padding-top: calc(var(--status-bar-height) + 12%);
 		border-radius: 0 0 30rpx;
 		.avatar-image{
 			margin-right: 16rpx;
@@ -47,7 +51,7 @@
 		.account{
 			margin-top: 10rpx;
 			font-size: 24rpx;
-			color: rgba(#000000,.16);
+			color: rgba(#ffffff,.64);
 		}
 		.state-lists{
 			width: 116rpx;
@@ -76,7 +80,7 @@
 		border-radius: 8rpx;
 	}
 	.notice{
-		margin-top: 36rpx;
+		margin-top: 60rpx;
 		padding: 0 24rpx;
 		font-size: 24rpx;
 		color: #bcbcbc;
