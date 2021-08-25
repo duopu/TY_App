@@ -23,12 +23,33 @@ const showSuccess = (title,callback)=>{
 	showToastMessage(title,'success',callback);
 }
 
+const login = (user)=>{
+	// 本地保存
+	uni.setStorage({
+		key: config.storageKeys.loginUserKey,
+		data: user
+	});
+	// 内存保存
+	getApp().globalData.user = user;
+	
+	if(user.roleStatus == '0'){
+		// 跳转用户首页页面 
+		uni.reLaunch({
+			url: '/pages-user/index/index/index'
+		});
+	}else{
+		// 跳转商家首页页面
+		uni.reLaunch({
+			url: '/pages-business/main/main'
+		});
+	}
+}
+
 const logout = ()=>{
 	getApp().globalData.user = {};
 	uni.removeStorage({
 		key:config.storageKeys.loginUserKey,
 	})
-	
 	uni.reLaunch({
 		url:'/pages/login/login'
 	})
@@ -38,5 +59,6 @@ const logout = ()=>{
 export default {
 	showToast,
 	showSuccess,
-	logout
+	logout,
+	login
 }

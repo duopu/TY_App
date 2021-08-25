@@ -30,8 +30,8 @@
           <image class="icon" v-if="eye == 2" @click="toggleEye" src="../../static/images/login/eye.png"
                  mode="aspectFill"></image>
         </view>
-        <navigator url="../reset-password/reset-password" class="helper forget" @click="forget">忘记密码？</navigator>
-        <view class="login-btn">登录</view>
+        <navigator url="../reset-password/reset-password" class="helper forget" >忘记密码？</navigator>
+        <view class="login-btn" @click="pwdLogin">登录</view>
         <view class="huo">或</view>
         <view class="password-login" @click="loginMethod = 0">快速登录</view>
       </view>
@@ -47,9 +47,8 @@
       </view>
 
       <view class="methods flex-center-center">
-        <image class="methods-image" src="../../static/images/login/qq.png" mode="aspectFill"></image>
-        <image class="methods-image" src="../../static/images/login/wx.png" mode="aspectFill"></image>
-        <image class="methods-image" src="../../static/images/login/zfb.png" mode="aspectFill"></image>
+        <image class="methods-image" src="../../static/images/login/qq.png" mode="aspectFill" @click="qqLogin"></image>
+        <image class="methods-image" src="../../static/images/login/wx.png" mode="aspectFill" @click="wechatLogin"></image>
       </view>
       <image class="advert-image" src="../../static/images/other/advertise.png" mode="aspectFill"></image>
     </view>
@@ -78,10 +77,10 @@ export default {
 		},
 		// 验证码 按钮
 		onGetCode() {
-			if(!this.phone){
+			if(!this.phone){ 
 				this.$tool.showToast('请输入手机号')
 				return
-			}
+			} 
 			// 发送验证码
 			this.$http.get('/user/getSmsCode',{phone:this.phone,smsType:1},true).then(res=>{
 				uni.navigateTo({
@@ -89,10 +88,30 @@ export default {
 				});
 			})
 		},
-		forget() {
-			uni.navigateTo({
-				url: '/pages/login/reset'
-			});
+		// 密码登录
+		pwdLogin(){
+			if(!this.phone){
+				this.$tool.showToast('请输入手机号')
+				return
+			}
+			if(!this.pwd){
+				this.$tool.showToast('请输入密码')
+				return
+			}
+			
+			this.$http('/user/login',{phone:this.phone,password:this.pwd},true).then(res=>{
+				res = {...res,roleStatus:this.roleStatus}
+				this.$tool.login(res)
+			})
+		},
+		// QQ登录
+		qqLogin(){
+			
+		},
+		
+		// 微信登录
+		wechatLogin(){
+			
 		}
 	}
 };

@@ -1,4 +1,5 @@
 import config from './config.js'
+import tool from './tool.js';
 
 export default {
 
@@ -41,6 +42,7 @@ export default {
 			console.log('全部响应', res);
 			console.log(`
 				【【 字符串表示 ，方便给后端发报错信息 】】
+				请求地址：${url}
 				请求信息：${JSON.stringify(options)}
 				响应信息：${JSON.stringify(res)}
 			`);
@@ -50,17 +52,8 @@ export default {
 			}
 			if (success) {
 				return data;
-			} else if(rescode == 202){
-				
-				getApp().globalData.user = {};
-
-				uni.removeStorage({
-					key:config.storageKeys.loginUserKey
-				})
-				
-				uni.reLaunch({
-					url: '/pages/login/login'
-				});
+			} else if(rescode == 403){
+				this.refreshToken();
 				
 				throw {
 					message: msg
@@ -89,6 +82,11 @@ export default {
 				message: message
 			};
 		})
+	},
+	
+	// 刷新token
+	refreshToken(){
+		tool.logout();
 	},
 	// get 方法 url:请求路由   data:携带参数   loading：是否显示loading效果
 	get(url = '', data = {}, loading = false) {
