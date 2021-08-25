@@ -1,6 +1,6 @@
 <!-- 高薪转行 -->
 <template>
-	<view class="course-lists-item">
+	<view class="course-lists-item" @click="itemClick()">
 		<image class="item-image" :src="data.thumbnail" mode="aspectFill"></image>
 		<view class="item-right">
 			<view class="name text-bold">{{data.goodsName}}</view>
@@ -16,6 +16,7 @@
 <script>
 	export default {
 		name:"course-lists-item",
+		emits: ['itemClick'],
 		props:{
 			data: {
 				type:Object,
@@ -31,6 +32,11 @@
 			return {
 				
 			};
+		},
+		methods:{
+			itemClick(){
+				this.$emit("itemClick")
+			}
 		}
 	}
 </script>

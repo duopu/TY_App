@@ -77,6 +77,7 @@ export default {
 			}
 			
 			this.$emit('loadData',this.page,(res)=>{
+				console.log("res ==== ",res);
 				if(res){
 					if(that.page == 1){
 						that.triggered = false;
