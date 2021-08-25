@@ -112,11 +112,21 @@ export default {
 		},
 		// QQ登录
 		qqLogin(){
-			
+			uni.login({
+			  provider: 'qq',
+			  success: function (loginRes) {
+			    console.log(loginRes.authResult);
+			  }
+			});
 		},
 		// 微信登录
 		wechatLogin(){
-			
+			uni.login({
+			  provider: 'weixin',
+			  success: function (loginRes) {
+			    console.log(loginRes.authResult);
+			  }
+			});
 		}
 	}
 };
