@@ -1,7 +1,7 @@
 @color-yellow:#FFB55B;
 @color-red:#FF705B;
 
-.page-wrapper{
+.page-wrapper.main{
 	display: flex;
 	flex-direction: column;
 	height: 100%;
@@ -30,7 +30,7 @@
 	}
 }
 // 头部
-.top{
+.main-top{
 	flex-shrink: 0;
 	padding: calc(var(--status-bar-height) + 24rpx)  20rpx 24rpx;
 	.image-eduction{
@@ -56,8 +56,21 @@
 		margin: 20rpx -20rpx;
 	}
 }
+// 菜单
+.main-tabs{
+	.custom-tabs{
+		margin: atuo 0;
+		flex: 1;
+	}
+	.icon-image{
+		margin-right: 20rpx;
+		flex-shrink: 0;
+		width: 40rpx;
+		height: 40rpx;
+	}
+}
 //内容
-.content{
+.main-content{
 	flex: 1;
 	height: 100%;
 	overflow: hidden;
