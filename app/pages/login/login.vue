@@ -30,7 +30,7 @@
           <image class="icon" v-if="eye == 2" @click="toggleEye" src="../../static/images/login/eye.png"
                  mode="aspectFill"></image>
         </view>
-        <navigator url="../reset-password/reset-password" class="helper forget" >忘记密码？</navigator>
+        <button class="helper forget" @click="onForgetPwd">忘记密码？</button>
         <view class="login-btn" @click="pwdLogin">登录</view>
         <view class="huo">或</view>
         <view class="password-login" @click="loginMethod = 0">快速登录</view>
@@ -104,11 +104,16 @@ export default {
 				this.$tool.login(res)
 			})
 		},
+		// 跳转忘记密码
+		onForgetPwd(){
+			uni.navigateTo({
+				url:`/pages/reset-password/reset-password?roleStatus=${this.roleStatus}`
+			})
+		},
 		// QQ登录
 		qqLogin(){
 			
 		},
-		
 		// 微信登录
 		wechatLogin(){
 			

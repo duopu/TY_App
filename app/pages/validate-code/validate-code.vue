@@ -38,10 +38,9 @@
 			// 发送验证码
 			sendSmsCode() {
 				if (this.waitSms) {
-					help.showToast(`请${this.smsCodeCountDown}秒之后重新发送`)
+					this.$tool.showToast(`请${this.smsCodeCountDown}秒之后重新发送`)
 					return
 				}
-				
 				this.$http.get('/user/getSmsCode',{phone:this.phone,smsType:1},true).then(res=>{
 					this.startTimer();
 				})
