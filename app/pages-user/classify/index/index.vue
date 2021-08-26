@@ -7,7 +7,7 @@
 			<view class="classify-lists-item" 
 			v-for="(item, index) in interestCategoryVOList" 
 			:key="item.categoryId" 
-			@click="goDetail(item.categoryId)">
+			@click="goDetail(item.categoryId, item.interestName)">
 				<image class="item-image" :src="item.img" mode="aspectFill"></image>
 				<text class="text-bold text-ellipsis">{{item.interestName}}</text>
 			</view>
@@ -22,7 +22,7 @@
 			<view class="classify-lists-item" 
 			v-for="(item, index) in hotCategoryVOList" 
 			:key="item.categoryId" 
-			@click="goDetail(item.categoryId)">
+			@click="goDetail(item.categoryId, item.categoryName)">
 				<image class="item-image" :src="item.img" mode="aspectFill"></image>
 				<text class="text-bold text-ellipsis">{{item.categoryName}}</text>
 			</view>
@@ -34,9 +34,9 @@
 				<view class="classify-lists-item" 
 				v-for="(node, nodeIndex) in item.nodes" 
 				:key="node.categoryId"
-				@click="goDetail(item.categoryId)">
-					<image class="item-image" :src="item.img" mode="aspectFill"></image>
-					<text class="text-bold text-ellipsis">{{item.categoryName}}</text>
+				@click="goDetail(node.categoryId, node.categoryName)">
+					<image class="item-image" :src="node.img" mode="aspectFill"></image>
+					<text class="text-bold text-ellipsis">{{node.categoryName}}</text>
 				</view>
 			</view>
 		</block>
@@ -88,9 +88,9 @@ export default {
 		/**
 		 * 跳转到分类详情
 		 */
-		goDetail(categoryId){
+		goDetail(categoryId,categoryName){
 			uni.navigateTo({
-				url: `/pages-user/classify/details/details?categoryId=${categoryId}`
+				url: `/pages-user/classify/details/details?categoryId=${categoryId}&categoryName=${categoryName}`
 			});
 		}
 	}

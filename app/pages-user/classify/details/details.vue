@@ -19,7 +19,7 @@
 		<!-- 综合排序 -->
 		<classify-sort-popup :current-index="sortIndex" ref="sortPopup" @select="getSortIndex"></classify-sort-popup>
 		<!-- 分类 -->
-		<classify-cloud-popup ref="cloudPopup" @select="getCategory"></classify-cloud-popup>
+		<classify-cloud-popup ref="cloudPopup" :category="categoryItem" @select="getCategory"></classify-cloud-popup>
 		<!-- 筛选 -->
 		<classify-filter-popup ref="filterPopup" @submit="filterSubmit"></classify-filter-popup>
 	</view>
@@ -47,14 +47,8 @@ export default {
 		};
 	},
 	onLoad(option) {
-		// option.categoryId
-		// // 文章已读
-		// this.$http.post('/article/read',{articleId:option.articleId},false);
-		// // 查询文章详情
-		// this.$http.get('/article/queryInfo',{articleId:option.articleId},true).then(res=>{
-		// 	this.detail = res;
-		// 	this.aboutList = res.relevantArticleVOList;
-		// })
+		this.queryParams.categoryId = option.categoryId;
+		this.categoryItem = { categoryName: option.categoryName, categoryId: option.categoryId};
 	},
 	methods: {
 		//返回 上一级
