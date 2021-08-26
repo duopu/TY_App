@@ -11,9 +11,9 @@
 		<my-index v-show="tabbarsIndex === 3"></my-index>
 		<!-- 底部 -->
 		<view class="main-tabbars-bottom flex-center-center">
-			<view class="tabbers-item" @click="changeTabs(index)" :class="{ on: tabbarsIndex === index }" v-for="(item, index) in tabbarsData" :key="index">
+			<view class="tabbers-item flex-column-center" @click="changeTabs(index)" :class="{ on: tabbarsIndex === index }" v-for="(item, index) in tabbarsData" :key="index">
 				<image class="item-image" :src="showImage(item, index)" mode="aspectFill"></image>
-				<text>{{ item.text }}</text>
+				<text class="text">{{ item.text }}</text>
 			</view>
 		</view>
 	</view>
@@ -36,23 +36,23 @@ export default {
 			tabbarsIndex: 0,
 			tabbarsData: [
 				{
-					defaultImage: '',
-					selectImage: '',
+					defaultImage: '../../static/images/tabbars/business-index.png',
+					selectImage: '../../static/images/tabbars/business-index-selected.png',
 					text: '首页'
 				},
 				{
-					defaultImage: '',
-					selectImage: '',
+					defaultImage: '../../static/images/tabbars/business-message.png',
+					selectImage: '../../static/images/tabbars/business-message-selected.png',
 					text: '消息'
 				},
 				{
-					defaultImage: '',
-					selectImage: '',
+					defaultImage: '../../static/images/tabbars/business-consult.png',
+					selectImage: '../../static/images/tabbars/business-consult-selected.png',
 					text: '咨询'
 				},
 				{
-					defaultImage: '',
-					selectImage: '',
+					defaultImage: '../../static/images/tabbars/business-mine.png',
+					selectImage: '../../static/images/tabbars/business-mine-selected.png',
 					text: '我的'
 				}
 			]

@@ -3,7 +3,7 @@
 	<view class="page-wrapper search">
 		<!-- 头部 -->
 		<view class="flex-center search-top">
-			<image mode="aspectFill" src="" class="icon-arrow"></image>
+			<image @click="onBack" mode="aspectFill" src="../../../static/images/login/back.png" class="icon-arrow"></image>
 			<custom-search placeholder="搜索课程、机构、老师" :value="searchInput" @search="getSearchInput" @input="inputHandle"></custom-search>
 		</view>
 		<!-- 内容 -->
@@ -29,6 +29,12 @@ export default {
 		};
 	},
 	methods: {
+		//返回上一级
+		onBack(){
+			uni.navigateBack({
+				delta: 1
+			});
+		},
 		// 获取搜索内容
 		getSearchInput(value) {
 			this.searchInput = value;

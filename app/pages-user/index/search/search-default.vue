@@ -2,19 +2,24 @@
 <template>
 	<scroll-view scroll-y="true" class="search-content">
 		<!-- 历史搜索 -->
-		<view class="title text-bold">历史搜索</view>
+    <view class="flex-center-between">
+      <view class="title text-bold">历史搜索</view>
+	  <!-- 删除历史记录 新增 -->
+	  <image class="icon-delete" src="../../../static/images/icons/icon-colorful-delete.svg"></image>
+    </view>
+
 		<view class="history-lists">
-			<view class="item" 
-			v-for="(item,index) in historyList" 
-			:key="`history-list-${index}`" 
+			<view class="item"
+			v-for="(item,index) in historyList"
+			:key="`history-list-${index}`"
 			@click="tagClick(item.name,0)">{{item.name}}</view>
 		</view>
 		<!-- 热门搜索 -->
 		<view class="title text-bold">热门搜索</view>
 		<view class="history-lists">
-			<view class="item" 
-			v-for="(item,index) in topList" 
-			:key="`top-list-${index}`" 
+			<view class="item"
+			v-for="(item,index) in topList"
+			:key="`top-list-${index}`"
 			@click="tagClick(item.name,0)">{{item.name}}</view>
 		</view>
 		<!--热门课程/热搜机构/优秀教师 -->
@@ -25,9 +30,9 @@
 					<image class="icon-hot" src="../../../static/images/search/hot1.png" mode="aspectFill"></image>
 					<image class="icon-text" src="../../../static/images/search/hotkc.png" mode="aspectFill"></image>
 				</view>
-				<view class="flex-center row" 
-				v-for="(item, index) in courseVOList" 
-				:key="`course-list-${index}`" 
+				<view class="flex-center row"
+				v-for="(item, index) in courseVOList"
+				:key="`course-list-${index}`"
 				@click="tagClick(item.name,0)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
 					<text class="text-ellipsis text">{{item.classNum}}</text>
@@ -40,8 +45,8 @@
 					<image class="icon-text" src="../../../static/images/search/hotjg.png" mode="aspectFill"></image>
 				</view>
 				<view class="flex-center row"
-				v-for="(item, index) in storeVOList" 
-				:key="`store-list-${index}`" 
+				v-for="(item, index) in storeVOList"
+				:key="`store-list-${index}`"
 				@click="tagClick(item.name,1)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
 					<text class="text-ellipsis text">{{item.storeName}}</text>
@@ -53,9 +58,9 @@
 					<image class="icon-hot" src="../../../static/images/search/hot3.png" mode="aspectFill"></image>
 					<image class="icon-text" src="../../../static/images/search/hotjs.png" mode="aspectFill"></image>
 				</view>
-				<view class="flex-center row" 
-				v-for="(item, index) in teacherVOList" 
-				:key="`teacher-list-${index}`" 
+				<view class="flex-center row"
+				v-for="(item, index) in teacherVOList"
+				:key="`teacher-list-${index}`"
 				@click="tagClick(item.name,2)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
 					<text class="text-ellipsis text">{{item.name}}</text>
@@ -98,7 +103,7 @@ export default {
 				this.topList = res;
 			})
 		},
-		
+
 		/**
 		 * 查询热门课程、热搜机构、优秀教师
 		 */
@@ -109,7 +114,7 @@ export default {
 				this.teacherVOList = res.teacherVOList;
 			})
 		},
-		
+
 		/** 标签被点击
 		 * @param {Object} value
 		 * @param {Object} tabType
