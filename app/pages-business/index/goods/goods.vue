@@ -12,7 +12,22 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			goodList: [],
+			page: 1,
+			size: 10,
+		};
+	},
+	created(){
+
+	},
+	methods:{
+		// 获取商品列表
+		queryGoodList(params){
+			this.$http.post('/goods/queryPage',{page,size},true).then(res =>{
+				this.goodList = res.data;
+			})
+		}
 	}
 };
 </script>
