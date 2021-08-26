@@ -47,6 +47,11 @@
 			// 从本地读取搜索历史信息
 			this.$store.dispatch('initHistroySearchAction')
 		
+		// 定时刷新token
+			this.$http.refreshToken();
+			const timer = setInterval(() => {
+				this.$http.refreshToken();
+			}, 60 * 60 *1000)
 		},
 		onShow: function() {
 			console.log('App Show');
