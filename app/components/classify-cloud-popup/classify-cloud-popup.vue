@@ -44,6 +44,7 @@ export default {
 		};
 	},
 	created() {
+		this.getInterestList();
 		this.getAllCategory();
 	},
 	methods: {
@@ -72,13 +73,6 @@ export default {
 					allTypeArray = allTypeArray.concat(value.nodes);
 				});
 				this.secondMenu[0] = allTypeArray;
-				this.secondMenu[1] = res.interestCategoryVOList && res.interestCategoryVOList.map(value => {
-					return {
-						categoryId:value.categoryId,
-						categoryName:value.interestName,
-						img:value.img,
-					}
-				});
 				this.secondMenu[2] = res.hotCategoryVOList || [];
 				
 				for(var i=0; i<res.categoryVOList.length; i++){
@@ -87,6 +81,20 @@ export default {
 					this.secondMenu[i+3] = categoryVO.nodes;
 				}
 
+			})
+		},
+		
+		
+		// 获取我感兴趣的分类
+		getInterestList(){
+			this.$http.get('/category/queryInterestList',{},true).then(res=>{
+				this.secondMenu[1] = res && res.map(value => {
+					return {
+						categoryId:value.categoryId,
+						categoryName:value.interestName,
+						img:value.img,
+					}
+				});
 			})
 		},
 		

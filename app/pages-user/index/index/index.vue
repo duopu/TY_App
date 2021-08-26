@@ -10,7 +10,7 @@
 					<text class="color-yellow">slogn可换</text>
 				</view>
 				<view class="flex-center">
-					<image class="icon-image" src="../../../static/images/icons/icon-search.svg" mode="aspectFill"></image>
+					<image class="icon-image" src="../../../static/images/icons/icon-search.svg" mode="aspectFill" @click="searchClick()"></image>
 					<image class="icon-image" src="../../../static/images/icons/icon-message.svg" mode="aspectFill"></image>
 				</view>
 			</view>
@@ -71,6 +71,13 @@ export default {
 		// 横向菜单，返回值
 		getTabIndex(value) {
 			this.tabIndex = value;
+		},
+		
+		// 搜索点击
+		searchClick(){
+			uni.navigateTo({
+				url: "/pages-user/index/search/search?"
+			});
 		}
 	}
 };

@@ -2,10 +2,10 @@
 <template>
 	<scroll-view scroll-y="true" class="search-content">
 		<!-- 历史搜索 -->
-    <view class="flex-center-between">
+    <view v-if="historyList.length > 0" class="flex-center-between">
       <view class="title text-bold">历史搜索</view>
 	  <!-- 删除历史记录 新增 -->
-	  <image class="icon-delete" src="../../../static/images/icons/icon-colorful-delete.svg"></image>
+	  <image class="icon-delete" src="../../../static/images/icons/icon-colorful-delete.svg" @click="deleteHistroySearch()"></image>
     </view>
 
 		<view class="history-lists">
@@ -121,6 +121,13 @@ export default {
 		 */
 		tagClick(value, tabType){
 			this.$emit('tagClick',{search:value, tabType: tabType})
+		},
+		
+		/**
+		 * 删除历史搜索记录
+		 */
+		deleteHistroySearch(){
+			this.$store.commit("deleteHistorySearch");
 		}
 	}
 };

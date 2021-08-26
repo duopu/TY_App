@@ -51,6 +51,15 @@ const store = new Vuex.Store({
 			    key: config.storageKeys.historySearchKey,
 			    data: state.historySearchList
 			});
+		},
+		/** 删除历史搜索记录
+		 * @param {Object} state
+		 */
+		deleteHistorySearch(state){
+			state.historySearchList = [];
+			uni.removeStorage({
+			    key: config.storageKeys.historySearchKey
+			});
 		}
 	},
 	

@@ -60,16 +60,23 @@ export default {
 		};
 	},
 	onLoad() {
+		this.getInterestList();
 		this.getAllCategory();
 	},
 	methods:{
 		
-		// 获取全部分类
+		// 获取全部分类(热门+全平台)
 		getAllCategory(){
 			this.$http.get('/category/queryAll',{},true).then(res=>{
 				this.hotCategoryVOList = res.hotCategoryVOList || [];
-				this.interestCategoryVOList = res.interestCategoryVOList || [];
 				this.categoryVOList = res.categoryVOList || [];
+			})
+		},
+		
+		// 获取我感兴趣的分类
+		getInterestList(){
+			this.$http.get('/category/queryInterestList',{},true).then(res=>{
+				this.interestCategoryVOList = res || [];
 			})
 		},
 		
