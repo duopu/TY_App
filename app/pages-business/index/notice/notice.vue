@@ -1,12 +1,12 @@
 <!-- 公告 -->
 <template>
 	<view class="notice-lists">
-		<view class="notice-lists-item" :key="index" v-for="(item, index) in ['', '', '', '', '', '', '', '', '']">
+		<view class="notice-lists-item" :key="index" v-for="(item, index) in noticeList">
 			<view class="flex-center">
 				<text class="dot"></text>
-				<text class="text">关于开放线上商城的公告</text>
+				<text class="text">{{item.title}}</text>
 			</view>
-			<view class="time">2021-05-20 14:20:00</view>
+			<view class="time">{{ item.createTime }}</view>
 		</view>
 	</view>
 </template>
@@ -14,7 +14,20 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			noticeList: []
+		};
+	},
+	created(){
+		this.queryNoticeList();
+	},
+	methods:{
+		queryNoticeList(){
+			this.$http.get('/announcement/queryPage',{page: 1, size: 3},false).then(res => {
+				console.log(res);
+				this.noticeList = res.content || [];
+			})
+		},
 	}
 };
 </script>

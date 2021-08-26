@@ -3,7 +3,7 @@
 	<view class="consult">
 		<!-- 头部 -->
 		<view class="consult-top flex-center">
-			<view class="title text-bold flex-1">资讯</view>
+			<view class="title text-bold flex-1">资讯22</view>
 			<image class="icon-edit" src="../../../static/images/icons/icon-edit.svg" mode="aspectFill"></image>
 		</view>
 		<!-- 菜单 -->
@@ -23,12 +23,21 @@ export default {
 	data() {
 		return {
 			tabsIndex:0,
-			tabsData:['推荐','最新','关注','我的']
+			tabsData:['推荐','最新','关注','我的'],
+			dataList: []
 		};
+	},
+	created() {
+		this.queryList();
 	},
 	methods:{
 		getTabsIndex(value){
 			this.tabsIndex = value;
+		},
+		queryList(){
+			this.$http.get('/article/queryPage',{page: this.page,size: this.size,type: this.tabsIndex }, true).then(res => {
+				this.dataList = res.data;
+			})
 		}
 	}
 };

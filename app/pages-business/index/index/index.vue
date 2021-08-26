@@ -17,9 +17,10 @@
 		</view>
 		<!-- 公告 -->
 		<view class="block-box notice">
-			<swiper :vertical="true" :indicator-dots="false" :autoplay="true" :interval="2000">
-				<swiper-item><view class="swiper-item">我是公告标题我是公告标题我是公告标题我是公告标题...</view></swiper-item>
-				<swiper-item><view class="swiper-item">我是公告标题我是公告标题我是公告标题我是公告标题...</view></swiper-item>
+			<swiper :vertical="true" :circular="true" :indicator-dots="false" :autoplay="true" :interval="2000">
+				<swiper-item v-for="(item,index) in noticeList" @click="jumpNotice" :key="index">
+					<view class="swiper-item">{{ item.title }}</view>
+				</swiper-item>
 			</swiper>
 		</view>
 		<!-- 订单 -->
@@ -40,7 +41,7 @@
 			<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 		</view>
 		<view class="lists block-box">
-			<view class="flex-center-between lists-row" v-for="(item, index) in goodsStateData" :key="index">
+			<view class="flex-center-between lists-row" v-for="(item, index) in goodsStateData" @click="jumpGoodList" :key="index">
 				<text>{{ item.label }}</text>
 				<view class="flex-center">
 					<view class="number-tips">{{ item.number }}</view>
@@ -82,6 +83,7 @@ export default {
 			// 显示当前用户状态\
 			showState:false,
 			userStatus: 1,
+			noticeList: [],
 			// 订单
 			ordersStateData: [
 				{
@@ -151,12 +153,36 @@ export default {
 		};
 	},
 	created(data) {
-		console.log(getApp().globalData.user)
+		console.log(getApp().globalData.user);
+
+		// 获取公告列表
+		this.queryNoticeList();
 	},
 	methods: {
 		changeState(value) {
 			this.showState = !this.showState
+		},
+		queryNoticeList(){
+			this.$http.get('/announcement/queryPage',{page: 1, size: 3},false).then(res => {
+				console.log(res);
+				this.noticeList = res.content || [];
+			})
+		},
+		jumpGoodList(){
+			console.log(123);
+			uni.navigateTo({
+				url:`/pages-business/index/goods/goods`
+			})
+		},
+		jumpNotice(){
+			uni.navigateTo({
+				url:`/pages-business/index/notice/notice`
+			})
+		},
+		onJump(item){
+			console.log(item);
 		}
+		// 获取商品列表
 	}
 };
 </script>
