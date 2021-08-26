@@ -23,7 +23,8 @@ const showSuccess = (title,callback)=>{
 	showToastMessage(title,'success',callback);
 }
 
-const login = (user)=>{
+// 保存用户信息
+const saveUserStorage = (user)=>{
 	// 本地保存
 	uni.setStorage({
 		key: config.storageKeys.loginUserKey,
@@ -31,6 +32,11 @@ const login = (user)=>{
 	});
 	// 内存保存
 	getApp().globalData.user = user;
+}
+
+const login = (user)=>{
+	// 保存用户信息
+	saveUserStorage(user)
 	
 	if(user.roleStatus == '0'){
 		// 跳转用户首页页面 
@@ -60,5 +66,6 @@ export default {
 	showToast,
 	showSuccess,
 	logout,
-	login
+	login,
+	saveUserStorage
 }

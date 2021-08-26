@@ -3,7 +3,6 @@ import tool from './tool.js';
 
 export default {
 
-
 	request(url, data, method, loading) {
 		
 		let header = {
@@ -30,8 +29,9 @@ export default {
 		}
 		
 		return uni.request(options).then(response => {
-			
+			console.log('响应原始信息',response);
 			const res = response[1].data
+			const statusCode = response[1].statusCode;
 			const rescode = res.code;
 			const msg = res.message;
 			const data = res.data;
@@ -52,9 +52,8 @@ export default {
 			}
 			if (success) {
 				return data;
-			} else if(rescode == 403){
+			} else if(statusCode == 403){
 				this.refreshToken();
-				
 				throw {
 					message: msg
 				};
@@ -86,7 +85,14 @@ export default {
 	
 	// 刷新token
 	refreshToken(){
-		tool.logout();
+		const user = getApp().globalData.user
+		if(user.token){
+			this.request('/user/refreshToken',{},'GET',false).then(res=>{
+				tool.saveUserStorage({...user,...res})
+			}).catch(e=>{
+				tool.logout();
+			})
+		}
 	},
 	// get 方法 url:请求路由   data:携带参数   loading：是否显示loading效果
 	get(url = '', data = {}, loading = false) {
