@@ -1,0 +1,153 @@
+.product {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background-color: #f8f8f8;
+	overflow: hidden;
+	.box {
+		margin-bottom: 20rpx;
+		padding: 36rpx 20rpx;
+		background-color: #ffffff;
+		.color-9 {
+			color: #999999;
+		}
+		.m-top-20 {
+			margin-top: 20rpx;
+		}
+	}
+}
+.product-content {
+	height: 100%;
+	flex: 1;
+	overflow: hidden;
+	.banner-image {
+		display: block;
+		width: 100%;
+		height: 440rpx;
+	}
+	.name {
+		font-size: 28rpx;
+	}
+	.price {
+		font-size: 34rpx;
+		font-weight: bold;
+		color: #ff705b;
+		.unit {
+			font-size: 24rpx;
+		}
+	}
+	.line {
+		margin: auto 10rpx;
+		font-weight: bold;
+		color: #ff705b;
+	}
+	.state {
+		margin-right: -20rpx;
+		padding: 10rpx 20rpx;
+		font-size: 24rpx;
+		color: #999999;
+		background-color: #f4f5f9;
+		border-radius: 22rpx 0 0 22rpx;
+	}
+	.icon-share {
+		height: 32rpx;
+		width: 32rpx;
+	}
+	.icon-more {
+		width: 32rpx;
+		height: 32rpx;
+		border: 1rpx solid #ffb55b;
+	}
+	.row {
+		margin-bottom: 34rpx;
+		.flex-1 {
+			padding-bottom: 30rpx;
+			margin-left: 42rpx;
+			border-bottom: 1rpx solid #dfe0e6;
+		}
+	}
+	.checkbox-lists {
+		display: flex;
+		align-items: center;
+		.item {
+			margin-top: 24rpx;
+			margin-right: 24rpx;
+			padding: 0 16rpx;
+			height: 48rpx;
+			font-size: 24rpx;
+			line-height: 48rpx;
+			text-align: center;
+			background: #f4f5f9;
+			border-radius: 8rpx;
+		}
+	}
+	.ensure-lists{
+		display: flex;
+		align-items: center;
+		.item{
+			margin-right: 16rpx;
+			padding: 0 12rpx;
+			height: 32rpx;
+			font-size: 24rpx;
+			line-height: 32rpx;
+			text-align: center;
+			border-radius: 8rpx;
+			&.blue{
+				color: #1AA8FF;
+				background-color:rgba(#1AA8FF,.2);
+			}
+			&.yellow{
+				color: #E89117;
+				background-color:rgba(#E89117,.2);
+			}
+			&.red{
+				color: #EF5252;
+				background-color:rgba(#EF5252,.2);
+			}
+		}
+	}
+	.params-lists{
+		display: flex;
+		align-items: center;
+		.item{
+			margin-right: 20rpx;
+		}
+	}
+	::v-deep .custom-tabs{
+		margin: 0;
+		&-item.on{
+			color:#FFB55B;
+		}
+	}
+}
+.product-bottom {
+	padding: 20rpx;
+	font-size: 18rpx;
+	background-color: #ffffff;
+	.icons {
+		width: 48rpx;
+		height: 48rpx;
+	}
+	.flex-column{
+		margin-right: 40rpx;
+	}
+	.btn {
+		margin-right: 0;
+		margin-left: 24rpx;
+		min-width: 200rpx;
+		height: 64rpx;
+		line-height: 64rpx;
+		font-size: 28rpx;
+		text-align: center;
+		border-radius: 44rpx;
+		&-light {
+			margin: 0;
+			color: #ff705b;
+			background-color: rgba(#ff705b, 0.1);
+		}
+		&-block {
+			color: #ffffff;
+			background-color: #ff705b;
+		}
+	}
+}
