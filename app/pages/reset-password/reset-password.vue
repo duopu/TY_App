@@ -39,7 +39,7 @@
 				eye: 1,
 				phone: '',
 				smsCode: '',
-				roleStatus: '0',
+				roleStatus: 'user',
 				pwd: '',
 				pwdAgain: '',
 				smsCodeCountDown: 0

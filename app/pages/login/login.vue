@@ -7,8 +7,8 @@
 	  </view>
       <!-- tabs -->
       <view class="flex-center tabs-title">
-        <view class="tabs-title-item" :class="{ on: roleStatus === 0 }" @click="onChangeRole(0)">用户版</view>
-        <view class="tabs-title-item" :class="{ on: roleStatus === 1 }" @click="onChangeRole(1)">商家版</view>
+        <view class="tabs-title-item" :class="{ on: roleStatus === 'user' }" @click="()=>roleStatus = 'user'">用户版</view>
+        <view class="tabs-title-item" :class="{ on: roleStatus === 'business' }" @click="()=>roleStatus = 'business'">商家版</view>
       </view>
     </view>
     <view class="form-wrapper">
@@ -59,7 +59,7 @@
 export default {
 	data() {
 		return {
-			roleStatus: 0, //0-用户版 1-商家版
+			roleStatus: 'user', //user-用户版 business-商家版
 			loginMethod: 0, //0-手机号/验证码，1-密码登录
 			eye: 1, // 密码登录， 密码输入框的那个小眼睛 标记
 			phone:'',// 手机号
@@ -67,11 +67,7 @@ export default {
 		};
 	},
 	methods: {
-		// 选择登录角色
-		onChangeRole(value) {
-			if (value === this.roleStatus) return;
-			this.roleStatus = value;
-		},
+		
 		toggleEye() {
 			this.eye = this.eye == 1 ? 2 : 1;
 		},
@@ -99,34 +95,52 @@ export default {
 				return
 			}
 			
-			this.$http('/user/login',{phone:this.phone,password:this.pwd},true).then(res=>{
+			this.$http.post('/user/login',{phone:this.phone,password:this.pwd,loginType:2},true).then(res=>{
 				res = {...res,roleStatus:this.roleStatus}
 				this.$tool.login(res)
-			})
+			}) 
 		},
 		// 跳转忘记密码
 		onForgetPwd(){
-			uni.navigateTo({
+			uni.navigateTo({ 
 				url:`/pages/reset-password/reset-password?roleStatus=${this.roleStatus}`
 			})
 		},
 		// QQ登录
 		qqLogin(){
-			uni.login({
-			  provider: 'qq',
-			  success: function (loginRes) {
-			    console.log(loginRes.authResult);
-			  }
-			});
+			this.authLogin('qq')
 		},
 		// 微信登录
 		wechatLogin(){
+			this.authLogin('weixin')
+		},
+		authLogin(provider){
+			uni.showLoading({
+				title:'登录中...'
+			})
 			uni.login({
-			  provider: 'weixin',
-			  success: function (loginRes) {
-			    console.log(loginRes.authResult);
+			  provider: provider,
+			  success:  ({authResult})=> {
+			    console.log('微信登录',authResult);
+				const source = this.roleStatus == 'user' ? 3 : 2
+				const loginType = provider == 'weixin' ? 3 : 4
+				this.$http.post('/user/login',{loginType,openId:authResult.openid,source},true).then(res=>{
+					this.authResultTodo(provider,res)
+				}) 
+			  },
+			  complete:()=> {
+			  	uni.hideLoading()
 			  }
 			});
+		}, 
+		authResultTodo(provider,data){
+			if(data.isBind){
+				// 登录成功
+				this.$tool.login( {...data,roleStatus:this.roleStatus})
+			}else{ 
+				// 未绑定手机号
+				console.log('未绑定手机号',data);
+			}
 		}
 	}
 };
