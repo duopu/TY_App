@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-	<scroll-view class="index">
+	<scroll-view scroll-y="true" class="index">
 		<view class="flex-center-between index-top">
 			<view class="flex-center">
 				<image class="avatar-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>

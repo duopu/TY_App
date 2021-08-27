@@ -186,6 +186,12 @@
 						"enablePullDownRefresh": false
 					}
 
+				}, {
+					"path": "index/order/order",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
 				}
 			]
 		}

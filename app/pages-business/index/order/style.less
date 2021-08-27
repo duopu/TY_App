@@ -1,0 +1,30 @@
+.order {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: #f4f5f9;
+	overflow: hidden;
+	::v-deep .custom-tabs {
+		margin: 0;
+		background-color: #ffffff;
+		&-item {
+			font-size: 24rpx;
+			color: #d1d1d1;
+		}
+		.on {
+			font-size: 28rpx;
+			color: #ffb55b;
+			&::after{
+				height: 4rpx;
+				width: 72rpx;
+				margin-left: -36rpx;
+			}
+		}
+	}
+}
+.order-content {
+	flex: 1;
+	height: 100%;
+	overflow: hidden;
+}
+// 待支付
