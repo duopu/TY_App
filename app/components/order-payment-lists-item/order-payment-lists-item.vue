@@ -5,7 +5,7 @@
 			<view class="title text-bold text-ellipsis">5天英语全能挑战名称可能很长可能是两行可能是...</view>
 			<view class="flex-center-between">
 				<view class="tips">型号一</view>
-				<view class="number">24</view>
+				<view class="number">×24</view>
 			</view>
 			<view class="flex-center m-top-16">
 				<view class="price text-bold">

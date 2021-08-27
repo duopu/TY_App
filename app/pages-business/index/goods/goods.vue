@@ -12,40 +12,40 @@
 					<view class="name text-bold">5天英语全能挑战名称可能很长可能是两行可能是两行可能是两行</view>
 					<view class="price flex-center">
 						<view class="flex-center"><text class="unit">￥</text>100</view>
-						<text>~</text>
+						<text class="line">~</text>
 						<view class="flex-center"><text class="unit">￥</text>100</view>
 					</view>
 				</view>
 				<!-- 销售数量 -->
 				<view class="flex-center sales">
 					<view class="sales-item flex-1">
-						<image class="icons" src="icon" mode="aspectFill"></image>
+						<image class="icons" src="../../../static/images/icons/icon-ticket.svg" mode="aspectFill"></image>
 						<text class="color-9">总销量</text>
 						<text>（248）</text>
 					</view>
 					<view class="sales-item flex-1">
-						<image class="icons" src="icon" mode="aspectFill"></image>
-						<text class="color-9">总销量</text>
+						<image class="icons" src="../../../static/images/icons/icon-ticket.svg" mode="aspectFill"></image>
+						<text class="color-9">月销量</text>
 						<text>（248）</text>
 					</view>
 					<view class="sales-item flex-1">
-						<image class="icons" src="icon" mode="aspectFill"></image>
-						<text class="color-9">总销量</text>
+						<image class="icons" src="../../../static/images/icons/icon-grey-message.svg" mode="aspectFill"></image>
+						<text class="color-9">评论</text>
 						<text>（248）</text>
 					</view>
 				</view>
 				<!-- button -->
 				<view class="item-bottom flex-center">
 					<button class="btn btn-block grey">
-						<image src="" mode="aspectFill" class="icons"></image>
+						<image src="../../../static/images/icons/icon-white-off.svg" mode="aspectFill" class="icons"></image>
 						<text>立即下架</text>
 					</button>
 					<button class="btn btn-block red">
-						<image src="" mode="aspectFill" class="icons"></image>
+						<image src="../../../static/images/icons/icon-white-clear.svg" mode="aspectFill" class="icons"></image>
 						<text>立即删除</text>
 					</button>
 					<button class="btn btn-block yellow">
-						<image src="" mode="aspectFill" class="icons"></image>
+						<image src="../../../static/images/icons/icon-white-edit.svg" mode="aspectFill" class="icons"></image>
 						<text>修改价格</text>
 					</button>
 				</view>
