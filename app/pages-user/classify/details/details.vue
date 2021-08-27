@@ -122,8 +122,9 @@ export default {
 		 * @param {Object} item
 		 */
 		goodsItemClick(item) {
-			//TODO: 跳转到商品详情页
-			console.log('商品行点击 == ', item);
+			uni.navigateTo({
+				url: `/pages-user/index/product-details/product-details?goodsId=${item.goodsId}`
+			});
 		}
 	}
 };
