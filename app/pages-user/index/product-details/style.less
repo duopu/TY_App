@@ -14,6 +14,9 @@
 		.m-top-20 {
 			margin-top: 20rpx;
 		}
+		.color-2 {
+			color: #222222;
+		}
 	}
 }
 .product-content {
@@ -56,7 +59,6 @@
 	.icon-more {
 		width: 32rpx;
 		height: 32rpx;
-		border: 1rpx solid #ffb55b;
 	}
 	.row {
 		margin-bottom: 34rpx;
@@ -81,10 +83,10 @@
 			border-radius: 8rpx;
 		}
 	}
-	.ensure-lists{
+	.ensure-lists {
 		display: flex;
 		align-items: center;
-		.item{
+		.item {
 			margin-right: 16rpx;
 			padding: 0 12rpx;
 			height: 32rpx;
@@ -92,31 +94,32 @@
 			line-height: 32rpx;
 			text-align: center;
 			border-radius: 8rpx;
-			&.blue{
-				color: #1AA8FF;
-				background-color:rgba(#1AA8FF,.2);
+			&.blue {
+				color: #1aa8ff;
+				background-color: rgba(#1aa8ff, 0.2);
 			}
-			&.yellow{
-				color: #E89117;
-				background-color:rgba(#E89117,.2);
+			&.yellow {
+				color: #e89117;
+				background-color: rgba(#e89117, 0.2);
 			}
-			&.red{
-				color: #EF5252;
-				background-color:rgba(#EF5252,.2);
+			&.red {
+				color: #ef5252;
+				background-color: rgba(#ef5252, 0.2);
 			}
 		}
 	}
-	.params-lists{
+	.params-lists {
+		margin-left: 42rpx;
 		display: flex;
 		align-items: center;
-		.item{
+		.item {
 			margin-right: 20rpx;
 		}
 	}
-	::v-deep .custom-tabs{
+	::v-deep .custom-tabs {
 		margin: 0;
-		&-item.on{
-			color:#FFB55B;
+		&-item.on {
+			color: #ffb55b;
 		}
 	}
 }
@@ -128,7 +131,7 @@
 		width: 48rpx;
 		height: 48rpx;
 	}
-	.flex-column{
+	.flex-column {
 		margin-right: 40rpx;
 	}
 	.btn {
@@ -149,5 +152,62 @@
 			color: #ffffff;
 			background-color: #ff705b;
 		}
+	}
+}
+// tabs
+::v-deep .custom-tabs {
+	padding-top: 20rpx;
+	background-color: #ffffff;
+}
+.product-image{
+	width: 100%;
+}
+.comment-title {
+	padding-bottom: 30rpx;
+	background-color: #ffffff;
+	border-bottom: 2rpx solid #dfe0e6;
+	.color-yellow {
+		font-size: 24rpx;
+		color: #ff9340;
+	}
+	.title {
+		font-size: 28rpx;
+	}
+	.icon-arrow {
+		margin-left: 8rpx;
+		width: 32rpx;
+		height: 32rpx;
+	}
+	.rate {
+		margin: 0 16rpx;
+	}
+}
+//介绍
+.tabs-brief{
+	background-color: #FFFFFF;
+	::v-deep .group-lists-item{
+		margin: 0 20rpx;
+	}
+}
+// 商品
+.tabs-product {
+	padding: 20rpx;
+	background-color: #ffffff;
+	.product-image {
+		padding-top: 40rpx;
+		border-top: 2rpx solid #dfe0e6;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+// 目录
+.tabs-catalogue {
+	padding: 20rpx;
+	background-color: #ffffff;
+	.video-catalogue {
+		margin:0 -20rpx;
+		padding: 0 40rpx;
+		border-top: 1rpx solid #dfe0e6;
 	}
 }

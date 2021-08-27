@@ -9,7 +9,7 @@
 		<view class="flex-center-between live-profile">
 			<text class="text-bold">直播名称吧啦吧啦</text>
 			<view class="flex-center">
-				<image class="image-name" src="../../../static/images/course/demo.png" mode="aspectFill"></image>
+				<image class="image-name" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
 				<text class="font-24">商家名</text>
 			</view>
 		</view>
@@ -23,12 +23,12 @@
 		<!-- 列表 -->
 		<view class="live-lists">
 			<view class="live-lists-item flex-center-between" v-for="(item, index) in ['', '', '', '', '', '']" :key="index">
-				<image class="item-image" src="../../../static/images/course/demo.png" mode="aspectFill"></image>
+				<image class="item-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
 				<view class="item-right">
 					<view class="name text-bold">5天英语全能挑战</view>
 					<view class="flex-center-between">
 						<view class="flex-center">
-							<image class="image-name" src="../../../static/images/course/demo.png" mode="aspectFill"></image>
+							<image class="image-name" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
 							<text class="font-24">商家名</text>
 						</view>
 						<button class="btn yellow">查看回放</button>
