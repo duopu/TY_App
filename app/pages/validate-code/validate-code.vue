@@ -20,7 +20,7 @@
 				disabled: true,
 				phone: '',
 				smsCode: '',
-				roleStatus:'0',
+				roleStatus:'user',
 				smsCodeCountDown:60
 			};
 		},
@@ -76,7 +76,7 @@
 					
 					getApp().globalData.user = res;
 					
-					if(this.roleStatus == '0'){
+					if(this.roleStatus == 'user'){
 						// 跳转首页页面 
 						uni.reLaunch({
 							url: '/pages-user/index/index/index'

@@ -17,18 +17,7 @@
 				success: res => {
 					const user = res.data;
 					if (user.token) {
-						// 内存保存
-						getApp().globalData.user = user;
-
-						if (user.roleStatus == '0') {
-							uni.reLaunch({
-								url: '/pages-user/index/index/index'
-							}); 
-						} else { 
-							uni.reLaunch({
-								url: '/pages-business/main/main',
-							});
-						}
+						this.$tool.login(user)
 					} else {
 						// 本地无用户信息，去登录页
 						uni.reLaunch({

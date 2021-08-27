@@ -37,8 +37,9 @@ const saveUserStorage = (user)=>{
 const login = (user)=>{
 	// 保存用户信息
 	saveUserStorage(user)
+	getApp().globalData.user = user;
 	
-	if(user.roleStatus == '0'){
+	if(user.roleStatus == 'user'){
 		// 跳转用户首页页面 
 		uni.reLaunch({
 			url: '/pages-user/index/index/index'
