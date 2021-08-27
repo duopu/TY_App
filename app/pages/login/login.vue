@@ -125,7 +125,7 @@ export default {
 				const source = this.roleStatus == 'user' ? 3 : 2
 				const loginType = provider == 'weixin' ? 3 : 4
 				this.$http.post('/user/login',{loginType,openId:authResult.openid,source},true).then(res=>{
-					this.authResultTodo(provider,res)
+					this.authResultTodo(provider,authResult.openid,res)
 				}) 
 			  },
 			  complete:()=> {
@@ -133,13 +133,15 @@ export default {
 			  }
 			});
 		}, 
-		authResultTodo(provider,data){
+		authResultTodo(provider,openId,data){
 			if(data.isBind){
 				// 登录成功
 				this.$tool.login( {...data,roleStatus:this.roleStatus})
 			}else{ 
 				// 未绑定手机号
-				console.log('未绑定手机号',data);
+				uni.navigateTo({
+					url:`/pages/bind-phone/bind-phone?roleStatus=${this.roleStatus}&openId=${openId}&provider=${provider}`
+				})
 			}
 		}
 	}
