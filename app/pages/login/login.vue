@@ -56,6 +56,8 @@
 </template>
 
 <script>
+	import md5 from 'js-md5'
+	
 export default {
 	data() {
 		return {
@@ -94,8 +96,9 @@ export default {
 				this.$tool.showToast('请输入密码')
 				return
 			}
-			
-			this.$http.post('/user/login',{phone:this.phone,password:this.pwd,loginType:2},true).then(res=>{
+			const source = this.roleStatus == 'user' ? 3 : 2
+			const pwd = md5(this.pwd).substr(2,28)
+			this.$http.post('/user/login',{userName:this.phone,password:pwd,loginType:2,source},true).then(res=>{
 				res = {...res,roleStatus:this.roleStatus}
 				this.$tool.login(res)
 			}) 

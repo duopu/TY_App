@@ -61,11 +61,15 @@
 					this.$tool.showToast('请输入验证码')
 					return
 				}
+				const source = this.roleStatus == 'user' ? 3 : 2
+				
 				const param =  {
 					phone: this.phone,
 					smsCode: this.smsCode,
-					loginType: 1
+					loginType: 1,
+					source
 				}
+				
 				this.$http.post('/user/login', param, true).then(res => {
 					res = {...res,roleStatus:this.roleStatus}
 					// 本地保存
