@@ -116,7 +116,7 @@
 						"enablePullDownRefresh": true
 					}
 				}, {
-					"path": "index/product-details/product-details",
+					"path": "index/goods-details/goods-details",
 					"style": {
 						"navigationBarTitleText": "",
 						"enablePullDownRefresh": false

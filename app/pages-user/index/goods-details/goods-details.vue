@@ -1,6 +1,6 @@
 <template>
-	<view class="product">
-		<scroll-view scroll-y="true" class="product-content">
+	<view class="goods">
+		<scroll-view scroll-y="true" class="goods-content">
 			<!-- banner -->
 			<view class="banner"><image class="banner-image" src="../../../static/images/other/good_banner.png" mode="aspectFill"></image></view>
 			<!-- 具体信息 -->
@@ -87,18 +87,18 @@
 			<!--  tab 介绍 -->
 			<tabs-brief v-if="tabsIndex === 0"></tabs-brief>
 			<!-- tab 商品 -->
-			<tabs-product v-if="tabsIndex === 1"></tabs-product>
+			<tabs-goods v-if="tabsIndex === 1"></tabs-goods>
 			<!-- tab 目录 -->
 			<tabs-catalogue v-if="tabsIndex === 2"></tabs-catalogue>
 			<!-- tab 题库 -->
 			<tabs-bank v-if="tabsIndex === 3"></tabs-bank>
 			<!-- tab 考试 -->
-			<tabs-bank v-if="tabsIndex === 4"></tabs-bank>
+			<tabs-exam v-if="tabsIndex === 4"></tabs-exam>
 			<!-- tab 推荐-->
 			<tabs-recommend v-if="tabsIndex === 5"></tabs-recommend>
 		</scroll-view>
 		<!-- 底部 -->
-		<view class="product-bottom flex-center-between">
+		<view class="goods-bottom flex-center-between">
 			<view class="flex-column">
 				<image class="icons" src="" mode="aspectFill"></image>
 				<text>店铺</text>
@@ -119,7 +119,7 @@
 
 <script>
 import TabsBrief from './tabs-brief.vue';
-import TabsProduct from './tabs-product.vue';
+import TabsGoods from './tabs-goods.vue';
 import TabsBank from './tabs-bank.vue';
 import TabsExam from './tabs-exam.vue';
 import TabsCatalogue from './tabs-catalogue.vue';
@@ -127,7 +127,7 @@ import TabsRecommend from './tabs-recommend.vue';
 export default {
 	components: {
 		TabsBrief,
-		TabsProduct,
+		TabsGoods,
 		TabsBank,
 		TabsExam,
 		TabsRecommend,

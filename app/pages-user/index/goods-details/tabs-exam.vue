@@ -1,6 +1,6 @@
 <!-- 开始-->
 <template>
-	<view class="tabs-product">
+	<view class="tabs-goods">
 		<!-- 标题 -->
 		<view class="flex-center-between comment-title">
 			<view class="title">全部评论（20）</view>
@@ -18,7 +18,7 @@
 		<block v-for="(item,index) in ['','','','']" :key="index">
 			<comment-lists-item></comment-lists-item>
 		</block>
-		<image class="product-image" src="../../../static/images/other/banner.jpg" mode="widthFix"></image>
+		<image class="goods-image" src="../../../static/images/other/banner.jpg" mode="widthFix"></image>
 	</view>
 </template>
 
