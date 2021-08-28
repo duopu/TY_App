@@ -134,7 +134,25 @@
 						"enablePullDownRefresh": false
 					}
 				}
-			]
+			    ,{
+                    "path" : "index/ticket/ticket",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "优惠活动",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "mine/ticket/ticket",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "优惠券",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 		},
 		{
 			"root": "pages-business",

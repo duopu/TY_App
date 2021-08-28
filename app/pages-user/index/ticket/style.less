@@ -1,0 +1,63 @@
+.ticket {
+	height: 100%;
+	padding: 30rpx 0 0;
+	overflow: hidden;
+	.title {
+		margin: 40rpx 30rpx;
+		display: flex;
+		align-items: center;
+		font-size: 30rpx;
+		font-weight: bold;
+		color: #000000;
+		&::before {
+			margin-right: 20rpx;
+			content: '';
+			width: 6rpx;
+			height: 20rpx;
+			background-color: #ffb55b;
+			border-radius: 20rpx;
+		}
+	}
+	.sub-title{
+		display: flex;
+		justify-content: center;
+		position: relative;
+		margin: 0 30rpx 20rpx;
+		font-size: 20rpx;
+		color: #999999;
+		text-align: center;
+		&::before{
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 50%;
+			border-top: 1rpx dashed #DFE0E6;
+		}
+		.text{
+			padding: 0 15rpx;
+			background-color: #FFFFFF;
+			z-index: 2;
+		}
+	}
+}
+.goods-lists {
+	white-space: nowrap;
+	.goods-lists-item {
+		margin-left: 24rpx;
+		display: inline-flex;
+		width: 200rpx;
+		&:last-child{
+			margin-right: 24rpx;
+		}
+		.goods-image{
+			width: 100%;
+			height: 134rpx;
+		}
+		.text{
+			margin-top: 12rpx;
+			font-size: 24rpx;
+			color: #999999;
+		}
+	}
+}

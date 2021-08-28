@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="9px" viewBox="0 0 9 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组</title>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="商品详情-优惠活动" transform="translate(-125.000000, -184.000000)">
+            <g id="编组" transform="translate(125.000000, 184.000000)">
+                <path d="M4.96,5.772 L5.16,1.7 L4.08,1.7 L4.28,5.772 L4.96,5.772 Z M4.616,7.412 C4.792,7.412 4.936,7.356 5.064,7.244 C5.176,7.132 5.24,6.98 5.24,6.804 C5.24,6.628 5.176,6.484 5.064,6.372 C4.944,6.26 4.792,6.204 4.616,6.204 C4.44,6.204 4.296,6.26 4.184,6.372 C4.056,6.484 4,6.628 4,6.804 C4,6.98 4.056,7.124 4.184,7.236 C4.296,7.348 4.44,7.412 4.616,7.412 Z" id="！" fill="#999999" fill-rule="nonzero"></path>
+                <circle id="椭圆形" stroke="#979797" stroke-width="0.75" cx="4.5" cy="4.5" r="4.125"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

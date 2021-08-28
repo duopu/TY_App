@@ -1,0 +1,38 @@
+.ticket {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
+	.title {
+		margin: 40rpx 30rpx;
+		display: flex;
+		align-items: center;
+		font-size: 30rpx;
+		font-weight: bold;
+		color: #000000;
+		&::before {
+			margin-right: 20rpx;
+			content: '';
+			width: 6rpx;
+			height: 20rpx;
+			background-color: #ffb55b;
+			border-radius: 20rpx;
+		}
+	}
+
+	.goods-item {
+		margin: auto 30rpx;
+		margin-bottom: 24rpx;
+		.avatar-image {
+			margin-right: 16rpx;
+			width: 72rpx;
+			height: 72rpx;
+			border-radius: 50%;
+		}
+	}
+}
+.ticket-lists {
+	flex: 1;
+	height: 100%;
+	overflow: hidden;
+}
