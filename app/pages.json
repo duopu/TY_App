@@ -50,17 +50,15 @@
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
+		}, {
+			"path": "pages/bind-phone/bind-phone",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/bind-phone/bind-phone",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"subPackages": [{
 			"root": "pages-user",
 			"pages": [{
@@ -122,6 +120,19 @@
 						"enablePullDownRefresh": false
 					}
 
+				}, {
+					"path": "index/address/address",
+					"style": {
+						"navigationBarTitleText": "配送至",
+						"enablePullDownRefresh": false
+					}
+				},
+				 {
+					"path": "index/address/add-address",
+					"style": {
+						"navigationBarTitleText": "配送至",
+						"enablePullDownRefresh": false
+					}
 				}
 			]
 		},

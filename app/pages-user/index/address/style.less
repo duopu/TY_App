@@ -1,0 +1,97 @@
+.address {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background-color: #f8f8f8;
+}
+.address-content {
+	flex: 1;
+	height: 100%;
+	overflow: hidden;
+}
+.address-lists {
+	.title {
+		display: flex;
+		align-items: center;
+		margin: 40rpx 20rpx;
+		font-size: 30rpx;
+		font-weight: bold;
+		&::before {
+			margin-right: 20rpx;
+			content: '';
+			width: 6rpx;
+			height: 20rpx;
+			background-color: #ffb55b;
+			border-radius: 20rpx;
+		}
+	}
+}
+
+.address-bottom {
+	padding: 14rpx 20rpx;
+	display: flex;
+	justify-content: center;
+	background-color: #ffffff;
+	.btn {
+		flex: 1;
+		height: 80rpx;
+		font-size: 28rpx;
+		line-height: 80rpx;
+		color: #ffffff;
+		background: #ff705b;
+		border-radius: 40rpx;
+	}
+}
+.form-address {
+	padding: 10rpx 20rpx 40rpx;
+	font-size: 28rpx;
+	background-color: #ffffff;
+	.row {
+		display: flex;
+		padding: 42rpx 0 0;
+	}
+	.label {
+		flex-shrink: 0;
+		min-width: 160rpx;
+		margin-right: 24rpx;
+	}
+	.btn-text {
+		flex-shrink: 0;
+		margin: 0;
+		padding: 0;
+		height: auto;
+		line-height: 1.1;
+		font-size: 28rpx;
+		color: #ff705b;
+		background-color: transparent;
+	}
+	.input,
+	.textarea {
+		flex: 1;
+		font-size: 28rpx;
+	}
+	.input-placeholder {
+		color: #cccccc;
+	}
+	.textarea {
+		width: auto;
+		height: 120rpx;
+	}
+	.border-bottom {
+		justify-content: space-between;
+		padding-bottom: 40rpx;
+		border-bottom: 1rpx solid #dfe0e6;
+	}
+	.radio {
+		margin-right: 32rpx;
+		width: 32rpx;
+		height: 32rpx;
+		background-color: #ffffff;
+		border-radius: 50%;
+		border: 1rpx solid #cccccc;
+		box-sizing: border-box;
+		&.on {
+			border: 10rpx solid #1aa8ff;
+		}
+	}
+}

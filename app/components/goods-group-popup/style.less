@@ -1,0 +1,55 @@
+.popup-main {
+	padding: 0 20rpx 40rpx;
+	background-color: #ffffff;
+	border-radius: 32rpx 32rpx 0 0;
+	.icon {
+		width: 40rpx;
+		height: 40rpx;
+	}
+	.icon-close{
+		position: absolute;
+		top: 30rpx;
+		right: 24rpx;
+		width: 48rpx;
+		height: 48rpx;
+		z-index: 1;
+	}
+	.title {
+		padding: 30rpx 0;
+		font-size: 34rpx;
+		text-align: center;
+	}
+	.row {
+		display: flex;
+		padding: 32rpx 0;
+		font-size: 28rpx;
+		border-bottom: 1rpx solid #dfe0e6;
+		&.price{
+			margin-bottom:40rpx;
+			font-weight: bold;
+			color: #FF705B;
+			border-bottom: 0;
+		}
+		.label{
+			flex-shrink: 0;
+		}
+		.color-6 {
+			color: #666666;
+		}
+	}
+	
+	.popup-bottom {
+		font-size: 28rpx;
+		padding: 12rpx 0;
+		.btn {
+			margin-left: 24rpx;
+			flex: 1;
+			height: 80rpx;
+			font-size: 28rpx;
+			line-height: 80rpx;
+			color: #ffffff;
+			background: #ff705b;
+			border-radius: 40rpx;
+		}
+	}
+}

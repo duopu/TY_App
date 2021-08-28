@@ -23,7 +23,7 @@
 					</view>
 					<!-- 分销申请审核中 -->
 					<view v-if="false" class="state">分销申请审核中</view>
-					<view v-if="true" class="state color-2 flex-center">
+					<view @click="openPopup('distributePopup')" v-if="true" class="state color-2 flex-center">
 						<image class="icon-share" src="" mode="aspectFill"></image>
 						申请分销
 					</view>
@@ -37,7 +37,7 @@
 					<view class="flex-1">
 						<view class="flex-center-between">
 							<text>属性分类</text>
-							<image class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+							<image @click="openPopup('classifyPopup')" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
 						<view class="checkbox-lists">
 							<view class="item">型号一</view>
@@ -67,7 +67,7 @@
 							<view class="item yellow">平台认证</view>
 							<view class="item red">保证金</view>
 						</view>
-						<image class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+						<image @click="openPopup('ensurePopup')" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 					</view>
 				</view>
 				<!-- 参数 -->
@@ -79,7 +79,7 @@
 						<view class="item">题库数量</view>
 						<view class="item">有效时长</view>
 					</view>
-					<image class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+					<image @click="openPopup('parameterPopup')" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 				</view>
 			</view>
 			<!-- 横向菜单 -->
@@ -111,9 +111,23 @@
 				<image class="icons" src="" mode="aspectFill"></image>
 				<text>收藏</text>
 			</view>
-			<button class="btn btn-light">加入购物车</button>
-			<button class="btn btn-block">立即购买</button>
+			<!-- 拼团或正常购买 -->
+			<block v-if="false">
+				<button class="btn btn-light">加入购物车</button>
+				<button class="btn btn-block">立即购买</button>
+			</block>
+			<block v-if="true"><button @click="openPopup('groupPopup')" class="btn btn-block flex-1">参与拼团</button></block>
 		</view>
+		<!-- 弹窗 属性分类 -->
+		<goods-classify-popup ref="classifyPopup"></goods-classify-popup>
+		<!-- 弹窗 保障 -->
+		<goods-ensure-popup ref="ensurePopup"></goods-ensure-popup>
+		<!-- 弹窗 参数 -->
+		<goods-parameter-popup ref="parameterPopup"></goods-parameter-popup>
+		<!-- 弹窗 分销 -->
+		<goods-distribute-popup ref="distributePopup"></goods-distribute-popup>
+		<!-- 弹窗 参与拼团 -->
+		<goods-group-popup ref="groupPopup"></goods-group-popup>
 	</view>
 </template>
 
@@ -140,8 +154,13 @@ export default {
 		};
 	},
 	methods: {
+		// 获取当前 tab index
 		getTabsIndex(index) {
 			this.tabsIndex = index;
+		},
+		//打开弹窗；参数：弹窗的ref名
+		openPopup(value) {
+			this.$refs[value].open();
 		}
 	}
 };
