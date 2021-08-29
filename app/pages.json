@@ -155,6 +155,14 @@
 				}
 
 
+				, {
+					"path": "mine/refund/refund",
+					"style": {
+						"navigationBarTitleText": "退款服务",
+						"enablePullDownRefresh": false
+					}
+
+				}
 			]
 		},
 		{
@@ -233,6 +241,13 @@
 						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
+				}, {
+					"path": "index/order-details/order-details",
+					"style": {
+						"navigationBarTitleText": "订单详情",
+						"enablePullDownRefresh": false
+					}
+
 				}
 			]
 		}

@@ -1,0 +1,15 @@
+<svg id="组件_10_1" data-name="组件 10 – 1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #ffb55b;
+      }
+    </style>
+  </defs>
+  <path id="路径_62" data-name="路径 62" class="cls-1" d="M0,0H24V24H0Z"/>
+  <path id="路径_63" data-name="路径 63" class="cls-2" d="M20,22H4a1,1,0,0,1-1-1V3A1,1,0,0,1,4,2H20a1,1,0,0,1,1,1V21A1,1,0,0,1,20,22ZM9,6H7V8A5,5,0,0,0,17,8V6H15V8A3,3,0,0,1,9,8Z"/>
+</svg>

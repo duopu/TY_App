@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>编组 3备份</title>
+    <desc>Created with Sketch.</desc>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="退款" transform="translate(-56.000000, -551.000000)">
+            <g id="编组-3备份" transform="translate(56.000000, 551.000000)">
+                <rect id="矩形" fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect>
+                <path d="M5,4 L5.17082039,3.65835921 C5.67899644,2.64200713 6.71778579,2 7.85410197,2 L8.14589803,2 C9.28221421,2 10.3210036,2.64200713 10.8291796,3.65835921 L11,4 L11,4 L5,4 Z" id="路径" stroke="#FFB55B" stroke-linejoin="round"></path>
+                <rect id="矩形" stroke="#FFB55B" stroke-linejoin="round" x="1.33333333" y="4" width="13.3333333" height="10" rx="1.25"></rect>
+                <path d="M8,11.6666667 C9.47276667,11.6666667 10.6666667,10.4727667 10.6666667,9 C10.6666667,7.52723333 9.47276667,6.33333333 8,6.33333333 C6.52723333,6.33333333 5.33333333,7.52723333 5.33333333,9 C5.33333333,10.4727667 6.52723333,11.6666667 8,11.6666667 Z" id="路径" stroke="#222222" stroke-linejoin="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

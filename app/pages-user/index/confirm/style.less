@@ -3,14 +3,14 @@
 	flex-direction: column;
 	height: 100%;
 	padding: 0 20rpx;
-	background-color: #F8F8F8;
+	background-color: #f8f8f8;
 	overflow: hidden;
 }
 .order-confirm-content {
 	flex: 1;
 	height: 100%;
 	overflow: hidden;
-	.address{
+	.address {
 		margin: 20rpx 0;
 		padding: 24rpx;
 		background-color: #ffffff;
@@ -21,6 +21,7 @@
 		}
 		.name {
 			font-size: 28rpx;
+			font-weight: bold;
 		}
 		.desc {
 			margin-top: 20rpx;
@@ -30,24 +31,44 @@
 			margin: 0 24rpx;
 		}
 	}
-	.store-order-lists-item{
-		padding: 32rpx 24rpx;
+	
+	.discount{
+		padding: 24rpx;
+		margin: 20rpx 0 0;
 		background-color: #FFFFFF;
 		border-radius: 20rpx;
-		.top{
-			padding-bottom: 32rpx;
-			border-bottom: 1rpx solid #DFE0E6;
-			.title{
-				font-size: 30rpx;
+		&-row{
+			padding: 30rpx 0;
+			font-size: 28rpx;
+			.label{
 				font-weight: bold;
 			}
 		}
-		.content{
-			margin-right: 24rpx;
-			.avatar-image{
-				width: 240rpx;
-				height: 160rpx;
-				border-radius: 20rpx;
+		.flex-1{
+			text-align: right;
+			color: #999999;
+		}
+		.icon-arrow{
+			margin-left: 8rpx;
+			width: 32rpx;
+			height: 32rpx;
+		}
+		.radio {
+			margin-right: 16rpx;
+			width: 32rpx;
+			height: 32rpx;
+			background-color: #ffffff;
+			border-radius: 50%;
+			border: 1rpx solid #cccccc;
+			box-sizing: border-box;
+			&.on {
+				border: 10rpx solid #1aa8ff;
+			}
+		}
+		.agree{
+			font-size: 26rpx;
+			.service{
+				color: #1AA8FF;
 			}
 		}
 	}
@@ -55,16 +76,16 @@
 .order-confirm-bottom {
 	padding: 20rpx 30rpx;
 	font-size: 28rpx;
-	background-color: #FFFFFF;
-	.left{
+	background-color: #ffffff;
+	.left {
 		align-items: baseline;
 	}
-	.price{
+	.price {
 		margin-left: 16rpx;
 		font-size: 40rpx;
-		color: #EF5252;
+		color: #ef5252;
 	}
-	.btn{
+	.btn {
 		margin-right: 0;
 		margin-left: 24rpx;
 		min-width: 200rpx;

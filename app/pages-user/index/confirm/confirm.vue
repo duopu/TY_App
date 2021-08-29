@@ -2,6 +2,7 @@
 <template>
 	<view class="order-confirm">
 		<scroll-view class="order-confirm-content" scroll-y="true">
+			<!-- 收获地址 -->
 			<view class="flex-center address">
 				<image src="../../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
 				<view class="flex-column flex-1">
@@ -11,24 +12,7 @@
 				<image class="icons" src="../../../static/images/icons/icon-light-arrow.png" mode="aspectFill"></image>
 			</view>
 			<!-- 商家 -->
-			<view class="store-order-lists-item">
-				<view class="flex-center-between top">
-					<view class="name">xx商家</view>
-				</view>
-				<view class="cotent">
-					<image class="avatar-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
-					<view class="flex-column right">
-						<view class="title">5天英语全能挑战名称可能很长可能是两行</view>
-						<view class="tag-item">型号一</view>
-						<view class="flex-center-between">
-							<view class="price">
-								<text class="unit">¥</text> 500
-							</view>
-							<text class="number">1</text>
-						</view>
-					</view>
-				</view>
-			</view>
+			<merchanism-order-lists-item></merchanism-order-lists-item>
 			<!-- 折扣 -->
 			<view class="box discount">
 				<view class="discount-row flex-center-between">
@@ -37,30 +21,34 @@
 				</view>
 				<view class="discount-row flex-center-between">
 					<text class="label">平台优惠</text>
-					<text>无可用优惠券</text>
+					<text class="flex-1">无可用优惠券</text>
+					<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-light-arrow.png"></image>
 				</view>
 				<view class="discount-row flex-center-between">
 					<text class="label">商家优惠</text>
-					<text>¥500</text>
+					<text class="flex-1">无可用优惠券</text>
+					<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-light-arrow.png"></image>
 				</view>
 				<view class="discount-row flex-center-between">
 					<text class="label">金币抵扣</text>
-					<text>¥500</text>
+					<text class="flex-1">无可用金币</text>
+					<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-light-arrow.png"></image>
 				</view>
 				<view class="discount-row flex-center-between">
 					<text class="label">实际支付</text>
 					<text>¥500</text>
 				</view>
 				<view class="discount-row flex-center">
-					<view class="radio"></view>
-					<view>同意<navigator url="">《腾云课堂服务协议》</navigator></view>
+					<view class="radio on"></view>
+					<view class="flex-center agree">同意<navigator class="service" url="">《腾云课堂服务协议》</navigator></view>
 				</view>
 				<view class="discount-row flex-center">
 					<view class="radio"></view>
-					<view>同意<navigator url="">同意将您的联系方式告知服务商</navigator></view>
+					<view class="flex-center agree">同意将您的联系方式告知服务商</view>
 				</view>
 			</view>
 		</scroll-view>
+		<!-- 底部合计 -->
 		<view class="order-confirm-bottom flex-center-between">
 			<view class="flex left">
 				<text>合计:</text>
