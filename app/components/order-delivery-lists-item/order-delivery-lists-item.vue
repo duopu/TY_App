@@ -34,7 +34,10 @@ export default {
 	name: 'order-delivery-lists-item',
 	data() {
 		return {};
-	}
+	},
+	created(){
+		console.log(this.props);
+	},
 };
 </script>
 

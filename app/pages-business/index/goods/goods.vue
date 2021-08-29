@@ -6,14 +6,14 @@
 		<custom-horizontal-tabs @change="getTabsIndex" :data="tabsData" :currentIndex="tabsIndex"></custom-horizontal-tabs>
 		<!-- 列表 -->
 		<scroll-view scroll-y="true" class="goods-content">
-			<view class="goods-item" v-for="(item,index) in ['',' ','','','','']" :key="index">
+			<view class="goods-item" v-for="(item,index) in goodList" :key="item.goodsId">
 				<view class="item-top">
-					<image class="image-goods" src="../../../static/images/other/good_banner.png"></image>
-					<view class="name text-bold">5天英语全能挑战名称可能很长可能是两行可能是两行可能是两行</view>
+					<image class="image-goods" :src="item.thumbnail"></image>
+					<view class="name text-bold">{{ item.goodsName }}</view>
 					<view class="price flex-center">
-						<view class="flex-center"><text class="unit">￥</text>100</view>
+						<view class="flex-center"><text class="unit">￥</text>{{item.price}}</view>
 						<text class="line">~</text>
-						<view class="flex-center"><text class="unit">￥</text>100</view>
+						<view class="flex-center"><text class="unit">￥</text>{{item.price}}</view>
 					</view>
 				</view>
 				<!-- 销售数量 -->
@@ -21,7 +21,7 @@
 					<view class="sales-item flex-1">
 						<image class="icons" src="../../../static/images/icons/icon-ticket.svg" mode="aspectFill"></image>
 						<text class="color-9">总销量</text>
-						<text>（248）</text>
+						<text>（{{item.sales}}）</text>
 					</view>
 					<view class="sales-item flex-1">
 						<image class="icons" src="../../../static/images/icons/icon-ticket.svg" mode="aspectFill"></image>
@@ -36,15 +36,15 @@
 				</view>
 				<!-- button -->
 				<view class="item-bottom flex-center">
-					<button class="btn btn-block grey">
+					<button class="btn btn-block grey" v-if="type === 1">
 						<image src="../../../static/images/icons/icon-white-off.svg" mode="aspectFill" class="icons"></image>
 						<text>立即下架</text>
 					</button>
-					<button class="btn btn-block red">
+					<button class="btn btn-block red" v-if="type > 1" >
 						<image src="../../../static/images/icons/icon-white-clear.svg" mode="aspectFill" class="icons"></image>
 						<text>立即删除</text>
 					</button>
-					<button class="btn btn-block yellow">
+					<button class="btn btn-block yellow" v-else-if="type === 2" >
 						<image src="../../../static/images/icons/icon-white-edit.svg" mode="aspectFill" class="icons"></image>
 						<text>修改价格</text>
 					</button>
@@ -55,28 +55,40 @@
 </template>
 
 <script>
+let page = 1, size = 10;
+
 export default {
 	data() {
 		return {
 			tabsData:['上架中','未上架','回收站'],
 			tabsIndex:0,
 			goodList: [],
-			page: 1,
-			size: 10,
+			type: 1,
 		};
 	},
-	created(){
-
+	// onLoad() {
+	// 	this.queryGoodList();
+	// },
+	onLoad(options) {
+		console.log(options);
+		this.type = Number(options.type);
+		this.tabsIndex = Number(options.type) - 1;
+		this.queryGoodList({
+			status: options.type
+		});
 	},
 	methods:{
 		//获取当前 tabs Index
 		getTabsIndex(value){
 			this.tabsIndex = value;
+			this.queryGoodList({
+				status: value+1
+			});
 		},
 		// 获取商品列表
 		queryGoodList(params){
-			this.$http.post('/goods/queryPage',{page,size},true).then(res =>{
-				this.goodList = res.data;
+			this.$http.get('/goods/queryPageByStoreId',{page,size,...params},true).then(res =>{
+				this.goodList = page > 0 ? this.goodList.concat(res.content) : res.content;
 			})
 		}
 	}
