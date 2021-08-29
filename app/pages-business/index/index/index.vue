@@ -29,7 +29,7 @@
 			<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 		</view>
 		<view class="order-lists flex-center block-box">
-			<view class="order-lists-item" @click="onJump(item)" v-for="(item, index) in ordersStateData" :key="index">
+			<view class="order-lists-item" @click="onJump(index)" v-for="(item, index) in ordersStateData" :key="index">
 				<image class="item-image" :src="item.icon" mode="aspectFill" />
 				<view class="number-tips" v-if="item.number">{{ item.number }}</view>
 				<text>{{ item.label }}</text>
@@ -187,8 +187,10 @@ export default {
 				url:`/pages-business/index/notice/notice`
 			})
 		},
-		onJump(item){
-			console.log(item);
+		onJump(index){
+			uni.navigateTo({
+				url:`/pages-business/index/order/order`
+			})
 		},
 		queryOrderNumber(){
 			this.$http.get('/order/statistic',null,false).then(res => {
