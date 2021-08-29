@@ -163,7 +163,16 @@
 					}
 
 				}
-			]
+			    ,{
+                    "path" : "mine/order/order",
+                    "style" :                                                                                    
+                {
+                    "navigationStyle": "custom",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 		},
 		{
 			"root": "pages-business",
