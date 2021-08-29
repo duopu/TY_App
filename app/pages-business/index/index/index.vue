@@ -29,7 +29,7 @@
 			<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 		</view>
 		<view class="order-lists flex-center block-box">
-			<view class="order-lists-item" @click="onJump(item)" v-for="(item, index) in ordersStateData" :key="index">
+			<view class="order-lists-item" @click="onJump(index)" v-for="(item, index) in ordersStateData" :key="index">
 				<image class="item-image" :src="item.icon" mode="aspectFill" />
 				<view class="number-tips" v-if="item.number">{{ item.number }}</view>
 				<text>{{ item.label }}</text>
@@ -41,7 +41,7 @@
 			<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 		</view>
 		<view class="lists block-box">
-			<view class="flex-center-between lists-row" v-for="(item, index) in goodsStateData" @click="jumpGoodList" :key="index">
+			<view class="flex-center-between lists-row" v-for="(item, index) in goodsStateData" @click="jumpGoodList(item.type)" :key="index">
 				<text>{{ item.label }}</text>
 				<view class="flex-center">
 					<view class="number-tips">{{ item.number }}</view>
@@ -87,43 +87,48 @@ export default {
 			// 订单
 			ordersStateData: [
 				{
+					key: 'noPayCount',
 					icon: '../../../static/images/order/dfk.png',
-					number: 6,
+					number: 0,
 					label: '待付款'
 				},
 				{
+					key: 'noDeliveryCount',
 					icon: '../../../static/images/order/dfh.png',
-					number: 20,
+					number: 0,
 					label: '待发货'
 				},
 				{
+					key: 'afterSaleCount',
 					icon: '../../../static/images/order/dsh.png',
 					number: 0,
 					label: '待售后'
 				},
 				{
-					icon: '../../../static/images/order/wlyc.png',
-					number: 0,
-					label: '物流异常'
-				},
-				{
-					number: 0,
+					key: 'noEvaluateCount',
 					icon: '../../../static/images/order/dpj.png',
-					label: '待评价'
+					label: '待评价',
+					number: 0,
 				}
 			],
 			//商品
 			goodsStateData: [
 				{
 					label: '已上架',
+					type: 1,
+					key: 'pushCount',
 					number: 5
 				},
 				{
 					label: '未上架',
+					type: 0,
+					key: 'noPushCount',
 					number: 5
 				},
 				{
 					label: '回收站',
+					type: 3,
+					key: 'recycleCount',
 					number: 15
 				}
 			],
@@ -157,6 +162,10 @@ export default {
 
 		// 获取公告列表
 		this.queryNoticeList();
+		// 获取订单统计i信息
+		this.queryOrderNumber();
+		// 获取商品统计信息
+		this.queryGoodsNumber();
 	},
 	methods: {
 		changeState(value) {
@@ -168,10 +177,9 @@ export default {
 				this.noticeList = res.content || [];
 			})
 		},
-		jumpGoodList(){
-			console.log(123);
+		jumpGoodList(type){
 			uni.navigateTo({
-				url:`/pages-business/index/goods/goods`
+				url:`/pages-business/index/goods/goods?type=${type}`
 			})
 		},
 		jumpNotice(){
@@ -179,10 +187,31 @@ export default {
 				url:`/pages-business/index/notice/notice`
 			})
 		},
-		onJump(item){
-			console.log(item);
+		onJump(index){
+			uni.navigateTo({
+				url:`/pages-business/index/order/order`
+			})
+		},
+		queryOrderNumber(){
+			this.$http.get('/order/statistic',null,false).then(res => {
+				let ordersStateData = [...this.ordersStateData];
+				ordersStateData.map(item =>  {
+					item.number = res.data[item.key]
+				});
+				this.ordersStateData = ordersStateData;
+			})
+		},
+		// 获取商品列表统计信息
+		queryGoodsNumber(){
+			this.$http.get('/goods/statistic',null,false).then(res => {
+				if(!res) return;
+				let goodsStateData = [...this.goodsStateData];
+				goodsStateData.map(item =>  {
+					item.number = res.data[item.key]
+				});
+				this.goodsStateData = goodsStateData;
+			})
 		}
-		// 获取商品列表
 	}
 };
 </script>
