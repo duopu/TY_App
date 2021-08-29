@@ -127,32 +127,35 @@
 						"enablePullDownRefresh": false
 					}
 				},
-				 {
+				{
 					"path": "index/address/add-address",
 					"style": {
 						"navigationBarTitleText": "配送至",
 						"enablePullDownRefresh": false
 					}
+				}, {
+					"path": "index/ticket/ticket",
+					"style": {
+						"navigationBarTitleText": "优惠活动",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "mine/ticket/ticket",
+					"style": {
+						"navigationBarTitleText": "优惠券",
+						"enablePullDownRefresh": false
+					}
+				}, {
+					"path": "index/confirm/confirm",
+					"style": {
+						"navigationBarTitleText": "订单确认",
+						"enablePullDownRefresh": false
+					}
 				}
-			    ,{
-                    "path" : "index/ticket/ticket",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "优惠活动",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-                ,{
-                    "path" : "mine/ticket/ticket",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "优惠券",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+
+
+			]
 		},
 		{
 			"root": "pages-business",
@@ -227,7 +230,7 @@
 				}, {
 					"path": "index/order/order",
 					"style": {
-						"navigationBarTitleText": "",
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
 				}
