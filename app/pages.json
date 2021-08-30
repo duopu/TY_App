@@ -274,7 +274,7 @@
 			},
 			{
 				"iconPath": "static/images/tabbars/classify.png",
-				"selectedIconPath": "",
+				"selectedIconPath": "static/images/tabbars/classify-select.png",
 				"text": "分类",
 				"pagePath": "pages-user/classify/index/index"
 			},

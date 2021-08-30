@@ -1,7 +1,7 @@
 <!-- 退款服务 -->
 <template>
 	<scroll-view scroll-y="true" class="refund">
-		<merchanism-order-lists-item class="store" :state="2"></merchanism-order-lists-item>
+		<merchanism-order-lists-item class="store" :type="2"></merchanism-order-lists-item>
 		<!-- 退款原因 -->
 		<view class="box discount">
 			<view class="discount-row flex-center-between">

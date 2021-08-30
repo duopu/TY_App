@@ -2,6 +2,7 @@
 	padding: 32rpx 24rpx;
 	background-color: #ffffff;
 	border-radius: 20rpx;
+	// 头部
 	.top {
 		padding-bottom: 32rpx;
 		border-bottom: 1rpx solid #dfe0e6;
@@ -9,7 +10,12 @@
 			font-size: 30rpx;
 			font-weight: bold;
 		}
+		.desc{
+			font-size: 24rpx;
+			color: #666666;
+		}
 	}
+	// 内容
 	.content {
 		padding-top: 32rpx;
 		margin-right: 24rpx;
@@ -52,6 +58,38 @@
 		}
 		.number {
 			font-size: 24rpx;
+		}
+	}
+	// 底部
+	.bottom{
+		margin-top: 32rpx;
+		justify-content: flex-end;
+		flex-wrap: wrap;
+		border-top:1rpx solid #DFE0E6;
+		.btn{
+			margin: 20rpx 0 0 16rpx;
+			padding: 0 28rpx;
+			min-width: 160rpx;
+			height: 56rpx;
+			font-size: 26rpx;
+			line-height: 56rpx;
+			border-radius: 40rpx;
+			box-sizing: border-box;
+			background-color: transparent;
+			&.btn-border{
+				&.grey{
+					color: #666666;
+					border:1rpx solid #666666;
+				}
+				&.black{
+					color: #222222;
+					border:1rpx solid #222222;
+				}
+			}
+			&.btn-block{
+				color: #FFFFFF;
+				background: #FF705B;
+			}
 		}
 	}
 }
