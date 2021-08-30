@@ -8,13 +8,13 @@
 	overflow: hidden;
 }
 .my-top {
-	padding: 24rpx 28rpx;
+	padding: calc(var(--status-bar-height) + 24rpx) 28rpx 24rpx;
 	flex-shrink: 0;
 	.icons {
 		width: 44rpx;
 		height: 44rpx;
 	}
-	.m-left-20{
+	.m-left-20 {
 		margin-left: 20rpx;
 	}
 	.right {
@@ -151,7 +151,7 @@
 				width: 108rpx;
 				height: 108rpx;
 			}
-			.text{
+			.text {
 				margin-top: 38rpx;
 				font-size: 24rpx;
 			}
@@ -163,8 +163,8 @@
 			margin-top: 46rpx;
 			display: flex;
 			justify-content: space-between;
-			&:last-child{
-				.right{
+			&:last-child {
+				.right {
 					border-bottom: none;
 				}
 			}

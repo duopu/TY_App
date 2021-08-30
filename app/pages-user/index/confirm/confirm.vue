@@ -54,8 +54,10 @@
 				<text>合计:</text>
 				<text class="price">¥178.00</text>
 			</view>
-			<button class="btn">提交订单</button>
+			<button class="btn" @click="openPayment">提交订单</button>
 		</view>
+		<!-- 直选支付方式 -->
+		<common-payment-popup ref="paymentPopup"></common-payment-popup>
 	</view>
 </template>
 
@@ -64,7 +66,12 @@ export default {
 	data() {
 		return {};
 	},
-	methods: {}
+	methods: {
+		// 打开 支付方式弹窗
+		openPayment(){
+			this.$refs.paymentPopup.open();
+		}
+	}
 };
 </script>
 

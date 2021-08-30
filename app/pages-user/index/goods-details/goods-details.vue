@@ -136,11 +136,11 @@
 				<text>收藏</text>
 			</view>
 			<!-- 拼团或正常购买 -->
-			<block v-if="false">
+			<block v-if="true">
 				<button class="btn btn-light">加入购物车</button>
-				<button class="btn btn-block">立即购买</button>
+				<button class="btn btn-block" @click="jumpConfirm">立即购买</button>
 			</block>
-			<block v-if="true"><button @click="openPopup('groupPopup')" class="btn btn-block flex-1">参与拼团</button></block>
+			<block v-if="false"><button @click="openPopup('groupPopup')" class="btn btn-block flex-1">参与拼团</button></block>
 		</view>
 		<!-- 弹窗 属性分类 -->
 		<goods-classify-popup ref="classifyPopup" 
@@ -204,6 +204,12 @@ export default {
 		//打开弹窗；参数：弹窗的ref名
 		openPopup(value) {
 			this.$refs[value].open();
+		},
+		//立即购买
+		jumpConfirm(){
+			uni.navigateTo({
+				url:'../confirm/confirm'
+			})
 		},
 		
 		/**tab水平滚动回调

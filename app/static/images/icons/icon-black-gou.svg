@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>勾选备份 2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="活动-组团优惠-弹窗2" transform="translate(-315.000000, -408.000000)">
+            <g id="编组-4" transform="translate(24.000000, 278.000000)">
+                <g id="勾选备份-2" transform="translate(291.000000, 130.000000)">
+                    <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="20" height="20"></rect>
+                    <circle id="椭圆形" fill="#222222" cx="10" cy="10" r="8"></circle>
+                    <path d="M6.63603897,9.91421356 C6.44077682,9.71895142 6.44077682,9.40236893 6.63603897,9.20710678 C6.83130112,9.01184464 7.1478836,9.01184464 7.34314575,9.20710678 L9.1102056,10.9741666 L12.2928932,7.79289322 C12.4881554,7.59763107 12.8047379,7.59763107 13,7.79289322 C13.1952621,7.98815536 13.1952621,8.30473785 13,8.5 L9.46446609,12.0355339 C9.26920395,12.2307961 8.95262146,12.2307961 8.75735931,12.0355339 L6.63603897,9.91421356 Z" id="路径" fill="#FFFFFF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
