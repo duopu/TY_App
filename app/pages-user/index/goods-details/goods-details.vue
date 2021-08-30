@@ -15,14 +15,14 @@
 				</view>
 				<view class="flex-center-between m-top-20">
 					<view class="flex-center">
-						<view class="price">
+						<view class="price" v-if="priceArry.length>0">
 							<text class="unit">¥</text>
-							500
+							{{priceArry[0]}}
 						</view>
-						<text class="line">-</text>
-						<view class="price">
+						<text v-if="priceArry.length > 1" class="line">-</text>
+						<view v-if="priceArry.length > 1" class="price">
 							<text class="unit">¥</text>
-							500
+							{{priceArry[1]}}
 						</view>
 					</view>
 					<!-- 分销申请审核中 -->
@@ -65,7 +65,7 @@
 					<text class="label color-9">保障</text>
 					<view class="flex-1 flex-center-between">
 						<view class="ensure-lists">
-							<view class="item blue">企业认证</view>
+							<view v-if="goodsInfo.type === 2" class="item blue">企业认证</view>
 							<view class="item yellow">平台认证</view>
 							<view class="item red">保证金</view>
 						</view>
@@ -76,28 +76,49 @@
 				<view class="flex">
 					<text class="label color-9">参数</text>
 					<view class="params-lists flex-1">
-						<view class="item">课时</view>
-						<view class="item">课程方式</view>
-						<view class="item">题库数量</view>
-						<view class="item">有效时长</view>
+						<view class="item" v-if="goodsInfo.courseVO && goodsInfo.courseVO.classNum > 0">课时</view>
+						<view class="item" v-if="goodsInfo.courseVO && goodsInfo.courseVO.classNum > 0">课程方式</view>
+						<view class="item" v-if="goodsInfo.questionBankVO && goodsInfo.questionBankVO.questionCount > 0">题库数量</view>
 					</view>
 					<image @click="openPopup('parameterPopup')" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 				</view>
 			</view>
 			<!-- 横向菜单 -->
 			<custom-horizontal-tabs @change="getTabsIndex" :currentIndex="tabsIndex" :data="tabsData"></custom-horizontal-tabs>
-			<!--  tab 介绍 -->
-			<tabs-brief v-if="tabsIndex === 0"></tabs-brief>
-			<!-- tab 商品 -->
-			<tabs-goods v-if="tabsIndex === 1"></tabs-goods>
-			<!-- tab 目录 -->
-			<tabs-catalogue v-if="tabsIndex === 2"></tabs-catalogue>
-			<!-- tab 题库 -->
-			<tabs-bank v-if="tabsIndex === 3"></tabs-bank>
-			<!-- tab 考试 -->
-			<tabs-exam v-if="tabsIndex === 4"></tabs-exam>
-			<!-- tab 推荐-->
-			<tabs-recommend v-if="tabsIndex === 5"></tabs-recommend>
+			<swiper :current="tabsIndex" 
+			@change="menuSwiperChange"
+			:style="{ height: swiperHeight + 'px' }">
+				
+				<swiper-item v-for="(item,index) in tabsData" 
+				:key="`swiper-item-${index}`">
+					<!--  tab 介绍 -->
+					<tabs-brief v-if="item == '介绍'" 
+					:id="`content-wrap-${index}`" 
+					:goodsInfo="goodsInfo"></tabs-brief>
+					
+					<!--  tab 商品 -->
+					<tabs-goods v-if="item == '商品'"  
+					:id="`content-wrap-${index}`" 
+					:entityGoodsVO="goodsInfo.entityGoodsVO"
+					:entityCommentVOList="entityCommentVOList"></tabs-goods>
+					
+					<!--  tab 目录 -->
+					<tabs-catalogue v-if="item == '目录'" 
+					:id="`content-wrap-${index}`" @folderToogle="setSwiperHeight()"></tabs-catalogue>
+					
+					<!--  tab 题库 -->
+					<tabs-bank v-if="item == '题库'" 
+					:id="`content-wrap-${index}`"></tabs-bank>
+					
+					<!--  tab 考试 -->
+					<tabs-exam v-if="item == '考试'" 
+					:id="`content-wrap-${index}`"></tabs-exam>
+					
+					<!--  tab 推荐 -->
+					<tabs-recommend v-if="item == '推荐'" 
+					:id="`content-wrap-${index}`"></tabs-recommend>
+			    </swiper-item>
+			</swiper>
 		</scroll-view>
 		<!-- 底部 -->
 		<view class="goods-bottom flex-center-between">
@@ -110,7 +131,8 @@
 				<text>客服</text>
 			</view>
 			<view class="flex-column">
-				<image class="icons" src="" mode="aspectFill"></image>
+				<image class="icons" v-if="goodsInfo.userCollection === 2" src="../../../static/images/icons/icon-star-selected.svg" mode="aspectFill" @click="collectClick(false)"></image>
+				<image class="icons" v-else src="../../../static/images/icons/icon-star.svg" @click="collectClick(true)"></image>
 				<text>收藏</text>
 			</view>
 			<!-- 拼团或正常购买 -->
@@ -122,13 +144,13 @@
 		</view>
 		<!-- 弹窗 属性分类 -->
 		<goods-classify-popup ref="classifyPopup" 
-		:attributes="goodsInfo.goodsAttributesVOList" 
-		:thumbnail="goodsInfo.thumbnail" 
+		:goodsInfo="goodsInfo" 
 		@submit="goodsAttributesSubmit"></goods-classify-popup>
 		<!-- 弹窗 保障 -->
 		<goods-ensure-popup ref="ensurePopup"></goods-ensure-popup>
 		<!-- 弹窗 参数 -->
-		<goods-parameter-popup ref="parameterPopup"></goods-parameter-popup>
+		<goods-parameter-popup ref="parameterPopup" 
+		:goodsInfo="goodsInfo"></goods-parameter-popup>
 		<!-- 弹窗 分销 -->
 		<goods-distribute-popup ref="distributePopup"></goods-distribute-popup>
 		<!-- 弹窗 参与拼团 -->
@@ -154,18 +176,25 @@ export default {
 	},
 	data() {
 		return {
-			tabsData: ['介绍', '商品', '目录', '题库', '考试', '推荐'],
-			tabsIndex: 2,
-			goodsId:undefined,
-			goodsInfo:{
+			tabsData: ["介绍"], //tab数据
+			tabsIndex: 0, //当前选中的tab下标
+			goodsId:undefined, //商品ID
+			goodsInfo:{ //商品详情
 				img:[], //banner图
-				goodsAttributesVOList:[] //商品属性
-			}
+				goodsAttributesVOList:[], //商品属性
+				entityGoodsVO:{} //实体商品
+			},
+			swiperHeight: 0,//tab内容的高度
+			priceArry:[], //显示价格区间
+			entityCommentVOList:[] //商品评论
 		};
 	},
 	onLoad(option) {
 		this.goodsId = option.goodsId;
+		this.getGoodsResource();
 		this.getGoodsInfo();
+		this.getComment();
+		
 	},
 	methods: {
 		// 获取当前 tab index
@@ -177,6 +206,55 @@ export default {
 			this.$refs[value].open();
 		},
 		
+		/**tab水平滚动回调
+		 * @param {Object} e
+		 */
+		menuSwiperChange(e){
+			this.tabsIndex = e.detail.current;
+			//动态设置swiper的高度
+			this.setSwiperHeight();
+		},
+		
+		//动态设置swiper的高度
+		setSwiperHeight() {
+			console.log("动态设置Swiper高度 === ");
+			this.$nextTick(() => {
+				let element = "#content-wrap-" + this.tabsIndex;
+				let query = uni.createSelectorQuery().in(this);
+				query.select(element).boundingClientRect();
+				query.exec((res) => {
+					if (res && res[0]) {
+						this.swiperHeight = res[0].height;
+					}
+				});
+			});
+		},    
+		
+		/**
+		 * 查询商品包含资源（实体商品，课程，题库，考试）情况
+		 */
+		getGoodsResource(){
+			this.$http
+				.get('/goods/checkResource', {goodsId:this.goodsId}, true)
+				.then(res => {
+					this.tabsData = ["介绍"];
+					if(res.entityGoodsCheck === 2){
+						this.tabsData.push("商品");
+					}
+					if(res.courseCheck === 2){
+						this.tabsData.push("目录");
+					}
+					if(res.questionCheck === 2){
+						this.tabsData.push("题库");
+					}
+					if(res.examCheck === 2){
+						this.tabsData.push("考试");
+					}
+					this.tabsData.push("推荐");
+				});
+		},
+		
+		
 		/**
 		 * 获取商品详情
 		 */	
@@ -185,7 +263,46 @@ export default {
 				.get('/goods/queryInfoByLogin', {goodsId:this.goodsId}, true)
 				.then(res => {
 					this.goodsInfo = res;
+					if(res.minPrice && res.maxPrice && res.minPrice!== res.maxPrice ){
+						this.priceArry = [res.minPrice, res.maxPrice];
+					}else {
+						this.priceArry = [res.price]
+					}
+					//动态设置swiper的高度
+					this.setSwiperHeight();
+					
 				});
+		},
+		
+		/**
+		 * 获取商品评论信息
+		 */
+		getComment(){
+			this.$http
+				.get('/goods/queryCommentPage', {goodsId:this.goodsId}, true)
+				.then(res => {
+					//this.goodsInfo = res;
+					this.entityCommentVOList = res.entityCommentVOList || [];
+				});
+		},
+		
+		/** 商品收藏
+		 * @param {Object} isCollect  true 收藏/ false 取消收藏
+		 */
+		collectClick(isCollect){
+			if(isCollect) {
+				this.$http
+					.post('/goods/collect', {goodsId:this.goodsId}, true)
+					.then(res => {
+						this.goodsInfo.userCollection = 2;
+					});
+			}else {
+				this.$http
+					.delete('/goods/collection/delete', {idList:[this.goodsId]}, true)
+					.then(res => {
+						this.goodsInfo.userCollection = 1;
+					});
+			}
 		},
 		
 		/**
@@ -193,6 +310,7 @@ export default {
 		 */
 		goodsAttributesSubmit({goodsAttributes,count}){
 			console.log("商品属性 == ",goodsAttributes);
+			console.log("商品数量 == ",count);
 		}
 	}
 };
