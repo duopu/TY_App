@@ -35,6 +35,7 @@ import keypress from './keypress.js'
  * @property {String}  backgroundColor 					主窗口背景色
  * @property {Boolean} safeArea									是否适配底部安全区
  * @event {Function} change 打开关闭弹窗触发，e={show: false}
+ * @event {Function} maskClick 点击遮罩触发
  */
 
 export default {
@@ -125,7 +126,7 @@ export default {
 				top: 0,
 				left: 0,
 				right: 0,
-				backgroundColor: 'rgba(0, 0, 0, 0.5)'
+				backgroundColor: 'rgba(0, 0, 0, 0.4)'
 			},
 			transClass: {
 				position: 'fixed',
