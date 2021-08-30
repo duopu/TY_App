@@ -11,9 +11,11 @@
 					<image class="image-goods" :src="item.thumbnail"></image>
 					<view class="name text-bold">{{ item.goodsName }}</view>
 					<view class="price flex-center">
-						<view class="flex-center"><text class="unit">￥</text>{{item.price}}</view>
-						<text class="line">~</text>
-						<view class="flex-center"><text class="unit">￥</text>{{item.price}}</view>
+						<view class="flex-center"><text class="unit">￥</text>{{ !item.entityGoodsVO ? item.price : item.minPrice}}</view>
+						<block v-if="item.entityGoodsVO">
+							<text class="line">~</text>
+							<view class="flex-center"><text class="unit">￥</text>{{item.maxPrice}}</view>
+						</block>
 					</view>
 				</view>
 				<!-- 销售数量 -->
@@ -26,28 +28,30 @@
 					<view class="sales-item flex-1">
 						<image class="icons" src="../../../static/images/icons/icon-ticket.svg" mode="aspectFill"></image>
 						<text class="color-9">月销量</text>
-						<text>（248）</text>
+						<text>（{{item.salesMonth}}）</text>
 					</view>
 					<view class="sales-item flex-1">
 						<image class="icons" src="../../../static/images/icons/icon-grey-message.svg" mode="aspectFill"></image>
 						<text class="color-9">评论</text>
-						<text>（248）</text>
+						<text>（{{item.commentCount}}）</text>
 					</view>
 				</view>
 				<!-- button -->
 				<view class="item-bottom flex-center">
-					<button class="btn btn-block grey" v-if="type === 1">
+					<button class="btn btn-block grey" v-if="tabsIndex < 2" @click="actionGoodItem(item)">
 						<image src="../../../static/images/icons/icon-white-off.svg" mode="aspectFill" class="icons"></image>
-						<text>立即下架</text>
+						<text>立即{{tabsIndex === 1 ? '上' : '下'}}架</text>
 					</button>
-					<button class="btn btn-block red" v-if="type > 1" >
-						<image src="../../../static/images/icons/icon-white-clear.svg" mode="aspectFill" class="icons"></image>
-						<text>立即删除</text>
-					</button>
-					<button class="btn btn-block yellow" v-else-if="type === 2" >
-						<image src="../../../static/images/icons/icon-white-edit.svg" mode="aspectFill" class="icons"></image>
-						<text>修改价格</text>
-					</button>
+					<block v-if="tabsIndex == 1">
+						<button class="btn btn-block red"  @click="actionGoodItem(item,3)">
+							<image src="../../../static/images/icons/icon-white-clear.svg" mode="aspectFill" class="icons"></image>
+							<text>立即删除</text>
+						</button>
+						<button class="btn btn-block yellow" >
+							<image src="../../../static/images/icons/icon-white-edit.svg" mode="aspectFill" class="icons"></image>
+							<text>修改价格</text>
+						</button>
+					</block>
 				</view>
 			</view>
 		</scroll-view>
@@ -64,6 +68,8 @@ export default {
 			tabsIndex:0,
 			goodList: [],
 			type: 1,
+			priceText: '',
+			apis: ['/goods/downPush','/goods/push','/goods/delete']
 		};
 	},
 	// onLoad() {
@@ -71,6 +77,7 @@ export default {
 	// },
 	onLoad(options) {
 		console.log(options);
+		console.error('==============')
 		this.type = Number(options.type);
 		this.tabsIndex = Number(options.type) - 1;
 		this.queryGoodList({
@@ -81,17 +88,27 @@ export default {
 		//获取当前 tabs Index
 		getTabsIndex(value){
 			this.tabsIndex = value;
+			this.type = value + 1;
 			this.queryGoodList({
-				status: value+1
+				status: this.type
 			});
 		},
 		// 获取商品列表
 		queryGoodList(params){
 			this.$http.get('/goods/queryPageByStoreId',{page,size,...params},true).then(res =>{
-				this.goodList = page > 0 ? this.goodList.concat(res.content) : res.content;
+				this.goodList = page > 1 ? this.goodList.concat(res.content) : res.content;
+			})
+		},
+		actionGoodItem(dataItem,type){
+			// 对应ais下标 0 下架 1 新增 2 删除
+			let url = this.apis[type == 3 ? 2 : this.tabsIndex];
+			this.$http.post(url,{goodsId: dataItem.goodsId},true).then(res =>{
+				this.queryGoodList({
+					status: this.type
+				});
 			})
 		}
-	}
+	},
 };
 </script>
 

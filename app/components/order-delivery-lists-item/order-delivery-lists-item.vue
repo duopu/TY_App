@@ -43,7 +43,8 @@ export default {
 	},
 	created(){
 		console.log(this.orderItemData);
-		this.orderGoodData = (this.orderItemData.orderItemList || []).length > 0 ? this.orderItemData.orderItemList[0] : {}
+		// this.orderGoodData = (this.orderItemData.orderItemList || []).length > 0 ? this.orderItemData.orderItemList[0] : {}
+		// this.orderGoodData = this.orderItemData.orderItemList
 		// console.error(this.props.orderItemData);
 	},
 };

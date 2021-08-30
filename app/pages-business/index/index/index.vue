@@ -121,7 +121,7 @@ export default {
 				},
 				{
 					label: '未上架',
-					type: 0,
+					type: 2,
 					key: 'noPushCount',
 					number: 5
 				},
