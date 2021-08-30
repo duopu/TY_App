@@ -1,13 +1,14 @@
 <!-- 商品 -->
 <template>
 	<view class="tabs-goods">
+		
 		<!-- 标题 -->
 		<view class="flex-center-between comment-title">
-			<view class="title">全部评论（20）</view>
+			<view class="title">{{`全部评论（${commentList.length}）`}}</view>
 			<view class="flex-center flex-1 color-yellow">
 				<text class="color-yellow">商品评分</text>
-				<rate class="rate"></rate>
-				<text>1.35</text>
+				<rate class="rate" :number="score || 0"></rate>
+				<text>{{score}}</text>
 			</view>
 			<view class="flex-center">
 				更多
@@ -15,18 +16,42 @@
 			</view>
 		</view>
 		<!-- 评论列表 -->
-		<block v-for="(item,index) in ['','','','']" :key="index">
-			<comment-lists-item></comment-lists-item>
+		<block v-for="(item,index) in commentList.length > 3 ? commentList.slice(0,4) : commentList" 
+		:key="`comment-${index}`">
+			<comment-lists-item :data="item"></comment-lists-item>
 		</block>
-		<image class="goods-image" src="../../../static/images/other/banner.jpg" mode="widthFix"></image>
+		<rich-text :nodes="content"></rich-text>
 	</view>
 </template>
 
 <script>
 export default {
 	name: 'tabsGoods',
+	props: {
+		entityGoodsVO:{ //商品信息
+			type:Object,
+			required:true
+		},
+		entityCommentVOList:{ //商品评论
+			type:Array,
+			required:true
+		}
+	},
 	data() {
-		return {};
+		return {
+			commentList:this.entityCommentVOList, //商品评论前3条
+			score:this.entityGoodsVO.score, //商品评分
+			content:this.entityGoodsVO.conent //商品内容
+		};
+	},
+	watch:{
+		entityGoodsVO(newV, oldV){
+			this.score = newV.score;
+			this.content = newV.content;
+		},
+		entityCommentVOList(newV, oldV){
+			this.commentList = newV;
+		}
 	}
 };
 </script>

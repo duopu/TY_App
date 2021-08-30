@@ -1,7 +1,7 @@
 <template>
 	<view class="checked-star-box">
-		<image class="icon-star" src="../../static/images/icons/icon-star.png" mode="aspectFill"></image>
 		<view class="color-star" v-bind:style="{background:background}"></view>
+		<image class="icon-star" src="../../static/images/icons/icon-star.png" mode="aspectFill"></image>
 	</view>
 </template>
 
@@ -42,7 +42,6 @@
 		
 		.color-star {
 			position: absolute;
-			z-index: -1;
 			width: 24rpx;
 			height: 24rpx;
 			background: linear-gradient(90deg, #ff9340 0%, #FFFFFF 0%);

@@ -13,7 +13,7 @@
 				<text class="time font-24">{{detail.createdTime}}</text>
 			</view>
 		</view>
-		<view class="content" v-html="detail.content"></view>
+		<rich-text class="content" :nodes="detail.content"></rich-text>
 		<view class="title text-bold">相关文章</view>
 		<consult-lists-item class="lists-item" 
 							v-for="(item,index) in aboutList" 

@@ -1,12 +1,18 @@
 <!-- 自定义：横向-菜单 -->
 <template>
 	<view class="custom-tabs">
-		<view v-for="(item, index) in data" :key="index" class="custom-tabs-item" :class="{ on: currentIndex === index }" @click="onChangeTab(index)">{{ item }}</view>
+		<view v-for="(item, index) in tabs" 
+		:key="`custom-tabs-${index}`" 
+		class="custom-tabs-item" 
+		:class="{ on: currentIndex === index }" 
+		@click="onChangeTab(index)">{{ item }}</view>
 	</view>
 </template>
 
 <script>
 export default {
+	name:"custom-horizontal-tabs",
+	emits:['change'],
 	props: {
 		data: {
 			type: Array,
@@ -18,7 +24,14 @@ export default {
 		}
 	},
 	data() {
-		return {};
+		return {
+			tabs:this.data
+		};
+	},
+	watch: {
+		data(newV, oldV){
+			this.tabs = newV;
+		}
 	},
 	methods: {
 		// 切换内容

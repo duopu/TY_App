@@ -1,19 +1,19 @@
 <!-- 店铺列表项 -->
 <template>
 	<view class="group-lists-item">
-		<image class="item-image" :src="data.avatar" mode="aspectFill"></image>
+		<image class="item-image" :src="storeInfo.avatar" mode="aspectFill"></image>
 		<view class="item-right flex-column-between">
 			<view class="flex-column">
 				<view class="flex-center">
-					<view class="name text-ellipsis text-bold">{{ data.storeName }}</view>
-					<image v-if="type === 1" src="../../static/images/index/company-tag.png" class="company-tag-image" mode="aspectFill"></image>
+					<view class="name text-ellipsis text-bold">{{ storeInfo.storeName }}</view>
+					<image v-if="storeInfo.type === 2" src="../../static/images/index/company-tag.png" class="company-tag-image" mode="aspectFill"></image>
 				</view>
-				<view class="desc">{{ data.storeDesc }}</view>
+				<view class="desc">{{ storeInfo.storeDesc }}</view>
 			</view>
 			<view class="flex-center">
 				<view class="color-yellow">{{ type === 1 ? '综合评分' : '店铺推荐指数' }}</view>
-				<rate class="rate" :number="data.score" :max="5"></rate>
-				<view v-if="type === 1" class="color-yellow score">1.23</view>
+				<rate class="rate" :number="storeInfo.score || 0" :max="5"></rate>
+				<view v-if="type === 1" class="color-yellow score">{{storeInfo.score}}</view>
 			</view>
 		</view>
 	</view>
@@ -30,18 +30,23 @@ export default {
 		data: {
 			type: Object,
 			default: {
-				storeName: '',
-				storeDesc: '',
-				avatar: '../../static/images/other/girl.png',
-				score: 0
+				storeName: '', //店铺名
+				storeDesc: '', //店铺描述
+				avatar: '', //店铺头像
+				score: 0, //店铺评分
+				type: 1  //店铺类型
 			}
 		}
 	},
 	data() {
 		return {
-			iconStar: '../../static/images/icons/icon-star.svg',
-			iconStarSelect: '../../static/images/icons/icon-star-selected.svg'
+			storeInfo:this.data
 		};
+	},
+	watch:{
+		data(newV, oldV){
+			this.storeInfo = newV;
+		}
 	}
 };
 </script>
