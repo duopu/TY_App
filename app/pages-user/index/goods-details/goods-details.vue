@@ -2,12 +2,16 @@
 	<view class="goods">
 		<scroll-view scroll-y="true" class="goods-content">
 			<!-- banner -->
-			<view class="banner"><image class="banner-image" src="../../../static/images/other/good_banner.png" mode="aspectFill"></image></view>
+			<swiper class="banner" :indicator-dots="true" :autoplay="true" :interval="3000" :circular="true">
+			    <swiper-item v-for="(item,index) in goodsInfo.img" :key="`banner-${index}`">
+			        <image class="banner-image" :src="item" mode="aspectFill"></image>
+			    </swiper-item>                                      
+			</swiper>
 			<!-- 具体信息 -->
 			<view class="box">
 				<view class="flex-center-between">
-					<view class="name text-bold">2021教师资格证-全程VIP班</view>
-					<view class="text color-9">1500人学习</view>
+					<view class="name text-bold">{{goodsInfo.goodsName}}</view>
+					<view class="text color-9">{{goodsInfo.sales}}人学习</view>
 				</view>
 				<view class="flex-center-between m-top-20">
 					<view class="flex-center">
@@ -40,10 +44,8 @@
 							<image @click="openPopup('classifyPopup')" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
 						<view class="checkbox-lists">
-							<view class="item">型号一</view>
-							<view class="item">型号二</view>
-							<view class="item">型号二</view>
-							<view class="item">共5种型号可选</view>
+							<view v-for="(item,index) in goodsInfo.goodsAttributesVOList" :key="`goodsAttribute-${index}`" class="item">{{item.attributesName}}</view>
+							<view class="item">共{{goodsInfo.goodsAttributesVOList.length}}种型号可选</view>
 						</view>
 					</view>
 				</view>
@@ -52,7 +54,7 @@
 					<text class="label color-9">发货</text>
 					<view class="flex-1">
 						<view class="flex-center-between">
-							<text>广东广州 快递:免快递费</text>
+							<text>{{goodsInfo.city}}{{goodsInfo.area}} 快递:免快递费</text>
 							<image class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
 						<view class="color-9 m-top-20">配送至：江苏省南京市江宁区雨花街道</view>
@@ -119,7 +121,10 @@
 			<block v-if="true"><button @click="openPopup('groupPopup')" class="btn btn-block flex-1">参与拼团</button></block>
 		</view>
 		<!-- 弹窗 属性分类 -->
-		<goods-classify-popup ref="classifyPopup"></goods-classify-popup>
+		<goods-classify-popup ref="classifyPopup" 
+		:attributes="goodsInfo.goodsAttributesVOList" 
+		:thumbnail="goodsInfo.thumbnail" 
+		@submit="goodsAttributesSubmit"></goods-classify-popup>
 		<!-- 弹窗 保障 -->
 		<goods-ensure-popup ref="ensurePopup"></goods-ensure-popup>
 		<!-- 弹窗 参数 -->
@@ -150,8 +155,17 @@ export default {
 	data() {
 		return {
 			tabsData: ['介绍', '商品', '目录', '题库', '考试', '推荐'],
-			tabsIndex: 2
+			tabsIndex: 2,
+			goodsId:undefined,
+			goodsInfo:{
+				img:[], //banner图
+				goodsAttributesVOList:[] //商品属性
+			}
 		};
+	},
+	onLoad(option) {
+		this.goodsId = option.goodsId;
+		this.getGoodsInfo();
 	},
 	methods: {
 		// 获取当前 tab index
@@ -161,6 +175,24 @@ export default {
 		//打开弹窗；参数：弹窗的ref名
 		openPopup(value) {
 			this.$refs[value].open();
+		},
+		
+		/**
+		 * 获取商品详情
+		 */	
+		getGoodsInfo(){
+			this.$http
+				.get('/goods/queryInfoByLogin', {goodsId:this.goodsId}, true)
+				.then(res => {
+					this.goodsInfo = res;
+				});
+		},
+		
+		/**
+		 * 商品属性提交回调
+		 */
+		goodsAttributesSubmit({goodsAttributes,count}){
+			console.log("商品属性 == ",goodsAttributes);
 		}
 	}
 };

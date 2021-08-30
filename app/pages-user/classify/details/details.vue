@@ -123,7 +123,7 @@ export default {
 		 */
 		goodsItemClick(item) {
 			uni.navigateTo({
-				url: `/pages-user/index/product-details/product-details?goodsId=${item.goodsId}`
+				url: `/pages-user/index/goods-details/goods-details?goodsId=${item.goodsId}`
 			});
 		}
 	}
