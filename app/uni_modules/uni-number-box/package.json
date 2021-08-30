@@ -1,13 +1,12 @@
 {
-  "id": "uni-load-more",
-  "displayName": "uni-load-more 加载更多",
-  "version": "1.2.1",
-  "description": "LoadMore 组件，常用在列表里面，做滚动加载使用。",
+  "id": "uni-number-box",
+  "displayName": "uni-number-box 数字输入框",
+  "version": "1.1.1",
+  "description": "NumberBox 带加减按钮的数字输入框组件，用户可以控制每次点击增加的数值，支持小数。",
   "keywords": [
     "uni-ui",
     "uniui",
-    "加载更多",
-    "load-more"
+    "数字输入框"
 ],
   "repository": "https://github.com/dcloudio/uni-ui",
   "engines": {
@@ -75,10 +74,6 @@
         "快应用": {
           "华为": "u",
           "联盟": "u"
-        },
-        "Vue": {
-            "vue2": "y",
-            "vue3": "u"
         }
       }
     }
