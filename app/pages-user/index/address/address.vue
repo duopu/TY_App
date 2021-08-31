@@ -3,25 +3,95 @@
 	<view class="address">
 		<!-- 列表 -->
 		<scroll-view scroll-y="auto" class="address-lists address-content">
-			<!-- 当前配送地址 -->
-			<view class="title">当前配送地址</view>
-			<!-- 地址 -->
-			<address-lists-item></address-lists-item>
-			<!-- 我的其他收货地址 -->
-			<view class="title">我的其他收货地址</view>
-			<!-- 地址 -->
-			<block v-for="(item, index) in ['', '', '', '']" :key="index"><address-lists-item></address-lists-item></block>
+			<block v-if="defaultAddress && defaultAddress.id">
+				<!-- 当前配送地址 -->
+				<view class="title">当前配送地址</view>
+				<!-- 地址 -->
+				<address-lists-item :data="defaultAddress" 
+				@deleteAddress="deleteAddress(defaultAddress.id)" 
+				@setDefault="setDefaultAddress(defaultAddress)"></address-lists-item>
+			</block>
+			
+			<block v-if="otherAddressList.length > 0">
+				<!-- 我的其他收货地址 -->
+				<view class="title">我的其他收货地址</view>
+				<!-- 地址 -->
+				<block v-for="(item, index) in otherAddressList" :key="`other-address-${index}`">
+					<address-lists-item :data="item"></address-lists-item>
+				</block>
+			</block>
+			
 			<view class="slot-item"></view>
 		</scroll-view>
 		<!-- 底部 -->
-		<view class="address-bottom"><button class="btn btn-block">添加收获地址</button></view>
+		<view class="address-bottom"><button class="btn btn-block" @click="addAddress()">添加收获地址</button></view>
 	</view>
 </template>
 
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			defaultAddress:undefined, //当前收货地址
+			otherAddressList:[] //其他收货地址
+		};
+	},
+	onLoad() {
+		this.getAddresList();
+	},
+	methods:{
+		
+		// 查询用户收货地址
+		getAddresList(){
+			this.$http
+				.get('/address/queryList', {}, true)
+				.then(res => {
+					if(res){
+						let addressList = [];
+						for(var i=0; i<res.length; i++){
+							if(res[i].isDefault === 1){
+								this.defaultAddress = res[i];
+							}else {
+								addressList.push(res[i]);
+							}
+						}
+						this.otherAddressList = addressList;
+					}
+				});
+		},
+		
+		/**
+		 * 删除用户地址
+		 * @param {Object} id 地址ID
+		 */
+		deleteAddress(id){
+			this.$http
+				.post('/address/delete', {id:id}, true)
+				.then(res => {
+					this.getAddresList();
+				});
+		},
+		
+		/**
+		 * 设置当前地址为默认地址
+		 * @param {Object} address
+		 */
+		setDefaultAddress(address){
+			address.isDefault = 1;
+			this.$http
+				.post('/address/save', address, true)
+				.then(res => {
+					this.getAddresList();
+				});
+		},
+		
+		
+		addAddress(){
+			uni.navigateTo({
+				url: `/pages-user/index/address/add-address`
+			});
+		}
+		
 	}
 };
 </script>

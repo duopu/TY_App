@@ -17,7 +17,7 @@
 				success: res => {
 					const user = res.data;
 					if (user.token) {
-						this.$tool.login(user)
+						this.$tool.login(user);
 					} else {
 						// 本地无用户信息，去登录页
 						uni.reLaunch({
@@ -32,9 +32,7 @@
 					});
 				}
 			});
-			
-			// 从本地读取搜索历史信息
-			this.$store.dispatch('initHistroySearchAction')
+
 		
 		// 定时刷新token
 			this.$http.refreshToken();

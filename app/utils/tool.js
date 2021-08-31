@@ -1,4 +1,5 @@
 import config from "./config.js"
+import store from '@/store/index.js';
 
 const showToastMessage = (title,icon,callback)=>{
 	const duration = 1500;
@@ -37,9 +38,15 @@ const saveUserStorage = (user)=>{
 const login = (user)=>{
 	// 保存用户信息
 	saveUserStorage(user)
-	getApp().globalData.user = user;
+	//getApp().globalData.user = user;
 	
 	if(user.roleStatus == 'user'){
+		
+		// 从本地读取用户搜索历史信息
+		store.dispatch('initHistroySearchAction');
+		// 查询用户的默认配送地址
+		store.dispatch('queryUserDefaultAddress');
+		
 		// 跳转用户首页页面 
 		uni.reLaunch({
 			url: '/pages-user/index/index/index'

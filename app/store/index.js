@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import config from '../utils/config.js';
+import request from '../utils/request.js'
 
 Vue.use(Vuex);//vue的插件机制
 
@@ -8,7 +9,8 @@ Vue.use(Vuex);//vue的插件机制
 const store = new Vuex.Store({
     state:{
 		historySearchList:[], //搜索历史
-		goodsDetailsHeightChange:false //商品详情页高度变化
+		goodsDetailsHeightChange:false, //商品详情页高度变化
+		defaultAddress:undefined //用户默认收货地址
     },
 	
 	mutations:{
@@ -69,6 +71,15 @@ const store = new Vuex.Store({
 		 */
 		changeGoodsDetailsHeight(state){
 			state.goodsDetailsHeightChange = !state.goodsDetailsHeightChange
+		},
+		
+		/**
+		 * 设置用户默认收货地址
+		 * @param {Object} state
+		 * @param {Object} address
+		 */
+		setDefaultAddress(state,address){
+			state.defaultAddress = address;
 		}
 	},
 	
@@ -84,6 +95,24 @@ const store = new Vuex.Store({
 					commit('initHistroySearch',res.data);
 				}
 			});
+		},
+		
+		/**
+		 * 查询用户默认地址
+		 */
+		queryUserDefaultAddress({commit}){
+			request
+				.get('/address/queryList', {}, true)
+				.then(res => {
+					if(res){
+						for(var i=0; i<res.length; i++){
+							if(res[i].isDefault === 1){
+								commit('setDefaultAddress',res[i]);
+								break;
+							}
+						}
+					}
+				});
 		}
 	}
 	

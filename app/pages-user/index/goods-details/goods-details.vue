@@ -49,15 +49,15 @@
 						</view>
 					</view>
 				</view>
-				<!-- 发货 -->
-				<view class="flex row">
+				<!-- 发货（只有实体商品才显示） -->
+				<view v-if="entityGoodsCheck === 2" class="flex row">
 					<text class="label color-9">发货</text>
 					<view class="flex-1">
 						<view class="flex-center-between">
 							<text>{{goodsInfo.city}}{{goodsInfo.area}} 快递:免快递费</text>
-							<image class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+							<image @click="goAddress()" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
-						<view class="color-9 m-top-20">配送至：江苏省南京市江宁区雨花街道</view>
+						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">配送至：{{defaultAddress.provinceName}}{{defaultAddress.cityName}}{{defaultAddress.areaName}}{{defaultAddress.street}}</view>
 					</view>
 				</view>
 				<!-- 保障 -->
@@ -179,6 +179,7 @@ import TabsBank from './tabs-bank.vue';
 import TabsExam from './tabs-exam.vue';
 import TabsCatalogue from './tabs-catalogue.vue';
 import TabsRecommend from './tabs-recommend.vue';
+import { mapState } from 'vuex'//引入mapState
 export default {
 	components: {
 		TabsBrief,
@@ -203,7 +204,8 @@ export default {
 				questionBankVO:{}, //题库
 				examVO:{} //考试
 			},
-			swiperHeight: 0,//tab内容的高度
+			entityGoodsCheck:1, //是否包含实体商品资源
+			swiperHeight: 0, //tab内容的高度
 			goodsBottomHeight:0, //购物车工具条高度
 			tabsTop:0, //TAB选项卡距离顶部的高度
 			tabsHeight:0, //TAB选项卡高度
@@ -215,6 +217,7 @@ export default {
 			courseCommentVOList:[] //课程评论
 		};
 	},
+	computed: mapState(['defaultAddress']),
 	watch:{
 		"$store.state.goodsDetailsHeightChange":{
 			handler:function(newVal,oldVal){
@@ -320,6 +323,7 @@ export default {
 				.get('/goods/checkResource', {goodsId:this.goodsId}, true)
 				.then(res => {
 					this.tabsData = ["介绍"];
+					this.entityGoodsCheck = res.entityGoodsCheck;
 					if(res.entityGoodsCheck === 2){
 						this.tabsData.push("商品");
 					}
@@ -394,6 +398,13 @@ export default {
 		goodsAttributesSubmit({goodsAttributes,count}){
 			console.log("商品属性 == ",goodsAttributes);
 			console.log("商品数量 == ",count);
+		},
+		
+		// 打开配送地址页面
+		goAddress(){
+			uni.navigateTo({
+				url: `/pages-user/index/address/address`
+			});
 		}
 	}
 };

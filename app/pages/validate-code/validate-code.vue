@@ -71,26 +71,8 @@
 				}
 				
 				this.$http.post('/user/login', param, true).then(res => {
-					res = {...res,roleStatus:this.roleStatus}
-					// 本地保存
-					uni.setStorage({
-						key: config.storageKeys.loginUserKey,
-						data: res
-					});
-					
-					getApp().globalData.user = res;
-					
-					if(this.roleStatus == 'user'){
-						// 跳转首页页面 
-						uni.reLaunch({
-							url: '/pages-user/index/index/index'
-						});
-					}else{
-						// 跳转首页页面
-						uni.reLaunch({
-							url: '/pages-business/main/main'
-						});
-					}
+					res = {...res,roleStatus:this.roleStatus};
+					this.$tool.login(res);
 				})
 			}
 		}
