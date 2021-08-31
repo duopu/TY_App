@@ -1,87 +1,134 @@
+// banner
 .banner-image {
-	margin: 0 20rpx 40rpx;
+	width: 100%;
 }
-.activity-lists-item {
-	padding:30rpx 20rpx;
-	align-items: flex-start;
-	& + .activity-lists-item{
-		border-top:1rpx solid #DFE0E6;
-	}
-	.avatar-image {
-		margin-right: 16rpx;
-		width: 240rpx;
-		height: 160rpx;
-		border-radius: 20rpx;
-	}
-	.right {
+// tabs
+.tabs-block {
+	margin-top: 40rpx;
+	margin: 40rpx 20rpx 0;
+	font-size: 28rpx;
+	font-weight: bold;
+	height: 80rpx;
+	line-height: 80rpx;
+	text-align: center;
+	background-color: rgba(#ffb55b, 0.1);
+	border-radius: 10rpx;
+	.item {
 		flex: 1;
-		.name {
-			margin-bottom: 10rpx;
-			font-size: 28rpx;
-		}
-		.text,
-		.time {
-			font-size: 24rpx;
-			color: #999999;
-		}
-		.price {
-			color: #ff6f5b;
-		}
-	}
-
-	.process-wrapper {
-		margin-bottom: 12rpx;
-		padding-top: 50rpx;
-		position: relative;
-		.process-discount {
-			position: absolute;
-			top: 0;
-			padding: 4rpx 10rpx;
-			background-color: #fff1f1;
-			border-radius: 10rpx;
-			&::after {
-				position: absolute;
-				left: 50%;
-				bottom: -20rpx;
-				margin-left: -10rpx;
-				content: '';
-				border-width: 10rpx;
-				border-style: solid;
-				border-color: #fff1f1 transparent transparent;
-			}
-		}
-		.process {
-			margin-right: 22rpx;
-			flex: 1;
-			height: 24rpx;
-			width: 100%;
-			background-color: #fff1f1;
-			border-radius: 18rpx;
-			&-bar {
-				padding-right: 5rpx;
-				width: 40%;
-				height: 24rpx;
-				font-size: 20rpx;
-				color: #ffffff;
-				text-align: right;
-				line-height: 24rpx;
-				background: linear-gradient(180deg, #ff6f5b 0%, #ffb8ae 100%);
-				border-radius: 18rpx;
-				box-sizing: border-box;
-			}
-		}
-	}
-	.item-bottom {
-		margin-top: 16rpx;
-		.btn-block {
-			margin: 0;
-			padding: 0 28rpx;
-			height: 56rpx;
-			line-height: 56rpx;
-			font-size: 26rpx;
+		&.first {
 			color: #ffffff;
-			background-color: #222222;
-			border-radius: 32rpx;
+			background-image: url(../../../static/images/active/active_tab_bg.png);
+			background-repeat: no-repeat;
+			background-size: 100%;
+			width: auto;
+		}
+		&.second {
+			color: #ffffff;
+			background-image: url(../../../static/images/active/active_tab_bg_2.png);
+			background-repeat: no-repeat;
+			background-size: 100%;
+			width: auto;
+		}
+		&.three {
+			color: #ffffff;
+			background-image: url(../../../static/images/active/active_tab_bg_3.png);
+			background-repeat: no-repeat;
+			background-size: 100%;
+			width: auto;
+		}
+	}
+}
+
+//坚持不懈
+.insist-lists-item {
+	display: flex;
+	position: relative;
+	margin: 20rpx;
+	padding: 32rpx 24rpx;
+	font-weight: bold;
+	background-color: #ffeaea;
+	border-radius: 20rpx;
+	.flex-column {
+		flex: 1;
+		justify-content: space-between;
+	}
+	.name {
+		font-size: 28rpx;
+	}
+	.price {
+		margin-top: 40rpx;
+		color: #ff6e6e;
+	}
+	.btn {
+		align-self: center;
+		margin: 0;
+		padding: 0 28rpx;
+		height: 56rpx;
+		font-size: 26rpx;
+		line-height: 56rpx;
+		color: #ffffff;
+		background-color: #222222;
+		border-radius: 32rpx;
+		&.disable {
+			background-color: #cccccc;
+		}
+	}
+}
+// 分销大使
+.sales-list {
+	margin: 20rpx;
+	.btn {
+		margin: 0;
+		padding: 0 28rpx;
+		height: 56rpx;
+		font-size: 26rpx;
+		line-height: 56rpx;
+		color: #ffffff;
+		background-color: #222222;
+		border-radius: 32rpx;
+	}
+	.no-lists {
+		margin-top: 80rpx;
+		font-size: 28rpx;
+		.color-blue{
+			color: #8868F3;
+		}
+	}
+	&.platform {
+		border-top: 12rpx solid #E0EAFF;
+		background: linear-gradient(180deg, #F2F6FF 0%, #FFFFFF 100%);
+		border-radius: 10rpx;
+		.row {
+			margin-top: 32rpx;
+		}
+		.item {
+			padding: 0 16rpx;
+			.text {
+				font-size: 28rpx;
+				font-weight: bold;
+			}
+		}
+	}
+	&.marchant {
+		margin-top: 40rpx;
+		border-top: 12rpx solid #FFE2E2;
+		background: linear-gradient(180deg, #FFF4F4 0%, #FFFFFF 100%);
+		border-radius: 10rpx;
+		.marchant-item {
+			margin-bottom: 20rpx;
+			padding-top: 20rpx;
+			& + .marchant-item {
+				border-top: 1rpx solid #dfe0e6;
+			}
+			.avatar-image {
+				margin-right: 16rpx;
+				width: 72rpx;
+				height: 72rpx;
+				border-radius: 50%;
+			}
+			.discount {
+				color: #ff6e6e;
+			}
 		}
 	}
 }

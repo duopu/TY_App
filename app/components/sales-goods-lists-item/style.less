@@ -1,0 +1,67 @@
+.sales-goods-lists-item {
+	margin-bottom: 30rpx;
+	padding-top: 30rpx;
+	& + .sales-goods-lists-item {
+		border-top: 1rpx solid #dfe0e6;
+	}
+	.item-top {
+		display: flex;
+		align-items: stretch;
+	}
+	.goods-image {
+		margin-right: 24rpx;
+		width: 240rpx;
+		height: 160rpx;
+		border-radius: 20rpx;
+	}
+	.right {
+		flex: 1;
+		.name {
+			font-size: 28rpx;
+			font-weight: bold;
+		}
+		.price {
+			font-size: 34rpx;
+			font-weight: bold;
+			color: #ff705b;
+		}
+		.unit {
+			margin-left: 6rpx;
+			font-size: 24rpx;
+		}
+		.process-item {
+			flex: 1;
+			font-size: 24rpx;
+			color: #666666;
+			.number {
+				margin-right: 8rpx;
+				color: #ff705b;
+			}
+		}
+	}
+	.btn {
+		margin: 20rpx 0 0 24rpx;
+		padding: 0 28rpx;
+		min-width: 160rpx;
+		height: 56rpx;
+		font-size: 26rpx;
+		line-height: 56rpx;
+		border-radius: 40rpx;
+		box-sizing: border-box;
+		background-color: transparent;
+		&.btn-border {
+			&.grey {
+				color: #666666;
+				border: 1rpx solid #666666;
+			}
+			&.black {
+				color: #222222;
+				border: 1rpx solid #222222;
+			}
+		}
+		&.btn-block {
+			color: #ffffff;
+			background: #222222;
+		}
+	}
+}
