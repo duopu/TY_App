@@ -121,6 +121,12 @@
 					}
 
 				}, {
+					"path": "index/goods-comment/goods-comment",
+					"style": {
+						"navigationBarTitleText": "评论",
+						"enablePullDownRefresh": false
+					}
+				}, {
 					"path": "index/address/address",
 					"style": {
 						"navigationBarTitleText": "配送至",

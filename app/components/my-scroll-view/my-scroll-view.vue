@@ -1,6 +1,6 @@
 <template>
 	<scroll-view scroll-y="true"
-	:refresher-enabled="true" 
+	:refresher-enabled="refreshEnable" 
 	:refresher-triggered="triggered" 
 	:refresher-threshold="45"
 	@refresherrefresh="onRefresh"
@@ -43,7 +43,11 @@ export default {
 			type: Number,
 			default: 20
 		},
-		pageEnable: { //是否分页
+		refreshEnable:{ //是否需要下拉刷新
+			type: Boolean,
+			default: true
+		},
+		pageEnable: { //是否需要分页
 			type: Boolean,
 			default: true
 		}
@@ -77,7 +81,6 @@ export default {
 			}
 			
 			this.$emit('loadData',this.page,(res)=>{
-				console.log("res ==== ",res);
 				if(res){
 					if(that.page == 1){
 						that.triggered = false;

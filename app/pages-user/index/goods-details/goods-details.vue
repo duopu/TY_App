@@ -1,6 +1,6 @@
 <template>
 	<view class="goods">
-		<scroll-view scroll-y="true" class="goods-content">
+		<scroll-view scroll-y="true" class="goods-content" @scroll="scrollHandle">
 			<!-- banner -->
 			<swiper class="banner" :indicator-dots="true" :autoplay="true" :interval="3000" :circular="true">
 			    <swiper-item v-for="(item,index) in goodsInfo.img" :key="`banner-${index}`">
@@ -84,7 +84,12 @@
 				</view>
 			</view>
 			<!-- 横向菜单 -->
-			<custom-horizontal-tabs @change="getTabsIndex" :currentIndex="tabsIndex" :data="tabsData"></custom-horizontal-tabs>
+			<custom-horizontal-tabs id="custom-tabs"
+			@change="getTabsIndex" 
+			:currentIndex="tabsIndex" 
+			:data="tabsData" 
+			:class="{fixed:tabsFixed}"></custom-horizontal-tabs>
+			<!-- Tabs内容 可左右滚动 -->
 			<swiper :current="tabsIndex" 
 			@change="menuSwiperChange"
 			:style="{ height: swiperHeight + 'px' }">
@@ -104,24 +109,32 @@
 					
 					<!--  tab 目录 -->
 					<tabs-catalogue v-if="item == '目录'" 
-					:id="`content-wrap-${index}`" @folderToogle="setSwiperHeight()"></tabs-catalogue>
+					:id="`content-wrap-${index}`" 
+					:courseVO="goodsInfo.courseVO"
+					:courseCommentVOList="courseCommentVOList"></tabs-catalogue>
 					
 					<!--  tab 题库 -->
 					<tabs-bank v-if="item == '题库'" 
-					:id="`content-wrap-${index}`"></tabs-bank>
+					:id="`content-wrap-${index}`" 
+					:questionBankVO="goodsInfo.questionBankVO"
+					:questionCommentVOList="questionCommentVOList"></tabs-bank>
 					
 					<!--  tab 考试 -->
 					<tabs-exam v-if="item == '考试'" 
-					:id="`content-wrap-${index}`"></tabs-exam>
+					:id="`content-wrap-${index}`" 
+					:examVO="goodsInfo.examVO" 
+					:examCommentVOList="examCommentVOList"></tabs-exam>
 					
 					<!--  tab 推荐 -->
 					<tabs-recommend v-if="item == '推荐'" 
-					:id="`content-wrap-${index}`"></tabs-recommend>
+					:id="`content-wrap-${index}`" 
+					:goodsBottomHeight="goodsBottomHeight" 
+					:tabsHeight="tabsHeight"></tabs-recommend>
 			    </swiper-item>
 			</swiper>
 		</scroll-view>
 		<!-- 底部 -->
-		<view class="goods-bottom flex-center-between">
+		<view class="goods-bottom flex-center-between" id="goods-bottom">
 			<view class="flex-column">
 				<image class="icons" src="" mode="aspectFill"></image>
 				<text>店铺</text>
@@ -147,7 +160,8 @@
 		:goodsInfo="goodsInfo" 
 		@submit="goodsAttributesSubmit"></goods-classify-popup>
 		<!-- 弹窗 保障 -->
-		<goods-ensure-popup ref="ensurePopup"></goods-ensure-popup>
+		<goods-ensure-popup ref="ensurePopup" 
+		:goodsInfo="goodsInfo" ></goods-ensure-popup>
 		<!-- 弹窗 参数 -->
 		<goods-parameter-popup ref="parameterPopup" 
 		:goodsInfo="goodsInfo"></goods-parameter-popup>
@@ -182,19 +196,40 @@ export default {
 			goodsInfo:{ //商品详情
 				img:[], //banner图
 				goodsAttributesVOList:[], //商品属性
-				entityGoodsVO:{} //实体商品
+				entityGoodsVO:{}, //实体商品
+				courseVO:{ //课程
+					courseClassVOList:[]
+				}, 
+				questionBankVO:{}, //题库
+				examVO:{} //考试
 			},
 			swiperHeight: 0,//tab内容的高度
+			goodsBottomHeight:0, //购物车工具条高度
+			tabsTop:0, //TAB选项卡距离顶部的高度
+			tabsHeight:0, //TAB选项卡高度
+			tabsFixed:false, //TAB选项卡是否固定在顶部
 			priceArry:[], //显示价格区间
-			entityCommentVOList:[] //商品评论
+			entityCommentVOList:[], //商品评论
+			examCommentVOList:[], //考试评论
+			questionCommentVOList:[], //题库评论
+			courseCommentVOList:[] //课程评论
 		};
+	},
+	watch:{
+		"$store.state.goodsDetailsHeightChange":{
+			handler:function(newVal,oldVal){
+			    //动态设置swiper的高度
+			    this.setSwiperHeight();
+			}
+		}
 	},
 	onLoad(option) {
 		this.goodsId = option.goodsId;
+		this.getTabsTopAndHeight();
+		this.getGoodsBottomHeight();
 		this.getGoodsResource();
 		this.getGoodsInfo();
 		this.getComment();
-		
 	},
 	methods: {
 		// 获取当前 tab index
@@ -204,6 +239,48 @@ export default {
 		//打开弹窗；参数：弹窗的ref名
 		openPopup(value) {
 			this.$refs[value].open();
+		},
+		// 获取Tab选项卡距离顶部的高度及自身高度
+		getTabsTopAndHeight(){
+			this.$nextTick(() => {
+				let query = uni.createSelectorQuery().in(this);
+				query.select("#custom-tabs").boundingClientRect();
+				query.exec((res) => {
+					if (res && res[0]) {
+						this.tabsTop = res[0].top;
+						this.tabsHeight = res[0].height;
+					}
+				});
+			});
+		},
+		// 获取底部购物车工具类高度
+		getGoodsBottomHeight(){
+			this.$nextTick(() => {
+				let query = uni.createSelectorQuery().in(this);
+				query.select("#goods-bottom").boundingClientRect();
+				query.exec((res) => {
+					if (res && res[0]) {
+						this.goodsBottomHeight = res[0].height;
+					}
+				});
+			});
+		},
+		/**
+		 * 滚动回调
+		 * @param {Object} e
+		 */
+		scrollHandle(e){
+			
+			// 这里要实现页面上滑到tab时，tab进行固定的效果
+			if(e.detail.scrollTop >= this.tabsTop && !this.tabsFixed){
+				this.tabsFixed = true;
+				return
+			}
+			
+			if(e.detail.scrollTop < this.tabsTop && this.tabsFixed){
+				this.tabsFixed = false;
+				return
+			}
 		},
 		//立即购买
 		jumpConfirm(){
@@ -223,7 +300,6 @@ export default {
 		
 		//动态设置swiper的高度
 		setSwiperHeight() {
-			console.log("动态设置Swiper高度 === ");
 			this.$nextTick(() => {
 				let element = "#content-wrap-" + this.tabsIndex;
 				let query = uni.createSelectorQuery().in(this);
@@ -276,7 +352,6 @@ export default {
 					}
 					//动态设置swiper的高度
 					this.setSwiperHeight();
-					
 				});
 		},
 		
@@ -287,8 +362,10 @@ export default {
 			this.$http
 				.get('/goods/queryCommentPage', {goodsId:this.goodsId}, true)
 				.then(res => {
-					//this.goodsInfo = res;
-					this.entityCommentVOList = res.entityCommentVOList || [];
+					this.entityCommentVOList = res.entityCommentVOList;
+					this.courseCommentVOList = res.courseCommentVOList;
+					this.examCommentVOList = res.examCommentVOList;
+					this.questionCommentVOList = res.questionCommentVOList;
 				});
 		},
 		

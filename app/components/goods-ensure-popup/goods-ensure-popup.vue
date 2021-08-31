@@ -4,22 +4,21 @@
 		<view class="popup-main">
 			<view class="popup-content">
 				<view class="title flex-center">保障</view>
-				<view class="flex text-end row-item">
+				<view v-if="detail.type === 2" class="flex text-end row-item">
 					<text class="label">企业认证：</text>
-					<image class="auth-image" src="../../static/images/other/girl.png" mode="aspectFill"></image>
-					<image class="auth-image" src="../../static/images/other/girl.png" mode="aspectFill"></image>
+					<image class="auth-image" :src="detail.businessLicense" mode="aspectFill" @click="previewImg()"></image>
 				</view>
 				<view class="flex-center row-item">
 					<text class="label">平台认证：</text>
-					<text class="text">14857492389</text>
+					<text class="text">{{detail.platformAuthenticationContent}}</text>
 				</view>
 				<view class="flex-center row-item">
 					<text class="label">保证金：</text>
-					<text class="text">500929948832003</text>
+					<text class="text">{{detail.bondContent}}</text>
 				</view>
 			</view>
 			<!-- 底部 -->
-			<view class="popup-bottom"><button class="btn btn-block">确定</button></view>
+			<view class="popup-bottom"><button class="btn btn-block" @click="close()">确定</button></view>
 		</view>
 	</uni-popup>
 </template>
@@ -27,8 +26,36 @@
 <script>
 export default {
 	name: 'goods-ensure-popup',
+	props:{
+		goodsInfo:{
+			type:Object,
+			default:{
+				businessLicense:"", //营业执照
+				bondContent:"", //保证金
+				platformAuthenticationContent:"", //平台认证
+				type:1 //店铺类型
+			}
+		}
+	},
 	data() {
-		return {};
+		return {
+			detail:{
+				businessLicense:this.goodsInfo.businessLicense,
+				bondContent:this.goodsInfo.bondContent,
+				platformAuthenticationContent:this.goodsInfo.platformAuthenticationContent,
+				type:this.goodsInfo.type
+			}
+		};
+	},
+	watch:{
+		goodsInfo(newV, oldV){
+			this.detail = {
+				businessLicense:newV.businessLicense,
+				bondContent:newV.bondContent,
+				platformAuthenticationContent:newV.platformAuthenticationContent,
+				type:newV.type
+			}
+		}
 	},
 	methods: {
 		// 打开弹窗
@@ -38,6 +65,12 @@ export default {
 		// 关闭弹窗
 		close() {
 			this.$refs.popup.close();
+		},
+		// 预览图片
+		previewImg(){
+			uni.previewImage({
+			    urls: [this.detail.businessLicense]   
+			});
 		}
 	}
 };
