@@ -25,7 +25,7 @@ export default {
 				score: this.goodsInfo.compositeScore,
 				type: this.goodsInfo.type
 			},
-			content:this.goodsInfo.content //产品内
+			content:this.goodsInfo.content || "" //产品内
 		};
 	},
 	watch:{
@@ -37,7 +37,7 @@ export default {
 				score: newV.compositeScore,
 				type: newV.type
 			};
-			this.content = newV.content;
+			this.content = newV.content || "";
 		}
 	}
 };

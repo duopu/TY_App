@@ -10,9 +10,11 @@
 			<view class="time">{{ detail.createdTime }}</view>
 		</view>
 		<view class="message">{{ detail.evaluation }}</view>
-		<!-- 新增评论图片 -->
-		<view class="flex-center image-lists">
-			<block v-for="(item,index) in ['','','']" :key="index"><image class="image" src="../../static/images/other/demo.png" mode="aspectFill"></image></block>
+		
+		<view v-if="detail.evaluateImg && detail.evaluateImg.length > 0" class="flex-center image-lists">
+			<block v-for="(item,index) in detail.evaluateImg" :key="`comment-img-${index}`">
+				<image class="image" :src="item" mode="aspectFill" @click="previewImg(index)"></image>
+			</block>
 		</view>
 	</view>
 </template>
@@ -22,19 +24,19 @@ export default {
 	name: 'comment-lists-item',
 	props: {
 		data: {
-			type: Object
-			//required:true
+			type: Object,
+			required:true
 		}
 	},
 	data() {
 		return {
 			detail: {
-				avatar: '', //this.data.avatar,
-				evaluateImg: [], //this.data.evaluateImg,
-				evaluation: '', //this.data.evaluation,
-				score: 0, //this.data.score,
-				userName: '', //this.data.userName,
-				createdTime: '' //this.data.createdTime
+				avatar: this.data.avatar,
+				evaluateImg: this.data.evaluateImg,
+				evaluation: this.data.evaluation,
+				score: this.data.score,
+				userName: this.data.userName,
+				createdTime: this.data.createdTime
 			}
 		};
 	},
@@ -48,6 +50,19 @@ export default {
 				userName: newV.userName,
 				createdTime: newV.createdTime
 			};
+		}
+	},
+	methods:{
+		
+		/**
+		 * 预览图片
+		 * @param {Object} index 图片下标
+		 */
+		previewImg(index){
+			uni.previewImage({
+			    urls: this.detail.evaluateImg,
+			    current:index
+			});       
 		}
 	}
 };

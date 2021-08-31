@@ -7,7 +7,8 @@ Vue.use(Vuex);//vue的插件机制
 //Vuex.Store 构造器选项
 const store = new Vuex.Store({
     state:{
-		historySearchList:[] //搜索历史
+		historySearchList:[], //搜索历史
+		goodsDetailsHeightChange:false //商品详情页高度变化
     },
 	
 	mutations:{
@@ -60,6 +61,14 @@ const store = new Vuex.Store({
 			uni.removeStorage({
 			    key: config.storageKeys.historySearchKey
 			});
+		},
+		
+		/**
+		 * 商品详情页高度变化
+		 * @param {Object} state
+		 */
+		changeGoodsDetailsHeight(state){
+			state.goodsDetailsHeightChange = !state.goodsDetailsHeightChange
 		}
 	},
 	

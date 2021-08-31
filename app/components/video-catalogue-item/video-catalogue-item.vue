@@ -10,7 +10,7 @@
 			</view>
 		</view>
 		<view class="sub" v-show="open" v-if="isFolder">
-			<video-catalogue-item v-for="(item,i) in model.nodes || []" :data="item" :index="`${index}.${i+1}`"></video-catalogue-item>
+			<video-catalogue-item v-for="(item,i) in model.nodes" :data="item" :index="`${index}.${i+1}`"></video-catalogue-item>
 		</view>
 	</view>
 </template>
@@ -18,7 +18,6 @@
 <script>
 export default {
 	name: 'video-catalogue-item',
-	emits:["courseToogle"],
 	props: {
 		index: {
 			type:String,
@@ -78,11 +77,10 @@ export default {
 		 * 目录点击
 		 */
 		toggle(){
-			console.log("------------");
 			if (this.isFolder) {
 				this.open = !this.open;
+				this.$store.commit("changeGoodsDetailsHeight");
 			}
-			this.$emit("courseToogle");
 		},
 		
 		/**
