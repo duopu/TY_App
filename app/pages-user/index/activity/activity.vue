@@ -9,7 +9,7 @@
 			<view class="item" :class="{ second: tabsIndex === 1 }" @click="changeTabsIndex(1)">坚持不懈</view>
 			<view class="item" :class="{ three: tabsIndex === 2 }" @click="changeTabsIndex(2)">分销大使</view>
 		</view>
-		<!-- 列表 -->
+		<!-- tab content 列表 -->
 		<block v-if="tabsIndex === 0"><active-group-lists-item class="activity-lists-item" v-for="(item, index) in ['', '', '']" :key="index"></active-group-lists-item></block>
 		<!-- 坚持不懈 -->
 		<block v-if="tabsIndex === 1">
@@ -18,13 +18,13 @@
 					<text>活动名称xxxx有奖竞争大赛</text>
 					<text class="price">奖品：一台ipad2020</text>
 				</view>
-				<button class="btn" v-if="index === 0" @click="openPopup('salesActivityPopup')">报名活动</button>
+				<button class="btn" v-if="index === 0" @click="openPopup('salesActivityPopup',1)">报名活动</button>
 				<button class="btn disable" v-if="index !== 0">已报名</button>
 			</view>
 		</block>
-		<!-- 分销大使 -->
+		<!-- tab content 分销大使 -->
 		<block v-if="tabsIndex === 2"><tabs-sales></tabs-sales></block>
-		<!-- 分销活动详情 弹窗 -->
+		<!-- tab content 分销活动详情 弹窗 -->
 		<sales-activity-popup ref="salesActivityPopup"></sales-activity-popup>
 	</scroll-view>
 </template>

@@ -175,6 +175,27 @@
 						"enablePullDownRefresh": false
 					}
 
+				}, {
+					"path": "index/activity/activity",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "mine/online-service/online-service",
+					"style": {
+						"navigationBarTitleText": "在线客服",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "mine/setting/setting",
+					"style": {
+						"navigationBarTitleText": "系统设置",
+						"enablePullDownRefresh": false
+					}
+
 				}
 			]
 		},
@@ -261,17 +282,22 @@
 						"enablePullDownRefresh": false
 					}
 
+				}, {
+					"path": "my/ticket/ticket",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "my/ticket/add",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
 				}
-			    ,{
-                    "path" : "my/ticket/ticket",
-                    "style" :                                                                                    
-                {
-                    "navigationStyle": "custom",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			]
 		}
 	],
 	"tabBar": {

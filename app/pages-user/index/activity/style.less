@@ -48,6 +48,18 @@
 	font-weight: bold;
 	background-color: #ffeaea;
 	border-radius: 20rpx;
+	&::after{
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		width: 160rpx;
+		height: 100rpx;
+		background-image: url(../../../static/images/gift.png);
+		background-repeat: no-repeat;
+		background-size: 100%;
+		z-index: 1;
+	}
 	.flex-column {
 		flex: 1;
 		justify-content: space-between;
@@ -76,7 +88,21 @@
 }
 // 分销大使
 .sales-list {
-	margin: 20rpx;
+	position: relative;
+	margin: 40rpx 20rpx;
+	padding: 10rpx 16rpx 20rpx;
+	&::before{
+		content: '';
+		position:absolute;
+		left: 50%;
+		top: -28rpx;
+		margin-left: -108rpx;
+		width:216rpx;
+		height: 58rpx;
+		
+		background-repeat: no-repeat;
+		background-size: 100%;
+	}
 	.btn {
 		margin: 0;
 		padding: 0 28rpx;
@@ -95,14 +121,17 @@
 		}
 	}
 	&.platform {
+		
 		border-top: 12rpx solid #E0EAFF;
 		background: linear-gradient(180deg, #F2F6FF 0%, #FFFFFF 100%);
 		border-radius: 10rpx;
+		&::before{
+			background-image: url(../../../static/images/tab-platform.png);
+		}
 		.row {
 			margin-top: 32rpx;
 		}
 		.item {
-			padding: 0 16rpx;
 			.text {
 				font-size: 28rpx;
 				font-weight: bold;
@@ -110,10 +139,12 @@
 		}
 	}
 	&.marchant {
-		margin-top: 40rpx;
 		border-top: 12rpx solid #FFE2E2;
 		background: linear-gradient(180deg, #FFF4F4 0%, #FFFFFF 100%);
 		border-radius: 10rpx;
+		&::before{
+			background-image: url(../../../static/images/tab-marchant.png);
+		}
 		.marchant-item {
 			margin-bottom: 20rpx;
 			padding-top: 20rpx;

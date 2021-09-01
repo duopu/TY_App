@@ -34,7 +34,7 @@
 		<view class="item-bottom flex-center-end">
 			<button class="btn btn-border grey">取消分销</button>
 			<button class="btn btn-border black">重新申请</button>
-			<button class=" btn btn-block">查看详情</button>
+			<button class=" btn btn-block" @click="openDetailsPopup">查看详情</button>
 		</view>
 	</view>
 </template>
@@ -44,6 +44,12 @@ export default {
 	name: 'sales-goods-lists-item',
 	data() {
 		return {};
+	},
+	methods:{
+		// 查看详情
+		openDetailsPopup(){
+			this.$emit('open');
+		}
 	}
 };
 </script>

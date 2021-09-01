@@ -1,4 +1,6 @@
-.ticket {
+// 优惠券列表
+.ticket,
+.add-ticket {
 	padding-top: var(--status-bar-heights);
 	display: flex;
 	flex-direction: column;
@@ -11,12 +13,12 @@
 	background-color: #ffffff;
 	::v-deep .custom-tabs {
 		margin-bottom: 0;
-		&-item{
+		&-item {
 			font-size: 24rpx;
-			color: #D1D1D1;
-			&.on{
+			color: #d1d1d1;
+			&.on {
 				color: #ffb55b;
-				&::after{
+				&::after {
 					width: 72rpx;
 					margin-left: -36rpx;
 				}
@@ -101,7 +103,7 @@
 				color: #e9323e;
 				background-color: rgba(#e9323e, 0.16);
 			}
-			&.yellow{
+			&.yellow {
 				color: #ffb55b;
 				background: rgba(255, 181, 91, 0.16);
 			}
@@ -125,7 +127,7 @@
 	overflow: hidden;
 	.record-row {
 		padding: 24rpx 20rpx;
-		background-color: rgba(0, 0, 0, 0.12);;
+		background-color: rgba(0, 0, 0, 0.12);
 		.icon-arrow {
 			width: 32rpx;
 			height: 32rpx;
@@ -142,6 +144,104 @@
 		&.red {
 			color: #e9323e;
 			background: rgba(#e9323e, 0.16);
+		}
+	}
+}
+
+// 添加优惠券
+.add-ticket {
+	&-top {
+		padding: 26rpx 40rpx 26rpx;
+		font-size: 24rpx;
+		background-color: #ffffff;
+		.title {
+			flex: 1;
+			font-size: 32rpx;
+			text-align: center;
+		}
+		.color-9 {
+			color: #999999;
+		}
+	}
+	&-content {
+		flex: 1;
+		font-size: 24rpx;
+		overflow: hidden;
+		.box {
+			margin: 20rpx;
+			background-color: #ffffff;
+			box-shadow: 0rpx 6rpx 12rpx rgba(0, 0, 0, 0.16);
+			border-radius: 8rpx;
+		}
+		.m-top-8 {
+			margin-top: 8rpx;
+		}
+		.middle {
+			margin: auto 12rpx;
+		}
+		.row {
+			padding: 24rpx 20rpx;
+			& + .row {
+				border-top: 4rpx solid #f4f5f9;
+			}
+		}
+		.label {
+			font-size: 28rpx;
+			font-weight: bold;
+			&.stick-width {
+				flex-shrink: 0;
+				width: 160rpx;
+			}
+		}
+		.border {
+			margin-left: 8rpx;
+			flex: 1;
+			border: 2rpx solid #d1d1d1;
+			border-radius: 4rpx;
+			&:not(.input) {
+				height: 58rpx;
+				line-height: 58rpx;
+			}
+			&.money {
+				margin-right: 8rpx;
+				flex: initial;
+				width: 100rpx;
+			}
+			&.input {
+				padding: 12rpx 24rpx;
+				font-size: 24rpx;
+			}
+		}
+		.icon-down{
+			width: 32rpx;
+			height: 32rpx;
+		}
+	}
+	.radio {
+		& + .radio {
+			margin-left: 48rpx;
+		}
+		.radio-circle {
+			margin-right: 16rpx;
+			width: 32rpx;
+			height: 32rpx;
+			border: 2rpx solid #d1d1d1;
+			border-radius: 50%;
+			transition: all 0.1s ease;
+			&.on {
+				position: relative;
+				border-color: #ffb55b;
+				&::before {
+					content: '';
+					position: absolute;
+					left: 6rpx;
+					right: 6rpx;
+					top: 6rpx;
+					bottom: 6rpx;
+					background-color: #ffb55b;
+					border-radius: 50%;
+				}
+			}
 		}
 	}
 }
