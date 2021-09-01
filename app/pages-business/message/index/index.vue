@@ -18,10 +18,18 @@ export default {
 			showAccount: false //false-默认消息界面 true-其他账号信息界面
 		};
 	},
+	onLoad(){
+
+	},
 	methods: {
 		// 切换页面
 		onChange() {
 			this.showAccount = !this.showAccount;
+		},
+		queryMessage(){
+			this.$http.get('/message/queryListByStoreId',{},false).then(res => {
+				console.log(res);
+			})
 		}
 	}
 };
