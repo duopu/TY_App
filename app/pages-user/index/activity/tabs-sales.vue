@@ -23,8 +23,12 @@
 			<custom-horizontal-tabs :currentIndex="tabsIndex" :data="tabsData" @change="changeTabsIndex"></custom-horizontal-tabs>
 			<!-- 1、商家分销 -->
 			<view v-if="tabsIndex === 0">
-				<block v-if="false"><sales-goods-lists-item v-for="(item, index) in ['', '', '', '']" :key="index"></sales-goods-lists-item></block>
 				<block v-if="true">
+					<sales-goods-lists-item @open="openPopup('distributePopup',0)" v-for="(item, index) in ['', '', '', '']" :key="index">
+					</sales-goods-lists-item>
+				</block>
+				<!-- 无数据 -->
+				<block v-if="false">
 					<view class="flex-center-center no-lists">
 						您还没有商品分销任务，
 						<view class="color-blue" @click="openPopup('salesPopup', 0)">点击申请</view>
@@ -33,7 +37,7 @@
 			</view>
 			<!-- 2、 店铺分销 -->
 			<view v-if="tabsIndex === 1">
-				<block v-if="false">
+				<block v-if="true">
 					<view class="flex-center-between marchant-item" v-for="(item, index) in ['', '', '', '']" :key="index">
 						<view class="flex-center">
 							<image class="avatar-image" src="../../../static/images/other/girl.png" mode="aspectFill"></image>
@@ -43,10 +47,11 @@
 							分销折扣：
 							<text class="discount">9折</text>
 						</view>
-						<button class="btn">复制链接</button>
+						<button class="btn" @click="openPopup('distributePopup',1)">复制链接</button>
 					</view>
 				</block>
-				<block v-if="true">
+				<!-- 无数据 -->
+				<block v-if="false">
 					<view class="flex-center-center no-lists">
 						您还没有店铺分销任务，
 						<view class="color-blue" @click="openPopup('salesPopup', 1)">点击申请</view>
@@ -56,6 +61,8 @@
 		</view>
 		<!-- 分销申请说明弹窗 -->
 		<sales-apply-popup :state="salesPopupState" ref="salesPopup"></sales-apply-popup>
+		<!-- 商品分销/平台分销弹窗 -->
+		<sales-distribute-popup :state="salesPopupState" ref="distributePopup"></sales-distribute-popup>
 	</view>
 </template>
 

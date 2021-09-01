@@ -8,7 +8,7 @@
 			</view>
 			<view class="row">
 				<text class="label text-bold">活动名称：</text>
-				<text class="color-6">xxxx有奖竞猜活动</text>
+				<text>xxxx有奖竞猜活动</text>
 			</view>
 			<view class="row">
 				<text class="label text-bold">活动规则：</text>
@@ -16,11 +16,11 @@
 			</view>
 			<view class="row">
 				<text class="label text-bold">活动奖品：</text>
-				<text class="color-6">iphone20</text>
+				<text>iphone20</text>
 			</view>
-			<view class="row flex-center-between">
-				<input type="text">
-				<button>立即参加</button>
+			<view class="row no-border flex-center-between">
+				<input class="input" type="text" placeholder="请输入活动号" placeholder-class="input-placeholder">
+				<button class="btn-block">立即参加</button>
 			</view>
 		</view>
 	</uni-popup>

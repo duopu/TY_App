@@ -176,6 +176,14 @@
 					}
 
 				}
+				, {
+					"path": "index/activity/activity",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+				
+				}
 			]
 		},
 		{
@@ -261,17 +269,22 @@
 						"enablePullDownRefresh": false
 					}
 
+				}, {
+					"path": "my/ticket/ticket",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "my/ticket/add",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
 				}
-			    ,{
-                    "path" : "my/ticket/ticket",
-                    "style" :                                                                                    
-                {
-                    "navigationStyle": "custom",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			]
 		}
 	],
 	"tabBar": {
