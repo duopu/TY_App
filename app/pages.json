@@ -262,7 +262,16 @@
 					}
 
 				}
-			]
+			    ,{
+                    "path" : "my/ticket/ticket",
+                    "style" :                                                                                    
+                {
+                    "navigationStyle": "custom",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 		}
 	],
 	"tabBar": {
