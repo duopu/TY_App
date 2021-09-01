@@ -2,7 +2,7 @@
 <template>
 	<!-- 地址 -->
 	<view class="address-item">
-		<view class="flex-center">
+		<view class="flex-center" @click="itemClick">
 			<image src="../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
 			<view class="flex-column flex-1">
 				<view class="name">{{data.name}} {{data.phone}}</view>
@@ -22,7 +22,7 @@
 <script>
 export default {
 	name: 'address-lists-item',
-	emits:['deleteAddress','setDefault'],
+	emits:['deleteAddress','setDefault','itemClick'],
 	props:{
 		data:{
 			type:Object,
@@ -33,6 +33,7 @@ export default {
 		return {};
 	},
 	methods:{
+		// 设置为默认地址
 		setDefault(){
 			if(this.data.isDefault === 0){
 				this.$emit("setDefault");
@@ -43,6 +44,11 @@ export default {
 		 */
 		deleteAddress(){
 			this.$emit("deleteAddress")
+		},
+		
+		// 配送地址点击事件
+		itemClick(){
+			this.$emit("itemClick")
 		}
 	}
 };

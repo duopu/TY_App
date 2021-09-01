@@ -26,11 +26,15 @@
 						</view>
 					</view>
 					<!-- 分销申请审核中 -->
-					<view v-if="false" class="state">分销申请审核中</view>
-					<view @click="openPopup('distributePopup')" v-if="true" class="state color-2 flex-center">
+					
+					<view v-if="goodsInfo.goodsDistributionStatus === 0 || goodsInfo.goodsDistributionStatus === 2" 
+					@click="goodsApply" 
+					class="state color-2 flex-center">
 						<image class="icon-share" src="" mode="aspectFill"></image>
 						申请分销
 					</view>
+					<view v-else-if="goodsInfo.goodsDistributionStatus === 3" class="state" @click="goGoodsApply">分销申请审核中</view>
+					<view v-else-if="goodsInfo.goodsDistributionStatus === 1" class="state" @click="goGoodsApply">查看分销进度</view>
 				</view>
 			</view>
 			<!-- 选择 -->
@@ -54,10 +58,10 @@
 					<text class="label color-9">发货</text>
 					<view class="flex-1">
 						<view class="flex-center-between">
-							<text>{{goodsInfo.city}}{{goodsInfo.area}} 快递:免快递费</text>
+							<text>{{goodsInfo.city}}{{goodsInfo.area}} 快递:{{freightAmount}}</text>
 							<image @click="goAddress()" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
-						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">配送至：{{defaultAddress.provinceName}}{{defaultAddress.cityName}}{{defaultAddress.areaName}}{{defaultAddress.street}}</view>
+						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">配送至：{{defaultAddress.provinceName}}{{defaultAddress.cityName}}{{defaultAddress.areaName}}{{defaultAddress.streetName}}</view>
 					</view>
 				</view>
 				<!-- 保障 -->
@@ -202,7 +206,9 @@ export default {
 					courseClassVOList:[]
 				}, 
 				questionBankVO:{}, //题库
-				examVO:{} //考试
+				examVO:{}, //考试
+				storeFreightConfigVO:{}, //运费规则
+				goodsDistributionStatus:0 //商品分销状态
 			},
 			entityGoodsCheck:1, //是否包含实体商品资源
 			swiperHeight: 0, //tab内容的高度
@@ -217,7 +223,23 @@ export default {
 			courseCommentVOList:[] //课程评论
 		};
 	},
-	computed: mapState(['defaultAddress']),
+	computed: mapState({
+		// 默认地址
+		defaultAddress: state => state.defaultAddress,
+		// 快递费
+		freightAmount: function(){
+			var price = 0;
+			if(this.goodsInfo.storeFreightConfigVO.type == 2){ //阶梯运费
+				//TODO: 这里还要继续写阶梯运费规则
+			}else if(this.goodsInfo.storeFreightConfigVO.type == 1){ //统一运费
+				price = this.goodsInfo.storeFreightConfigVO.freightAmount;
+			}
+			if(price === 0){
+				price = "免快递费";
+			}
+			return price
+		}
+	}),
 	watch:{
 		"$store.state.goodsDetailsHeightChange":{
 			handler:function(newVal,oldVal){
@@ -405,6 +427,25 @@ export default {
 			uni.navigateTo({
 				url: `/pages-user/index/address/address`
 			});
+		},
+		
+		// 申请分销
+		goodsApply(){
+			this.$http
+				.post('/distribution/goodsApply', {goodsId:this.goodsInfo.goodsId, storeId:this.goodsInfo.storeId}, true)
+				.then(res => {
+					this.goodsInfo.goodsDistributionStatus = 3;
+					this.openPopup('distributePopup')
+				});
+			
+		},
+		
+		// 跳转到商品分销页面
+		goGoodsApply(){
+			//TODO: 商品分销
+			// uni.navigateTo({
+			// 	url: `/pages-user/index/address/address`
+			// });
 		}
 	}
 };

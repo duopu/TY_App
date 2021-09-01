@@ -9,7 +9,8 @@
 				<!-- 地址 -->
 				<address-lists-item :data="defaultAddress" 
 				@deleteAddress="deleteAddress(defaultAddress.id)" 
-				@setDefault="setDefaultAddress(defaultAddress)"></address-lists-item>
+				@setDefault="setDefaultAddress(defaultAddress)" 
+				@itemClick="goAddAddress(defaultAddress)"></address-lists-item>
 			</block>
 			
 			<block v-if="otherAddressList.length > 0">
@@ -17,14 +18,17 @@
 				<view class="title">我的其他收货地址</view>
 				<!-- 地址 -->
 				<block v-for="(item, index) in otherAddressList" :key="`other-address-${index}`">
-					<address-lists-item :data="item"></address-lists-item>
+					<address-lists-item :data="item" 
+					@deleteAddress="deleteAddress(item.id)" 
+					@setDefault="setDefaultAddress(item)" 
+					@itemClick="goAddAddress(item)"></address-lists-item>
 				</block>
 			</block>
 			
 			<view class="slot-item"></view>
 		</scroll-view>
 		<!-- 底部 -->
-		<view class="address-bottom"><button class="btn btn-block" @click="addAddress()">添加收获地址</button></view>
+		<view class="address-bottom"><button class="btn btn-block" @click="goAddAddress()">添加收获地址</button></view>
 	</view>
 </template>
 
@@ -85,10 +89,24 @@ export default {
 				});
 		},
 		
-		
-		addAddress(){
+		/**
+		 * 跳转到新增/修改地址页面
+		 */
+		goAddAddress(address){
+			let that = this;
 			uni.navigateTo({
-				url: `/pages-user/index/address/add-address`
+				url: `/pages-user/index/address/add-address`,
+				events: {
+				    addressSaveSuccess: function() {
+				      that.getAddresList();
+				    }
+				},
+				success: function(res) {
+				    // 通过eventChannel向被打开页面传送数据
+					if(address){
+						res.eventChannel.emit('addressVO', address)
+					}
+				 }
 			});
 		}
 		
