@@ -8,7 +8,8 @@
 		</view>
 		<!-- 退款 -->
 		<view v-if="type === 2" class="flex-center-between top"><view class="name">退款商品</view></view>
-		<view class="content flex">
+		<!-- 多个商品 -->
+		<view class="content flex" v-for="(item,index) in ['','']" :key="index">
 			<image class="avatar-image" src="../../static/images/other/demo.png" mode="aspectFill"></image>
 			<view class="flex-column flex-1 right">
 				<view class="title">5天英语全能挑战名称可能很长可能是两行</view>

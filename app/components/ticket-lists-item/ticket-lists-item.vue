@@ -2,19 +2,18 @@
 	<view class="ticket-lists-item">
 		<view class="left flex-column-center">
 			<view class="price">
-				<text class="unit">¥</text>
-				{{data.couponAmount}}
+				<view><text class="unit">¥</text> {{data.couponAmount}}</view>
 			</view>
 			<view class="sum">{{data.couponTypeContent}}</view>
 		</view>
 		<view class="right flex-center">
 			<view class="flex-column flex-1">
 				<view class="name">{{data.couponName}}</view>
-				<view class="flex-center desc ">
+				<view class="flex-center desc">
 					<image class="icon" src="../../static/images/icons/icon-gth.svg" mode="aspectFill"></image>
 					<text >{{data.ruleDescription}}</text>
 				</view>
-				<view class="time">{{data.effectContent}}</view>
+				<view class="time">{{data.effectContent}} 12454444444444444444</view>
 			</view>
 			<!-- 商品未领取 -->
 			<button v-if="data.userReceive === 1" class="btns text-bold" @click="collectCoupon">领取</button>

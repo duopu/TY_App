@@ -6,6 +6,7 @@
 	background-color: #f8f8f8;
 	overflow: hidden;
 }
+// 内容
 .order-confirm-content {
 	flex: 1;
 	height: 100%;
@@ -31,28 +32,45 @@
 			margin: 0 24rpx;
 		}
 	}
-	
-	.discount{
-		padding: 24rpx;
+	.box {
 		margin: 20rpx 0 0;
-		background-color: #FFFFFF;
+		padding: 0 24rpx;
+		background-color: #ffffff;
 		border-radius: 20rpx;
-		&-row{
+		.store-order-lists-item{
+			padding-right: 0;
+			padding-left: 0;
+		}
+		.row {
 			padding: 30rpx 0;
 			font-size: 28rpx;
-			.label{
+			.label {
 				font-weight: bold;
 			}
 		}
-		.flex-1{
-			text-align: right;
+		.color-9{
 			color: #999999;
 		}
-		.icon-arrow{
+		.color-red{
+			color:#FF705B ;
+		}
+		.icon-arrow {
 			margin-left: 8rpx;
 			width: 32rpx;
 			height: 32rpx;
 		}
+		.flex-1 {
+			text-align: right;
+		}
+		.icon-arrow {
+			margin-left: 8rpx;
+			width: 32rpx;
+			height: 32rpx;
+		}
+	}
+	.agree-row {
+		padding-bottom: 40rpx;
+		margin: 20rpx;
 		.radio {
 			margin-right: 16rpx;
 			width: 32rpx;
@@ -65,14 +83,15 @@
 				border: 10rpx solid #1aa8ff;
 			}
 		}
-		.agree{
+		.text {
 			font-size: 26rpx;
-			.service{
-				color: #1AA8FF;
+			.service {
+				color: #1aa8ff;
 			}
 		}
 	}
 }
+// 底部
 .order-confirm-bottom {
 	padding: 20rpx 30rpx;
 	font-size: 28rpx;

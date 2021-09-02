@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>勾选</title>
+    <desc>Created with Sketch.</desc>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="活动-组团优惠-弹窗2" transform="translate(-315.000000, -352.000000)">
+            <g id="编组-4" transform="translate(24.000000, 278.000000)">
+                <g id="勾选" transform="translate(291.000000, 74.000000)">
+                    <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="20" height="20"></rect>
+                    <circle id="椭圆形" stroke="#CCCCCC" fill="#FFFFFF" cx="10" cy="10" r="7.5"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

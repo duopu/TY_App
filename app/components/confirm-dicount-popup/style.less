@@ -1,0 +1,66 @@
+.popup-main {
+	display: flex;
+	flex-direction: column;
+	height: 60vh;
+	background-color: #ffffff;
+	border-radius: 32rpx 32rpx 0 0;
+	overflow: hidden;
+	.popup-top {
+		flex-shrink: 0;
+		.icon-close {
+			position: absolute;
+			top: 30rpx;
+			right: 24rpx;
+			width: 48rpx;
+			height: 48rpx;
+			z-index: 2;
+		}
+		.title {
+			padding: 30rpx 0;
+			font-size: 34rpx;
+			text-align: center;
+		}
+	}
+	.popup-content {
+		margin-top: 32rpx;
+		flex: 1;
+		height: 100%;
+		overflow: hidden;
+		.row {
+			display: flex;
+			padding: 32rpx 44rpx 32rpx 24rpx;
+			font-size: 28rpx;
+			line-height: 1.6;
+			.label {
+				flex-shrink: 0;
+			}
+			.radio {
+				width: 40rpx;
+				height: 40rpx;
+				background-color: #ffffff;
+				background-size: 100%;
+				background-position: center;
+				background-repeat: no-repeat;
+				box-sizing: border-box;
+				background-image: url(../../static/images/icons/icon-no-gou.svg);
+				&.on {
+					background-image: url(../../static/images/icons/icon-black-gou.svg);
+				}
+			}
+		}
+	}
+
+	.popup-bottom {
+		padding: 12rpx 20rpx;
+		.btn {
+			margin: 0;
+			flex: 1;
+			height: 80rpx;
+			font-size: 28rpx;
+			line-height: 80rpx;
+			color: #ffffff;
+			background: #ff705b;
+			border-radius: 40rpx;
+		}
+	}
+}
