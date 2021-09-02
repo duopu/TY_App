@@ -52,7 +52,7 @@
 				<!-- 我的服务 -->
 				<view class="title">我的服务</view>
 				<view class="service-lists">
-					<view class="item" v-for="(item,index) in serviceLists" :key="index">
+					<view class="item" v-for="(item,index) in serviceLists" :key="index" @click="jumpPage(item.page)">
 						<image class="item-image" :src="item.image" mode="aspectFill"></image>
 						<text class="text">{{item.text}}</text>
 					</view>
@@ -111,7 +111,8 @@ export default {
 				},
 				{
 					image: '../../../static/images/my/my-ticket.png',
-					text: '优惠卷'
+					text: '优惠券',
+					page: '/pages-user/mine/ticket/ticket'
 				},
 				{
 					image:'../../../static/images/my/my-storage.png',
@@ -137,6 +138,18 @@ export default {
 				}
 			]
 		};
+	},
+	methods:{
+		
+		/**
+		 * 页面跳转
+		 * @param {Object} pagePath 页面路由
+		 */
+		jumpPage(pagePath){
+			uni.navigateTo({
+				url:pagePath
+			})
+		}
 	}
 };
 </script>
