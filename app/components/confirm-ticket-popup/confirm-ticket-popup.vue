@@ -7,7 +7,7 @@
 				<image @click="close()" class="icon-close" src="../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
 			</view>
 			<scroll-view class="popup-content" scroll-y="true">
-				<ticket-lists-item></ticket-lists-item>
+				<block v-for="(item, index) in ['', '', '']" :key="index"><ticket-lists-item :isSelect="true"></ticket-lists-item></block>
 			</scroll-view>
 			<view class="popup-bottom"><button class="btn" @click="close()">确定</button></view>
 		</view>
@@ -20,7 +20,7 @@ export default {
 	data() {
 		return {};
 	},
-	methods:{
+	methods: {
 		// 打开弹窗
 		open() {
 			this.$refs.popup.open();
@@ -28,7 +28,7 @@ export default {
 		// 关闭弹窗
 		close() {
 			this.$refs.popup.close();
-		},
+		}
 	}
 };
 </script>
