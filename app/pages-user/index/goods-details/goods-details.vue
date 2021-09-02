@@ -337,7 +337,8 @@ export default {
 			})
 		},
 		
-		/**tab水平滚动回调
+		/**
+		 * tab水平滚动回调
 		 * @param {Object} e
 		 */
 		menuSwiperChange(e){

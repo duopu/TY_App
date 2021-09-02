@@ -12,7 +12,7 @@
 			<view class="item"
 			v-for="(item,index) in historyList"
 			:key="`history-list-${index}`"
-			@click="tagClick(item.name,0)">{{item.name}}</view>
+			@click="tagClick(item,0)">{{item.name}}</view>
 		</view>
 		<!-- 热门搜索 -->
 		<view class="title text-bold">热门搜索</view>
@@ -20,7 +20,7 @@
 			<view class="item"
 			v-for="(item,index) in topList"
 			:key="`top-list-${index}`"
-			@click="tagClick(item.name,0)">{{item.name}}</view>
+			@click="tagClick(item,0)">{{item.name}}</view>
 		</view>
 		<!--热门课程/热搜机构/优秀教师 -->
 		<scroll-view scroll-x="true" class="hot-lists">
@@ -33,9 +33,9 @@
 				<view class="flex-center row"
 				v-for="(item, index) in courseVOList"
 				:key="`course-list-${index}`"
-				@click="tagClick(item.name,0)">
+				@click="tagClick(item.courseName,0)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
-					<text class="text-ellipsis text">{{item.classNum}}</text>
+					<text class="text-ellipsis text">{{item.courseName}}</text>
 				</view>
 			</view>
 			<!-- 热搜机构 -->
@@ -47,9 +47,9 @@
 				<view class="flex-center row"
 				v-for="(item, index) in storeVOList"
 				:key="`store-list-${index}`"
-				@click="tagClick(item.name,1)">
+				@click="tagClick(item.storeName || item.companyName,1)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
-					<text class="text-ellipsis text">{{item.storeName}}</text>
+					<text class="text-ellipsis text">{{item.storeName || item.companyName}}</text>
 				</view>
 			</view>
 			<!-- 优秀教师 -->
