@@ -2,8 +2,8 @@
 <template>
 	<view class="ticket">
 		<custom-horizontal-tabs @change="getTabsIndex" :data="tabsData" :currentIndex="tabsIndex"></custom-horizontal-tabs>
-		<swiper :current="tabsIndex" @change="swiperChange" class="flex-1">
-			<swiper-item v-for="(item,index) in dataList" :key="`swiper-item-${index}`" style="display: flex;"> 
+		<swiper :current="tabsIndex" @change="swiperChange">
+			<swiper-item v-for="(item,index) in dataList" :key="`swiper-item-${index}`"> 
 				<!-- 未使用 -->
 				<scroll-view scroll-y="true" class="ticket-lists">
 					<!-- 平台优惠券 -->

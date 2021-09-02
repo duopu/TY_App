@@ -31,7 +31,9 @@
 				<uni-number-box class="com-nunmber-box" v-model="count" :min="0"></uni-number-box>
 			</view>
 			<!-- 底部 -->
-			<view class="popup-bottom"><button class="btn btn-block" @click="submit()">确定</button></view>
+			<view class="popup-bottom">
+				<button class="btn btn-block" @click="submit()">{{popType === 1 ? '确定' : '立即购买'}}</button>
+			</view>
 		</view>
 	</uni-popup>
 </template>
@@ -44,6 +46,10 @@ export default {
 		goodsInfo:{ //商品信息
 			type:Object,
 			required:true
+		},
+		type:{ // 当前弹窗类型  1加入购物车  2立即购买
+			type:Number,
+			default:1
 		}
 	},
 	data() {
@@ -52,7 +58,8 @@ export default {
 			goodsThumbnail:this.thumbnail,
 			selectItem:{}, //当前选中的商品属性
 			count:1, //商品数量
-			priceArry:[] //显示价格区间
+			priceArry:[], //显示价格区间
+			popType:this.type //当前弹窗类型
 		};
 	},
 	watch:{
@@ -65,6 +72,9 @@ export default {
 				this.priceArry = [newV.price]
 			}
 		},
+		type(newV,oldV){
+			this.popType = newV;
+		}
 	},
 	methods: {
 		// 打开弹窗
@@ -84,7 +94,7 @@ export default {
 		},
 		
 		/**
-		 * 提交
+		 * 提交按钮点击
 		 */
 		submit(){
 			if(this.selectItem.attributesId && this.count > 0){

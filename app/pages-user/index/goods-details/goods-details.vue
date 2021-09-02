@@ -165,13 +165,14 @@
 			</view>
 			<!-- 拼团或正常购买 -->
 			<block v-if="true">
-				<button class="btn btn-light" @click="openPopup('classifyPopup')">加入购物车</button>
+				<button class="btn btn-light" @click="jumpAddCar">加入购物车</button>
 				<button class="btn btn-block" @click="jumpConfirm">立即购买</button>
 			</block>
 			<block v-if="false"><button @click="openPopup('groupPopup')" class="btn btn-block flex-1">参与拼团</button></block>
 		</view>
 		<!-- 弹窗 属性分类 -->
 		<goods-classify-popup ref="classifyPopup" 
+		:type="goodsClassifyPopType"
 		:goodsInfo="goodsInfo" 
 		@submit="goodsAttributesSubmit"></goods-classify-popup>
 		<!-- 弹窗 保障 -->
@@ -232,7 +233,8 @@ export default {
 			examCommentVOList:[], //考试评论
 			questionCommentVOList:[], //题库评论
 			courseCommentVOList:[], //课程评论
-			selectGoodsVO:{} //选中的商品对象
+			selectGoodsVO:{}, //选中的商品对象
+			goodsClassifyPopType:1 //商品属性弹窗类型 1加入购物车 2立即购买
 		};
 	},
 	computed: mapState({
@@ -325,9 +327,14 @@ export default {
 		},
 		//立即购买
 		jumpConfirm(){
-			uni.navigateTo({
-				url:'../confirm/confirm'
-			})
+			this.goodsClassifyPopType = 2;
+			this.openPopup('classifyPopup');
+		},
+		
+		//加入购物车
+		jumpAddCar(){
+			this.goodsClassifyPopType = 1;
+			this.openPopup('classifyPopup');
 		},
 		
 		//优惠
@@ -447,6 +454,18 @@ export default {
 			console.log("商品属性 == ",goodsAttributes);
 			console.log("商品数量 == ",count);
 			this.selectGoodsVO = {...goodsAttributes,goodsNum:count};
+			if(this.goodsClassifyPopType === 1){ //加入购物车
+				this.$http
+					.post('/shopping/cart/add', {goodsId:this.goodsInfo.goodsId, attributesId:goodsAttributes.attributesId}, true)
+					.then(res => {
+						this.$tool.showSuccess("添加成功，在购物车等亲~");
+					});
+			}else{ //立即购买
+				uni.navigateTo({
+					url: `/pages-user/index/confirm/confirm`
+				});
+			}
+			
 		},
 		
 		// 打开配送地址页面
