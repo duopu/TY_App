@@ -3,33 +3,29 @@
 		<scroll-view scroll-y="true" class="goods-content" @scroll="scrollHandle">
 			<!-- banner -->
 			<swiper class="banner" :indicator-dots="true" :autoplay="true" :interval="3000" :circular="true">
-			    <swiper-item v-for="(item,index) in goodsInfo.img" :key="`banner-${index}`">
-			        <image class="banner-image" :src="item" mode="aspectFill"></image>
-			    </swiper-item>                                      
+				<swiper-item v-for="(item, index) in goodsInfo.img" :key="`banner-${index}`"><image class="banner-image" :src="item" mode="aspectFill"></image></swiper-item>
 			</swiper>
 			<!-- 具体信息 -->
 			<view class="box">
 				<view class="flex-center-between">
-					<view class="name text-bold">{{goodsInfo.goodsName}}</view>
-					<view class="text color-9">{{goodsInfo.sales}}人学习</view>
+					<view class="name text-bold">{{ goodsInfo.goodsName }}</view>
+					<view class="text color-9">{{ goodsInfo.sales }}人学习</view>
 				</view>
 				<view class="flex-center-between m-top-20">
 					<view class="flex-center">
-						<view class="price" v-if="priceArry.length>0">
+						<view class="price" v-if="priceArry.length > 0">
 							<text class="unit">¥</text>
-							{{priceArry[0]}}
+							{{ priceArry[0] }}
 						</view>
 						<text v-if="priceArry.length > 1" class="line">-</text>
 						<view v-if="priceArry.length > 1" class="price">
 							<text class="unit">¥</text>
-							{{priceArry[1]}}
+							{{ priceArry[1] }}
 						</view>
 					</view>
 					<!-- 分销申请审核中 -->
-					
-					<view v-if="goodsInfo.goodsDistributionStatus === 0 || goodsInfo.goodsDistributionStatus === 2" 
-					@click="goodsApply" 
-					class="state color-2 flex-center">
+
+					<view v-if="goodsInfo.goodsDistributionStatus === 0 || goodsInfo.goodsDistributionStatus === 2" @click="goodsApply" class="state color-2 flex-center">
 						<image class="icon-share" src="" mode="aspectFill"></image>
 						申请分销
 					</view>
@@ -48,8 +44,8 @@
 							<image @click="openPopup('classifyPopup')" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
 						<view class="checkbox-lists">
-							<view v-for="(item,index) in goodsInfo.goodsAttributesVOList" :key="`goodsAttribute-${index}`" class="item">{{item.attributesName}}</view>
-							<view class="item">共{{goodsInfo.goodsAttributesVOList.length}}种型号可选</view>
+							<view v-for="(item, index) in goodsInfo.goodsAttributesVOList" :key="`goodsAttribute-${index}`" class="item">{{ item.attributesName }}</view>
+							<view class="item">共{{ goodsInfo.goodsAttributesVOList.length }}种型号可选</view>
 						</view>
 					</view>
 				</view>
@@ -58,19 +54,31 @@
 					<text class="label color-9">发货</text>
 					<view class="flex-1">
 						<view class="flex-center-between">
-							<text>{{goodsInfo.city}}{{goodsInfo.area}} <block v-if="selectGoodsVO.attributesId">快递: {{freightAmount > 0 ? `${freightAmount}元` : '免快递费'}}</block></text>
+							<text>
+								{{ goodsInfo.city }}{{ goodsInfo.area }}
+								<block v-if="selectGoodsVO.attributesId">快递: {{ freightAmount > 0 ? `${freightAmount}元` : '免快递费' }}</block>
+							</text>
 							<image @click="goAddress()" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
-						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">配送至：{{defaultAddress.provinceName}} {{defaultAddress.cityName}} {{defaultAddress.areaName}} {{defaultAddress.streetName}} {{defaultAddress.address}}</view>
+						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">
+							配送至：{{ defaultAddress.provinceName }} {{ defaultAddress.cityName }} {{ defaultAddress.areaName }} {{ defaultAddress.streetName }}
+							{{ defaultAddress.address }}
+						</view>
 					</view>
 				</view>
 				<!-- 优惠 -->
 				<view class="flex row">
 					<text class="label color-9">优惠</text>
-					<view class="flex-1 flex-center-between">
-						<view class="ensure-lists">
-							<view class="item blue">商家</view>
-							<view class="item yellow">平台</view>
+					<view class="flex-1 flex">
+						<view class="discount-lists">
+							<view class="lists-item flex-center">
+								<view class="tag">商家</view>
+								<view>满500减20</view>
+							</view>
+							<view class="lists-item flex-center">
+								<view class="tag">平台</view>
+								<view>满500减30</view>
+							</view>
 						</view>
 						<image @click="jumpCoupon" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 					</view>
@@ -99,68 +107,59 @@
 				</view>
 			</view>
 			<!-- 横向菜单 -->
-			<custom-horizontal-tabs id="custom-tabs"
-			@change="getTabsIndex" 
-			:currentIndex="tabsIndex" 
-			:data="tabsData" 
-			:class="{fixed:tabsFixed}"></custom-horizontal-tabs>
+			<custom-horizontal-tabs id="custom-tabs" @change="getTabsIndex" :currentIndex="tabsIndex" :data="tabsData" :class="{ fixed: tabsFixed }"></custom-horizontal-tabs>
 			<!-- Tabs内容 可左右滚动 -->
-			<swiper :current="tabsIndex" 
-			@change="menuSwiperChange"
-			:style="{ height: swiperHeight + 'px' }">
-				
-				<swiper-item v-for="(item,index) in tabsData" 
-				:key="`swiper-item-${index}`">
+			<swiper :current="tabsIndex" @change="menuSwiperChange" :style="{ height: swiperHeight + 'px' }">
+				<swiper-item v-for="(item, index) in tabsData" :key="`swiper-item-${index}`">
 					<!--  tab 介绍 -->
-					<tabs-brief v-if="item == '介绍'" 
-					:id="`content-wrap-${index}`" 
-					:goodsInfo="goodsInfo"></tabs-brief>
-					
+					<tabs-brief v-if="item == '介绍'" :id="`content-wrap-${index}`" :goodsInfo="goodsInfo"></tabs-brief>
+
 					<!--  tab 商品 -->
-					<tabs-goods v-if="item == '商品'"  
-					:id="`content-wrap-${index}`" 
-					:entityGoodsVO="goodsInfo.entityGoodsVO"
-					:entityCommentVOList="entityCommentVOList"></tabs-goods>
-					
+					<tabs-goods
+						v-if="item == '商品'"
+						:id="`content-wrap-${index}`"
+						:entityGoodsVO="goodsInfo.entityGoodsVO"
+						:entityCommentVOList="entityCommentVOList"
+					></tabs-goods>
+
 					<!--  tab 目录 -->
-					<tabs-catalogue v-if="item == '目录'" 
-					:id="`content-wrap-${index}`" 
-					:courseVO="goodsInfo.courseVO"
-					:courseCommentVOList="courseCommentVOList"></tabs-catalogue>
-					
+					<tabs-catalogue v-if="item == '目录'" :id="`content-wrap-${index}`" :courseVO="goodsInfo.courseVO" :courseCommentVOList="courseCommentVOList"></tabs-catalogue>
+
 					<!--  tab 题库 -->
-					<tabs-bank v-if="item == '题库'" 
-					:id="`content-wrap-${index}`" 
-					:questionBankVO="goodsInfo.questionBankVO"
-					:questionCommentVOList="questionCommentVOList"></tabs-bank>
-					
+					<tabs-bank
+						v-if="item == '题库'"
+						:id="`content-wrap-${index}`"
+						:questionBankVO="goodsInfo.questionBankVO"
+						:questionCommentVOList="questionCommentVOList"
+					></tabs-bank>
+
 					<!--  tab 考试 -->
-					<tabs-exam v-if="item == '考试'" 
-					:id="`content-wrap-${index}`" 
-					:examVO="goodsInfo.examVO" 
-					:examCommentVOList="examCommentVOList"></tabs-exam>
-					
+					<tabs-exam v-if="item == '考试'" :id="`content-wrap-${index}`" :examVO="goodsInfo.examVO" :examCommentVOList="examCommentVOList"></tabs-exam>
+
 					<!--  tab 推荐 -->
-					<tabs-recommend v-if="item == '推荐'" 
-					:id="`content-wrap-${index}`" 
-					:goodsBottomHeight="goodsBottomHeight" 
-					:tabsHeight="tabsHeight"></tabs-recommend>
-			    </swiper-item>
+					<tabs-recommend v-if="item == '推荐'" :id="`content-wrap-${index}`" :goodsBottomHeight="goodsBottomHeight" :tabsHeight="tabsHeight"></tabs-recommend>
+				</swiper-item>
 			</swiper>
 		</scroll-view>
 		<!-- 底部 -->
 		<view class="goods-bottom flex-center-between" id="goods-bottom">
 			<view class="flex-column">
-				<image class="icons" src="" mode="aspectFill"></image>
+				<image class="icons" src="../../../static/images/icons/icon-room.svg" mode="aspectFill"></image>
 				<text>店铺</text>
 			</view>
 			<view class="flex-column">
-				<image class="icons" src="" mode="aspectFill"></image>
+				<image class="icons" src="../../../static/images/icons/icon-kf.svg" mode="aspectFill"></image>
 				<text>客服</text>
 			</view>
 			<view class="flex-column">
-				<image class="icons" v-if="goodsInfo.userCollection === 2" src="../../../static/images/icons/icon-star-selected.svg" mode="aspectFill" @click="collectClick(false)"></image>
-				<image class="icons" v-else src="../../../static/images/icons/icon-star.svg" @click="collectClick(true)"></image>
+				<image
+					class="icons"
+					v-if="goodsInfo.userCollection === 2"
+					src="../../../static/images/icons/icon-save-on.svg"
+					mode="aspectFill"
+					@click="collectClick(false)"
+				></image>
+				<image class="icons" v-else src="../../../static/images/icons/icon-save.svg" @click="collectClick(true)"></image>
 				<text>收藏</text>
 			</view>
 			<!-- 拼团或正常购买 -->
@@ -171,16 +170,14 @@
 			<block v-if="false"><button @click="openPopup('groupPopup')" class="btn btn-block flex-1">参与拼团</button></block>
 		</view>
 		<!-- 弹窗 属性分类 -->
-		<goods-classify-popup ref="classifyPopup" 
+		<goods-classify-popup ref="classifyPopup"
 		:type="goodsClassifyPopType"
-		:goodsInfo="goodsInfo" 
+		:goodsInfo="goodsInfo"
 		@submit="goodsAttributesSubmit"></goods-classify-popup>
 		<!-- 弹窗 保障 -->
-		<goods-ensure-popup ref="ensurePopup" 
-		:goodsInfo="goodsInfo" ></goods-ensure-popup>
+		<goods-ensure-popup ref="ensurePopup" :goodsInfo="goodsInfo"></goods-ensure-popup>
 		<!-- 弹窗 参数 -->
-		<goods-parameter-popup ref="parameterPopup" 
-		:goodsInfo="goodsInfo"></goods-parameter-popup>
+		<goods-parameter-popup ref="parameterPopup" :goodsInfo="goodsInfo"></goods-parameter-popup>
 		<!-- 弹窗 分销 -->
 		<goods-distribute-popup ref="distributePopup"></goods-distribute-popup>
 		<!-- 弹窗 参与拼团 -->
@@ -195,7 +192,7 @@ import TabsBank from './tabs-bank.vue';
 import TabsExam from './tabs-exam.vue';
 import TabsCatalogue from './tabs-catalogue.vue';
 import TabsRecommend from './tabs-recommend.vue';
-import { mapState } from 'vuex'//引入mapState
+import { mapState } from 'vuex'; //引入mapState
 export default {
 	components: {
 		TabsBrief,
@@ -207,62 +204,66 @@ export default {
 	},
 	data() {
 		return {
-			tabsData: ["介绍"], //tab数据
+			tabsData: ['介绍'], //tab数据
 			tabsIndex: 0, //当前选中的tab下标
-			goodsId:undefined, //商品ID
-			goodsInfo:{ //商品详情
-				img:[], //banner图
-				goodsAttributesVOList:[], //商品属性
-				entityGoodsVO:{}, //实体商品
-				courseVO:{ //课程
-					courseClassVOList:[]
-				}, 
-				questionBankVO:{}, //题库
-				examVO:{}, //考试
-				storeFreightConfigVO:{}, //运费规则
-				goodsDistributionStatus:0 //商品分销状态
+			goodsId: undefined, //商品ID
+			goodsInfo: {
+				//商品详情
+				img: [], //banner图
+				goodsAttributesVOList: [], //商品属性
+				entityGoodsVO: {}, //实体商品
+				courseVO: {
+					//课程
+					courseClassVOList: []
+				},
+				questionBankVO: {}, //题库
+				examVO: {}, //考试
+				storeFreightConfigVO: {}, //运费规则
+				goodsDistributionStatus: 0 //商品分销状态
 			},
-			entityGoodsCheck:1, //是否包含实体商品资源
+			entityGoodsCheck: 1, //是否包含实体商品资源
 			swiperHeight: 0, //tab内容的高度
-			goodsBottomHeight:0, //购物车工具条高度
-			tabsTop:0, //TAB选项卡距离顶部的高度
-			tabsHeight:0, //TAB选项卡高度
-			tabsFixed:false, //TAB选项卡是否固定在顶部
-			priceArry:[], //显示价格区间
-			entityCommentVOList:[], //商品评论
-			examCommentVOList:[], //考试评论
-			questionCommentVOList:[], //题库评论
-			courseCommentVOList:[], //课程评论
-			selectGoodsVO:{}, //选中的商品对象
-			goodsClassifyPopType:1 //商品属性弹窗类型 1加入购物车 2立即购买
+			goodsBottomHeight: 0, //购物车工具条高度
+			tabsTop: 0, //TAB选项卡距离顶部的高度
+			tabsHeight: 0, //TAB选项卡高度
+			tabsFixed: false, //TAB选项卡是否固定在顶部
+			priceArry: [], //显示价格区间
+			entityCommentVOList: [], //商品评论
+			examCommentVOList: [], //考试评论
+			questionCommentVOList: [], //题库评论
+			courseCommentVOList: [], //课程评论
+			selectGoodsVO: {}, //选中的商品对象
+            goodsClassifyPopType: 1 //商品属性弹窗类型 1加入购物车 2立即购买
 		};
 	},
 	computed: mapState({
 		// 默认地址
 		defaultAddress: state => state.defaultAddress,
 		// 快递费
-		freightAmount: function(){
+		freightAmount: function() {
 			var price = 0;
 			var storeFreightConfigVO = this.goodsInfo.storeFreightConfigVO;
-			if(storeFreightConfigVO.type == 2){ //阶梯运费
+			if (storeFreightConfigVO.type == 2) {
+				//阶梯运费
 				// 最终价格 = 选中商品的单价*数量
 				let finalPrice = this.selectGoodsVO.price * this.selectGoodsVO.goodsNum;
-				if(finalPrice < storeFreightConfigVO.orderAmount){
+				if (finalPrice < storeFreightConfigVO.orderAmount) {
 					price = storeFreightConfigVO.maxFreightAmount;
-				}else {
+				} else {
 					price = storeFreightConfigVO.minFreightAmount;
 				}
-			}else if(storeFreightConfigVO.type == 1){ //统一运费
+			} else if (storeFreightConfigVO.type == 1) {
+				//统一运费
 				price = storeFreightConfigVO.freightAmount;
 			}
-			return price
+			return price;
 		}
 	}),
-	watch:{
-		"$store.state.goodsDetailsHeightChange":{
-			handler:function(newVal,oldVal){
-			    //动态设置swiper的高度
-			    this.setSwiperHeight();
+	watch: {
+		'$store.state.goodsDetailsHeightChange': {
+			handler: function(newVal, oldVal) {
+				//动态设置swiper的高度
+				this.setSwiperHeight();
 			}
 		}
 	},
@@ -284,11 +285,11 @@ export default {
 			this.$refs[value].open();
 		},
 		// 获取Tab选项卡距离顶部的高度及自身高度
-		getTabsTopAndHeight(){
+		getTabsTopAndHeight() {
 			this.$nextTick(() => {
 				let query = uni.createSelectorQuery().in(this);
-				query.select("#custom-tabs").boundingClientRect();
-				query.exec((res) => {
+				query.select('#custom-tabs').boundingClientRect();
+				query.exec(res => {
 					if (res && res[0]) {
 						this.tabsTop = res[0].top;
 						this.tabsHeight = res[0].height;
@@ -297,11 +298,11 @@ export default {
 			});
 		},
 		// 获取底部购物车工具类高度
-		getGoodsBottomHeight(){
+		getGoodsBottomHeight() {
 			this.$nextTick(() => {
 				let query = uni.createSelectorQuery().in(this);
-				query.select("#goods-bottom").boundingClientRect();
-				query.exec((res) => {
+				query.select('#goods-bottom').boundingClientRect();
+				query.exec(res => {
 					if (res && res[0]) {
 						this.goodsBottomHeight = res[0].height;
 					}
@@ -312,17 +313,16 @@ export default {
 		 * 滚动回调
 		 * @param {Object} e
 		 */
-		scrollHandle(e){
-			
+		scrollHandle(e) {
 			// 这里要实现页面上滑到tab时，tab进行固定的效果
-			if(e.detail.scrollTop >= this.tabsTop && !this.tabsFixed){
+			if (e.detail.scrollTop >= this.tabsTop && !this.tabsFixed) {
 				this.tabsFixed = true;
-				return
+				return;
 			}
-			
-			if(e.detail.scrollTop < this.tabsTop && this.tabsFixed){
+
+			if (e.detail.scrollTop < this.tabsTop && this.tabsFixed) {
 				this.tabsFixed = false;
-				return
+				return;
 			}
 		},
 		//立即购买
@@ -330,123 +330,115 @@ export default {
 			this.goodsClassifyPopType = 2;
 			this.openPopup('classifyPopup');
 		},
-		
+
 		//加入购物车
 		jumpAddCar(){
 			this.goodsClassifyPopType = 1;
 			this.openPopup('classifyPopup');
 		},
-		
+
 		//优惠
-		jumpCoupon(){
+		jumpCoupon() {
 			uni.navigateTo({
-				url:`/pages-user/index/ticket/ticket?goodsId=${this.goodsId}`
-			})
+				url: `/pages-user/index/ticket/ticket?goodsId=${this.goodsId}`
+			});
 		},
-		
+
 		/**
 		 * tab水平滚动回调
 		 * @param {Object} e
 		 */
-		menuSwiperChange(e){
+		menuSwiperChange(e) {
 			this.tabsIndex = e.detail.current;
 			//动态设置swiper的高度
 			this.setSwiperHeight();
 		},
-		
+
 		//动态设置swiper的高度
 		setSwiperHeight() {
 			this.$nextTick(() => {
-				let element = "#content-wrap-" + this.tabsIndex;
+				let element = '#content-wrap-' + this.tabsIndex;
 				let query = uni.createSelectorQuery().in(this);
 				query.select(element).boundingClientRect();
-				query.exec((res) => {
+				query.exec(res => {
 					if (res && res[0]) {
 						this.swiperHeight = res[0].height;
 					}
 				});
 			});
-		},    
-		
+		},
+
 		/**
 		 * 查询商品包含资源（实体商品，课程，题库，考试）情况
 		 */
-		getGoodsResource(){
-			this.$http
-				.get('/goods/checkResource', {goodsId:this.goodsId}, true)
-				.then(res => {
-					this.tabsData = ["介绍"];
-					this.entityGoodsCheck = res.entityGoodsCheck;
-					if(res.entityGoodsCheck === 2){
-						this.tabsData.push("商品");
-					}
-					if(res.courseCheck === 2){
-						this.tabsData.push("目录");
-					}
-					if(res.questionCheck === 2){
-						this.tabsData.push("题库");
-					}
-					if(res.examCheck === 2){
-						this.tabsData.push("考试");
-					}
-					this.tabsData.push("推荐");
-				});
+		getGoodsResource() {
+			this.$http.get('/goods/checkResource', { goodsId: this.goodsId }, true).then(res => {
+				this.tabsData = ['介绍'];
+				this.entityGoodsCheck = res.entityGoodsCheck;
+				if (res.entityGoodsCheck === 2) {
+					this.tabsData.push('商品');
+				}
+				if (res.courseCheck === 2) {
+					this.tabsData.push('目录');
+				}
+				if (res.questionCheck === 2) {
+					this.tabsData.push('题库');
+				}
+				if (res.examCheck === 2) {
+					this.tabsData.push('考试');
+				}
+				this.tabsData.push('推荐');
+			});
 		},
-		
-		
+
 		/**
 		 * 获取商品详情
-		 */	
-		getGoodsInfo(){
-			this.$http
-				.get('/goods/queryInfoByLogin', {goodsId:this.goodsId}, true)
-				.then(res => {
-					this.goodsInfo = res;
-					
-					if(res.minPrice && res.maxPrice && res.minPrice!== res.maxPrice ){ //如果商品有价格区间
-						this.priceArry = [res.minPrice, res.maxPrice];
-					}else { //如果是单一商品
-						this.priceArry = [res.price];
-						this.selectGoodsVO = {...res.goodsAttributesVOList[0],goodsNum:1}; 
-					}
-					//动态设置swiper的高度
-					this.setSwiperHeight();
-				});
+		 */
+
+		getGoodsInfo() {
+			this.$http.get('/goods/queryInfoByLogin', { goodsId: this.goodsId }, true).then(res => {
+				this.goodsInfo = res;
+
+				if (res.minPrice && res.maxPrice && res.minPrice !== res.maxPrice) {
+					//如果商品有价格区间
+					this.priceArry = [res.minPrice, res.maxPrice];
+				} else {
+					//如果是单一商品
+					this.priceArry = [res.price];
+					this.selectGoodsVO = { ...res.goodsAttributesVOList[0], goodsNum: 1 };
+				}
+				//动态设置swiper的高度
+				this.setSwiperHeight();
+			});
 		},
-		
+
 		/**
 		 * 获取商品评论信息
 		 */
-		getComment(){
-			this.$http
-				.get('/goods/queryCommentPage', {goodsId:this.goodsId}, true)
-				.then(res => {
-					this.entityCommentVOList = res.entityCommentVOList;
-					this.courseCommentVOList = res.courseCommentVOList;
-					this.examCommentVOList = res.examCommentVOList;
-					this.questionCommentVOList = res.questionCommentVOList;
-				});
+		getComment() {
+			this.$http.get('/goods/queryCommentPage', { goodsId: this.goodsId }, true).then(res => {
+				this.entityCommentVOList = res.entityCommentVOList;
+				this.courseCommentVOList = res.courseCommentVOList;
+				this.examCommentVOList = res.examCommentVOList;
+				this.questionCommentVOList = res.questionCommentVOList;
+			});
 		},
-		
+
 		/** 商品收藏
 		 * @param {Object} isCollect  true 收藏/ false 取消收藏
 		 */
-		collectClick(isCollect){
-			if(isCollect) {
-				this.$http
-					.post('/goods/collect', {goodsId:this.goodsId}, true)
-					.then(res => {
-						this.goodsInfo.userCollection = 2;
-					});
-			}else {
-				this.$http
-					.delete('/goods/collection/delete', {idList:[this.goodsId]}, true)
-					.then(res => {
-						this.goodsInfo.userCollection = 1;
-					});
+		collectClick(isCollect) {
+			if (isCollect) {
+				this.$http.post('/goods/collect', { goodsId: this.goodsId }, true).then(res => {
+					this.goodsInfo.userCollection = 2;
+				});
+			} else {
+				this.$http.delete('/goods/collection/delete', { idList: [this.goodsId] }, true).then(res => {
+					this.goodsInfo.userCollection = 1;
+				});
 			}
 		},
-		
+
 		/**
 		 * 商品属性提交回调
 		 */
@@ -465,29 +457,26 @@ export default {
 					url: `/pages-user/index/confirm/confirm`
 				});
 			}
-			
+
 		},
-		
+
 		// 打开配送地址页面
-		goAddress(){
+		goAddress() {
 			uni.navigateTo({
 				url: `/pages-user/index/address/address`
 			});
 		},
-		
+
 		// 申请分销
-		goodsApply(){
-			this.$http
-				.post('/distribution/goodsApply', {goodsId:this.goodsInfo.goodsId, storeId:this.goodsInfo.storeId}, true)
-				.then(res => {
-					this.goodsInfo.goodsDistributionStatus = 3;
-					this.openPopup('distributePopup')
-				});
-			
+		goodsApply() {
+			this.$http.post('/distribution/goodsApply', { goodsId: this.goodsInfo.goodsId, storeId: this.goodsInfo.storeId }, true).then(res => {
+				this.goodsInfo.goodsDistributionStatus = 3;
+				this.openPopup('distributePopup');
+			});
 		},
-		
+
 		// 跳转到商品分销页面
-		goGoodsApply(){
+		goGoodsApply() {
 			//TODO: 商品分销
 			// uni.navigateTo({
 			// 	url: `/pages-user/index/address/address`
