@@ -58,10 +58,21 @@
 					<text class="label color-9">发货</text>
 					<view class="flex-1">
 						<view class="flex-center-between">
-							<text>{{goodsInfo.city}}{{goodsInfo.area}} 快递:{{freightAmount}}</text>
+							<text>{{goodsInfo.city}}{{goodsInfo.area}} <block v-if="selectGoodsVO.attributesId">快递: {{freightAmount > 0 ? `${freightAmount}元` : '免快递费'}}</block></text>
 							<image @click="goAddress()" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
-						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">配送至：{{defaultAddress.provinceName}}{{defaultAddress.cityName}}{{defaultAddress.areaName}}{{defaultAddress.streetName}}</view>
+						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">配送至：{{defaultAddress.provinceName}} {{defaultAddress.cityName}} {{defaultAddress.areaName}} {{defaultAddress.streetName}} {{defaultAddress.address}}</view>
+					</view>
+				</view>
+				<!-- 优惠 -->
+				<view class="flex row">
+					<text class="label color-9">优惠</text>
+					<view class="flex-1 flex-center-between">
+						<view class="ensure-lists">
+							<view class="item blue">商家</view>
+							<view class="item yellow">平台</view>
+						</view>
+						<image @click="jumpCoupon" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 					</view>
 				</view>
 				<!-- 保障 -->
@@ -154,7 +165,7 @@
 			</view>
 			<!-- 拼团或正常购买 -->
 			<block v-if="true">
-				<button class="btn btn-light">加入购物车</button>
+				<button class="btn btn-light" @click="openPopup('classifyPopup')">加入购物车</button>
 				<button class="btn btn-block" @click="jumpConfirm">立即购买</button>
 			</block>
 			<block v-if="false"><button @click="openPopup('groupPopup')" class="btn btn-block flex-1">参与拼团</button></block>
@@ -220,7 +231,8 @@ export default {
 			entityCommentVOList:[], //商品评论
 			examCommentVOList:[], //考试评论
 			questionCommentVOList:[], //题库评论
-			courseCommentVOList:[] //课程评论
+			courseCommentVOList:[], //课程评论
+			selectGoodsVO:{} //选中的商品对象
 		};
 	},
 	computed: mapState({
@@ -229,13 +241,17 @@ export default {
 		// 快递费
 		freightAmount: function(){
 			var price = 0;
-			if(this.goodsInfo.storeFreightConfigVO.type == 2){ //阶梯运费
-				//TODO: 这里还要继续写阶梯运费规则
-			}else if(this.goodsInfo.storeFreightConfigVO.type == 1){ //统一运费
-				price = this.goodsInfo.storeFreightConfigVO.freightAmount;
-			}
-			if(price === 0){
-				price = "免快递费";
+			var storeFreightConfigVO = this.goodsInfo.storeFreightConfigVO;
+			if(storeFreightConfigVO.type == 2){ //阶梯运费
+				// 最终价格 = 选中商品的单价*数量
+				let finalPrice = this.selectGoodsVO.price * this.selectGoodsVO.goodsNum;
+				if(finalPrice < storeFreightConfigVO.orderAmount){
+					price = storeFreightConfigVO.maxFreightAmount;
+				}else {
+					price = storeFreightConfigVO.minFreightAmount;
+				}
+			}else if(storeFreightConfigVO.type == 1){ //统一运费
+				price = storeFreightConfigVO.freightAmount;
 			}
 			return price
 		}
@@ -314,6 +330,13 @@ export default {
 			})
 		},
 		
+		//优惠
+		jumpCoupon(){
+			uni.navigateTo({
+				url:`/pages-user/index/ticket/ticket?goodsId=${this.goodsId}`
+			})
+		},
+		
 		/**tab水平滚动回调
 		 * @param {Object} e
 		 */
@@ -371,10 +394,12 @@ export default {
 				.get('/goods/queryInfoByLogin', {goodsId:this.goodsId}, true)
 				.then(res => {
 					this.goodsInfo = res;
-					if(res.minPrice && res.maxPrice && res.minPrice!== res.maxPrice ){
+					
+					if(res.minPrice && res.maxPrice && res.minPrice!== res.maxPrice ){ //如果商品有价格区间
 						this.priceArry = [res.minPrice, res.maxPrice];
-					}else {
-						this.priceArry = [res.price]
+					}else { //如果是单一商品
+						this.priceArry = [res.price];
+						this.selectGoodsVO = {...res.goodsAttributesVOList[0],goodsNum:1}; 
 					}
 					//动态设置swiper的高度
 					this.setSwiperHeight();
@@ -420,6 +445,7 @@ export default {
 		goodsAttributesSubmit({goodsAttributes,count}){
 			console.log("商品属性 == ",goodsAttributes);
 			console.log("商品数量 == ",count);
+			this.selectGoodsVO = {...goodsAttributes,goodsNum:count};
 		},
 		
 		// 打开配送地址页面

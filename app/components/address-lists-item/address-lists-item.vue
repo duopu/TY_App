@@ -6,7 +6,7 @@
 			<image src="../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
 			<view class="flex-column flex-1">
 				<view class="name">{{data.name}} {{data.phone}}</view>
-				<view class="desc">{{data.provinceName}}{{data.cityName}}{{data.areaName}}{{data.street}}</view>
+				<view class="desc">{{data.provinceName}} {{data.cityName}} {{data.areaName}} {{data.streetName}} {{data.address}}</view>
 			</view>
 			<image class="icons" src="../../static/images/icons/icon-light-arrow.png" mode="aspectFill"></image>
 		</view>

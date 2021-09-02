@@ -64,38 +64,52 @@
 			}
 		},
 		watch:{
-			province(newV, oldV){
-				if(this.data && this.data.length === 3){
-					for(let i=0; i< newV.length; i++){
-						if(newV[i].code === this.data[0]){
-							this.valueArr[0] = i;
+			province: {
+				handler(newV, oldV){
+					if(this.data && this.data.length === 4){
+						for(let i=0; i< newV.length; i++){
+							let c_p = newV[i]; //当前省
 							
-							for(let j=0; j<newV[i].children.length; j++){
-								if(newV[i].children[j].code === this.data[1]){
-									this.valueArr[1] = j;
-									
-									for(let k=0; k<newV[i].children[j].children.length;k++){
-										if(newV[i].children[j].children[k].code === this.data[2]){
-											this.valueArr[2] = k;
-											
-											for(let l=0; l<newV[i].children[j].children[k].children.length; l++){
-												if(newV[i].children[j].children[k].children[l].code === this.data[3]){
-													this.valueArr[3] = l;
-													break;
-												}
-											}
-											
-											break;
-										}
-									}
-									break
-								}
+							if(c_p.code === this.data[0]){
+								this.valueArr[0] = i;
+								let c_p_citys = c_p.children || []; //当前省下所有的市
 								
+								for(let j=0; j<c_p_citys.length; j++){
+									let c_p_c = c_p_citys[j]; // 当前市
+									
+									if(c_p_c.code === this.data[1]){
+										this.valueArr[1] = j;
+										let c_p_c_areas = c_p_c.children || []; //当前市下所有的区
+										
+										for(let k=0; k<c_p_c_areas.length;k++){
+											let c_p_c_a = c_p_c_areas[k]; //当前区
+											
+											if(c_p_c_a.code === this.data[2]){
+												this.valueArr[2] = k;
+												let c_p_c_a_streets = c_p_c_a.children || []; //当前区下所有的街道
+												
+												for(let l=0; l<c_p_c_a_streets.length; l++){
+													let c_p_c_a_s = c_p_c_a_streets[l]; //当前街道
+													
+													if(c_p_c_a_s.code === this.data[3]){
+														this.valueArr[3] = l;
+														break;
+													}
+												}
+												
+												break;
+											}
+										}
+										break
+									}
+									
+								}
+								break;
 							}
-							break;
 						}
 					}
-				}
+				},
+				deep: true
 			}
 		},
 		created() {
@@ -117,7 +131,8 @@
 					.then(res => {
 						this.province = res;
 						if(res && res.length > 0){
-							this.loadCity(this.province[0].code)
+							let provinceCode = this.data && this.data.length === 4 ? this.data[0] : this.province[this.valueArr[0]].code ;
+							this.loadCity(provinceCode)
 						}
 					});
 			},
@@ -133,7 +148,8 @@
 								res.forEach(item => {
 									this.province[this.valueArr[0]].children.push(item)
 								})
-								this.loadArea(this.province[this.valueArr[0]].children[this.valueArr[1]].code)
+								let cityCode = this.data && this.data.length === 4 ? this.data[1] : this.province[this.valueArr[0]].children[this.valueArr[1]].code ;
+								this.loadArea(cityCode);
 							}
 						}
 					});
@@ -150,7 +166,8 @@
 								res.forEach(item => {
 									this.province[this.valueArr[0]].children[this.valueArr[1]].children.push(item)
 								})
-								this.loadStreet(this.province[this.valueArr[0]].children[this.valueArr[1]].children[this.valueArr[2]].code)
+								let areaCode = this.data && this.data.length === 4 ? this.data[2] : this.province[this.valueArr[0]].children[this.valueArr[1]].children[this.valueArr[2]].code ;
+								this.loadStreet(areaCode);
 							}
 						}
 					});

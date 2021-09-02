@@ -3,21 +3,21 @@
 		<view class="left flex-column-center">
 			<view class="price">
 				<text class="unit">¥</text>
-				35
+				{{data.couponAmount}}
 			</view>
-			<view class="sum">满299元可用</view>
+			<view class="sum">{{data.couponTypeContent}}</view>
 		</view>
 		<view class="right flex-center">
 			<view class="flex-column flex-1">
-				<view class="name">商城产品优惠券</view>
+				<view class="name">{{data.couponName}}</view>
 				<view class="flex-center desc ">
 					<image class="icon" src="../../static/images/icons/icon-gth.svg" mode="aspectFill"></image>
-					<text >优惠券说明</text>
+					<text >{{data.ruleDescription}}</text>
 				</view>
-				<view class="time">2021.03.21-2021.05.12</view>
+				<view class="time">{{data.effectContent}}</view>
 			</view>
-			<!-- 商品领取 -->
-			<button v-if="state === 1" class="btns text-bold">领取</button>
+			<!-- 商品未领取 -->
+			<button v-if="data.userReceive === 1" class="btns text-bold" @click="collectCoupon">领取</button>
 		</view>
 	</view>
 </template>
@@ -25,14 +25,29 @@
 <script>
 export default {
 	name: 'ticket-lists-item',
+	emits:['collect'],
 	props:{
-		state:{
-			type:Number,
-			default:0 // 1-商品
+		data:{
+			type:Object,
+			required:true,
+			default:{
+				couponAmount:0 ,//优惠券面值
+				couponName:undefined, //优惠券名称
+				couponTypeContent:undefined, //优惠券类型说明
+				effectContent:undefined, //优惠券生效内容（开始时间-结束时间）
+				ruleDescription:undefined, //优惠券使用规则说明
+				userReceive:1 //用户是否已领取
+			}
 		}
 	},
 	data() {
 		return {};
+	},
+	methods:{
+		// 领取优惠券
+		collectCoupon(){
+			this.$emit("collect");
+		}
 	}
 };
 </script>

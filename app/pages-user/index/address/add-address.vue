@@ -36,7 +36,7 @@
 		<view class="address-bottom"><button class="btn btn-block" @click="saveAddress">保存</button></view>
 		
 		
-		<my-city-picker ref="myCityPicker" @submit="citySubmit"></my-city-picker>
+		<my-city-picker ref="myCityPicker" :data="[form.provinceCode, form.cityCode, form.areaCode, form.streetCode]" @submit="citySubmit"></my-city-picker>
 		
 	</view>
 </template>
@@ -67,7 +67,7 @@ export default {
 		cityAddress:function(){
 			var str = undefined;
 			if(this.form.provinceName && this.form.cityName && this.form.areaName && this.form.streetName){
-				str = `${this.form.provinceName}${this.form.cityName}${this.form.areaName}${this.form.streetName}`;
+				str = `${this.form.provinceName} ${this.form.cityName} ${this.form.areaName} ${this.form.streetName}`;
 			}
 			return str;
 		}
