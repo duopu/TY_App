@@ -1,0 +1,39 @@
+.result {
+	overflow: hidden;
+	.image {
+		margin: calc(var(--status-bar-heigth)+ 20rpx) auto auto;
+		display: block;
+		width: 400rpx;
+		height: 267rpx;
+	}
+	.middle {
+		margin-top: 60rpx;
+		margin-bottom: 124rpx;
+		.score {
+			font-size: 100rpx;
+			font-weight: bold;
+		}
+	}
+	.btns-row {
+		display: flex;
+		margin: auto 20rpx;
+		.btn {
+			flex: 1;
+			margin: 0;
+			height: 96rpx;
+			font-size: 26rpx;
+			font-weight: bold;
+			line-height: 96rpx;
+			border-radius: 48rpx;
+			background-color: transparent;
+			border: 1rpx solid #222222;
+			& + .btn {
+				margin-left: 38rpx;
+			}
+			&.btn-block {
+				color: #ffffff;
+				background-color: #222222;
+			}
+		}
+	}
+}

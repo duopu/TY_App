@@ -33,7 +33,7 @@
 <style lang="less">
 .setting{
 	height: 100%;
-	padding: 40rpx 20rpx 40rpx 30rpx;
+	padding: 20rpx 20rpx 40rpx 30rpx;
 	background-color: #FFFFFF;
 	overflow: hidden;
 	box-sizing: border-box;

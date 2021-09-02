@@ -196,8 +196,45 @@
 						"enablePullDownRefresh": false
 					}
 
+				}, {
+					"path": "course/exam/exam",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "course/analysis/analysis",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "course/history/history",
+					"style": {
+						"navigationBarTitleText": "做题历史",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "course/result/result",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
 				}
-			]
+			    ,{
+                    "path" : "mine/account/account",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "账号与安全",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 		},
 		{
 			"root": "pages-business",
