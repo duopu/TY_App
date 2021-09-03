@@ -13,7 +13,7 @@
 				<!-- 已收藏 -->
 				<image v-if="true" class="icons" src="../../../static/images/icons/icon-star-save.svg" mode="aspectFill"></image>
 				<!-- 模拟考试 -->
-				<button class="btn">交卷</button>
+				<button class="btn" @click="openPopup('submitPopup')">交卷</button>
 			</view>
 		</view>
 		<!-- 内容 -->
@@ -24,7 +24,7 @@
 					<text>6、</text>
 					<view>【多选题】提纲体感吧啦吧啦嗲就能懂啊</view>
 				</view>
-				
+				<!-- 单选样式 选中-on -->
 				<view class="select-row flex">
 					<view class="radio"></view>
 					<view>A、选项1度爱肌肤那就店铺名</view>
@@ -33,6 +33,7 @@
 					<view class="radio on"></view>
 					<view>B、选项1度爱肌肤那就店铺名</view>
 				</view>
+				<!-- 多选样式 选中-on 正确答案-right -->
 				<view class="select-row flex">
 					<view class="checkbox right"></view>
 					<view>C、选项1度爱肌肤那就店铺名</view>
@@ -40,6 +41,10 @@
 				<view class="select-row flex">
 					<view class="checkbox on"></view>
 					<view>D、选项1度爱肌肤那就店铺名</view>
+				</view>
+				<view class="select-row flex">
+					<view class="checkbox on"></view>
+					<view>E、选项1度爱肌肤那就店铺名</view>
 				</view>
 			</view>
 			<!-- 确定按钮 -->
@@ -64,12 +69,16 @@
 				<image class="icons m-left-80" mode="aspectFill" src="../../../static/images/icons/icon-exam-error.svg"></image>
 				<text>1</text>
 			</view>
-			<view class="right flex-center">
+			<view class="right flex-center" @click="openPopup('serialPopup')">
 				<!-- 做题的数 -->
 				<image class="icons" src="../../../static/images/icons/icon-tiku.svg" mode="aspectFill"></image>
 				<text>1/25</text>
 			</view>
 		</view>
+		<!-- 弹窗 交卷 -->
+		<course-exam-submit ref="submitPopup"></course-exam-submit>
+		<!-- 弹窗 题目序列号 -->
+		<course-serial-number-popup ref="serialPopup"></course-serial-number-popup>
 	</view>
 </template>
 
@@ -77,6 +86,12 @@
 export default {
 	data() {
 		return {};
+	},
+	methods: {
+		// 打开弹窗
+		openPopup(value) {
+			this.$refs[value].open();
+		}
 	}
 };
 </script>

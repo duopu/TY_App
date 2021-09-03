@@ -225,17 +225,21 @@
 						"enablePullDownRefresh": false
 					}
 
+				}, {
+					"path": "mine/cart/cart",
+					"style": {
+						"navigationBarTitleText": "购物车",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "mine/collect/collect",
+					"style": {
+						"navigationBarTitleText": "收藏/足迹",
+						"enablePullDownRefresh": false
+					}
 				}
-			    ,{
-                    "path" : "index/cart/cart",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "购物车",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			]
 		},
 		{
 			"root": "pages-business",

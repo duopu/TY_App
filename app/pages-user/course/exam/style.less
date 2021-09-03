@@ -52,29 +52,38 @@
 		.select-row {
 			margin-top: 40rpx;
 		}
-		.checkbox,.radio{
+		.checkbox,
+		.radio {
 			flex-shrink: 0;
 			margin-right: 24rpx;
 			width: 32rpx;
 			height: 32rpx;
-			border: 2rpx solid #CCCCCC;
+			border: 2rpx solid #cccccc;
 			box-sizing: border-box;
+			transition: all 0.2s ease;
 		}
-		.checkbox{
+		.checkbox {
 			border-radius: 8rpx;
-			&.on{
-				background-color: #FFB55B;
-				border-color: #FFB55B;
+			&.on,
+			&.right {
+				background-image: url(../../../static/images/icons/icon-gou-black.svg);
+				background-repeat: no-repeat;
+				background-size: 80% 80%;
+				background-position: center center;
 			}
-			&.right{
-				background-color: #5BC8FF;
-				border-color: #5BC8FF;
+			&.on {
+				background-color: #ffb55b;
+				border-color: #ffb55b;
+			}
+			&.right {
+				background-color: #5bc8ff;
+				border-color: #5bc8ff;
 			}
 		}
-		.radio{
+		.radio {
 			border-radius: 50%;
-			&.on{
-				border: 10rpx solid #FFB55B;
+			&.on {
+				border: 10rpx solid #ffb55b;
 			}
 		}
 	}
@@ -84,7 +93,7 @@
 			margin-bottom: 40rpx;
 			font-weight: bold;
 		}
-		.title{
+		.title {
 			font-weight: bold;
 		}
 		.color-9 {
@@ -117,7 +126,7 @@
 		width: 48rpx;
 		height: 48rpx;
 	}
-	.m-left-80{
+	.m-left-80 {
 		margin-left: 80rpx;
 	}
 }
