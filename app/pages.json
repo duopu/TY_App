@@ -203,12 +203,6 @@
 						"enablePullDownRefresh": false
 					}
 
-				}, {
-					"path": "course/analysis/analysis",
-					"style": {
-						"navigationStyle": "custom",
-						"enablePullDownRefresh": false
-					}
 				},
 				{
 					"path": "course/history/history",
@@ -224,12 +218,19 @@
 						"enablePullDownRefresh": false
 					}
 
+				}, {
+					"path": "mine/account/account",
+					"style": {
+						"navigationBarTitleText": "账号与安全",
+						"enablePullDownRefresh": false
+					}
+
 				}
 			    ,{
-                    "path" : "mine/account/account",
+                    "path" : "index/cart/cart",
                     "style" :                                                                                    
                 {
-                    "navigationBarTitleText": "账号与安全",
+                    "navigationBarTitleText": "购物车",
                     "enablePullDownRefresh": false
                 }
                 

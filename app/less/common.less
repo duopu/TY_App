@@ -42,6 +42,10 @@
 	.flex;
 	align-items: baseline;
 }
+.flex-between{
+	.flex;
+	justify-content: space-between;
+}
 // 加粗
 .text-bold {
 	font-weight: bold;
@@ -69,6 +73,37 @@ button {
 }
 // 占位符
 .slot-item {
-	margin-top: 40rpx;
+	margin-top: 29rpx;
 	height: 1rpx;
+}
+::v-deep .com-nunmber-box.uni-numbox {
+	width: auto !important;
+	height: 48rpx !important;
+	line-height: 48rpx !important;
+	 .uni-numbox__minus{
+		width: 48rpx;
+		height: 48rpx;
+		border: none;
+		background-color: transparent;
+		background-size: 100% 100%;
+		background-image: url(../static/images/icons/icon-minus.svg);
+	}
+	.uni-numbox--text{
+		color: transparent;
+	}
+	.uni-numbox__value{
+		margin: 0 10rpx;
+		height: 48rpx;
+		width: 60rpx;
+		border: none;
+	}
+	.uni-numbox__plus{
+		width: 48rpx;
+		height: 48rpx;
+		border: none;
+		color: transparent;
+		background-color: transparent;
+		background-size: 100% 100%;
+		background-image: url(../static/images/icons/icon-plus.svg);
+	}
 }

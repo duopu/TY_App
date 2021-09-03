@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="25px" viewBox="0 0 24 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>编组</title>
+    <desc>Created with Sketch.</desc>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="随机练习" transform="translate(-10.000000, -739.000000)">
+            <g id="编组" transform="translate(10.000000, 739.000000)">
+                <rect id="矩形" fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="24" height="24"></rect>
+                <path d="M12,22 C14.7614,22 17.2614,20.8807 19.07105,19.07105 C20.8807,17.2614 22,14.7614 22,12 C22,9.2386 20.8807,6.7386 19.07105,4.92893 C17.2614,3.11929 14.7614,2 12,2 C9.2386,2 6.7386,3.11929 4.92893,4.92893 C3.11929,6.7386 2,9.2386 2,12 C2,14.7614 3.11929,17.2614 4.92893,19.07105 C6.7386,20.8807 9.2386,22 12,22 Z" id="路径" stroke="#222222" stroke-width="1.5" fill="#FFBBBB" stroke-linejoin="round"></path>
+                <polyline id="路径" stroke="#222222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="8 12 11 15 17 9"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
