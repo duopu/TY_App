@@ -36,7 +36,7 @@
 			<!-- 规格参数信息 -->
 			<view class="box">
 				<!-- 商品属性选择（只有实体商品才展示） -->
-				<view v-if="goodsInfo.entityGoodsCheck === 2" class="flex row">
+				<view v-if="entityGoodsCheck === 2" class="flex row">
 					<text class="label color-9">选择</text>
 					<view class="flex-1">
 						<view class="flex-center-between">

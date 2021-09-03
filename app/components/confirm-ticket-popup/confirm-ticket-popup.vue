@@ -3,7 +3,7 @@
 	<uni-popup ref="popup" :safeArea="false" type="bottom">
 		<view class="popup-main">
 			<view class="popup-top flex-center-center">
-				<text class="title text-bold">商家优惠券</text>
+				<text class="title text-bold">{{title}}</text>
 				<image @click="close()" class="icon-close" src="../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
 			</view>
 			<scroll-view class="popup-content" scroll-y="true">
@@ -14,7 +14,7 @@
 					@onSelect="onSelect"></ticket-lists-item>
 				</block>
 			</scroll-view>
-			<view class="popup-bottom"><button class="btn" @click="sumbit">确定</button></view>
+			<view class="popup-bottom"><button class="btn" @click="submit">确定</button></view>
 		</view>
 	</uni-popup>
 </template>
@@ -24,6 +24,11 @@ export default {
 	name: 'confirm-ticket-popup',
 	emits: ['submit'],
 	props:{
+		// 弹窗标题
+		title: {
+			type: String,
+			required: true
+		},
 		// 可使用的优惠券
 		couponList: {
 			type: Array,
@@ -38,7 +43,7 @@ export default {
 	data() {
 		return {
 			dataList:this.couponList,
-			couponId:this.selectCouponId,
+			couponId:this.selectCouponId, //一开始选中商品优惠券ID
 			chooseStoreCouponId:this.selectCouponId //最终选择商品优惠券ID
 		};
 	},
@@ -68,8 +73,11 @@ export default {
 			}
 		},
 		// 确定
-		sumbit(){
-			this.$emit("sumbit",this.chooseStoreCouponId);
+		submit(){
+			// 如果一开始选中的跟最终选中优惠券不是同一个，才触发提交的回调，避免重复去调接口
+			if(this.couponId !== this.chooseStoreCouponId){
+				this.$emit("submit",this.chooseStoreCouponId);
+			}
 			this.close();
 		}
 	}

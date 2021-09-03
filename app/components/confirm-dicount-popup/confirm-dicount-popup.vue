@@ -7,16 +7,16 @@
 				<image @click="close()" class="icon-close" src="../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
 			</view>
 			<scroll-view class="popup-content" scroll-y="true">
-				<view class="row flex-center-between" @click="changeDiscount(0)">
-					<view class="text">500金币 可抵扣5元</view>
-					<view class="radio" :class="{ on: selectDiscount === 0 }"></view>
-				</view>
 				<view class="row flex-center-between" @click="changeDiscount(1)">
+					<view class="text">{{goldCoin}}金币 可抵扣{{goldDeductionAmount}}元</view>
+					<view class="radio" :class="{ on: isUseGoldCoin === 1 }"></view>
+				</view>
+				<view class="row flex-center-between" @click="changeDiscount(0)">
 					<view class="text">不使用金币抵扣</view>
-					<view class="radio" :class="{ on: selectDiscount === 1 }"></view>
+					<view class="radio" :class="{ on: isUseGoldCoin === 0 }"></view>
 				</view>
 			</scroll-view>
-			<view class="popup-bottom"><button class="btn" @click="close()">确定</button></view>
+			<view class="popup-bottom"><button class="btn" @click="submit()">确定</button></view>
 		</view>
 	</uni-popup>
 </template>
@@ -24,10 +24,25 @@
 <script>
 export default {
 	name: 'confirm-dicount-popup',
+	emits: ['submit'],
+	props: {
+		useGoldCoin: { //是否使用金币  0不使用  1使用
+			type: Number,
+			default: 0
+		},
+		goldCoin: { //能使用金币数量
+			type: Number,
+			default: 0
+		},
+		goldDeductionAmount: { //金币抵扣金额
+			type: Number,
+			default: 0
+		}
+	},
 	data() {
-		return {
-			selectDiscount: 0
-		};
+		return{
+			isUseGoldCoin: this.useGoldCoin //是否使用金币
+		}
 	},
 	methods: {
 		// 打开弹窗
@@ -40,8 +55,14 @@ export default {
 		},
 		// 选择折扣
 		changeDiscount(value) {
-			if(this.selectDiscount === value) return;
-			this.selectDiscount = value;
+			this.isUseGoldCoin = value;
+		},
+		// 提交
+		submit() {
+			if(this.useGoldCoin !== this.isUseGoldCoin){
+				this.$emit('sbumit',this.isUseGoldCoin);
+			}
+			this.close();
 		}
 	}
 };
