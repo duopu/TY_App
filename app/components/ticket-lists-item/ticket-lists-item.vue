@@ -72,7 +72,7 @@ export default {
 		// 选中
 		setSelect(){
 			this.select = !this.select;
-			this.$emit('onSelect',{...this.select,...this.data});
+			this.$emit('onSelect',{...this.data, select:this.select});
 		}
 	}
 };

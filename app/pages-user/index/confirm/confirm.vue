@@ -24,7 +24,7 @@
 					<text class="label">运费</text>
 					<text>¥{{item.freightAmount}}</text>
 				</view>
-				<view class="row flex-center-between"  @click="chooseStoreCoupon(item.storeCouponId, item.storeCouponList)">
+				<view class="row flex-center-between"  @click="chooseStoreCoupon(item.storeCouponId, item.storeCouponList, index)">
 					<text class="label">商家优惠</text>
 					<text v-if="item.storeCouponId" class="flex-1 color-red">-¥{{item.storeDiscountAmount}}</text>
 					<text v-else class="flex-1 color-9">{{item.storeCouponList && item.storeCouponList.length > 0 ? '请选择优惠券' : '无可用优惠券'}}</text>
@@ -66,7 +66,7 @@
 				<text>合计:</text>
 				<text class="price">¥{{orderVO.payAmount}}</text>
 			</view>
-			<button class="btn" @click="openPopup('paymentPopup')">提交订单</button>
+			<button class="btn" @click="submitOrder">提交订单</button>
 		</view>
 		<!-- 直选支付方式 弹窗 -->
 		<common-payment-popup ref="paymentPopup"></common-payment-popup>
@@ -87,7 +87,7 @@
 		<confirm-ticket-popup ref="platformCouponPopup" 
 		title="平台优惠券"
 		:couponList="orderVO.platFormCouponList || []" 
-		:selectCouponId="selectPlatformCouponId" 
+		:selectCouponId="refreshOrderDetailParams.platFormCouponId" 
 		@submit="platformCouponSubmit"></confirm-ticket-popup>
 	</view>
 </template>
@@ -116,7 +116,7 @@ export default {
 			},
 			storeCouponList:[], //商家可用优惠券
 			selectStoreCouponId:undefined, //商家选中的优惠券
-			selectPlatformCouponId:undefined, //平台选中的优惠券
+			currentStoreCouponIndex:0, //当前点击的第几个商家下面的优惠券
 			refreshOrderDetailParams:{
 				address:undefined,
 				useGoldCoin:0,
@@ -133,7 +133,8 @@ export default {
 	}),
 	watch:{
 		defaultAddress(newV, oldV){
-			this.refreshOrderDetailParams.address = newV.address;
+			let {provinceName,cityName,areaName,streetName,address} = newV;
+			this.refreshOrderDetailParams.address = `${provinceName}${cityName}${areaName}${streetName}${address}`;
 			this.refreshOrderDetailParams.name = newV.name;
 			this.refreshOrderDetailParams.mobile = newV.phone;
 		}
@@ -171,6 +172,17 @@ export default {
 		},
 		
 		/**
+		 * 提交订单
+		 */
+		submitOrder(){
+			this.$http
+				.post('/order/submit', this.refreshOrderDetailParams, true)
+				.then(res => {
+					this.openPopup('paymentPopup');
+				});
+		},
+		
+		/**
 		 * 初始化订单详情对象
 		 * @param {Object} data 接口返回的下订单对象
 		 */
@@ -195,23 +207,28 @@ export default {
 				}
 			})
 
+			let {provinceName,cityName,areaName,streetName,address} = this.defaultAddress;
+
 			this.refreshOrderDetailParams = {
-				address: this.defaultAddress.address,
+				address: `${provinceName}${cityName}${areaName}${streetName}${address}`,
 				useGoldCoin: data.useGoldCoin,
 				mobile: this.defaultAddress.phone,
 				name: this.defaultAddress.name,
 				platFormCouponId: data.platformCouponId,
 				storeGoodsList: storeGoodsList
 			};
-			this.selectStoreCouponId = data.platformCouponId;
+			
+			this.selectPlatformCouponId = data.platformCouponId;
 		},
 		
 		/**
 		 * 商家优惠点击
 		 * @param {Object} storeCouponId  选中的商家优惠券ID
 		 * @param {Object} storeCouponList  可选择的商家优惠券列表
+		 * @param {Object} index 当前商家的索引值
 		 */
-		chooseStoreCoupon(storeCouponId, storeCouponList){
+		chooseStoreCoupon(storeCouponId, storeCouponList, index){
+			if(!storeCouponList || storeCouponList.length === 0){ return }
 			this.selectStoreCouponId = storeCouponId;
 			let finalStoreCouponList = [];
 			finalStoreCouponList = storeCouponList && storeCouponList.map(function(value){
@@ -220,6 +237,7 @@ export default {
 				return obj;
 			})
 			this.storeCouponList = finalStoreCouponList;
+			this.currentStoreCouponIndex = index;
 			this.openPopup('storeCouponPopup');
 		},
 		
@@ -229,14 +247,15 @@ export default {
 		 */
 		storeCouponSubmit(storeCouponId){
 			this.selectStoreCouponId = storeCouponId;
-			// this.refreshOrderDetailParams.
-			// this.refreshOrderDetail();
+			this.refreshOrderDetailParams.storeGoodsList[this.currentStoreCouponIndex].storeCouponId = storeCouponId;
+			this.refreshOrderDetail();
 		},
 		
 		/**
 		 * 平台优惠点击
 		 */
 		choosePlatformCoupon(){
+			if(!this.orderVO.platFormCouponList || this.orderVO.platFormCouponList.length === 0) { return }
 			this.openPopup('platformCouponPopup');
 		},
 		
@@ -245,7 +264,8 @@ export default {
 		 * @param Number platformCouponId  选中的平台优惠券ID
 		 */
 		platformCouponSubmit(platformCouponId){
-			this.selectPlatformCouponId = platformCouponId;
+			this.refreshOrderDetailParams.platFormCouponId = platformCouponId;
+			this.refreshOrderDetail();
 		},
 		
 		/**
