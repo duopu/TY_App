@@ -16,16 +16,18 @@
 					<image class="icon" src="../../static/images/icons/icon-gth.svg" mode="aspectFill"></image>
 					<text>{{ data.ruleDescription }}</text>
 				</view>
-				<view class="time">{{ data.effectContent }}</view>
+				<view class="time">有效期: {{ data.effectContent }}</view>
 			</view>
 			<!-- 商品未领取 -->
-			<button v-if="data.userReceive === 0" class="btns text-bold" @click="collectCoupon">领取</button>
+			<button v-if="data.userReceive === 1" class="btns text-bold" @click="collectCoupon">领取</button>
 			<!-- 商品已领取 -->
-			<button v-if="data.userReceive === 1" class="btns text-bold disabled">已领取</button>
+			<button v-if="data.userReceive === 2" class="btns text-bold disabled">已领取</button>
 
 			<!-- 选择优惠券 -->
 			<!-- 选中 on -->
-			<view class="flex-center-center select" v-if="isSelect"><view class="radio"></view></view>
+			<view class="flex-center-center select" v-if="canSelect">
+				<view class="radio" :class="{on:select}" @click="setSelect"></view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -33,7 +35,7 @@
 <script>
 export default {
 	name: 'ticket-lists-item',
-	emits: ['collect'],
+	emits: ['collect', 'onSelect'],
 	props: {
 		data: {
 			type: Object,
@@ -47,18 +49,30 @@ export default {
 				userReceive: 1 //用户是否已领取
 			})
 		},
-		isSelect: {
+		canSelect: { //是否需要选中优惠券的功能
+			type: Boolean,
+			default: false
+		},
+		isSelect: { //当前优惠券是否被选中
 			type: Boolean,
 			default: false
 		}
 	},
 	data() {
-		return {};
+		return {
+			select:this.isSelect
+		};
 	},
 	methods: {
 		// 领取优惠券
 		collectCoupon() {
 			this.$emit('collect');
+		},
+		
+		// 选中
+		setSelect(){
+			this.select = !this.select;
+			this.$emit('onSelect',{...this.select,...this.data});
 		}
 	}
 };

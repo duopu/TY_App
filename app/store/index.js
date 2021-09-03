@@ -10,7 +10,8 @@ const store = new Vuex.Store({
     state:{
 		historySearchList:[], //搜索历史
 		goodsDetailsHeightChange:false, //商品详情页高度变化
-		defaultAddress:undefined //用户默认收货地址
+		defaultAddress:undefined, //用户当前选择的收货地址（默认为默认地址）
+		storeGoodsList:[] //用户下订单时选择的商品
     },
 	
 	mutations:{
@@ -80,6 +81,15 @@ const store = new Vuex.Store({
 		 */
 		setDefaultAddress(state,address){
 			state.defaultAddress = address;
+		},
+		
+		/**
+		 * 设置下订单时确定的商品
+		 * @param {Object} state
+		 * @param {Object} storeGoodsList
+		 */
+		setStoreGoodsList(state,storeGoodsList){
+			state.storeGoodsList = storeGoodsList;
 		}
 	},
 	

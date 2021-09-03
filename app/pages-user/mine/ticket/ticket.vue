@@ -2,23 +2,23 @@
 <template>
 	<view class="ticket">
 		<custom-horizontal-tabs @change="getTabsIndex" :data="tabsData" :currentIndex="tabsIndex"></custom-horizontal-tabs>
-		<swiper :current="tabsIndex" @change="swiperChange">
+		<swiper :current="tabsIndex" @change="swiperChange" class="flex-1">
 			<swiper-item v-for="(item,index) in dataList" :key="`swiper-item-${index}`"> 
 				<!-- 未使用 -->
 				<scroll-view scroll-y="true" class="ticket-lists">
 					<!-- 平台优惠券 -->
 					<view class="title">平台优惠券</view>
-					<block v-for="(value, index) in item.userPlatformCouponList || []" :key="`coupon-${index}`">
+					<block v-for="(value, vi) in item.userPlatformCouponList || []" :key="`coupon-${vi}`">
 						<ticket-lists-item :data="value"></ticket-lists-item>
 					</block>
 					<!-- 商家优惠券 -->
 					<view class="title">商家优惠券</view>
-					<block v-for="(value, index) in item.userStoreCouponList" :key="`store-${index}`">
+					<block v-for="(value, vi) in item.userStoreCouponList" :key="`store-${vi}`">
 						<view class="flex-center goods-item">
 							<image class="avatar-image" src="../../../static/images/other/girl.png" mode="aspectFill"></image>
 							<text>{{value.storeName}}</text>
 						</view>
-						<block v-for="(coupon, index) in value.userCouponDetailList || []" :key="`store-coupon-${index}`">
+						<block v-for="(coupon, ci) in value.userCouponDetailList || []" :key="`store-coupon-${ci}`">
 							<ticket-lists-item :data="coupon"></ticket-lists-item>
 						</block>
 					</block>

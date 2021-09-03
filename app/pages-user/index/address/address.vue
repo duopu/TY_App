@@ -10,7 +10,8 @@
 				<address-lists-item :data="defaultAddress" 
 				@deleteAddress="deleteAddress(defaultAddress.id)" 
 				@setDefault="setDefaultAddress(defaultAddress)" 
-				@itemClick="goAddAddress(defaultAddress)"></address-lists-item>
+				@editClick="goAddAddress(defaultAddress)" 
+				@itemClick="setCurrentSelectAddress(defaultAddress)"></address-lists-item>
 			</block>
 			
 			<block v-if="otherAddressList.length > 0">
@@ -21,7 +22,8 @@
 					<address-lists-item :data="item" 
 					@deleteAddress="deleteAddress(item.id)" 
 					@setDefault="setDefaultAddress(item)" 
-					@itemClick="goAddAddress(item)"></address-lists-item>
+					@editClick="goAddAddress(item)"
+					@itemClick="setCurrentSelectAddress(item)"></address-lists-item>
 				</block>
 			</block>
 			
@@ -36,7 +38,7 @@
 export default {
 	data() {
 		return {
-			defaultAddress:undefined, //当前收货地址
+			defaultAddress:this.$store.state.defaultAddress, //当前收货地址
 			otherAddressList:[] //其他收货地址
 		};
 	},
@@ -52,11 +54,18 @@ export default {
 				.then(res => {
 					if(res){
 						let addressList = [];
+						console.log("this.store == ",this.defaultAddress);
 						for(var i=0; i<res.length; i++){
 							if(res[i].isDefault === 1){
-								this.defaultAddress = res[i];
+								if(!this.defaultAddress){
+									this.defaultAddress = res[i];
+								}else if(this.defaultAddress.id !== res[i].id){
+									addressList.push(res[i]);
+								}
 							}else {
-								addressList.push(res[i]);
+								if(this.defaultAddress === undefined || res[i].id !== this.defaultAddress.id){
+									addressList.push(res[i]);
+								}
 							}
 						}
 						this.otherAddressList = addressList;
@@ -108,6 +117,16 @@ export default {
 					}
 				 }
 			});
+		},
+		
+		/**
+		 * 地址被点击
+		 * @param {Object} address
+		 */
+		setCurrentSelectAddress(address){
+			this.defaultAddress = address;
+			this.$store.commit('setDefaultAddress',address);
+			uni.navigateBack();
 		}
 		
 	}

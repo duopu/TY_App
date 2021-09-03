@@ -8,7 +8,7 @@
 				<view class="name">{{data.name}} {{data.phone}}</view>
 				<view class="desc">{{data.provinceName}} {{data.cityName}} {{data.areaName}} {{data.streetName}} {{data.address}}</view>
 			</view>
-			<image class="icons" src="../../static/images/icons/icon-light-arrow.png" mode="aspectFill"></image>
+			<image class="icons" src="../../static/images/icons/icon-update.svg" mode="aspectFill" @click.stop="editClick"></image>
 		</view>
 		<view class="flex-center-between item-bottom">
 			<!-- 选中 on -->
@@ -22,7 +22,7 @@
 <script>
 export default {
 	name: 'address-lists-item',
-	emits:['deleteAddress','setDefault','itemClick'],
+	emits:['deleteAddress','setDefault','itemClick','editClick'],
 	props:{
 		data:{
 			type:Object,
@@ -46,9 +46,14 @@ export default {
 			this.$emit("deleteAddress")
 		},
 		
-		// 配送地址点击事件
+		// 选择配送地址为当前地址
 		itemClick(){
 			this.$emit("itemClick")
+		},
+		
+		// 编辑
+		editClick(){
+			this.$emit("editClick")
 		}
 	}
 };

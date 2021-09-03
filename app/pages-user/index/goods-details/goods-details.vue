@@ -33,10 +33,10 @@
 					<view v-else-if="goodsInfo.goodsDistributionStatus === 1" class="state" @click="goGoodsApply">查看分销进度</view>
 				</view>
 			</view>
-			<!-- 选择 -->
+			<!-- 规格参数信息 -->
 			<view class="box">
-				<!-- 选择 -->
-				<view class="flex row">
+				<!-- 商品属性选择（只有实体商品才展示） -->
+				<view v-if="goodsInfo.entityGoodsCheck === 2" class="flex row">
 					<text class="label color-9">选择</text>
 					<view class="flex-1">
 						<view class="flex-center-between">
@@ -56,9 +56,11 @@
 						<view class="flex-center-between">
 							<text>
 								{{ goodsInfo.city }}{{ goodsInfo.area }}
-								<block v-if="selectGoodsVO.attributesId">快递: {{ freightAmount > 0 ? `${freightAmount}元` : '免快递费' }}</block>
+								<!-- 只有实体商品才会有快递费 -->
+								<block v-if="entityGoodsCheck === 2 && selectGoodsVO.attributesId">快递: {{ freightAmount > 0 ? `${freightAmount}元` : '免快递费' }}</block>
 							</text>
-							<image @click="goAddress()" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+							<!-- 只有实体商品才可以去选择配送地址 -->
+							<image v-if="entityGoodsCheck === 2" @click="goAddress()" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
 						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">
 							配送至：{{ defaultAddress.provinceName }} {{ defaultAddress.cityName }} {{ defaultAddress.areaName }} {{ defaultAddress.streetName }}
@@ -71,13 +73,13 @@
 					<text class="label color-9">优惠</text>
 					<view class="flex-1 flex">
 						<view class="discount-lists">
-							<view class="lists-item flex-center">
+							<view v-if="storeCouponTypeContent" class="lists-item flex-center">
 								<view class="tag">商家</view>
-								<view>满500减20</view>
+								<view>{{storeCouponTypeContent}}</view>
 							</view>
-							<view class="lists-item flex-center">
+							<view v-if="platformCouponTypeContent" class="lists-item flex-center">
 								<view class="tag">平台</view>
-								<view>满500减30</view>
+								<view>{{platformCouponTypeContent}}</view>
 							</view>
 						</view>
 						<image @click="jumpCoupon" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
@@ -233,16 +235,18 @@ export default {
 			questionCommentVOList: [], //题库评论
 			courseCommentVOList: [], //课程评论
 			selectGoodsVO: {}, //选中的商品对象
-            goodsClassifyPopType: 1 //商品属性弹窗类型 1加入购物车 2立即购买
+            goodsClassifyPopType: 1, //商品属性弹窗类型 1加入购物车 2立即购买
+			platformCouponTypeContent:undefined, //平台最大优惠力度
+			storeCouponTypeContent:undefined //商家最大优惠力度
 		};
 	},
 	computed: mapState({
-		// 默认地址
+		// 选中的收货地址
 		defaultAddress: state => state.defaultAddress,
 		// 快递费
 		freightAmount: function() {
 			var price = 0;
-			var storeFreightConfigVO = this.goodsInfo.storeFreightConfigVO;
+			var storeFreightConfigVO = this.goodsInfo.storeFreightConfigVO || {};
 			if (storeFreightConfigVO.type == 2) {
 				//阶梯运费
 				// 最终价格 = 选中商品的单价*数量
@@ -274,6 +278,7 @@ export default {
 		this.getGoodsResource();
 		this.getGoodsInfo();
 		this.getComment();
+		this.getCouponInfo();
 	},
 	methods: {
 		// 获取当前 tab index
@@ -328,13 +333,28 @@ export default {
 		//立即购买
 		jumpConfirm(){
 			this.goodsClassifyPopType = 2;
-			this.openPopup('classifyPopup');
+			if(this.entityGoodsCheck === 2){ //只有实体商品才会弹出商品属性选择
+				this.openPopup('classifyPopup');
+			}else { //如果是虚拟商品，就不需要选择商品属性，直接进行下一步操作
+				let goodsAttributes = {
+					price: this.goodsInfo.price
+				}
+				this.goodsAttributesSubmit({goodsAttributes, count:1});
+			}
 		},
 
 		//加入购物车
 		jumpAddCar(){
 			this.goodsClassifyPopType = 1;
-			this.openPopup('classifyPopup');
+			if(this.entityGoodsCheck === 2){ //只有实体商品才会弹出商品属性选择
+				this.openPopup('classifyPopup');
+			}else { //如果是虚拟商品，就不需要选择商品属性，直接进行下一步操作
+				let goodsAttributes = {
+					price: this.goodsInfo.price
+				}
+				this.goodsAttributesSubmit({goodsAttributes, count:1});
+			}
+			
 		},
 
 		//优惠
@@ -423,6 +443,28 @@ export default {
 				this.questionCommentVOList = res.questionCommentVOList;
 			});
 		},
+		
+		/**
+		 * 查询当前商品的优惠券信息
+		 */
+		getCouponInfo(){
+			this.$http.get('/coupon/queryListByLogin', { goodsId: this.goodsId }, true).then(res => {
+				// 找到平台最大的优惠力度
+				if(res.couponList && res.couponList.length > 0){
+					let couponList =  res.couponList.sort(function(a, b){
+						return b.couponAmount - a.couponAmount;
+					});
+					this.platformCouponTypeContent = couponList[0].couponTypeContent;
+				}
+				// 找到商家最大的优惠力度
+				if(res.storeCouponList && res.storeCouponList.length > 0){
+					let storeCouponList =  res.storeCouponList.sort(function(a, b){
+						return b.couponAmount - a.couponAmount;
+					});
+					this.storeCouponTypeContent = storeCouponList[0].couponTypeContent;
+				}
+			});
+		},
 
 		/** 商品收藏
 		 * @param {Object} isCollect  true 收藏/ false 取消收藏
@@ -453,6 +495,15 @@ export default {
 						this.$tool.showSuccess("添加成功，在购物车等亲~");
 					});
 			}else{ //立即购买
+			
+				let storeGoodList = [{
+					attributesId:goodsAttributes.attributesId,
+					goodsId: this.goodsInfo.goodsId,
+					goodsNum: count,		 
+				}];
+				// 设置下单时要购买的商品
+				this.$store.commit('setStoreGoodsList',storeGoodList)
+			
 				uni.navigateTo({
 					url: `/pages-user/index/confirm/confirm`
 				});

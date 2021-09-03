@@ -9,7 +9,7 @@
 			<!-- 适用商品 -->
 			<view class="sub-title"><text class="text">适用商品</text></view>
 			<scroll-view class="goods-lists" scroll-x="true">
-				<view class="flex-column goods-lists-item" v-for="(value, index) in item.goodsDetailList" :key="`goods-list-${index}`">
+				<view class="flex-column goods-lists-item" v-for="(value, i) in item.goodsDetailList" :key="`goods-list-${i}`">
 					<image class="goods-image" :src="value.thumbnail" mode="aspectFill"></image>
 					<view class="text text-ellipsis">{{value.goodsName}}</view>
 				</view>
