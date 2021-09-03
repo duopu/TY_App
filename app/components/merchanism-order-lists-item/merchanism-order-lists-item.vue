@@ -3,23 +3,23 @@
 	<view class="store-order-lists-item">
 		<!-- 商家 -->
 		<view v-if="type === 0" class="flex-center-between top">
-			<view class="name">xx商家</view>
+			<view class="name">{{storeGoodsVO.storeName}}</view>
 			<view class="desc">{{ showStateName }}</view>
 		</view>
 		<!-- 退款 -->
 		<view v-if="type === 2" class="flex-center-between top"><view class="name">退款商品</view></view>
 		<!-- 多个商品 -->
-		<view class="content flex" v-for="(item,index) in ['','']" :key="index">
-			<image class="avatar-image" src="../../static/images/other/demo.png" mode="aspectFill"></image>
+		<view class="content flex" v-for="(item,index) in storeGoodsVO.orderItemList" :key="`goods-${index}`">
+			<image class="avatar-image" :src="item.thumbnail" mode="aspectFill"></image>
 			<view class="flex-column flex-1 right">
-				<view class="title">5天英语全能挑战名称可能很长可能是两行</view>
-				<view class="tag"><view class="tag-item">型号一</view></view>
+				<view class="title">{{item.goodsName}}</view>
+				<view class="tag"><view class="tag-item">{{item.attributesName}}</view></view>
 				<view class="flex-center-between">
 					<view class="price">
 						<text class="unit">¥</text>
-						500
+						{{item.price}}
 					</view>
-					<view class="number">×24</view>
+					<view class="number">×{{item.goodsNum}}</view>
 				</view>
 			</view>
 		</view>
@@ -57,6 +57,23 @@ export default {
 		state: {
 			type: Number,
 			default: 0 //0-不显示底部，1-待付款 2-待发货 3-待收货 4-已完成
+		},
+		storeGoodsVO: { //商品
+			type: Object,
+			required: true,
+			default: {
+				orderItemList:[{
+					attributesId: undefined,
+					attributesName: undefined,
+					price: 0,
+					goodsId:undefined,
+					goodsNum:0,
+					goodsName:undefined,
+					thumbnail:undefined
+				}],
+				storeId:undefined,
+				storeName:undefined
+			}
 		}
 	},
 	computed:{
