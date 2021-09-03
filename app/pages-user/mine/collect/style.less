@@ -1,0 +1,129 @@
+.collect {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background-color: #f8f8f8;
+	overflow: hidden;
+	.radio {
+		margin-right: 24rpx;
+		width: 40rpx;
+		height: 40rpx;
+		background-color: #ffffff;
+		background-size: 100%;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-image: url(../../../static/images/icons/icon-no-gou.svg);
+		&.on {
+			background-image: url(../../../static/images/icons/icon-black-gou.svg);
+		}
+	}
+}
+.collect-top{
+	margin: 0;
+	background-color: #FFFFFF;
+}
+.collect-content {
+	flex: 1;
+	height: 100%;
+	overflow: hidden;
+	.price {
+		font-size: 34rpx;
+		font-weight: bold;
+		color: #ff705b;
+		.unit {
+			font-size: 24rpx;
+		}
+	}
+}
+// 商品收藏
+.goods-lists-item {
+	margin: 20rpx;
+	padding: 0 24rpx 30rpx;
+	background-color: #ffffff;
+	border-radius: 20rpx;
+	// 头部
+	.top {
+		padding-bottom: 10rpx;
+		padding: 24rpx 0;
+		.shop-name {
+			font-size: 30rpx;
+			font-weight: bold;
+		}
+	}
+	// 内容
+	.content {
+		padding-top: 30rpx;
+		align-items: stretch;
+		.avatar-image {
+			margin-right: 24rpx;
+			width: 240rpx;
+			height: 160rpx;
+			border-radius: 20rpx;
+		}
+		.name {
+			margin-bottom: 18rpx;
+			font-size: 28rpx;
+			font-weight: bold;
+		}
+		.radio,.icon-clear{
+			align-self: center;
+		}
+		.icon-clear {
+			padding-top: 5rpx;
+			flex-shrink: 0;
+			margin-left: 24rpx;
+			width: 40rpx;
+			height: 40rpx;
+		}
+	}
+}
+// 店铺收藏
+.store-lists-item{
+	margin: 20rpx;
+	padding: 30rpx 24rpx;
+	font-size: 28rpx;
+	background-color: #ffffff;
+	border-radius: 20rpx;
+	.avatar-image {
+		margin-right: 24rpx;
+		width:160rpx;
+		height: 160rpx;
+		border-radius: 20rpx;
+	}
+	.icon-clear {
+		padding-top: 5rpx;
+		flex-shrink: 0;
+		margin-left: 24rpx;
+		width: 40rpx;
+		height: 40rpx;
+	}
+	.name{
+		font-weight: bold;
+	}
+	.desc{
+		margin-top: 20rpx;
+		color: #666666;
+	}
+	.flex-column{
+		align-self: flex-start;
+	}
+}
+// 底部
+.collect-bottom {
+	padding: 14rpx 30rpx;
+	font-size: 28rpx;
+	flex-shrink: 0;
+	background-color: #ffffff;
+	.btn {
+		margin: 0 0 0 20rpx;
+		width: 240rpx;
+		height: 80rpx;
+		line-height: 80rpx;
+		text-align: center;
+		font-size: 28rpx;
+		color: #ffffff;
+		background-color: #222222;
+		border-radius: 54rpx;
+		box-sizing: border-box;
+	}
+}
