@@ -1,14 +1,24 @@
 <!-- tab 我的题库 -->
 <template>
-	<my-scroll-view class="course-lists" :pageSize="pageSize" @loadData="onLoadData">
-		<template v-slot:list="slotProps">
-			<course-video-item :state="1"
-			v-for="(item, index) in slotProps.list"
-			:key="index" 
-			:data="item"
-			 @clickItem="itemClick"></course-video-item>
-		</template>
-	</my-scroll-view>
+	<view class="bank-content">
+		<my-scroll-view v-if="false" class="course-lists" :pageSize="pageSize" @loadData="onLoadData">
+			<template v-slot:list="slotProps">
+				<course-video-item :state="1"
+				v-for="(item, index) in slotProps.list"
+				:key="index" 
+				:data="item"
+				 @clickItem="itemClick"></course-video-item>
+			</template>
+		</my-scroll-view>
+		<!-- 我的题库 -->
+		<view v-if="true" class="course-exam-content">
+			<view class="flex-center-center">
+				<view class="bank-item flex-column">
+					<image src="" mode=""></image>
+				</view>
+			</view>
+		</view>
+	</view>
 </template>
 
 <script>
