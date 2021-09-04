@@ -17,14 +17,14 @@
 					<text class="text flex-1">支付宝支付</text>
 					<view class="radio" :class="{ on: payIndex === 1 }"></view>
 				</view>
-				<view class="flex-center-center row" @click="selectPay(2)">
+				<!-- <view class="flex-center-center row" @click="selectPay(2)">
 					<image class="image" src="../../static/images/login/package.png" mode="aspectFill"></image>
 					<view class="flex-1 flex-column-between">
 						<text class="text">账户余额支付</text>
 						<text class="desc">可用余额:¥1000.00</text>
 					</view>
 					<view class="radio" :class="{ on: payIndex === 2 }"></view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 	</uni-popup>

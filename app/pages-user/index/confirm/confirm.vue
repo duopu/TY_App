@@ -176,10 +176,19 @@ export default {
 		 * 提交订单
 		 */
 		submitOrder(){
+			if(!this.isAgree){
+				this.$tool.showToast("请先同意《腾云课堂服务协议》");
+				return
+			}
 			this.$http
 				.post('/order/submit', this.refreshOrderDetailParams, true)
 				.then(res => {
-					this.openPopup('paymentPopup');
+					if(this.orderVO.payAmount === 0){
+						//TODO: 不需要显示支付弹窗，直接跳转到我的订单页面
+					}else {
+						// TODO: 如果支付过程中关闭弹窗或者取消交易，也跳转到我的订单页面
+						this.openPopup('paymentPopup');
+					}
 				});
 		},
 		
