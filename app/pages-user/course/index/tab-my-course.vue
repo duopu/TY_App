@@ -1,11 +1,16 @@
-<!-- tab 我的题库 -->
+<!-- tab 我的课程 -->
 <template>
 	<my-scroll-view class="course-lists" :pageSize="pageSize" @loadData="onLoadData">
 		<template v-slot:list="slotProps">
-			<course-video-item v-for="(item, index) in slotProps.list"
-			:key="index" 
-			:data="item"
-			 @clickItem="itemClick"></course-video-item>
+			<course-video-item 
+        v-for="(item, index) in slotProps.list"
+			  :key="index" 
+			  :data="item"
+        :state="0"
+			  @clickItem="itemClick"
+        @btnClick="btnClick"
+        />
+        
 		</template>
 	</my-scroll-view>
 </template>
@@ -20,8 +25,7 @@ export default {
 	},
 	methods:{
 		onLoadData(page, callback){
-			//TODO: 这里把请求路径改成课程路径即可，其他的就不用动了
-			this.$http.get('/questionBank/queryPageByUser',{page:page, size:this.pageSize},true).then(res=>{
+			this.$http.get('/course/queryPage',{page, size:this.pageSize},true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);
@@ -36,7 +40,10 @@ export default {
 			// uni.navigateTo({
 			// 	url: `/pages-user/index/consult/details?articleId=${articleId}`
 			// });
-		}
+		},
+    btnClick(data){
+      this.$emit('btnClick',data)
+    },
 	}
 };
 </script>
