@@ -21,7 +21,7 @@
 				<view class="text-bold">5天英语全能挑战名称可能很长可能是两行</view>
 				<view class="flex-center-between">
 					<view class="tag">型号一</view>
-					<view class="color-9 number">*1</view>
+					<view class="color-9 number">×1</view>
 				</view>
 			</view>
 		</view>

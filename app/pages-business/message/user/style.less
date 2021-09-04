@@ -3,15 +3,17 @@
 	flex-direction: column;
 	height: 100%;
 	background-image: linear-gradient(360deg, #e9323e 0%, #ffb55b 100%);
-	background-size: 100% 506rpx;
+	background-size: 100% 418rpx;
 	background-repeat: no-repeat;
 	background-attachment: scroll;
 	background-color: #f4f5f9;
+	overflow: hidden;
 	.font-24 {
 		font-size: 24rpx;
 	}
 }
 .user-top {
+	flex-shrink: 0;
 	padding-top: calc(var(--status-bar-height) + 30rpx);
 	padding-left: 20rpx;
 	.icon-arrow {
@@ -26,10 +28,10 @@
 	}
 }
 .user-message {
+	padding: 20rpx 0;
 	font-size: 32rpx;
 	color: #FFFFFF;
 	.avatar-image {
-		margin-top: 16rpx;
 		margin-bottom: 8rpx;
 		width: 128rpx;
 		height: 128rpx;
@@ -43,6 +45,11 @@
 			margin-bottom:4rpx;
 		}
 	}
+}
+.user-content{
+	flex: 1;
+	height: 100%;
+	overflow: hidden;
 }
 .goods-data-lists{
 	margin: 20rpx;
@@ -58,4 +65,7 @@
 		font-size: 32rpx;
 		font-weight: bold;
 	}
+}
+.user-lists{
+	margin: 20rpx;
 }

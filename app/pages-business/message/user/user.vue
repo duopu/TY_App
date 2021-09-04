@@ -3,18 +3,16 @@
 	<view class="user">
 		<!--  -->
 		<!-- 头部 -->
-		<view class="user-top flex-center-between">
-			<image class="icon-arrow" src="../../../static/images/icons/icon-back.svg" mode="aspectFill"></image>
-			<view class="save font-24">已收藏本店</view>
-		</view>
-		<scroll-view scroll-y="true" class="user-content">
+		<view class="user-top">
+			<view class="flex-center-between">
+				<image class="icon-arrow" src="../../../static/images/icons/icon-back.svg" mode="aspectFill"></image>
+				<view class="save font-24">已收藏本店</view>
+			</view>
 			<!-- 用户 -->
 			<view class="user-message">
 				<view class="flex-column-center">
 					<image class="avatar-image" src="../../../static/images/other/girl.png" mode="aspectFill"></image>
-					<view class="text-bold">
-						用户A
-					</view>
+					<view class="text-bold">用户A</view>
 				</view>
 				<view class="flex-center">
 					<view class="flex-column-center flex-1 horizontal-item">
@@ -27,6 +25,8 @@
 					</view>
 				</view>
 			</view>
+		</view>
+		<scroll-view scroll-y="true" class="user-content">
 			<!-- 数据 -->
 			<view class="goods-data-lists flex-center">
 				<view class="flex-column-center item">
@@ -43,7 +43,9 @@
 				</view>
 			</view>
 			<!-- 列表 -->
-			<trade-lists-item :role="1" :state="1"></trade-lists-item>
+			<view class="user-lists">
+				<block v-for="(item, index) in ['', '', '', '', '']" :key="index"><trade-lists-item :role="1" :state="1"></trade-lists-item></block>
+			</view>
 		</scroll-view>
 	</view>
 </template>
