@@ -345,21 +345,45 @@
 						"enablePullDownRefresh": false
 					}
 
+				}, {
+					"path": "message/store/store",
+					"style": {
+						"navigationBarTitleText": "店铺消息",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "message/user/user",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "index/live/live",
+					"style": {
+						"navigationBarTitleText": "直播",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "index/live/record",
+					"style": {
+						"navigationBarTitleText": "直播",
+						"enablePullDownRefresh": false
+					}
+				}, {
+					"path": "index/live/publish",
+					"style": {
+						"navigationBarTitleText": "发起直播",
+						"enablePullDownRefresh": false
+					}
 				}
 			    ,{
-                    "path" : "message/store/store",
+                    "path" : "my/benefit/benefit",
                     "style" :                                                                                    
                 {
-                    "navigationBarTitleText": "店铺消息",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-                ,{
-                    "path" : "message/user/user",
-                    "style" :                                                                                    
-                {
-                    "navigationStyle": "custom",
+                    "navigationBarTitleText": "权益中心",
                     "enablePullDownRefresh": false
                 }
                 
