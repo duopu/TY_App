@@ -1,0 +1,15 @@
+<svg id="组_452" data-name="组 452" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <path id="路径_127" data-name="路径 127" class="cls-1" d="M0,0H24V24H0Z"/>
+  <path id="路径_128" data-name="路径 128" class="cls-2" d="M12,22A10,10,0,1,1,22,12,10,10,0,0,1,12,22Zm0-2a8,8,0,1,0-8-8A8,8,0,0,0,12,20ZM10.622,8.415,15.5,11.667a.4.4,0,0,1,0,.666l-4.88,3.252A.4.4,0,0,1,10,15.253V8.747a.4.4,0,0,1,.622-.332Z"/>
+</svg>

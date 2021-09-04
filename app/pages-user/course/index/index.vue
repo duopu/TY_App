@@ -30,12 +30,15 @@
 		<!-- 横向菜单 -->
 		<custom-horizontal-tabs class="custom-tabs" :data="tabsData" :current-index="tabsIndex" @change="getTabsIndex"></custom-horizontal-tabs>
 		<!--列表 -->
+
 		<!-- 我的课程 -->
-		<tab-my-course v-if="tabsIndex === 0"></tab-my-course>
+		<tab-my-course v-if="tabsIndex === 0" />
+
 		<!-- 我的题库 -->
-		<tab-question-bank v-else-if="tabsIndex === 1"></tab-question-bank>
+    <tab-question-bank v-else-if="tabsIndex === 1" />
+
 		<!-- 缓存课程 -->
-		<tab-storage-course v-else-if="tabsIndex === 2"></tab-storage-course>
+		<tab-storage-course v-else-if="tabsIndex === 2" />
 	</view>
 </template>
 
@@ -50,15 +53,14 @@ export default {
 	data() {
 		return {
 			tabsData: ['我的课程', '我的题库', '缓存课程'],
-			tabsIndex: 0
+			tabsIndex: 1,
 		};
 	},
 	methods: {
 		// 获取当前 tab index
 		getTabsIndex(value) {
-			console.log(value);
 			this.tabsIndex = value;
-		}
+		},
 	}
 };
 </script>

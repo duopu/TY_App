@@ -1,5 +1,7 @@
 import config from "./config.js"
 import store from '@/store/index.js';
+import request from './request.js';
+import imTool from './im.js';
 
 const showToastMessage = (title,icon,callback)=>{
 	const duration = 1500;
@@ -36,9 +38,9 @@ const saveUserStorage = (user)=>{
 }
 
 const login = (user)=>{
+	
 	// 保存用户信息
 	saveUserStorage(user)
-	//getApp().globalData.user = user;
 	
 	if(user.roleStatus == 'user'){
 		
@@ -46,6 +48,14 @@ const login = (user)=>{
 		store.dispatch('initHistroySearchAction');
 		// 查询用户的默认配送地址
 		store.dispatch('queryUserDefaultAddress');
+		
+		// 获取IM 信息
+		request.get('/im/getUserSig',{},true).then(res=>{
+			// im 登录
+			return imTool.login(res.imNum,res.sig)
+		}).then(res=>{
+			console.log('im 登录成功');
+		})
 		
 		// 跳转用户首页页面 
 		uni.reLaunch({
@@ -71,6 +81,7 @@ const logout = ()=>{
 
 
 export default {
+	imTool,
 	showToast,
 	showSuccess,
 	logout,

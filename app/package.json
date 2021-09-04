@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "js-md5": "^0.7.3"
+    "js-md5": "^0.7.3",
+    "tim-upload-plugin": "^1.0.3",
+    "tim-wx-sdk": "^2.13.1"
   }
 }
