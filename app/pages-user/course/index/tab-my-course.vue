@@ -24,8 +24,8 @@ export default {
 		};
 	},
 	methods:{
-		onLoadData(page, callback){
-			this.$http.get('/course/queryPage',{page, size:this.pageSize},true).then(res=>{
+		onLoadData(page,size, callback){
+			this.$http.get('/course/queryPage',{ page, size },true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);
