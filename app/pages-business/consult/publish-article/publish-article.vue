@@ -6,13 +6,29 @@
 			<text class="title text-bold">发布文章</text>
 			<text>发布</text>
 		</view>
-		<view class="article-content">
+		<!-- 旧版本 -->
+		<!-- <view class="article-content">
 			<view class="flex-column text">
 				<view>已跳转至</view>
 				<view>https://huaban.com/search/?q=%E5%A4%8D%E5%88%B6%E7%BD%91%E5%9D%80&sort=all&category=web_app_icon</view>
 			</view>
 			<button class="btn-yellow">复制链接</button>
+		</view> -->
+		<view class="article-classify flex-center">
+			<view class="text">分类</view>
+			<scroll-view scroll-x="true" class="classify-lists">
+				<view class="item" :class="{'on':index === 1}" v-for="(item, index) in classifyData" :key="index">{{ item }}</view>
+			</scroll-view>
 		</view>
+		<scroll-view class="article-edit" scroll-y="true">
+			<view class="box">
+				<view class="flex-center">
+					<text class="label">标题</text>
+					<input placeholder-class="input-placeholder" class="input" v-model="title" type="text" placeholder="请输入" />
+				</view>
+				<textarea placeholder-class="input-placeholder" class="textarea" v-model="content" placeholder="请输入" />
+			</view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -20,7 +36,11 @@
 export default {
 	name: 'publishArticle',
 	data() {
-		return {};
+		return {
+			classifyData: ['政治', '经济', '教育', '健康', '科技', '文化'],
+			title: '',
+			content: ''
+		};
 	}
 };
 </script>
