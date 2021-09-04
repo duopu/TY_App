@@ -105,7 +105,7 @@ export default {
 		/**
 		 * 查询商品列表
 		 */
-		onLoadData(page, callback) {
+		onLoadData(page, pageSize, callback) {
 			this.queryParams.page = page;
 			this.$http
 				.get('/category/goods/queryPage', this.queryParams, true)
