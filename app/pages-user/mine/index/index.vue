@@ -68,20 +68,20 @@
 				<!-- 其他服务 -->
 				<view class="title">其他服务</view>
 				<view class="other-lists">
-					<view class="flex-center-between item">
-						<image class="item-image" src="../../../static/images/icons/icon-safe.png" mode="aspectFill"></image>
+					<navigator url="../account/account" class="flex-center-between item">
+						<image class="item-image" src="../../../static/images/icons/icon-my-account.svg" mode="aspectFill"></image>
 						<view class="flex-center-between right">
 							<text class="text">账户与安全</text>
 							<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 						</view>
-					</view>
-					<view class="flex-center-between item">
-						<image class="item-image" src="../../../static/images/icons/icon-setting2.png" mode="aspectFill"></image>
+					</navigator>
+					<navigator url="../setting/setting" class="flex-center-between item">
+						<image class="item-image" src="../../../static/images/icons/icon-my-setting.svg" mode="aspectFill"></image>
 						<view class="flex-center-between right">
 							<text class="text">设置中心</text>
 							<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 						</view>
-					</view>
+					</navigator>
 				</view>
 			</view>
 		</scroll-view>
