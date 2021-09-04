@@ -360,7 +360,9 @@ export default {
 		toCustomerService(){
 			this.$http.get('/im/getIMGroupId',{storeId:this.goodsInfo.storeId},true).then(res=>{
 				const groupId = res.groupId;
-				
+				// uni.navigateTo({
+				// 	url:`/pages/im-message/im-message?groupId=${groupId}&userIM=${}`
+				// })
 			})
 		},
 		//优惠
