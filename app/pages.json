@@ -378,17 +378,30 @@
 						"navigationBarTitleText": "发起直播",
 						"enablePullDownRefresh": false
 					}
+				}, {
+					"path": "my/benefit/benefit",
+					"style": {
+						"navigationBarTitleText": "权益中心",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "my/setting/setting",
+					"style": {
+						"navigationBarTitleText": "新消息通知设置",
+						"enablePullDownRefresh": false
+					}
+
+				},
+				{
+					"path": "my/setting/system",
+					"style": {
+						"navigationBarTitleText": "消息免打扰设置",
+						"enablePullDownRefresh": false
+					}
+				
 				}
-			    ,{
-                    "path" : "my/benefit/benefit",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "权益中心",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			]
 		}
 	],
 	"tabBar": {

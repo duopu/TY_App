@@ -40,7 +40,7 @@
 	height: 100%;
 	background-color: #f4f5f9;
 	.row{
-		padding: 24rpx 40rpx;
+		padding: 24rpx 20rpx 24rpx 40rpx;
 		margin-bottom: 8rpx;
 		background-color: #FFFFFF;
 		.icon-arrow{
