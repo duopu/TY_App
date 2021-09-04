@@ -149,7 +149,7 @@
 				<image class="icons" src="../../../static/images/icons/icon-room.svg" mode="aspectFill"></image>
 				<text>店铺</text>
 			</view>
-			<view class="flex-column">
+			<view class="flex-column" @click="toCustomerService">
 				<image class="icons" src="../../../static/images/icons/icon-kf.svg" mode="aspectFill"></image>
 				<text>客服</text>
 			</view>
@@ -356,7 +356,13 @@ export default {
 			}
 			
 		},
-
+		// 跳转客服页面
+		toCustomerService(){
+			this.$http.get('/im/getIMGroupId',{storeId:this.goodsInfo.storeId},true).then(res=>{
+				const groupId = res.groupId;
+				
+			})
+		},
 		//优惠
 		jumpCoupon() {
 			uni.navigateTo({
