@@ -99,7 +99,8 @@ export default {
 				},
 				{
 					image: '../../../static/images/my/my-order.png',
-					text: '我的订单'
+					text: '我的订单',
+					page: '/pages-user/mine/order/order'
 				},
 				{
 					image: '../../../static/images/my/my-cart.png',

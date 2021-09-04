@@ -1,34 +1,107 @@
-.article{
-	&-top{
+.article {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: #f4f5f6;
+	overflow: hidden;
+	&-top {
 		font-size: 24rpx;
 		padding: calc(var(--status-bar-height) + 26rpx) 40rpx 26rpx;
-		.title{
+		background-color: #ffffff;
+		.title {
 			flex: 1;
-			 font-size: 32rpx;
-			 text-align: center;
+			font-size: 32rpx;
+			text-align: center;
 		}
-		.color-9{
+		.color-9 {
 			color: #999999;
 		}
 	}
-	&-content{
-		.text{
+	&-content {
+		.text {
 			margin: 130rpx 20rpx 20rpx;
 			color: #666666;
 			line-height: 1.7;
 			text-align: center;
 			word-wrap: break-word;
 		}
-		.btn-yellow{
+		.btn-yellow {
 			margin-top: 38rpx;
 			width: 60%;
 			height: 72rpx;
 			line-height: 72rpx;
 			font-size: 28rpx;
-			color: #FFFFFF;
-			background-color:#FFB55B;
+			color: #ffffff;
+			background-color: #ffb55b;
 			box-shadow: 0rpx 2rpx 8rpx rgba(72, 17, 17, 0.08);
 			border-radius: 8rpx;
 		}
+	}
+}
+.article-classify {
+	flex-shrink: 0;
+	height: 88rpx;
+	background-color: #ffffff;
+	.text {
+		padding: 40rpx;
+		font-size: 24rpx;
+		font-weight: bold;
+		color: #646464;
+	}
+	.classify-lists {
+		flex: 1;
+		white-space: nowrap;
+		overflow: hidden;
+		.item {
+			padding: 0 20rpx;
+			margin-right: 24rpx;
+			display: inline-flex;
+			height: 50rpx;
+			font-size: 24rpx;
+			line-height: 50rpx;
+			color: #646464;
+			background-color: #DFE2ED;
+			border-radius: 8rpx;
+			&.on{
+				color: #FFFFFF;
+				background-color: #FFB55B;;
+			}
+		}
+	}
+}
+.article-edit {
+	.box{
+		margin: 20rpx;
+		padding: 20rpx;
+		background: #FFFFFF;
+		box-shadow: 0rpx 2rpx 8rpx rgba(72, 17, 17, 0.08);
+		opacity: 1;
+		border-radius: 8rpx;
+	}
+	.label{
+		margin-right: 8rpx;
+		flex-shrink: 0;
+		font-size: 28rpx;
+		font-weight: bold;
+	}
+	.input {
+		height: 58rpx;
+	}
+	.input,
+	.textarea {
+		padding: 0 24rpx;
+		width: 100%;
+		margin-top: 8rpx;
+		font-size: 24rpx;
+		border: 2rpx solid #d1d1d1;
+		border-radius: 4rpx;
+		box-sizing: border-box;
+	}
+	.input-placeholder {
+		color: #cccccc;
+	}
+	.textarea{
+		margin-top: 20rpx;
+		padding: 20rpx 24rpx;
 	}
 }

@@ -3,7 +3,7 @@
 	<view class="store-order-lists-item">
 		<!-- 商家 -->
 		<view v-if="type === 0" class="flex-center-between top">
-			<view class="name">{{storeGoodsVO.storeName}}</view>
+			<view class="name">{{ storeGoodsVO.storeName }}</view>
 			<view class="desc">{{ showStateName }}</view>
 		</view>
 		<!-- 退款 -->
@@ -24,24 +24,32 @@
 			</view>
 		</view>
 		<!-- 待付款 -->
-		<view class="flex-center bottom" v-if="state === 1">
+		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 0">
 			<button class="btn btn-border grey">取消订单</button>
 			<button class="btn btn-block">支付订单</button>
 		</view>
 		<!-- 待发货 -->
-		<view class="flex-center bottom" v-if="state === 2"><button class="btn btn-border grey">申请退款</button></view>
+		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 1">
+			<button class="btn btn-border grey">申请退款</button>
+		</view>
 		<!-- 待收货 -->
-		<view class="flex-center bottom" v-if="state === 3">
+		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 2">
 			<button class="btn btn-border grey">申请退款</button>
 			<button class="btn btn-border black">电子凭证</button>
+			<button class="btn btn-border black">查看物流</button>
 			<button class="btn btn-block">确认收货</button>
 		</view>
+		<!-- 待评价 -->
+		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 3">
+			<button class="btn btn-border grey">申请退款</button>
+			<button class="btn btn-border black">电子凭证</button>
+			<button class="btn btn-block">去评价</button>
+		</view>
 		<!-- 已完成 -->
-		<view class="flex-center bottom" v-if="state === 4">
+		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 4">
 			<button class="btn btn-border grey">申请退款</button>
 			<button class="btn btn-border grey">删除订单</button>
-			<button class="btn btn-border black">再来一单</button>
-			<button class="btn btn-block">去评价</button>
+			<button class="btn btn-border black">电子凭证</button>
 		</view>
 	</view>
 </template>
@@ -53,10 +61,6 @@ export default {
 		type: {
 			type: Number,
 			default: 0 //0-默认不状态，只显示商家 2-退款
-		},
-		state: {
-			type: Number,
-			default: 0 //0-不显示底部，1-待付款 2-待发货 3-待收货 4-已完成
 		},
 		storeGoodsVO: { //商品
 			type: Object,
@@ -72,26 +76,47 @@ export default {
 					thumbnail:undefined
 				}],
 				storeId:undefined,
-				storeName:undefined
+				storeName:undefined,
+				orderState: undefined
 			}
 		}
 	},
 	computed:{
 		// 显示当前订单状态
 		showStateName() {
-			switch (this.state) {
-				case 1:
+			switch (this.storeGoodsVO.orderState) {
+				
+				// 订单状态 -1:已取消 0:待支付 1:已支付 2:已发货 3:已完成 4:已评价 5:申请退款中 6:退款中 7:退款完成
+				// 8.未支付拼团定金 9.已支付拼团定金 10.已完成拼团并退款 11.拼团失败并退款中
+				
+				case -1:
+					return '已取消';
+					break;
+				case 0:
 					return '待付款';
 					break;
-				case 2:
+				case 1:
 					return '待发货';
 					break;
-				case 3:
+				case 2:
 					return '待收货';
+					break;
+				case 3:
+					return '待评价';
 					break;
 				case 4:
 					return '已完成';
 					break;
+				case 5:
+					return '申请退款中';
+					break;
+				case 6:
+					return '退款中';
+					break;
+				case 7:
+					return '退款完成';
+					break;
+							
 			}
 		}
 	},
