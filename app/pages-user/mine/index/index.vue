@@ -103,7 +103,8 @@ export default {
 				},
 				{
 					image: '../../../static/images/my/my-cart.png',
-					text: '购物车'
+					text: '购物车',
+					page: '/pages-user/mine/cart/cart'
 				},
 				{
 					image: '../../../static/images/my/my-task.png',

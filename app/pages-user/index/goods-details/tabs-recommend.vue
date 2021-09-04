@@ -2,7 +2,6 @@
 	<view class="tabs-recommend" :style="{ height: scrollHeight + 'px' }">
 		<my-scroll-view
 		:refreshEnable="false"
-		:pageSize="pageSize" 
 		@loadData="onLoadRecommendData" 
 		>
 			<template v-slot:list="slotProps">
@@ -31,7 +30,6 @@ export default {
 	},
 	data(){
 		return {
-			pageSize:20,
 			bottomHeight:this.goodsBottomHeight,
 			tabbarHeight:this.tabsHeight,
 			scrollHeight:0
@@ -67,10 +65,11 @@ export default {
 		/**
 		 * 查询推荐商品
 		 * @param {Object} page  当前页码
+		 * @param {Object} pageSize
 		 * @param {Object} callback
 		 */
-		onLoadRecommendData(page,callback){
-			this.$http.get('/goods/queryRecommend',{page:page, size:this.pageSize},true).then(res=>{
+		onLoadRecommendData(page, pageSize, callback){
+			this.$http.get('/goods/queryRecommend',{page:page, size:pageSize},true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);

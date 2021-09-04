@@ -1,6 +1,6 @@
 <!-- tab 我的课程 -->
 <template>
-	<my-scroll-view class="course-lists" :pageSize="pageSize" @loadData="onLoadData">
+	<my-scroll-view class="course-lists" @loadData="onLoadData">
 		<template v-slot:list="slotProps">
 			<course-video-item 
         v-for="(item, index) in slotProps.list"
@@ -20,7 +20,7 @@ export default {
 	name:'tab-my-course',
 	data() {
 		return {
-			pageSize: 20,
+			
 		};
 	},
 	methods:{

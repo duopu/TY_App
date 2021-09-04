@@ -63,9 +63,9 @@ export default {
 	onLoad() {
   },
 	methods: {
-		onLoadData(page, callback) {
+		onLoadData(page, pageSize, callback) {
 			this.$http
-				.get('/questionBank/queryPageByUser', { page: page, size: this.pageSize }, true)
+				.get('/questionBank/queryPageByUser', { page: page, size: pageSize }, true)
 				.then(res => {
 					callback(res);
 				})

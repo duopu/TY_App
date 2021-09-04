@@ -5,7 +5,7 @@
 		<swiper class="swiper" :current="tabsIdex" @change="swiperChange">
 			<swiper-item>
 				<!-- 课程 -->
-				<my-scroll-view ref="goods_sv" class="lists" :pageSize="pageSize" @loadData="onLoadGoodsData">
+				<my-scroll-view ref="goods_sv" class="lists" @loadData="onLoadGoodsData">
 					<template v-slot:list="slotProps">
 						<course-lists-item 
 						v-for="(item, index) in slotProps.list"
@@ -16,7 +16,7 @@
 			</swiper-item>
 			<swiper-item>
 				<!-- 机构 -->
-				<my-scroll-view ref="mechanism_sv" class="lists" :pageSize="pageSize" @loadData="onLoadMechanismData">
+				<my-scroll-view ref="mechanism_sv" class="lists" @loadData="onLoadMechanismData">
 					<template v-slot:list="slotProps">
 						<merchanism-lists-item 
 						v-for="(item, index) in slotProps.list"
@@ -27,7 +27,7 @@
 			</swiper-item>
 			<swiper-item>
 				<!-- 老师 -->
-				<my-scroll-view ref="teacher_sv" class="lists" :pageSize="pageSize" @loadData="onLoadTeacherData">
+				<my-scroll-view ref="teacher_sv" class="lists" @loadData="onLoadTeacherData">
 					<template v-slot:list="slotProps">
 						<teacher-lists-item 
 						v-for="(item, index) in slotProps.list"
@@ -57,7 +57,6 @@ export default {
 		return {
 			tabsData: ['课程', '机构', '老师'],
 			tabsIdex: this.currentTabIndex,
-			pageSize: 20,
 			searchString:this.searchText
 		};
 	},
@@ -93,10 +92,11 @@ export default {
 		
 		/** 课程搜索
 		 * @param {Object} page
+		 * @param {Object} pageSize
 		 * @param {Object} callback
 		 */
-		onLoadGoodsData(page, callback){
-			this.$http.get('/goods/queryPage',{page:page, size:this.pageSize, goodsName:this.searchString},true).then(res=>{
+		onLoadGoodsData(page, pageSize, callback){
+			this.$http.get('/goods/queryPage',{page:page, size:pageSize, goodsName:this.searchString},true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);
@@ -105,10 +105,11 @@ export default {
 		
 		/** 机构搜索
 		 * @param {Object} page
+		 * @param {Object} pageSize
 		 * @param {Object} callback
 		 */
-		onLoadMechanismData(page, callback){
-			this.$http.get('/merchantSettle/queryMerchantPage',{page:page, size:this.pageSize, storeName:this.searchString},true).then(res=>{
+		onLoadMechanismData(page, pageSize, callback){
+			this.$http.get('/merchantSettle/queryMerchantPage',{page:page, size:pageSize, storeName:this.searchString},true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);
@@ -117,10 +118,11 @@ export default {
 		
 		/** 老师搜索
 		 * @param {Object} page
+		 * @param {Object} pageSize
 		 * @param {Object} callback
 		 */
-		onLoadTeacherData(page, callback){
-			this.$http.get('/teacher/queryTeacherPage',{page:page, size:this.pageSize, name:this.searchString},true).then(res=>{
+		onLoadTeacherData(page, pageSize, callback){
+			this.$http.get('/teacher/queryTeacherPage',{page:page, size:pageSize, name:this.searchString},true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);

@@ -13,7 +13,7 @@
 			<image class="avatar-image" :src="item.thumbnail" mode="aspectFill"></image>
 			<view class="flex-column flex-1 right">
 				<view class="title">{{item.goodsName}}</view>
-				<view class="tag"><view class="tag-item">{{item.attributesName}}</view></view>
+				<view class="tag"><view v-if="item.attributesId" class="tag-item">{{item.attributesName}}</view></view>
 				<view class="flex-center-between">
 					<view class="price">
 						<text class="unit">¥</text>
