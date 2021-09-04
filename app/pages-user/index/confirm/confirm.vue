@@ -86,7 +86,7 @@
 		<!-- 平台优惠券 -->
 		<confirm-ticket-popup ref="platformCouponPopup" 
 		title="平台优惠券"
-		:couponList="orderVO.platFormCouponList || []" 
+		:couponList="platFormCouponList" 
 		:selectCouponId="refreshOrderDetailParams.platFormCouponId" 
 		@submit="platformCouponSubmit"></confirm-ticket-popup>
 	</view>
@@ -117,6 +117,7 @@ export default {
 			storeCouponList:[], //商家可用优惠券
 			selectStoreCouponId:undefined, //商家选中的优惠券
 			currentStoreCouponIndex:0, //当前点击的第几个商家下面的优惠券
+			platFormCouponList:[], //平台可用优惠券
 			refreshOrderDetailParams:{
 				address:undefined,
 				useGoldCoin:0,
@@ -188,6 +189,16 @@ export default {
 		 */
 		initOrderVO(data){
 			this.orderVO = data;
+			
+			// 平台优惠券赋值，因为平台优惠券列表返回的优惠券ID叫做userCouponId，要改成couponId
+			let platFormCouponList = [];
+			platFormCouponList = data.platFormCouponList && data.platFormCouponList.map(function(value){
+				let obj = {...value};
+				obj.couponId = value.userCouponId;
+				return obj;
+			});
+			this.platFormCouponList = platFormCouponList;
+			
 			
 			let storeGoodsList = [];
 			storeGoodsList = data.storeOrderList && data.storeOrderList.map(function(value){

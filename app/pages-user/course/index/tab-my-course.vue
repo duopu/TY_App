@@ -1,6 +1,6 @@
 <!-- tab 我的题库 -->
 <template>
-	<my-scroll-view class="course-lists" :pageSize="pageSize" @loadData="onLoadData">
+	<my-scroll-view class="course-lists" @loadData="onLoadData">
 		<template v-slot:list="slotProps">
 			<course-video-item v-for="(item, index) in slotProps.list"
 			:key="index" 
@@ -15,13 +15,13 @@ export default {
 	name:'tab-my-course',
 	data() {
 		return {
-			pageSize: 20,
+			
 		};
 	},
 	methods:{
-		onLoadData(page, callback){
+		onLoadData(page, pageSize, callback){
 			//TODO: 这里把请求路径改成课程路径即可，其他的就不用动了
-			this.$http.get('/questionBank/queryPageByUser',{page:page, size:this.pageSize},true).then(res=>{
+			this.$http.get('/questionBank/queryPageByUser',{page:page, size:pageSize},true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);

@@ -24,7 +24,7 @@
    * @property {Number} pageSize 分页大小
    * @property {Boolean} refreshEnable 是否需要下拉刷新
    * @property {Boolean} pageEnable 是否分页
-   * @event {Function} loadData 触发加载数据事件，携带page参数，同时根据回调返回网络请求数据结果，注意：如果网络接口失败，回调请传callback(null)
+   * @event {Function} loadData 触发加载数据事件，携带page、pageSize参数，同时根据回调返回网络请求数据结果，注意：如果网络接口失败，回调请传callback(null)
    * @example 
    * <my-scroll-view :pageSize="20" @loadData="onLoadData">
 		<template v-slot:list="slotProps">
@@ -81,7 +81,7 @@ export default {
 				this.status = "loading";
 			}
 			
-			this.$emit('loadData',this.page,(res)=>{
+			this.$emit('loadData',this.page,this.pageSize,(res)=>{
 				if(res){
 					if(that.page == 1){
 						that.triggered = false;
@@ -121,10 +121,11 @@ export default {
 		 * 上拉加载
 		 */
 		onScrollTolower(){
-			this.status = 'more';
-			this.page += 1;
-			this.getDataList();
-			
+			if(this.status !== 'noMore'){
+				this.status = 'more';
+				this.page += 1;
+				this.getDataList();
+			}
 		}
 	}
 }

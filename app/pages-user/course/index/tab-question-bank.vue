@@ -2,7 +2,7 @@
 <template>
 	<view class="bank-content">
 		<!-- 列表 -->
-		<my-scroll-view v-if="false" class="course-lists" :pageSize="pageSize" @loadData="onLoadData">
+		<my-scroll-view v-if="false" class="course-lists" @loadData="onLoadData">
 			<template v-slot:list="slotProps">
 				<course-video-item :state="1" v-for="(item, index) in slotProps.list" :key="index" :data="item" @clickItem="itemClick"></course-video-item>
 			</template>
@@ -53,14 +53,14 @@ export default {
 	name: 'tab-question-bank',
 	data() {
 		return {
-			pageSize: 20
+			
 		};
 	},
 	onLoad() {},
 	methods: {
-		onLoadData(page, callback) {
+		onLoadData(page, pageSize, callback) {
 			this.$http
-				.get('/questionBank/queryPageByUser', { page: page, size: this.pageSize }, true)
+				.get('/questionBank/queryPageByUser', { page: page, size: pageSize }, true)
 				.then(res => {
 					callback(res);
 				})
