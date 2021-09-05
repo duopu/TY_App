@@ -7,7 +7,7 @@
 			<text class="text-bold">待收货</text>
 		</view>
 		<!-- 商品 -->
-		<merchanism-order-lists-item></merchanism-order-lists-item>
+		<merchanism-order-lists-item :storeGoodsVO="{}"></merchanism-order-lists-item>
 		<!-- 地址 -->
 		<view class="flex-center address" @click="jumpChooseAddress">
 			<image src="../../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
