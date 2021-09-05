@@ -362,7 +362,7 @@ export default {
 				const groupId = res.groupId;
 				const user = getApp().globalData.user;
 				uni.navigateTo({
-					url:`/pages/im-message/im-message?groupId=${groupId}&userName=${user.userName}&userPortrait=${user.portrait || ''}&storeName=${this.goodsInfo.storeName}&storePortrait=${this.goodsInfo.portrait || ''}`
+					url:`/pages/im-message/im-message?groupId=${groupId}&userName=${user.userName}&userPortrait=${user.portrait || ''}&userIM=${user.imNum}&storeName=${this.goodsInfo.storeName}&storePortrait=${this.goodsInfo.portrait || ''}`
 				})
 			})
 		},
