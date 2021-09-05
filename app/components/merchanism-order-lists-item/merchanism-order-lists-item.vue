@@ -8,6 +8,8 @@
 		</view>
 		<!-- 退款 -->
 		<view v-if="type === 2" class="flex-center-between top"><view class="name">退款商品</view></view>
+		<!-- 评价 -->
+		<view v-if="type === 3" class="flex-center-between top"><view class="name">评价的商品</view></view>
 		
 		<!-- 多个商品 -->
 		<view class="flex-column" v-for="(item,index) in storeGoodsVO.orderItemList" :key="`goods-${index}`">

@@ -257,6 +257,15 @@
                 }
                 
                 }
+                ,{
+                    "path" : "mine/evaluate/evaluate",
+                    "style" :                                                                                    
+                {
+                    "navigationStyle": "custom",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
 		},
 		{
