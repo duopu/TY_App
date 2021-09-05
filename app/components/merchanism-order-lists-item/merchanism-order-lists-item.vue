@@ -8,55 +8,67 @@
 		</view>
 		<!-- 退款 -->
 		<view v-if="type === 2" class="flex-center-between top"><view class="name">退款商品</view></view>
+		
 		<!-- 多个商品 -->
-		<view class="content flex" v-for="(item,index) in storeGoodsVO.orderItemList" :key="`goods-${index}`">
-			<image class="avatar-image" :src="item.thumbnail" mode="aspectFill"></image>
-			<view class="flex-column flex-1 right">
-				<view class="title">{{item.goodsName}}</view>
-				<view class="tag"><view v-if="item.attributesId" class="tag-item">{{item.attributesName}}</view></view>
-				<view class="flex-center-between">
-					<view class="price">
-						<text class="unit">¥</text>
-						{{item.price}}
+		<view class="flex-column" v-for="(item,index) in storeGoodsVO.orderItemList" :key="`goods-${index}`">
+			<view class="content flex" @click="goodsClick">
+				<image class="avatar-image" :src="item.thumbnail" mode="aspectFill"></image>
+				<view class="flex-column flex-1 right">
+					<view class="title">{{item.goodsName}}</view>
+					<view class="tag"><view v-if="item.attributesId" class="tag-item">{{item.attributesName}}</view></view>
+					<view class="flex-center-between">
+						<view class="price">
+							<text class="unit">¥</text>
+							{{item.price}}
+						</view>
+						<view class="number">×{{item.goodsNum}}</view>
 					</view>
-					<view class="number">×{{item.goodsNum}}</view>
 				</view>
 			</view>
+			
+			<!-- 待发货 -->
+			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 1">
+				<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+			</view>
+			<!-- 待收货 -->
+			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 2">
+				<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+				<button class="btn btn-border black">电子凭证</button>
+				<button v-if="item.deliveryState !== -1" class="btn btn-border black" @click.stop="queryLogistics">查看物流</button>
+				<button class="btn btn-block">确认收货</button>
+			</view>
+			<!-- 待评价 -->
+			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 3">
+				<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+				<button class="btn btn-border black">电子凭证</button>
+				<button class="btn btn-block">去评价</button>
+			</view>
+			<!-- 已完成 -->
+			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 4">
+				<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+				<button class="btn btn-border black">电子凭证</button>
+			</view>
+			
 		</view>
+		
 		<!-- 待付款 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 0">
-			<button class="btn btn-border grey">取消订单</button>
-			<button class="btn btn-block">支付订单</button>
+		<view class="flex-center bottom line" v-if="storeGoodsVO.orderState === 0">
+			<button class="btn btn-border grey" @click.stop="cancelOrder">取消订单</button>
+			<button class="btn btn-block" @click.stop="payOrder">支付订单</button>
 		</view>
-		<!-- 待发货 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 1">
-			<button class="btn btn-border grey">申请退款</button>
-		</view>
-		<!-- 待收货 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 2">
-			<button class="btn btn-border grey">申请退款</button>
-			<button class="btn btn-border black">电子凭证</button>
-			<button class="btn btn-border black">查看物流</button>
-			<button class="btn btn-block">确认收货</button>
-		</view>
-		<!-- 待评价 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 3">
-			<button class="btn btn-border grey">申请退款</button>
-			<button class="btn btn-border black">电子凭证</button>
-			<button class="btn btn-block">去评价</button>
-		</view>
+		
 		<!-- 已完成 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 4">
-			<button class="btn btn-border grey">申请退款</button>
-			<button class="btn btn-border grey">删除订单</button>
-			<button class="btn btn-border black">电子凭证</button>
+		<view class="flex-center bottom line" v-if="storeGoodsVO.orderState === 4">
+			<button class="btn btn-border grey" @click.stop="deletOrder">删除订单</button>
 		</view>
+		
 	</view>
 </template>
 
 <script>
 export default {
 	name: 'merchanism-order-lists-item',
+	emits: ['goodsClick','cancelOrder', 'queryLogistics', 'payOrder', 'deletOrder', 'applyRefund'],
 	props: {
 		type: {
 			type: Number,
@@ -73,7 +85,8 @@ export default {
 					goodsId:undefined,
 					goodsNum:0,
 					goodsName:undefined,
-					thumbnail:undefined
+					thumbnail:undefined,
+					deliveryState:undefined //发货状态 -1:无需发货 0:未发货 1:已发货 2：已收货
 				}],
 				storeId:undefined,
 				storeName:undefined,
@@ -125,6 +138,30 @@ export default {
 	},
 	methods: {
 		
+		// 商品点击
+		goodsClick(){
+			this.$emit("goodsClick");
+		},
+		// 取消订单
+		cancelOrder(){
+			this.$emit("cancelOrder");
+		},
+		// 支付订单
+		payOrder(){
+			this.$emit("payOrder");
+		},
+		// 查看物流
+		queryLogistics(){
+			this.$emit("queryLogistics");
+		},
+		// 删除订单
+		deletOrder(){
+			this.$emit("deletOrder");
+		},
+		// 申请退款
+		applyRefund(){
+			this.$emit("applyRefund");
+		}
 	}
 };
 </script>

@@ -34,7 +34,7 @@
 			<!-- 猜你喜欢 -->
 			<view class="title text-bold">猜你喜欢</view>
 			<view class="favorite-lists">
-				<view class="item" v-for="(item, index) in guessYouLikeList" :key="`guess-goods-${index}`">
+				<view class="item" v-for="(item, index) in guessYouLikeList" :key="`guess-goods-${index}`" @click="jumpGoodsDetail(item.goodsId)">
 					<image class="image" :src="item.thumbnail" mode="aspectFill"></image>
 					<view class="text text-bold">{{ spliceStr(item.goodsName) }}</view>
 					<view class="price text-bold">

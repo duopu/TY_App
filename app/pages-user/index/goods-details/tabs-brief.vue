@@ -19,7 +19,7 @@ export default {
 	data() {
 		return {
 			storeInfo:{
-				storeName: this.goodsInfo.sotreName,
+				storeName: this.goodsInfo.storeName,
 				storeDesc: this.goodsInfo.storeDesc,
 				avatar: this.goodsInfo.avatar,
 				score: this.goodsInfo.compositeScore,
@@ -31,7 +31,7 @@ export default {
 	watch:{
 		goodsInfo(newV,oldV){
 			this.storeInfo = {
-				storeName: newV.sotreName,
+				storeName: newV.storeName,
 				storeDesc: newV.storeDesc,
 				avatar: newV.avatar,
 				score: newV.compositeScore,

@@ -114,32 +114,39 @@
 			<swiper :current="tabsIndex" @change="menuSwiperChange" :style="{ height: swiperHeight + 'px' }">
 				<swiper-item v-for="(item, index) in tabsData" :key="`swiper-item-${index}`">
 					<!--  tab 介绍 -->
-					<tabs-brief v-if="item == '介绍'" :id="`content-wrap-${index}`" :goodsInfo="goodsInfo"></tabs-brief>
+					<tabs-brief v-if="item == '介绍'" 
+					:id="`content-wrap-${index}`" 
+					:goodsInfo="goodsInfo"></tabs-brief>
 
 					<!--  tab 商品 -->
-					<tabs-goods
-						v-if="item == '商品'"
-						:id="`content-wrap-${index}`"
-						:entityGoodsVO="goodsInfo.entityGoodsVO"
-						:entityCommentVOList="entityCommentVOList"
-					></tabs-goods>
+					<tabs-goods v-if="item == '商品'"
+					:id="`content-wrap-${index}`"
+					:entityGoodsVO="goodsInfo.entityGoodsVO"
+					:entityCommentVOList="entityCommentVOList"></tabs-goods>
 
 					<!--  tab 目录 -->
-					<tabs-catalogue v-if="item == '目录'" :id="`content-wrap-${index}`" :courseVO="goodsInfo.courseVO" :courseCommentVOList="courseCommentVOList"></tabs-catalogue>
+					<tabs-catalogue v-if="item == '目录'" 
+					:id="`content-wrap-${index}`" 
+					:courseVO="goodsInfo.courseVO" 
+					:courseCommentVOList="courseCommentVOList"></tabs-catalogue>
 
 					<!--  tab 题库 -->
-					<tabs-bank
-						v-if="item == '题库'"
-						:id="`content-wrap-${index}`"
-						:questionBankVO="goodsInfo.questionBankVO"
-						:questionCommentVOList="questionCommentVOList"
-					></tabs-bank>
+					<tabs-bank v-if="item == '题库'"
+					:id="`content-wrap-${index}`"
+					:questionBankVO="goodsInfo.questionBankVO"
+					:questionCommentVOList="questionCommentVOList"></tabs-bank>
 
 					<!--  tab 考试 -->
-					<tabs-exam v-if="item == '考试'" :id="`content-wrap-${index}`" :examVO="goodsInfo.examVO" :examCommentVOList="examCommentVOList"></tabs-exam>
+					<tabs-exam v-if="item == '考试'" 
+					:id="`content-wrap-${index}`" 
+					:examVO="goodsInfo.examVO" 
+					:examCommentVOList="examCommentVOList"></tabs-exam>
 
 					<!--  tab 推荐 -->
-					<tabs-recommend v-if="item == '推荐'" :id="`content-wrap-${index}`" :goodsBottomHeight="goodsBottomHeight" :tabsHeight="tabsHeight"></tabs-recommend>
+					<tabs-recommend v-if="item == '推荐'" 
+					:id="`content-wrap-${index}`" 
+					:goodsBottomHeight="goodsBottomHeight" 
+					:tabsHeight="tabsHeight"></tabs-recommend>
 				</swiper-item>
 			</swiper>
 		</scroll-view>
