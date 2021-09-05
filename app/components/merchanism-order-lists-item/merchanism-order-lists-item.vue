@@ -2,12 +2,10 @@
 <template>
 	<view class="store-order-lists-item">
 		<!-- 商家 -->
-		<view v-if="type === 0" class="flex-center-between top">
+		<view class="flex-center-between top">
 			<view class="name">{{ storeGoodsVO.storeName }}</view>
 			<view class="desc">{{ showStateName }}</view>
 		</view>
-		<!-- 退款 -->
-		<view v-if="type === 2" class="flex-center-between top"><view class="name">退款商品</view></view>
 		
 		<!-- 多个商品 -->
 		<view class="flex-column" v-for="(item,index) in storeGoodsVO.orderItemList" :key="`goods-${index}`">
@@ -28,24 +26,24 @@
 			
 			<!-- 待发货 -->
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 1">
-				<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+				<button class="btn btn-border grey" @click.stop="applyRefund(item)">申请退款</button>
 			</view>
 			<!-- 待收货 -->
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 2">
-				<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+				<button class="btn btn-border grey" @click.stop="applyRefund(item)">申请退款</button>
 				<button class="btn btn-border black">电子凭证</button>
-				<button v-if="item.deliveryState !== -1" class="btn btn-border black" @click.stop="queryLogistics">查看物流</button>
+				<button v-if="item.deliveryState !== -1" class="btn btn-border black" @click.stop="queryLogistics(item)">查看物流</button>
 				<button class="btn btn-block">确认收货</button>
 			</view>
 			<!-- 待评价 -->
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 3">
-				<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+				<button class="btn btn-border grey" @click.stop="applyRefund(item)">申请退款</button>
 				<button class="btn btn-border black">电子凭证</button>
-				<button class="btn btn-block" @click.stop="evaluateOrder">去评价</button>
+				<button class="btn btn-block" @click.stop="evaluateOrder(item)">去评价</button>
 			</view>
 			<!-- 已完成 -->
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 4">
-				<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+				<button class="btn btn-border grey" @click.stop="applyRefund(item)">申请退款</button>
 				<button class="btn btn-border black">电子凭证</button>
 			</view>
 			
@@ -72,7 +70,7 @@ export default {
 	props: {
 		type: {
 			type: Number,
-			default: 0 //0-默认不状态，只显示商家 2-退款
+			default: 0 //0 
 		},
 		storeGoodsVO: { //商品
 			type: Object,
@@ -150,21 +148,27 @@ export default {
 		payOrder(){
 			this.$emit("payOrder");
 		},
-		// 查看物流
-		queryLogistics(){
-			this.$emit("queryLogistics");
+		/**
+		 * 查看物流
+		 * @param {Object} item 当前商品对象
+		 */
+		queryLogistics(item){
+			this.$emit("queryLogistics",item);
 		},
 		// 删除订单
 		deletOrder(){
 			this.$emit("deletOrder");
 		},
 		// 申请退款
-		applyRefund(){
-			this.$emit("applyRefund");
+		applyRefund(item){
+			this.$emit("applyRefund",item);
 		},
-		// 去评价
-		evaluateOrder(){
-			this.$emit("evaluateOrder");
+		/**
+		 * 去评价
+		 * @param {Object} item 当前商品对象
+		 */
+		evaluateOrder(item){
+			this.$emit("evaluateOrder",item);
 		}
 	}
 };

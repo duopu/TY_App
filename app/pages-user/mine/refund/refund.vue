@@ -1,7 +1,29 @@
 <!-- 退款服务 -->
 <template>
 	<scroll-view scroll-y="true" class="refund">
-		<merchanism-order-lists-item class="store" :type="2"></merchanism-order-lists-item>
+		
+		<view class="store">
+			<view class="flex-center-between top">
+				<view class="name">退款商品</view>
+			</view>
+			<view class="content flex">
+				<image class="avatar-image" :src="goodsVO.thumbnail" mode="aspectFill"></image>
+				<view class="flex-column flex-1 right">
+					<view class="title">{{goodsVO.goodsName}}</view>
+					<view class="tag"><view v-if="goodsVO.attributesId" class="tag-item">{{goodsVO.attributesName}}</view></view>
+					<view class="flex-center-between">
+						<view class="price">
+							<text class="unit">¥</text>
+							{{goodsVO.price}}
+						</view>
+						<view class="number">×{{goodsVO.goodsNum}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		
+		
+		<!-- <merchanism-order-lists-item class="store" :type="2"></merchanism-order-lists-item> -->
 		<!-- 退款原因 -->
 		<view class="box discount">
 			<view class="discount-row flex-center-between">
@@ -38,7 +60,14 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			orderNum:undefined, //订单编号
+			goodsVO:{} //商品对象
+		};
+	},
+	onLoad(option){
+		this.orderNum = option.orderNum;
+		this.goodsVO = JSON.parse(option.goodsVO);
 	}
 };
 </script>

@@ -14,7 +14,6 @@
 		
 		<swiper :current="tabsIndex" @change="swiperChange" class="order-content">
 			<swiper-item v-for="(item, index) in tabsData" :key="`swiper-item-${index}`">
-				<!-- 待付款 -->
 				<my-scroll-view :ref="`scrollView${index}`" class="order-content" @loadData="(page,pageSize,callback)=>{queryOrderList(page,pageSize,callback,index)}">
 					<template v-slot:list="slotProps">
 						<merchanism-order-lists-item v-for="(subItem, subIndex) in slotProps.list" 
@@ -24,8 +23,9 @@
 						@cancelOrder="cancelOrder(subItem.orderNum)" 
 						@payOrder="payOrder(subItem)"
 						@deletOrder="deletOrder(subItem.orderNum)"
-						@applyRefund="applyRefund(subItem.orderNum)" 
-						@evaluateOrder="evaluateOrder(subItem.orderNum)"></merchanism-order-lists-item>
+						@queryLogistics="(item)=>{queryLogistics(subItem.orderNum, item)}"
+						@applyRefund="(item)=>{applyRefund(subItem.orderNum, item)}" 
+						@evaluateOrder="(item)=>{evaluateOrder(subItem.orderNum, item)}"></merchanism-order-lists-item>
 					</template>
 				</my-scroll-view>
 			</swiper-item>
@@ -41,15 +41,6 @@
 			@confirm="cancelOrderConfirm"></uni-popup-dialog>
 		</uni-popup>
 		
-		<!-- 申请退款原因弹窗 -->
-		<uni-popup ref="applyRefundPop" type="dialog">
-		    <uni-popup-dialog mode="input" 
-			:value="refundMsg"
-			title="退款原因" 
-			placeholder="请输入退款原因" 
-			:before-close="true" 
-			@confirm="applyRefundConfirm"></uni-popup-dialog>
-		</uni-popup>
 		
 	</view>
 </template>
@@ -62,7 +53,6 @@ export default {
 			tabsIndex: 0,
 			searchInput:undefined,
 			cancelMsg:undefined, //取消订单原因
-			refundMsg:undefined, //申请退款原因
 			orderNum:undefined //订单ID
 		};
 	},
@@ -81,6 +71,7 @@ export default {
 			this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
 		},
 		
+		// 水平轮播切换回调
 		swiperChange(e){
 			this.tabsIndex = e.detail.current
 		},
@@ -134,26 +125,14 @@ export default {
 		/**
 		 * 申请退款按钮点击
 		 * @param {Object} orderNum 订单编号
+		 * @param {Object} goodsVO 当前商品对象
 		 */
-		applyRefund(orderNum){
-			this.orderNum = orderNum;
-			this.$refs.applyRefundPop.open();
+		applyRefund(orderNum, goodsVO){
+			uni.navigateTo({
+				url: `/pages-user/mine/refund/refund?orderNum=${orderNum}&goodsVO=${JSON.stringify(goodsVO)}`
+			});
 		},
 		
-		/**
-		 * 申请退款原因弹窗确定按钮点击
-		 * @param {Object} value 输入框值
-		 */
-		applyRefundConfirm(value){
-			this.refundMsg = value;
-			this.$http
-				.post('/order/applyRefund', {refundMsg:this.refundMsg, orderNum:this.orderNum}, true)
-				.then(res => {
-					this.refundMsg = undefined;
-					this.$refs.applyRefundPop.close();
-					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
-				});
-		},
 		
 		/**
 		 * 查询订单列表
@@ -197,22 +176,32 @@ export default {
 		
 		/**
 		 * 商品点击
-		 * @param {Object} orderNum 商品订单编号
+		 * @param {Object} orderNum 订单编号
 		 */
 		goodsClick(orderNum){
-			// uni.navigateTo({
-			// 	url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
-			// });
+			uni.navigateTo({
+				url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+			});
 		},
 		
 		/**
 		 * 商品评价
-		 * @param {Object} orderNum 商品订单编号
+		 * @param {Object} orderNum 订单编号
+		 * @param {Object} goodsVO 当前商品对象
 		 */
-		evaluateOrder(orderNum){
+		evaluateOrder(orderNum, goodsVO){
 			// uni.navigateTo({
 			// 	url: `/pages-user/index/goods-details/goods-details?orderNum=${orderNum}`
 			// });
+		},
+		
+		/**
+		 * 查询物流
+		 * @param {Object} orderNum 订单编号
+		 * @param {Object} goodsVO 当前商品对象
+		 */
+		queryLogistics(orderNum, goodsVO){
+			
 		}
 	}
 };
