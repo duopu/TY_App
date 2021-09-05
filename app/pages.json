@@ -62,8 +62,8 @@
             "path" : "pages/im-message/im-message",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black"
             }
             
         }

@@ -80,9 +80,18 @@ const logout = ()=>{
 	})
 }
 
+// 系统信息 初始化时获取一次
+let systemInfo = {}
+uni.getSystemInfo({
+    success: function (res) {
+		systemInfo = res;
+		console.log('系统信息',res);
+    }
+});
 
 export default {
 	imTool,
+	systemInfo,
 	showToast,
 	showSuccess,
 	logout,
