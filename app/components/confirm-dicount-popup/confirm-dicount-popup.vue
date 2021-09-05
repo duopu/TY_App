@@ -60,7 +60,7 @@ export default {
 		// 提交
 		submit() {
 			if(this.useGoldCoin !== this.isUseGoldCoin){
-				this.$emit('sbumit',this.isUseGoldCoin);
+				this.$emit('submit',this.isUseGoldCoin);
 			}
 			this.close();
 		}

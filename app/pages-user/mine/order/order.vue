@@ -4,23 +4,53 @@
 		<view class="order-top">
 			<!-- 导航 -->
 			<view class="flex-center">
-				<image class="icon-arrow" src="../../../static/images/icons/icon-back.svg" mode="aspectFill"></image>
+				<image class="icon-arrow" src="../../../static/images/icons/icon-back.svg" mode="aspectFill" @click="goBack"></image>
 				<custom-search @search="getSearchInput"></custom-search>
 				<image class="icon-message" src="../../../static/images/icons/icon-message.svg" mode="aspectFill"></image>
 			</view>
 			<!-- 菜单 -->
 			<custom-horizontal-tabs class="custom-tabs" :data="tabsData" :currentIndex="tabsIndex" @change="getTabsIndex"></custom-horizontal-tabs>
 		</view>
-
-		<!-- 待付款 -->
-		<scroll-view scroll-y="true" class="order-content">
-			<!-- 商家列表 -->
-			<block v-for="(item, index) in ['', '', '', '','','']" :key="index">
-				<merchanism-order-lists-item :state="index"></merchanism-order-lists-item>
-			</block>
-			<!-- 占位符 -->
-			<view class="slot-item"></view>
-		</scroll-view>
+		
+		<swiper :current="tabsIndex" @change="swiperChange" class="order-content">
+			<swiper-item v-for="(item, index) in tabsData" :key="`swiper-item-${index}`">
+				<!-- 待付款 -->
+				<my-scroll-view :ref="`scrollView${index}`" class="order-content" @loadData="(page,pageSize,callback)=>{queryOrderList(page,pageSize,callback,index)}">
+					<template v-slot:list="slotProps">
+						<merchanism-order-lists-item v-for="(subItem, subIndex) in slotProps.list" 
+						:key="`order-list-${subIndex}`" 
+						:storeGoodsVO="storeGoodsVOInit(subItem)" 
+						@goodsClick="goodsClick(subItem.orderNum)"
+						@cancelOrder="cancelOrder(subItem.orderNum)" 
+						@payOrder="payOrder(subItem)"
+						@deletOrder="deletOrder(subItem.orderNum)"
+						@applyRefund="applyRefund(subItem.orderNum)" 
+						@evaluateOrder="evaluateOrder(subItem.orderNum)"></merchanism-order-lists-item>
+					</template>
+				</my-scroll-view>
+			</swiper-item>
+		</swiper>
+		
+		<!-- 取消订单原因弹窗 -->
+		<uni-popup ref="cancelOrderPop" type="dialog">
+		    <uni-popup-dialog mode="input" 
+			:value="cancelMsg"
+			title="取消原因" 
+			placeholder="请输入取消原因" 
+			:before-close="true" 
+			@confirm="cancelOrderConfirm"></uni-popup-dialog>
+		</uni-popup>
+		
+		<!-- 申请退款原因弹窗 -->
+		<uni-popup ref="applyRefundPop" type="dialog">
+		    <uni-popup-dialog mode="input" 
+			:value="refundMsg"
+			title="退款原因" 
+			placeholder="请输入退款原因" 
+			:before-close="true" 
+			@confirm="applyRefundConfirm"></uni-popup-dialog>
+		</uni-popup>
+		
 	</view>
 </template>
 
@@ -28,12 +58,19 @@
 export default {
 	data() {
 		return {
-			tabsData: ['待付款', '待发货', '待收货', '已完成'],
+			tabsData: ['全部','待付款', '待发货', '待收货', '待评价', '已完成'],
 			tabsIndex: 0,
-			searchInput:''
+			searchInput:undefined,
+			cancelMsg:undefined, //取消订单原因
+			refundMsg:undefined, //申请退款原因
+			orderNum:undefined //订单ID
 		};
 	},
 	methods: {
+		// 返回
+		goBack(){
+			uni.navigateBack();
+		},
 		// 获取当前id
 		getTabsIndex(value) {
 			this.tabsIndex = value;
@@ -41,7 +78,141 @@ export default {
 		// 获取输入的内容
 		getSearchInput(value){
 			this.searchInput = value;
-			console.log(this.searchInput);
+			this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
+		},
+		
+		swiperChange(e){
+			this.tabsIndex = e.detail.current
+		},
+		
+		/**
+		 * 取消订单点击
+		 * @param {Object} orderNum 订单编号
+		 */
+		cancelOrder(orderNum){
+			this.orderNum = orderNum;
+			this.$refs.cancelOrderPop.open();
+		},
+		
+		/**
+		 * 取消订单原因弹窗确定按钮点击
+		 * @param {Object} value 输入框内容
+		 */
+		cancelOrderConfirm(value){
+			this.cancelMsg = value;
+			this.$http
+				.post('/order/cancel', {cancelMsg:this.cancelMsg, orderNum:this.orderNum}, true)
+				.then(res => {
+					this.cancelMsg = undefined;
+					this.$refs.cancelOrderPop.close();
+					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
+				});
+		},
+		
+		/**
+		 * 支付订单
+		 * @param {Object} orderVO 订单对象
+		 */
+		payOrder(orderVO){
+			//TODO: 这里需要掉支付接口
+		},
+		
+		/**
+		 * 删除订单
+		 * @param {Object} orderNum 订单编号
+		 */
+		deletOrder(orderNum){
+			this.$http
+				.post('/order/cancel', {cancelMsg:this.cancelMsg, orderNum:this.orderNum}, true)
+				.then(res => {
+					this.cancelMsg = undefined;
+					this.$refs.cancelOrderPop.close();
+					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
+				});
+		},
+		
+		/**
+		 * 申请退款按钮点击
+		 * @param {Object} orderNum 订单编号
+		 */
+		applyRefund(orderNum){
+			this.orderNum = orderNum;
+			this.$refs.applyRefundPop.open();
+		},
+		
+		/**
+		 * 申请退款原因弹窗确定按钮点击
+		 * @param {Object} value 输入框值
+		 */
+		applyRefundConfirm(value){
+			this.refundMsg = value;
+			this.$http
+				.post('/order/applyRefund', {refundMsg:this.refundMsg, orderNum:this.orderNum}, true)
+				.then(res => {
+					this.refundMsg = undefined;
+					this.$refs.applyRefundPop.close();
+					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
+				});
+		},
+		
+		/**
+		 * 查询订单列表
+		 * @param {Object} page
+		 * @param {Object} pageSize
+		 * @param {Object} callback
+		 * @param {Object} index
+		 */
+		queryOrderList(page,pageSize,callback,index){
+			
+			// 订单状态 -1:已取消 0:待支付 1:已支付 2:已发货 3:已完成 4:已评价 
+			let orderState = undefined;
+			switch(index){
+				case 0 : orderState = undefined; break;
+				case 1 : orderState = 0; break;
+				case 2 : orderState = 1; break;
+				case 3 : orderState = 2; break;
+				case 4 : orderState = 3; break;
+				case 5 : orderState = 4; break;
+			}
+			
+			this.$http
+				.get('/order/queryPage', {orderState:orderState, page:page, size:pageSize, searchText:this.searchInput}, true)
+				.then(res => {
+					callback(res);
+				})
+				.catch(err => {
+					callback(null);
+				});
+		},
+		
+		/**
+		 * 订单对象初始化
+		 * @param {Object} item 订单对象
+		 */
+		storeGoodsVOInit(item){
+			// 这里因为接口返回的跟组件中orderItemList的命名不一样
+			item.orderItemList = item.orderItemVOList;
+			return item;
+		},
+		
+		/**
+		 * 商品点击
+		 * @param {Object} orderNum 商品订单编号
+		 */
+		goodsClick(orderNum){
+			// uni.navigateTo({
+			// 	url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
+			// });
+		},
+		
+		/**
+		 * 商品评价
+		 * @param {Object} orderNum 商品订单编号
+		 */
+		evaluateOrder(orderNum){
+			// uni.navigateTo({
+			// 	url: `/pages-user/index/goods-details/goods-details?orderNum=${orderNum}`
+			// });
 		}
 	}
 };
