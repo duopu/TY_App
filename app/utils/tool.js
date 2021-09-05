@@ -52,6 +52,7 @@ const login = (user)=>{
 		// 获取IM 信息
 		request.get('/im/getUserSig',{},true).then(res=>{
 			// im 登录
+			saveUserStorage({...user,...res});
 			return imTool.login(res.imNum,res.sig)
 		}).then(res=>{
 			console.log('im 登录成功');
