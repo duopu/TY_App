@@ -5,7 +5,7 @@
 		<view class="top flex-center-between">
 			<view class="top-item flex-center">
 				<view class="flex-end">
-					<text class="color-yellow number">20</text>
+					<text class="color-yellow number">{{learnStatistic.minuteDay}}</text>
 					<text class="font-24">分钟</text>
 				</view>
 				<view class="color-6 desc">今日学习</view>
@@ -13,7 +13,7 @@
 			<view class="line"></view>
 			<view class="top-item flex-center">
 				<view class="flex-end">
-					<text class="color-yellow number">4%</text>
+					<text class="color-yellow number">{{learnStatistic.beyondPlatform}}%</text>
 					<text class="font-24">学员</text>
 				</view>
 				<view class="color-6 desc">超过平台</view>
@@ -21,7 +21,7 @@
 			<view class="line"></view>
 			<view class="top-item flex-center">
 				<view class="flex-end">
-					<text class="color-yellow number">10</text>
+					<text class="color-yellow number">{{learnStatistic.gold}}</text>
 					<text class="font-24">金币</text>
 				</view>
 				<view class="color-6 desc">获得金币</view>
@@ -54,13 +54,24 @@ export default {
 		return {
 			tabsData: ['我的课程', '我的题库', '缓存课程'],
 			tabsIndex: 1,
+      learnStatistic:{
+
+      }
 		};
 	},
+  onLoad(){
+    this.queryLearnStatistic()
+  },
 	methods: {
 		// 获取当前 tab index
 		getTabsIndex(value) {
 			this.tabsIndex = value;
 		},
+    
+    async queryLearnStatistic(){
+      const data = await this.$http.get('/dailyTask/queryLearnStatistic',{},true) || {}
+      this.learnStatistic = data
+    }
 	}
 };
 </script>

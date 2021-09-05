@@ -11,15 +11,15 @@
 		<scroll-view scroll-y="true" v-else class="course-exam-content">
 			<!-- 列表 -->
 			<view class="flex bank-lists">
-				<view class="bank-item flex-column-center" @click="route('exam')" >
+				<view class="bank-item flex-column-center" @click="route('exam0')" >
 					<image class="image" src="../../../static/images/course-sjlx.png" mode="aspectFill" />
 					<text>随机练习</text>
 				</view>
-				<view class="bank-item-middle flex-column-center text-bold" @click="route('exam')">
+				<view class="bank-item-middle flex-column-center text-bold" @click="route('exam1')">
 					<text>顺序练习</text>
-					<text class="font-24">0/{{detail.questionCount}}</text>
+					<text class="font-24">{{detail.doneQuestionCount}}/{{detail.questionCount}}</text>
 				</view>
-				<view class="bank-item flex-column-center">
+				<view class="bank-item flex-column-center"  @click="route('exam4')">
 					<image class="image" src="../../../static/images/course-error.png" mode="aspectFill" />
 					<text>我的错题</text>
 				</view>
@@ -27,11 +27,11 @@
 					<image class="image" src="../../../static/images/course-history.png" mode="aspectFill" />
 					<text>做题历史</text>
 				</view>
-				<view class="bank-item-middle flex-column-center text-bold">
+				<view class="bank-item-middle flex-column-center text-bold" @click="route('exam2')">
 					<text>模拟考试</text>
 					<text class="font-24">100%仿真</text>
 				</view>
-				<view class="bank-item flex-column-center">
+				<view class="bank-item flex-column-center" @click="route('exam3')">
 					<image class="image" src="../../../static/images/course-collect.png" mode="aspectFill" />
 					<text>我的收藏</text>
 				</view>
@@ -102,9 +102,26 @@ export default {
         case 'history':
           url = `/pages-user/course/history/history?questionBankId=${questionBankId}`
           break;
-        case 'exam':
-          url = '/pages-user/course/exam/exam'
-          break;  
+          // 随机练习
+        case 'exam0':
+          url = `/pages-user/course/exam/exam?questionBankId=${questionBankId}&type=0`
+          break;
+          // 顺序练习
+        case 'exam1':
+          url = `/pages-user/course/exam/exam?questionBankId=${questionBankId}&type=1`
+          break;
+          // 模拟考试
+        case 'exam2':
+          url = `/pages-user/course/exam/exam?questionBankId=${questionBankId}&type=2`
+          break; 
+          // 我的收藏
+        case 'exam3':
+          url = `/pages-user/course/exam/exam?questionBankId=${questionBankId}&type=3`
+          break; 
+          // 我的错题
+        case 'exam4':
+          url = `/pages-user/course/exam/exam?questionBankId=${questionBankId}&type=4`
+          break;      
       }
       uni.navigateTo({
 				url

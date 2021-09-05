@@ -6,7 +6,7 @@
 			<view class="name">{{ storeGoodsVO.storeName }}</view>
 			<view class="desc">{{ showStateName }}</view>
 		</view>
-		
+
 		<!-- 多个商品 -->
 		<view class="flex-column" v-for="(item,index) in storeGoodsVO.orderItemList" :key="`goods-${index}`">
 			<view class="content flex" @click="goodsClick">
@@ -23,7 +23,7 @@
 					</view>
 				</view>
 			</view>
-			
+
 			<!-- 待发货 -->
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 1">
 				<button class="btn btn-border grey" @click.stop="applyRefund(item)">申请退款</button>
@@ -46,20 +46,20 @@
 				<button class="btn btn-border grey" @click.stop="applyRefund(item)">申请退款</button>
 				<button class="btn btn-border black">电子凭证</button>
 			</view>
-			
+
 		</view>
-		
+
 		<!-- 待付款 -->
 		<view class="flex-center bottom line" v-if="storeGoodsVO.orderState === 0">
 			<button class="btn btn-border grey" @click.stop="cancelOrder">取消订单</button>
 			<button class="btn btn-block" @click.stop="payOrder">支付订单</button>
 		</view>
-		
+
 		<!-- 已完成 -->
 		<view class="flex-center bottom line" v-if="storeGoodsVO.orderState === 4">
 			<button class="btn btn-border grey" @click.stop="deletOrder">删除订单</button>
 		</view>
-		
+
 	</view>
 </template>
 
@@ -70,7 +70,7 @@ export default {
 	props: {
 		type: {
 			type: Number,
-			default: 0 //0 
+			default: 0 //0
 		},
 		storeGoodsVO: { //商品
 			type: Object,
@@ -96,10 +96,10 @@ export default {
 		// 显示当前订单状态
 		showStateName() {
 			switch (this.storeGoodsVO.orderState) {
-				
+
 				// 订单状态 -1:已取消 0:待支付 1:已支付 2:已发货 3:已完成 4:已评价 5:申请退款中 6:退款中 7:退款完成
 				// 8.未支付拼团定金 9.已支付拼团定金 10.已完成拼团并退款 11.拼团失败并退款中
-				
+
 				case -1:
 					return '已取消';
 					break;
@@ -127,7 +127,7 @@ export default {
 				case 7:
 					return '退款完成';
 					break;
-							
+
 			}
 		}
 	},
@@ -135,7 +135,7 @@ export default {
 		return {};
 	},
 	methods: {
-		
+
 		// 商品点击
 		goodsClick(){
 			this.$emit("goodsClick");

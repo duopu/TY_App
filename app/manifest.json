@@ -1,6 +1,6 @@
 {
     "name" : "tengyun",
-    "appid" : "__UNI__950E9F3",
+    "appid" : "__UNI__1EC9770",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -22,6 +22,7 @@
         "distribute" : {
             /* android打包配置 */
             "android" : {
+				"packagename":"com.ihomefnt.tyjy",
                 "permissions" : [
                     "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
@@ -41,10 +42,29 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+				"appid":"com.ihomefnt.tyjy"
+			},
             /* SDK配置 */
-            "sdkConfigs" : {
-                "oauth" : {}
+            "sdkConfigs" : { 
+                "oauth" : {},
+                "ad" : {}
+            }
+        },
+        "nativePlugins" : {
+            "TX-TencentIM-Plus" : {
+                "__plugin_info__" : {
+                    "name" : "腾讯im增强版sdk qq群：933785472 - [试用版，仅用于自定义调试基座]",
+                    "description" : "腾讯im插件助力轻松接入im的功能",
+                    "platforms" : "Android,iOS",
+                    "url" : "https://ext.dcloud.net.cn/plugin?id=5405",
+                    "android_package_name" : "",
+                    "ios_bundle_id" : "",
+                    "isCloud" : true,
+                    "bought" : 0,
+                    "pid" : "5405",
+                    "parameters" : {}
+                }
             }
         }
     },
