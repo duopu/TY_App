@@ -64,7 +64,14 @@ export default {
 			]
 		};
 	},
-	onLoad() {},
+	onLoad() {
+		// 跳转聊天页面  测试用
+		setTimeout(()=>{
+			uni.navigateTo({
+				url:'/pages/im-message/im-message?groupId=@TGS#2XZIVENHN&userName=18911755085&userPortrait=&userIM=Czm0l61Ac8R0Cvt4z&storeName=雪梨小店&storePortrait='
+			})
+		},600)
+	},
 	created() {},
 
 	methods: {

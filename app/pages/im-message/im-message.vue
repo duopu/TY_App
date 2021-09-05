@@ -10,7 +10,7 @@
 							cursor-spacing="10" cursor="10" :focus="textInputFocus" @focus="textInputFocus = true" @blur="textInputFocus = false"
 							@confirm='sendTextMessage'/>
 				</view>
-				<image class="img-btn" src="../../static/images/im/voice_btn.png" mode="aspectFit"></image>
+				<image class="img-btn" @click="voiceBtnClick" src="../../static/images/im/voice_btn.png" mode="aspectFit"></image>
 				<image class="img-btn" src="../../static/images/im/emoji_btn.png" mode="aspectFit"></image>
 				<image class="img-btn" src="../../static/images/im/image_btn.png" mode="aspectFit"></image>
 			</view>
@@ -54,6 +54,7 @@
 			uni.setNavigationBarTitle({
 				title:this.navTitle
 			})
+			this.getGroupHistoryMessageList();
 		},
 		computed:{
 			navTitle(){
@@ -62,12 +63,26 @@
 			}
 		},
 		methods:{
+			// 加载历史消息
+			getGroupHistoryMessageList(){
+				const oldMessage = this.messageList[0] || {}
+				console.log('加载历史消息',oldMessage);
+				this.$tool.imTool.getGroupHistoryMessageList(this.groupId,oldMessage.msgId).then(historys=>{
+					historys.forEach(msg=>{
+						this.messageList.unshift(msg)
+					})
+				})
+			},
 			// 发送文本消息
 			sendTextMessage(){
 				this.$tool.imTool.sendGroupTextMessage(this.messageText,this.groupId).then(msg=>{
 					this.messageList.push(msg);
 					this.messageText = ''
 				})
+			},
+			// 语音按钮点击事件
+			voiceBtnClick(){
+				this.getGroupHistoryMessageList();
 			}
 		}
 	}
