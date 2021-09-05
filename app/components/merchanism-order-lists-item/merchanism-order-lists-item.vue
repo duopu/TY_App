@@ -41,7 +41,7 @@
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 3">
 				<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
 				<button class="btn btn-border black">电子凭证</button>
-				<button class="btn btn-block">去评价</button>
+				<button class="btn btn-block" @click.stop="evaluateOrder">去评价</button>
 			</view>
 			<!-- 已完成 -->
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 4">
@@ -68,7 +68,7 @@
 <script>
 export default {
 	name: 'merchanism-order-lists-item',
-	emits: ['goodsClick','cancelOrder', 'queryLogistics', 'payOrder', 'deletOrder', 'applyRefund'],
+	emits: ['goodsClick','cancelOrder', 'queryLogistics', 'payOrder', 'deletOrder', 'applyRefund', 'evaluateOrder'],
 	props: {
 		type: {
 			type: Number,
@@ -161,6 +161,10 @@ export default {
 		// 申请退款
 		applyRefund(){
 			this.$emit("applyRefund");
+		},
+		// 去评价
+		evaluateOrder(){
+			this.$emit("evaluateOrder");
 		}
 	}
 };

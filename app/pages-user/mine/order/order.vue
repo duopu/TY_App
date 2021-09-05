@@ -24,7 +24,8 @@
 						@cancelOrder="cancelOrder(subItem.orderNum)" 
 						@payOrder="payOrder(subItem)"
 						@deletOrder="deletOrder(subItem.orderNum)"
-						@applyRefund="applyRefund(subItem.orderNum)"></merchanism-order-lists-item>
+						@applyRefund="applyRefund(subItem.orderNum)" 
+						@evaluateOrder="evaluateOrder(subItem.orderNum)"></merchanism-order-lists-item>
 					</template>
 				</my-scroll-view>
 			</swiper-item>
@@ -201,6 +202,16 @@ export default {
 		goodsClick(orderNum){
 			// uni.navigateTo({
 			// 	url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
+			// });
+		},
+		
+		/**
+		 * 商品评价
+		 * @param {Object} orderNum 商品订单编号
+		 */
+		evaluateOrder(orderNum){
+			// uni.navigateTo({
+			// 	url: `/pages-user/index/goods-details/goods-details?orderNum=${orderNum}`
 			// });
 		}
 	}
