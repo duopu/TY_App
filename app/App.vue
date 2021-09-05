@@ -6,7 +6,6 @@
 		globalData: {
 			user: {}
 		},
-
 		onLaunch: function() {
 			// setRemInit();
 			console.log('App Launch');
