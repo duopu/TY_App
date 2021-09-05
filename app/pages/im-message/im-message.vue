@@ -20,8 +20,14 @@
 				storePortrait:''
 			};
 		},
-		onLoad() {
+		onLoad(option) {
+			this.groupId = option.groupId;
+			this.userName = option.userName;
+			this.userPortrait = option.userPortrait;
+			this.storeName = option.storeName;
+			this.storePortrait = option.storePortrait;
 			
+			console.log(this.$data);
 		}
 	}
 </script>
