@@ -21,8 +21,6 @@
 <script>
 	
   /**
-   * 带下拉刷新和上拉加载的滚动视图
-   * @description 带下拉刷新和上拉加载的滚动视图
    * @property {Number} pageSize 分页大小
    * @property {Boolean} pageEnable 是否分页
    * @event {Function} loadData 触发加载数据事件，携带page参数，同时根据回调返回网络请求数据结果，注意：如果网络接口失败，回调请传callback(null)
