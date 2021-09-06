@@ -1,4 +1,4 @@
-<!-- 个人入驻 -->
+<!-- 商家申请入驻 -->
 <template>
 	<view class="check-in-person">
 		<!-- 进度 -->
@@ -11,7 +11,7 @@
 		<!-- 内容 -->
 		<!-- step 1 签订入住协议 -->
 		<step-one v-if="processIndex === 1"></step-one>
-		<!-- step 2 填写个人信息 -->
+		<!-- step 2 填写机构信息 -->
 		<step-two v-else-if="processIndex === 2"></step-two>
 		<!-- step 3  填写店铺信息-->
 		<step-three v-else-if="processIndex === 3"></step-three>
@@ -39,13 +39,13 @@ export default {
 	},
 	data() {
 		return {
-			processIndex: 1,
+			processIndex: 2,
 			processData: [
 				{
 					text: '签订入驻协议'
 				},
 				{
-					text: '填写个人信息'
+					text: '填写机构信息'
 				},
 				{
 					text: '填写店铺信息'
