@@ -1,10 +1,12 @@
 const txIm = uni.requireNativePlugin('TX-TencentIM-Plus');
-let isSuccess = txIm.initSDK({
-	sdkAppID: 1400563151,
-	logLevel: 4
-}, result => {
-	console.log('初始化sdk', result);
-})
+if (txIm) {
+	let isSuccess = txIm.initSDK({
+		sdkAppID: 1400563151,
+		logLevel: 4
+	}, result => {
+		console.log('初始化sdk', result);
+	})
+}
 
 // im登录
 const login = (userId, userSig) => {
@@ -22,18 +24,19 @@ const login = (userId, userSig) => {
 	})
 }
 
-const loadingStart = ( loading = true)=>{
+const loadingStart = (loading = true) => {
 	if (loading) {
 		uni.showLoading({
-			title:'处理中...'
+			title: '处理中...'
 		})
 	}
 }
 
-const loadingEnd = (loading ,result)=>{
+const loadingEnd = (loading, result) => {
+	console.log('IM 消息操作回调',result);
 	if (loading) {
 		uni.hideLoading();
-		if(result.code != 0){
+		if (result.code != 0) {
 			uni.showToast({
 				title: '发生错误!',
 				icon: 'none'
@@ -48,30 +51,29 @@ const sendGroupTextMessage = (textMsg, groupId, loading = true) => {
 		loadingStart(loading)
 		txIm.sendGroupTextMessage({
 			textMsg,
-			groupId,
+			groupId, 
 			priority: 0
 		}, result => {
-			loadingEnd(loading,result);
-			if (result.code == 0) {
-				resolve(result.msg)
-			} else {
-				reject(result.errMsg);
-			}
+				loadingEnd(loading, result);
+				if (result.code == 0) {
+					resolve(result.msg)
+				} else {
+					reject(result.errMsg);
+				}
 		})
 	})
 }
 
 // 获取群组历史消息
-const getGroupHistoryMessageList = (groupId, msgId = '',loading=true) => {
-	return new Promise((resolve,reject)=>{
+const getGroupHistoryMessageList = (groupId, msgId = '', loading = true) => {
+	return new Promise((resolve, reject) => {
 		loadingStart(loading)
 		txIm.getGroupHistoryMessageList({
 			groupId,
-			count:2,
+			count: 20,
 			msgId
 		}, result => {
-			console.log(result);
-			loadingEnd(loading,result);
+			loadingEnd(loading, result);
 			if (result.code == 0) {
 				resolve(result.msgs)
 			} else {
@@ -81,9 +83,52 @@ const getGroupHistoryMessageList = (groupId, msgId = '',loading=true) => {
 	})
 }
 
+// 发送语音消息
+const sendSoundMessage = (path, duration,groupId,loading = true) => {
+	return new Promise((resolve,reject)=>{
+
+		let message = txIm.createSoundMessage({path,duration:duration})
+
+		if(message && message.createMessageId){
+			loadingStart(loading)
+			txIm.sendMessage({createMessageId: message.createMessageId,groupId}, result => {
+				if(result.type == 'sendMessage'){
+					loadingEnd(loading, result);
+					if (result.code == 0) {
+						resolve(result.msg)
+					} else {
+						reject(result.errMsg);
+					} 
+				}
+			})
+		}else{
+			reject('创建语音消息失败');
+		}
+	})
+}
+
+// 发送图片消息
+const sendImageMessage = (path,groupId,loading = true)=>{
+	return new Promise((resolve,reject)=>{
+		loadingStart(loading)
+		txIm.sendImageMessage({path,groupId},result=>{
+			if(result.type == 'sendImageMessage'){
+				loadingEnd(loading, result);
+				if (result.code == 0) {
+					resolve(result.msg)
+				} else {
+					reject(result.errMsg);
+				} 
+			}
+		});
+	})
+}
+
 
 export default {
 	login,
 	sendGroupTextMessage,
-	getGroupHistoryMessageList
+	getGroupHistoryMessageList,
+	sendSoundMessage,
+	sendImageMessage,
 }

@@ -1,47 +1,86 @@
 <template>
-	<view class="im-message-page">
-		<view class="list-view">
-			
-		</view>
-		<view class="bottom" :style="{}">
-			<view class="input-bar">
-				<view class="text-input">
-					<input class="input" type="text" v-model="messageText" confirm-type="send"
-							cursor-spacing="10" cursor="10" :focus="textInputFocus" @focus="textInputFocus = true" @blur="textInputFocus = false"
-							@confirm='sendTextMessage'/>
-				</view>
-				<image class="img-btn" @click="voiceBtnClick" src="../../static/images/im/voice_btn.png" mode="aspectFit"></image>
-				<image class="img-btn" src="../../static/images/im/emoji_btn.png" mode="aspectFit"></image>
-				<image class="img-btn" src="../../static/images/im/image_btn.png" mode="aspectFit"></image>
+	<view class="im-message-page"
+		@longpress="handleLongPress" @touchmove="handleTouchMove" @touchend="handleTouchEnd" @touchcancel="touchcancel">
+		<view v-show="isRecording" class="record-modal">
+			<view class="wrapper">
+				<view class="modal-loading"></view>
 			</view>
-			<!-- <view class="bottom-emoji">
-				
-			</view> -->
+			<view class="modal-title">
+				{{title}}
+			</view> 
+		</view>
+		<view class="list-view">
+
+		</view>
+		<view class="bottom" :style="{paddingBottom:bottomPaddingBottom}">
+			<view class="input-bar">
+				<view class="text-input" v-if="!isRecord">
+					<input class="input" type="text" v-model="messageText" confirm-type="send" cursor-spacing="10"
+						cursor="10" :focus="textInputFocus" @focus="changeTextInputFocus(true)"
+						@blur="changeTextInputFocus(false)" @confirm='sendTextMessage' />
+				</view>
+				<view class="record" id='record' v-else>
+					<text class="record-text">{{isRecording ? '抬起 停止' : '按住 说话'}}</text>
+				</view>
+				<image class="img-btn" @click="voiceBtnClick" src="../../static/images/im/voice_btn.png"mode="aspectFit" />
+				<image class="img-btn" @click="handleEmoji" src="../../static/images/im/emoji_btn.png" mode="aspectFit" />
+				<image class="img-btn" @click="imgBtnClick" src="../../static/images/im/image_btn.png" mode="aspectFit"/>
+			</view>
+
+			<scroll-view scroll-y="true" v-if="isEmojiOpen">
+				<view class="bottom-emoji" >
+					<view class="emoji-view" v-for="(item,index) in emoji.emojiList" @click="emojiClick(item)">
+						<text class="emoji-text">{{item}}</text>
+					</view>
+				</view>
+			</scroll-view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import emoji from '../../utils/emoji.js';
+	const audioContext = uni.createInnerAudioContext()
+	const recorderManager = uni.getRecorderManager();
+	import dayjs from 'dayjs';
+	
 	export default {
 		data() {
 			return {
 				// 群组id
-				groupId:'',
+				groupId: '',
 				// 用户名称
-				userName:'',
+				userName: '',
+				// 用户im账号
+				userIM: '',
 				// 用户头像
-				userPortrait:'',
+				userPortrait: '',
 				// 商家名称
-				storeName:'',
+				storeName: '',
 				// 商家头像
-				storePortrait:'',
+				storePortrait: '',
 				// 要发送的文字消息
-				messageText:'',
+				messageText: '',
 				// 输入框是否获取焦点
-				textInputFocus:false,
+				textInputFocus: false,
+				// 是否显示表情
+				isEmojiOpen: false,
+				// 表情数据源
+				emoji: emoji,
+				// 是否是语言模式
+				isRecord:false,
+				// 录音中
+				isRecording:false,
+				title:'',
 				// 消息列表
-				messageList:[]
+				messageList: [],
+				bottomPaddingBottom:'0rpx'
 			};
+		},
+		watch:{
+			
+		},
+		computed:{
 		},
 		onLoad(option) {
 			this.groupId = option.groupId;
@@ -49,41 +88,149 @@
 			this.userPortrait = option.userPortrait;
 			this.storeName = option.storeName;
 			this.storePortrait = option.storePortrait;
+			this.userIM = option.userIM;
 		},
 		onReady() {
 			uni.setNavigationBarTitle({
-				title:this.navTitle
+				title: this.navTitle
 			})
 			this.getGroupHistoryMessageList();
+			
+			recorderManager.onStart(()=>{
+				this.startUnix = dayjs().unix();
+			})
+			recorderManager.onStop((res) => {
+				const duration = dayjs().unix() - this.startUnix;
+				this.startUnix = 0;
+				console.log('recorder 结束',res,duration)
+				
+				if (this.canSend) {
+					if (duration < 1) {
+						this.$tool.showToast('录音时间太短')
+					} else {
+						// 发送语音消息
+						const file = res.tempFilePath;
+						// 相对路径转绝对路径
+						const path = plus.io.convertLocalFileSystemURL( file )
+						this.$tool.imTool.sendSoundMessage(path,duration,this.groupId).then(msg=>{
+							this.messageList.push(msg);
+						})
+					}
+				}
+			})
+			
+			this.bottomPaddingBottom = this.$tool.systemInfo.platform == 'ios' ? '0rpx' : '30rpx'
 		},
-		computed:{
-			navTitle(){
+		computed: {
+			navTitle() {
 				const user = getApp().globalData.user;
 				return user.roleStatus == 'user' ? this.storeName : this.userName
 			}
 		},
-		methods:{
+		methods: {
 			// 加载历史消息
-			getGroupHistoryMessageList(){
+			getGroupHistoryMessageList() {
 				const oldMessage = this.messageList[0] || {}
-				console.log('加载历史消息',oldMessage);
-				this.$tool.imTool.getGroupHistoryMessageList(this.groupId,oldMessage.msgId).then(historys=>{
-					historys.forEach(msg=>{
+				this.$tool.imTool.getGroupHistoryMessageList(this.groupId, oldMessage.msgId).then(historys => {
+					historys.forEach(msg => {
 						this.messageList.unshift(msg)
 					})
 				})
 			},
 			// 发送文本消息
-			sendTextMessage(){
-				this.$tool.imTool.sendGroupTextMessage(this.messageText,this.groupId).then(msg=>{
+			sendTextMessage() {
+				this.$tool.imTool.sendGroupTextMessage(this.messageText, this.groupId).then(msg => {
 					this.messageList.push(msg);
 					this.messageText = ''
 				})
 			},
 			// 语音按钮点击事件
-			voiceBtnClick(){
-				this.getGroupHistoryMessageList();
-			}
+			voiceBtnClick() {
+				this.isRecord = !this.isRecord
+			},
+			// 修改文本框焦点
+			changeTextInputFocus(focus){
+				this.textInputFocus = focus
+			},
+			// 表情按钮
+			handleEmoji() {
+				if (this.textInputFocus) {
+					this.textInputFocus = false
+					this.isEmojiOpen = true
+				} else {
+					if(this.isEmojiOpen){
+						this.isEmojiOpen = false
+						this.textInputFocus = true
+					}else{
+						this.isEmojiOpen = true
+					}
+				}
+			},
+			// 表情选中
+			emojiClick(item) {
+				this.messageText = this.messageText + item
+			},
+			// 长按录音，监听在页面最外层div，如果是放在button的话，手指上划离开button后获取距离变化有bug
+			handleLongPress(e) {
+				this.startPoint = e.touches[0]
+				if (e.target.id === 'record') {
+					console.log('长按录音');
+					this.title = '正在录音'
+					this.isRecording = true
+					recorderManager.start()
+					this.canSend = true
+				}
+			},
+			// 录音时的手势上划移动距离对应文案变化
+			handleTouchMove(e) {
+				console.log(e);
+				if (this.isRecording) {
+					if (this.startPoint.clientY - e.touches[e.touches.length - 1].clientY > 100) {
+						this.title = '松开手指，取消发送'
+						this.canSend = false
+					} else if (this.startPoint.clientY - e.touches[e.touches.length - 1].clientY > 20) {
+						this.title = '上划可取消'
+						this.canSend = true
+					} else {
+						this.title = '正在录音'
+						this.canSend = true
+					}
+				}
+			},
+			// 手指离开页面滑动
+			handleTouchEnd() {
+				console.log('handleTouchEnd 结束');
+				this.isRecording = false
+				recorderManager.stop()
+			},
+			// 点击事件取消
+			touchcancel(){
+				console.log('touchcancel 结束');
+				this.isRecording = false
+				recorderManager.stop()
+			},
+			// 选择图片事件
+			imgBtnClick(){
+				uni.chooseImage({
+				    count: 9, //默认9
+				    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album','camera'], //从相册选择
+				    success:  (res) =>{
+						for (let file of res.tempFilePaths) {
+							this.$tool.imTool.sendImageMessage(file.replace('file://',''),this.groupId).then(msg=>{
+								this.messageList.push(msg);
+							})
+						}
+				    }
+				});
+			},
+			
+			// 滚动到列表bottom
+			scrollToBottom() {
+				if (this.isShow) {
+					
+				}
+			},
 		}
 	}
 </script>
