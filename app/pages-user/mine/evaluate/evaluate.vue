@@ -21,7 +21,7 @@
 						<view class="flex-center-between">
 							<view class="price">
 								<text class="unit">¥</text>
-								{{goodsVO.price}}
+								{{goodsVO.goodsPrice}}
 							</view>
 							<view class="number">×{{goodsVO.goodsNum}}</view>
 						</view>
@@ -89,8 +89,8 @@ export default {
 	},
 	onLoad(option){
 		this.goodsVO = JSON.parse(decodeURIComponent(option.goodsVO));
-		this.evaluateVO.goodsId = option.goodsId;
-		this.evaluateVO.orderNum = this.goodsVO.goodsId;
+		this.evaluateVO.goodsId = this.goodsVO.goodsId;
+		this.evaluateVO.orderNum = this.goodsVO.orderNum;
 	},
 	methods: {
 		

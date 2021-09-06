@@ -16,17 +16,17 @@
 			<swiper-item v-for="(item, index) in tabsData" :key="`swiper-item-${index}`">
 				<my-scroll-view :ref="`scrollView${index}`" class="order-content" @loadData="(page,pageSize,callback)=>{queryOrderList(page,pageSize,callback,index)}">
 					<template v-slot:list="slotProps">
-						<merchanism-order-lists-item v-for="(subItem, subIndex) in slotProps.list" 
+						<goods-order-list-item v-for="(subItem, subIndex) in slotProps.list" 
 						:key="`order-list-${subIndex}`" 
 						:storeGoodsVO="storeGoodsVOInit(subItem)" 
 						@goodsClick="goodsClick(subItem.orderNum)"
 						@cancelOrder="cancelOrder(subItem.orderNum)" 
 						@payOrder="payOrder(subItem)"
 						@deletOrder="deletOrder(subItem.orderNum)"
-						@queryLogistics="(item)=>{queryLogistics(subItem.orderNum, item)}"
-						@applyRefund="(item)=>{applyRefund(subItem.orderNum, item)}" 
-						@evaluateOrder="(item)=>{evaluateOrder(subItem.orderNum, item)}"
-						@receivedOrder="(item)=>{receivedOrder(subItem.orderNum, item)}"></merchanism-order-lists-item>
+						@queryLogistics="queryLogistics(subItem)"
+						@applyRefund="applyRefund(subItem)" 
+						@evaluateOrder="evaluateOrder(subItem)"
+						@receivedOrder="receivedOrder(subItem)"></goods-order-list-item>
 					</template>
 				</my-scroll-view>
 			</swiper-item>
@@ -125,12 +125,11 @@ export default {
 		
 		/**
 		 * 申请退款按钮点击
-		 * @param {Object} orderNum 订单编号
 		 * @param {Object} goodsVO 当前商品对象
 		 */
-		applyRefund(orderNum, goodsVO){
+		applyRefund(goodsVO){
 			uni.navigateTo({
-				url: `/pages-user/mine/refund/refund?orderNum=${orderNum}&goodsVO=${encodeURIComponent(JSON.stringify(goodsVO))}`
+				url: `/pages-user/mine/refund/refund?goodsVO=${encodeURIComponent(JSON.stringify(goodsVO))}`
 			});
 		},
 		
@@ -187,32 +186,29 @@ export default {
 		
 		/**
 		 * 商品评价
-		 * @param {Object} orderNum 订单编号
 		 * @param {Object} goodsVO 当前商品对象
 		 */
-		evaluateOrder(orderNum, goodsVO){
+		evaluateOrder(goodsVO){
 			uni.navigateTo({
-				url: `/pages-user/mine/evaluate/evaluate?orderNum=${orderNum}&goodsVO=${encodeURIComponent(JSON.stringify(goodsVO))}`
+				url: `/pages-user/mine/evaluate/evaluate?goodsVO=${encodeURIComponent(JSON.stringify(goodsVO))}`
 			});
 		},
 		
 		/**
 		 * 查询物流
-		 * @param {Object} orderNum 订单编号
 		 * @param {Object} goodsVO 当前商品对象
 		 */
-		queryLogistics(orderNum, goodsVO){
+		queryLogistics(goodsVO){
 			
 		},
 		
 		/**
 		 * 确认收货
-		 * @param {Object} orderNum 订单编号
 		 * @param {Object} goodsVO 当前商品对象
 		 */
-		receivedOrder(orderNum, goodsVO){
+		receivedOrder(goodsVO){
 			this.$http
-				.get('/order/received', {orderNum:orderNum, goodsId:goodsVO.goodsId}, true)
+				.get('/order/received', {orderNum:goodsVO.orderNum, goodsId:goodsVO.goodsId}, true)
 				.then(res => {
 					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
 				});

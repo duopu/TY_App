@@ -21,9 +21,7 @@
 				</view>
 			</view>
 		</view>
-		
-		
-		<!-- <merchanism-order-lists-item class="store" :type="2"></merchanism-order-lists-item> -->
+
 		<!-- 退款原因 -->
 		<view class="box discount">
 			<view class="discount-row flex-center-between">
@@ -61,12 +59,10 @@
 export default {
 	data() {
 		return {
-			orderNum:undefined, //订单编号
 			goodsVO:{} //商品对象
 		};
 	},
 	onLoad(option){
-		this.orderNum = option.orderNum;
 		this.goodsVO = JSON.parse(decodeURIComponent(option.goodsVO));
 	}
 };
