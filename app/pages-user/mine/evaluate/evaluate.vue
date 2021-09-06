@@ -36,13 +36,20 @@
 					<rate :readonly="false" @change="(num)=>{rateChange(1, num)}"></rate>
 				</view>
 				<textarea class="input" placeholder-class="input-placeholder" placeholder="写下您的评价" />
-				<view class="image-lists">
-					<view class="flex-center-center image-item"><image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image></view>
+				<!-- <view class="image-lists"> -->
+					<uni-file-picker  limit="9" 
+					title="最多选择9张图片" 
+					mode="grid" 
+					:image-styles="{width:84, height:56}" 
+					@select="selectGoodsImg">
+						<view class="flex-center-center image-item"><image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image></view>
+					</uni-file-picker>
+					<!-- <view class="flex-center-center image-item"><image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image></view> -->
 					<!-- 显示上传后的照片 -->
-					<view v-if="false" class="image-item flex-center-center">
+					<!-- <view v-if="false" class="image-item flex-center-center">
 						<image class="upload-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
-					</view>
-				</view>
+					</view> -->
+				<!-- </view> -->
 			</view>
 			<!-- 课程评价 -->
 			<view class="box">
@@ -113,6 +120,15 @@ export default {
 			}else if(type === 4){
 				this.evaluateVO.examScore = num;
 			}
+		},
+		
+		selectGoodsImg({tempFiles}){
+			console.log("e == ",tempFiles);
+			this.$http
+				.upload(tempFiles[0], true)
+				.then(res => {
+					
+				});
 		},
 		
 		// 发布评价

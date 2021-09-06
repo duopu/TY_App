@@ -25,7 +25,7 @@
 
 
 		<!-- 待付款 -->
-		<view class="flex-center bottom line" v-if="storeGoodsVO.orderState === 0">
+		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 0">
 			<button class="btn btn-border grey" @click.stop="cancelOrder">取消订单</button>
 			<button class="btn btn-block" @click.stop="payOrder">支付订单</button>
 			
@@ -55,7 +55,7 @@
 		</view>
 
 		<!-- 已完成 -->
-		<view class="flex-center bottom line" v-if="storeGoodsVO.orderState === 4">
+		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 4">
 			<button v-if="item.examState === 1" class="btn btn-border black">电子凭证</button>
 			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
 			<button class="btn btn-border grey" @click.stop="deletOrder">删除订单</button>
