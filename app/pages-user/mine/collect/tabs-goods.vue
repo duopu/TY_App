@@ -1,5 +1,5 @@
 <template>
-	<view class="flex-column">
+	<view class="tab-content flex-column">
 		<my-scroll-view ref="scrollView" @loadData="loadData" class="collect-content">
 			<template v-slot:list="slotProps">
 				<view class="goods-lists-item" v-for="(item, index) in slotProps.list" :key="`goods-${index}`">
@@ -23,9 +23,10 @@
 					</view>
 				</view>
 			</template>
+			<!-- 占位符 -->
+			<view class="slot-item"></view>
 		</my-scroll-view>
 
-		
 		<!-- 底部 -->
 		<view class="collect-bottom flex-center-between">
 			<view class="left flex-center">
