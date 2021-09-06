@@ -12,7 +12,7 @@
 			</view>
 			<view class="flex-center">
 				<view class="color-yellow">{{ type === 1 ? '综合评分' : '店铺推荐指数' }}</view>
-				<rate class="rate" :number="storeInfo.score || 0" :max="5"></rate>
+				<rate class="rate" :number="storeInfo.score || 0"></rate>
 				<view v-if="type === 1" class="color-yellow score">{{storeInfo.score}}</view>
 			</view>
 		</view>

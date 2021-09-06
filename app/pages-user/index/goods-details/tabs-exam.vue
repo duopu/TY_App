@@ -7,7 +7,6 @@
 			<view class="flex-center flex-1 color-yellow">
 				<text class="color-yellow">考试评分</text>
 				<rate class="rate" :number="score"></rate>
-				<text>{{score}}</text>
 			</view>
 			<view class="flex-center" @click="moreComment()">
 				更多

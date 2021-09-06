@@ -67,7 +67,7 @@ export default {
 	},
 	onLoad(option){
 		this.orderNum = option.orderNum;
-		this.goodsVO = JSON.parse(option.goodsVO);
+		this.goodsVO = JSON.parse(decodeURIComponent(option.goodsVO));
 	}
 };
 </script>

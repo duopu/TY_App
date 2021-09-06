@@ -23,6 +23,12 @@
 					</view>
 				</view>
 			</view>
+			
+			<!-- 待付款（测试使用，以后删除掉！！！） -->
+			<view class="flex-center bottom line" v-if="storeGoodsVO.orderState === 0">
+				<button class="btn btn-border grey" @click.stop="applyRefund(item)">申请退款</button>
+				<button class="btn btn-block" @click.stop="evaluateOrder(item)">去评价</button>
+			</view>
 
 			<!-- 待发货 -->
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 1">
