@@ -55,7 +55,7 @@
 			<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 		</view>
 		<view class="lists block-box">
-			<view class="flex-center-between lists-row" v-for="(item, index) in ticketsData.oldTicketsData" :key="index">
+			<view class="flex-center-between lists-row" v-for="(item, index) in ticketsData.oldTicketsData" @click="jump('ticket',index)" :key="index">
 				<view class="flex-center">
 					<image class="icons" :src="item.icon" mode="aspectFill"></image>
 					<text>{{ item.label }}</text>
@@ -64,7 +64,7 @@
 			</view>
 		</view>
 		<view class="lists block-box">
-			<view class="flex-center-between lists-row" v-for="(item, index) in ticketsData.nowTicketsData" :key="index">
+			<view class="flex-center-between lists-row" v-for="(item, index) in ticketsData.nowTicketsData" @click="jump(item.key,index)"  :key="index">
 				<view class="flex-center">
 					<image class="icons" :src="item.icon" mode="aspectFill"></image>
 					<text>{{ item.label }}</text>
@@ -147,11 +147,13 @@ export default {
 				nowTicketsData: [
 					{
 						icon: '../../../static/images/icons/icon-ticket-add.svg',
-						label: '创建优惠劵'
+						label: '创建优惠劵',
+						key: 'created-ticket'
 					},
 					{
 						icon: '../../../static/images/icons/icon-live.svg',
-						label: '直播'
+						label: '直播',
+						key: 'live'
 					}
 				]
 			}
@@ -191,6 +193,21 @@ export default {
 			uni.navigateTo({
 				url:`/pages-business/index/order/order`
 			})
+		},
+		jump(name,type){
+			console.log(name,'type')
+			switch (name) {
+				case 'ticket':
+					uni.navigateTo({
+						url:`/pages-business/my/ticket/ticket`
+					})
+					break;
+				case 'created-ticket':
+					uni.navigateTo({
+						url:`/pages-business/my/ticket/ticket`
+					})
+					break;
+			}
 		},
 		queryOrderNumber(){
 			this.$http.get('/order/statistic',null,false).then(res => {
