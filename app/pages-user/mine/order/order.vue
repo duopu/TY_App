@@ -25,7 +25,8 @@
 						@deletOrder="deletOrder(subItem.orderNum)"
 						@queryLogistics="(item)=>{queryLogistics(subItem.orderNum, item)}"
 						@applyRefund="(item)=>{applyRefund(subItem.orderNum, item)}" 
-						@evaluateOrder="(item)=>{evaluateOrder(subItem.orderNum, item)}"></merchanism-order-lists-item>
+						@evaluateOrder="(item)=>{evaluateOrder(subItem.orderNum, item)}"
+						@receivedOrder="(item)=>{receivedOrder(subItem.orderNum, item)}"></merchanism-order-lists-item>
 					</template>
 				</my-scroll-view>
 			</swiper-item>
@@ -202,6 +203,19 @@ export default {
 		 */
 		queryLogistics(orderNum, goodsVO){
 			
+		},
+		
+		/**
+		 * 确认收货
+		 * @param {Object} orderNum 订单编号
+		 * @param {Object} goodsVO 当前商品对象
+		 */
+		receivedOrder(orderNum, goodsVO){
+			this.$http
+				.get('/order/received', {orderNum:orderNum, goodsId:goodsVO.goodsId}, true)
+				.then(res => {
+					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
+				});
 		}
 	}
 };

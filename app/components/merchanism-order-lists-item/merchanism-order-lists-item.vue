@@ -30,21 +30,21 @@
 			</view>
 			<!-- 待收货 -->
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 2">
+				<button v-if="item.examState === 1" class="btn btn-border black">电子凭证</button>
 				<button class="btn btn-border grey" @click.stop="applyRefund(item)">申请退款</button>
-				<button class="btn btn-border black">电子凭证</button>
 				<button v-if="item.deliveryState !== -1" class="btn btn-border black" @click.stop="queryLogistics(item)">查看物流</button>
-				<button class="btn btn-block">确认收货</button>
+				<button class="btn btn-block" @click="receivedOrder(item)">确认收货</button>
 			</view>
 			<!-- 待评价 -->
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 3">
+				<button v-if="item.examState === 1" class="btn btn-border black">电子凭证</button>
 				<button class="btn btn-border grey" @click.stop="applyRefund(item)">申请退款</button>
-				<button class="btn btn-border black">电子凭证</button>
 				<button class="btn btn-block" @click.stop="evaluateOrder(item)">去评价</button>
 			</view>
 			<!-- 已完成 -->
 			<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 4">
+				<button v-if="item.examState === 1" class="btn btn-border black">电子凭证</button>
 				<button class="btn btn-border grey" @click.stop="applyRefund(item)">申请退款</button>
-				<button class="btn btn-border black">电子凭证</button>
 			</view>
 
 		</view>
@@ -66,7 +66,7 @@
 <script>
 export default {
 	name: 'merchanism-order-lists-item',
-	emits: ['goodsClick','cancelOrder', 'queryLogistics', 'payOrder', 'deletOrder', 'applyRefund', 'evaluateOrder'],
+	emits: ['goodsClick','cancelOrder', 'queryLogistics', 'payOrder', 'deletOrder', 'applyRefund', 'evaluateOrder', 'receivedOrder'],
 	props: {
 		type: {
 			type: Number,
@@ -84,7 +84,8 @@ export default {
 					goodsNum:0,
 					goodsName:undefined,
 					thumbnail:undefined,
-					deliveryState:undefined //发货状态 -1:无需发货 0:未发货 1:已发货 2：已收货
+					deliveryState:undefined, //发货状态 -1:无需发货 0:未发货 1:已发货 2：已收货
+					examState:undefined //是否有电子凭证 0:无 1:有
 				}],
 				storeId:undefined,
 				storeName:undefined,
@@ -169,6 +170,13 @@ export default {
 		 */
 		evaluateOrder(item){
 			this.$emit("evaluateOrder",item);
+		},
+		/**
+		 * 确认收货
+		 * @param {Object} item 当前商品对象
+		 */
+		receivedOrder(item){
+			this.$emit("receivedOrder",item);
 		}
 	}
 };

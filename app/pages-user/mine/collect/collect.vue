@@ -3,18 +3,20 @@
 	<view class="collect">
 		<!-- top -->
 		<custom-horizontal-tabs class="collect-top" :data="tabsData" :currentIndex="tabsIndex" @change="getTabsIndex"></custom-horizontal-tabs>
-		<!-- 商品收藏 -->
-		<tabs-goods v-if="tabsIndex === 0"></tabs-goods>
-		<!-- 店铺收藏 -->
-		<tabs-store v-else-if="tabsIndex === 1"></tabs-store>
-		<!-- 底部 -->
-		<view class="collect-bottom flex-center-between">
-			<view class="left flex-center">
-				<view class="radio"></view>
-				<text>全选</text>
-			</view>
-			<button class="btn">删除</button>
-		</view>
+		<swiper class="flex-1" :current="tabsIndex" @change="swiperChange">
+			<!-- 商品收藏 -->
+			<swiper-item>
+				<tabs-goods></tabs-goods>
+			</swiper-item>
+			<!-- 店铺收藏 -->
+			<swiper-item>
+				<tabs-store></tabs-store>
+			</swiper-item>
+			<!-- 足迹 -->
+			<swiper-item>
+				<view>这里是足迹</view>
+			</swiper-item>
+		</swiper>
 	</view>
 </template>
 
@@ -36,6 +38,10 @@ export default {
 		// 获取 tabs Index
 		getTabsIndex(value) {
 			this.tabsIndex = value;
+		},
+		
+		swiperChange(e){
+			this.tabsIndex = e.detail.current;
 		}
 	}
 };
