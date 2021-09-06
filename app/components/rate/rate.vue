@@ -1,8 +1,22 @@
 <template>
 	<view class="star-rate-box">
-		<checked-start :number="100" v-for="count in fullSize"></checked-start>
-		<checked-start v-if="floatNumber > 0" :number="floatNumber"></checked-start>
-		<checked-start :number="0" v-for="count in emptySize"></checked-start>
+		
+		<!-- 满星 -->
+		<checked-start :number="100" 
+		v-for="count in fullSize" 
+		@click="startClick(count)"></checked-start>
+		
+		<!-- 半星 -->
+		<checked-start v-if="floatNumber > 0" 
+		:number="floatNumber" 
+		@click="startClick(fullSize + 1)"></checked-start>
+		
+		<!-- 空星 -->
+		<checked-start :number="0" 
+		v-for="count in emptySize" 
+		@click="startClick(fullSize + (floatNumber > 0 ? 1 : 0) + count)"></checked-start>
+		
+		<text class="number">{{fullSize + floatNumber}}</text>
 	</view>
 </template>
 
@@ -10,7 +24,8 @@
 	import CheckedStart from './checked-start.vue';
 	export default {
 		name:"rate",
-		components:{CheckedStart},
+		components:{ CheckedStart },
+		emits: ['change'],
 		props: {
 			number: { //评分  支持小数
 				type: Number,
@@ -19,6 +34,10 @@
 			max: { //最大分值
 				type: Number,
 				default: 5
+			},
+			readonly: { //是否为只读状态
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {
@@ -29,11 +48,29 @@
 			};
 		},
 		created(){
-			this.fullSize = Math.trunc(this.number); //取评分的整数部分
-			if(this.fullSize !== this.number){ //如果评分带小数
-				this.floatNumber = (this.number.toFixed(2) - this.fullSize) * 100; //取评分小数部分
+			this.initView(this.number);
+		},
+		methods: {
+			
+			/**
+			 * 初始化
+			 * @param {Object} number 评分
+			 */
+			initView(number){
+				this.fullSize = Math.trunc(number); //取评分的整数部分
+				if(this.fullSize !== number){ //如果评分带小数
+					this.floatNumber = (number.toFixed(2) - this.fullSize) * 100; //取评分小数部分
+				}
+				this.emptySize = this.floatNumber > 0 ? this.max - this.fullSize - 1 : this.max - this.fullSize;
+			},
+			
+			// 星星被点击
+			startClick(index){
+				if(!this.readonly){
+					this.initView(index);
+					this.$emit('change',index);
+				}
 			}
-			this.emptySize = this.floatNumber > 0 ? this.max - this.fullSize - 1 : this.max - this.fullSize;
 		}
 	}
 </script>
@@ -42,5 +79,12 @@
 .star-rate-box {
 	display: flex;
 	flex-direction: row;
+	align-items: center;
+}
+
+.number {
+	font-size: 28rpx;
+	color: #FF9340;
+	margin-left: 16rpx;
 }
 </style>

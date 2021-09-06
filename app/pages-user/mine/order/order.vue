@@ -130,7 +130,7 @@ export default {
 		 */
 		applyRefund(orderNum, goodsVO){
 			uni.navigateTo({
-				url: `/pages-user/mine/refund/refund?orderNum=${orderNum}&goodsVO=${JSON.stringify(goodsVO)}`
+				url: `/pages-user/mine/refund/refund?orderNum=${orderNum}&goodsVO=${encodeURIComponent(JSON.stringify(goodsVO))}`
 			});
 		},
 		
@@ -191,9 +191,9 @@ export default {
 		 * @param {Object} goodsVO 当前商品对象
 		 */
 		evaluateOrder(orderNum, goodsVO){
-			// uni.navigateTo({
-			// 	url: `/pages-user/index/goods-details/goods-details?orderNum=${orderNum}`
-			// });
+			uni.navigateTo({
+				url: `/pages-user/mine/evaluate/evaluate?orderNum=${orderNum}&goodsVO=${encodeURIComponent(JSON.stringify(goodsVO))}`
+			});
 		},
 		
 		/**

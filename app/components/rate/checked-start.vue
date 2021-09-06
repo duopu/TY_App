@@ -1,5 +1,5 @@
 <template>
-	<view class="checked-star-box">
+	<view class="checked-star-box" @click="click">
 		<view class="color-star" v-bind:style="{background:background}"></view>
 		<image class="icon-star" src="../../static/images/icons/icon-star.png" mode="aspectFill"></image>
 	</view>
@@ -8,6 +8,7 @@
 <script>
 	export default {
 		name:'checked-start',
+		emits: ['click'],
 		props:{ //星星填充分值  0-100
 			number:{
 				type:Number,
@@ -22,6 +23,12 @@
 		data(){
 			return {
 				background: `linear-gradient(90deg, #ff9340 ${this.number}%, #FFFFFF 20%)`
+			}
+		},
+		methods: {
+			// 星星被点击
+			click(){
+				this.$emit('click');
 			}
 		}
 	}

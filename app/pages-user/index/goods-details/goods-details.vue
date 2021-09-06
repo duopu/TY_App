@@ -3,7 +3,9 @@
 		<scroll-view scroll-y="true" class="goods-content" @scroll="scrollHandle">
 			<!-- banner -->
 			<swiper class="banner" :indicator-dots="true" :autoplay="true" :interval="3000" :circular="true">
-				<swiper-item v-for="(item, index) in goodsInfo.img" :key="`banner-${index}`"><image class="banner-image" :src="item" mode="aspectFill"></image></swiper-item>
+				<swiper-item v-for="(item, index) in goodsInfo.img" :key="`banner-${index}`">
+					<image class="banner-image" :src="item" mode="aspectFill" @click="previewBanner(index)"></image>
+				</swiper-item>
 			</swiper>
 			<!-- 具体信息 -->
 			<view class="box">
@@ -336,6 +338,17 @@ export default {
 				this.tabsFixed = false;
 				return;
 			}
+		},
+		/**
+		 * 轮播图预览
+		 * @param {Object} index
+		 */
+		previewBanner(index){
+			uni.previewImage({
+			    urls: this.goodsInfo.img,
+				current: index,
+				indicator: 'default'
+			});        
 		},
 		//立即购买
 		jumpConfirm(){
