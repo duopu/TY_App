@@ -1,0 +1,51 @@
+view{
+		display: flex;
+		box-sizing: border-box;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: stretch;
+	}
+.im-message-page{
+	height: 100%;
+	background-color: #F8F8F8;
+	
+	.list-view{
+		flex:1;
+		background-color: #00C777;
+	}
+	
+	.bottom{
+		background-color: #FFFFFF;
+		
+		.input-bar{
+			height: 108rpx;
+			flex-direction: row;
+			align-items: center;
+			padding-left: 20rpx;
+			padding-right: 20rpx;
+			
+			.text-input{
+				flex:1;
+				height: 72rpx;
+				border-radius: 36rpx;
+				background-color: #F8F8F8;
+				padding-left: 26rpx;
+				padding-right: 26rpx;
+				flex-direction: row;
+				align-items: center;
+				.input{
+					flex:1;
+				}
+			}
+			
+			.img-btn{
+				width: 56rpx;
+				height: 56rpx;
+				margin-left: 30rpx;
+			}
+		}
+		.bottom-emoji{
+			height: 600rpx;
+		}
+	}
+}

@@ -6,28 +6,28 @@
 				<view class="left flex-center">
 					<!-- 对的个数 -->
 					<image class="icons" mode="aspectFill" src="../../static/images/icons/icon-exam-right.svg"></image>
-					<text>1</text>
+					<text>{{rightLen}}</text>
 					<!-- 错的个数 -->
 					<image class="icons m-left-80" mode="aspectFill" src="../../static/images/icons/icon-exam-error.svg"></image>
-					<text>1</text>
+					<text>{{wrongLen}}</text>
 				</view>
 				<view class="right flex-center">
 					<!-- 做题的数 -->
 					<image class="icons" src="../../static/images/icons/icon-tiku.svg" mode="aspectFill"></image>
-					<text>1/25</text>
+					<text>{{current + 1}}/{{question.length}}</text>
 				</view>
 			</view>
 			<view class="title">单选题</view>
 			<view class="answer-lists flex">
-				<view class="item" :class="showClassName(item)" v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7, 8]" :key="index">{{ item }}</view>
+				<view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 1)" :key="ind">{{ item.index + 1 }}</view> 
 			</view>
 			<view class="title">多选题</view>
 			<view class="answer-lists flex">
-				<view class="item" :class="showClassName(item)" v-for="(item, index) in [9, 10, 11, 12, 13, 14, 15, 16]" :key="index">{{ item }}</view>
+				<view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 2)" :key="ind">{{ item.index + 1 }}</view>
 			</view>
 			<view class="title">判断题</view>
 			<view class="answer-lists flex">
-				<view class="item" :class="showClassName(item)" v-for="(item, index) in [17, 18, 19, 20]" :key="index">{{ item }}</view>
+				<view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 3)" :key="ind">{{ item.index + 1 }}</view>
 			</view>
 		</view>
 	</uni-popup>
@@ -36,9 +36,24 @@
 <script>
 export default {
 	name: 'course-serial-number-popup',
-	data() {
-		return {};
-	},
+	props:{
+    current:{
+      type:Number,
+      default:0,
+    },
+    rightLen:{
+      type:Number,
+      default:0,
+    },
+    wrongLen:{
+      type:Number,
+      default:0,
+    },
+    question:{
+      type:Array,
+      default:[]
+    }
+  },
 	methods: {
 		// 打开弹窗
 		open() {
@@ -49,19 +64,21 @@ export default {
 			this.$refs.popup.close();
 		},
 		// 当前题目状态
-		showClassName(index) {
-			switch (index) {
-				case 1:
-					return 'error';
-					break;
-				case 2:
-					return 'current';
-					break;
-				case 3:
-					return 'right';
-					break;
-			}
-		}
+		showClassName(item) {
+      if(item.userAnswer){
+        if(item.answer === item.userAnswer){
+          return 'right';
+        }else{
+          return 'error';
+        }
+      }else if(item.mark){
+        return 'current';
+      }
+		},
+    answerClick(current){
+      this.$emit('answerClick',current)
+      this.close()
+    }
 	}
 };
 </script>
