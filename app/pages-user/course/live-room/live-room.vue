@@ -13,7 +13,7 @@
 		<!-- 目录 -->
 		<scroll-view class="live-room-category" scroll-y="true">
 			<!-- 列表 -->
-			<view class="lists-item" :class="{ on: index === 1 }" v-for="(item, index) in ['', '', '']">
+			<view class="lists-item" @click="collapseItem()" v-for="(item, index) in ['', '', '']">
 				<view class="row flex-center-between">
 					<text class="text-bold title">1、教师资格证笔试</text>
 					<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill"></image>
@@ -57,7 +57,15 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			
+		};
+	},
+	methods: {
+		// 展开目录
+		collapseItem() {
+			event.currentTarget.classList.toggle('on')
+		}
 	}
 };
 </script>
