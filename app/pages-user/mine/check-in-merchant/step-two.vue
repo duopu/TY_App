@@ -4,7 +4,7 @@
 		<check-in-form-item label="*公司名称" class="m-top-60">
 			<input v-model="formState.userName" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
 		</check-in-form-item>
-		<check-in-form-item label="*营业执照" class="no-border">
+		<check-in-form-item label="*营业执照" align="start" class="no-border">
 			<view class="upload-image small">
 				<!-- 上传后的图片 -->
 				<image v-if="false" src="../../../static/images/check-in-banner.png" mode="aspectFill"></image>
@@ -28,7 +28,7 @@
 				</picker>
 			</view>
 		</check-in-form-item>
-		<check-in-form-item label="*教育资质证书" class="no-border">
+		<check-in-form-item label="*教育资质证书" align="start" class="no-border">
 			<view class="flex-column">
 				<!-- 单选 -->
 				<view class="single-radio flex-center">
@@ -48,7 +48,7 @@
 				</view>
 			</view>
 		</check-in-form-item>
-		<check-in-form-item label="*教育资质证书有效期">
+		<check-in-form-item label="*教育资质证书有效期" class="no-border">
 			<view class="select-time flex-center-between">
 				<picker mode="time" class="select-time-picker flex-1">
 					<view class="flex-center-between">

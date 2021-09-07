@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>分享-1</title>
+    <desc>Created with Sketch.</desc>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="店铺详情" transform="translate(-328.000000, -98.000000)">
+            <g id="分享-1" transform="translate(328.000000, 98.000000)">
+                <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
+                <path d="M12.3684211,5 L19,11.4615385 L12.3684211,17.5641026 L12.3684211,13.6153846 C7.21052632,13.6153846 5,19 5,19 C5,12.8974359 6.84210526,8.94871795 12.3684211,8.94871795 L12.3684211,5 Z" id="路径" fill="#222222"></path>
+            </g>
+        </g>
+    </g>
+</svg>
