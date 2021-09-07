@@ -165,24 +165,21 @@
 						"navigationBarTitleText": "订单确认",
 						"enablePullDownRefresh": false
 					}
-				}
-				, {
+				}, {
 					"path": "mine/refund/refund",
 					"style": {
 						"navigationBarTitleText": "退款服务",
 						"enablePullDownRefresh": false
 					}
 
-				}
-				, {
+				}, {
 					"path": "mine/refund/details",
 					"style": {
 						"navigationBarTitleText": "退款详情",
 						"enablePullDownRefresh": false
 					}
-				
-				}
-				, {
+
+				}, {
 					"path": "mine/order/order",
 					"style": {
 						"navigationStyle": "custom",
@@ -284,6 +281,12 @@
 					"path": "mine/check-in-person/check-in-person",
 					"style": {
 						"navigationBarTitleText": "个人申请入驻",
+						"enablePullDownRefresh": false
+					}
+				}, {
+					"path": "mine/check-in-merchant/check-in-merchant",
+					"style": {
+						"navigationBarTitleText": "商家申请入驻",
 						"enablePullDownRefresh": false
 					}
 				}

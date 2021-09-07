@@ -21,7 +21,7 @@
 						<view class="flex-center-between">
 							<view class="price">
 								<text class="unit">¥</text>
-								{{goodsVO.price}}
+								{{goodsVO.goodsPrice}}
 							</view>
 							<view class="number">×{{goodsVO.goodsNum}}</view>
 						</view>
@@ -36,13 +36,20 @@
 					<rate :readonly="false" @change="(num)=>{rateChange(1, num)}"></rate>
 				</view>
 				<textarea class="input" placeholder-class="input-placeholder" placeholder="写下您的评价" />
-				<view class="image-lists">
-					<view class="flex-center-center image-item"><image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image></view>
+				<!-- <view class="image-lists"> -->
+					<uni-file-picker  limit="9" 
+					
+					mode="grid" 
+					:image-styles="{width:84, height:84}" 
+					@select="selectGoodsImg">
+						<view class="flex-center-center image-item"><image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image></view>
+					</uni-file-picker>
+					<!-- <view class="flex-center-center image-item"><image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image></view> -->
 					<!-- 显示上传后的照片 -->
-					<view v-if="false" class="image-item flex-center-center">
+					<!-- <view v-if="false" class="image-item flex-center-center">
 						<image class="upload-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
-					</view>
-				</view>
+					</view> -->
+				<!-- </view> -->
 			</view>
 			<!-- 课程评价 -->
 			<view class="box">
@@ -89,8 +96,8 @@ export default {
 	},
 	onLoad(option){
 		this.goodsVO = JSON.parse(decodeURIComponent(option.goodsVO));
-		this.evaluateVO.goodsId = option.goodsId;
-		this.evaluateVO.orderNum = this.goodsVO.goodsId;
+		this.evaluateVO.goodsId = this.goodsVO.goodsId;
+		this.evaluateVO.orderNum = this.goodsVO.orderNum;
 	},
 	methods: {
 		
@@ -113,6 +120,19 @@ export default {
 			}else if(type === 4){
 				this.evaluateVO.examScore = num;
 			}
+		},
+		
+		selectGoodsImg(e){
+			console.log("e == ",e);
+			let formData = {
+				file: e.tempFiles[0].file,
+				path: e.tempFilePaths[0]
+			}
+			this.$http
+				.upload(formData, true)
+				.then(res => {
+					console.log("res ==== ",res);
+				});
 		},
 		
 		// 发布评价

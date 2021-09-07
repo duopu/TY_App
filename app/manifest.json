@@ -89,5 +89,21 @@
     },
     "uniStatistics" : {
         "enable" : false
-    }
+    },
+	/* h5特有相关 */
+	"h5" : {
+	    "devServer" : {
+	        "disableHostCheck" : true, // 开启可以用自己的域名
+	        "proxy": {
+	          "/api": {
+	            "target": "http://education.sinfinite.cn",
+	            "changeOrigin" : true,
+	            "secure" : false,
+	            "pathRewrite": { 
+					"^/api": ""
+	            }
+	          }
+	        }
+	    }
+	}
 }

@@ -7,7 +7,7 @@
 			<text class="text-bold">{{showStateName}}</text>
 		</view>
 		<!-- 商品 -->
-		<merchanism-order-lists-item :storeGoodsVO="orderVO"></merchanism-order-lists-item>
+		<goods-order-list-item :storeGoodsVO="orderVO"></goods-order-list-item>
 		<!-- 地址 -->
 		<view class="flex-center address" @click="jumpChooseAddress">
 			<image src="../../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
@@ -36,7 +36,7 @@
 			</view>
 			<view class="row flex-center-between">
 				<text class="label">平台优惠</text>
-				<text class="flex-1 color-9">{{orderVO.platformDiscountAmount}}</text>
+				<text class="flex-1 color-9">-¥{{orderVO.platformDiscountAmount}}</text>
 			</view>
 			<view class="row flex-center-between">
 				<text class="label">商家优惠</text>
