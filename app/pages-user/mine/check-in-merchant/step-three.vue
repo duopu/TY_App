@@ -1,6 +1,6 @@
 <template>
 	<scroll-view scroll-y="true" class="check-in-form">
-		<check-in-form-item label="*头像"><image class="image-avatar" src="../../../static/images/other/girl.png" mode="aspectFill"></image></check-in-form-item>
+		<check-in-form-item label="*头像" :arrow="true" class="m-top-60"><image class="image-avatar" src="../../../static/images/other/girl.png" mode="aspectFill"></image></check-in-form-item>
 		<check-in-form-item label="*店铺名称">
 			<input v-model="formState.goodsName" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
 		</check-in-form-item>
