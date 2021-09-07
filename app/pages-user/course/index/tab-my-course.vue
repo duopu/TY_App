@@ -25,7 +25,7 @@ export default {
 	},
 	methods:{
 		onLoadData(page,size, callback){
-			this.$http.get('/course/queryPage',{ page, size },true).then(res=>{
+			this.$http.get('/userCourse/queryList',{ page, size },true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);
