@@ -10,13 +10,24 @@
 	flex-shrink: 0;
 	font-size: 34rpx;
 	font-weight: bold;
-	.icon-back,
+  .icon-back{
+    display: flex;
+    align-items: center;
+    .img{
+      margin-right: 24rpx;
+		  width: 48rpx;
+		  height: 48rpx;
+    }
+    .count-down{
+      font-weight: normal;
+    }
+  }
 	.icons {
 		margin-right: 24rpx;
 		width: 48rpx;
 		height: 48rpx;
 	}
-	text {
+	.title {
 		position: absolute;
 		left: 0;
 		right: 0;
@@ -33,13 +44,6 @@
 		border-radius: 36rpx;
 		border: 2rpx solid #ffedd6;
 	}
-  .count-down{
-    position: absolute;
-		left: 60rpx;
-    /deep/ .uni-countdown__number{
-      font-size: 28rpx;
-    }
-  }
 }
 .exam-content {
 	flex: 1;

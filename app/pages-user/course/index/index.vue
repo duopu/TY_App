@@ -53,7 +53,7 @@ export default {
 	data() {
 		return {
 			tabsData: ['我的课程', '我的题库', '缓存课程'],
-			tabsIndex: 1,
+			tabsIndex: 0,
       learnStatistic:{
 
       }

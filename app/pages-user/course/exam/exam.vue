@@ -3,11 +3,12 @@
 	<view class="exam">
 		<!-- 头部 -->
 		<view class="exam-top flex-center-between">
-			<image class="icon-back" @click="goBack" src="../../../static/images/icons/icon-back.svg" mode="aspectFill" />
-      
-      <!-- 模拟显示倒计时 -->
-      <uni-countdown v-if="isMoNi && !isGoBack" class="count-down" :show-day="false" :hour="count.hour" :minute="count.minute" :second="count.second" @timeup="timeEnd"></uni-countdown> 
-			<text>{{title}}</text>
+      <view class="icon-back">
+        <image class="img" @click="goBack" src="../../../static/images/icons/icon-back.svg" mode="aspectFill" />
+        <!-- 模拟显示倒计时 -->
+        <uni-countdown v-if="isMoNi && !isGoBack" class="count-down" :show-day="false" :hour="count.hour" :minute="count.minute" :second="count.second" @timeup="timeEnd"></uni-countdown> 
+      </view>
+			<text class="title">{{title}}</text>
 			<view class="right flex-center">
 				<image v-if="isShowMark" class="icons" @click="mark" src="../../../static/images/icons/icon-circle-wenhao.svg" mode="aspectFill" />
         <block v-if="isShowStar">
@@ -15,7 +16,7 @@
           <image v-if="isStar()" @click="star(1)" class="icons" src="../../../static/images/icons/icon-star-black.svg" mode="aspectFill" />
           <image v-else @click="star(2)" class="icons" src="../../../static/images/icons/icon-star-save.svg" mode="aspectFill" />
         </block>
-				<!-- 模拟考试 -->
+				<!-- 模拟考试才有交卷 -->
 				<button v-if="type === 2 && !isGoBack" class="btn" @click="finish">交卷</button>
 			</view>
 		</view>
@@ -104,30 +105,38 @@ export default {
 	data() {
 		return {
       questionBankId:'', // 题目id
-      questionRecordId:'', // 
-      type:undefined, //做题方式 随机练习0 | 顺序练习1 | 模式考试2 | 我的收藏3 | 我的错题4
-      title:'',
-      current:0,
+      questionRecordId:'', // 做题记录id
+      type:undefined, // 做题方式 随机练习0 | 顺序练习1 | 模式考试2 | 我的收藏3 | 我的错题4
+      title:'', // 页面标题
+      current:0, // 当前题目索引
       questionList:[], //题目列表
-      examStartTime:new Date().valueOf(),
+      examStartTime:new Date().valueOf(), // 考试开始时间
+      // 弹窗信息
       modal:{
         title:'',
         sure:()=> uni.navigateBack() //默认是返回上一页 不可删除
       },
-      submitQuestionDTOList:[],
       isMoNi:false, //是否是模拟题目
       noSunmit:false, // 我的收藏和我的错题 不提交
       isGoBack:false, // 模拟题是否从得分页面返回
+      // 标注、收藏显示 模拟考试的时候要标注，不用收藏。考完看解析的时候要收藏，不要标注
+      isShowMark:true, // 是否显示标注
+      isShowStar:true, //
       count:{ //倒计时
         hour:0,
         minute:0,
         second:0,
       },
-      // 标注、收藏显示 模拟考试的时候要标注，不用收藏。考完看解析的时候要收藏，不要标注
-      isShowMark:true,
-      isShowStar:true,
+      form:'',// 从哪个页面过来
+      submitQuestionDTOList:[], // 提交入参-选中的题目的答案
     };
 	},
+
+  beforeCreate: function () {
+    that = this
+  },
+
+  // 过滤器
   filters:{
     // 题目类型 
     getType(type){
@@ -150,10 +159,6 @@ export default {
     rightWrongQues(v){
       return that.getRightWrongQues(v)
     }
-  },
-  
-  beforeCreate: function () {
-    that = this
   },
 
   async onLoad(option){
@@ -196,8 +201,11 @@ export default {
     this.title = title
     // 从我的历史题过来
     this.questionRecordId = questionRecordId;
+    this.form = from
     if(from === 'history'){
       this.isGoBack = true
+      this.isShowMark = false
+      this.noSunmit = true
       this.queryQuestionList(2)
       return;
     }
@@ -205,17 +213,18 @@ export default {
   },
 
   onShow(){
-    // 模拟提交后 返回
+    // 模拟提交后 返回 v:1 全部错题解析 v:2 全部题目解析
     uni.$on("goBack", v => {
       this.current = 0;
-      if(v == 1){
-        this.queryWrongList()
-      }else{
-        this.queryQuestionList(v)
-      }
+      
       if(v){
         this.isGoBack = true
         this.isShowMark = false
+        if(v == 1){
+          this.queryWrongList() //查看错题列表
+          return;
+        }
+        this.queryQuestionList(2)
       }
       // 清除监听
       uni.$off('goBack');
@@ -229,6 +238,18 @@ export default {
 			this.$refs[value].open();
 		},
 
+    //轮播Change 
+    swiperChange(e){
+      this.current = e.detail.current
+    },
+
+    // 返回
+    goBack(){
+      if(this.modalCheck() || this.noSunmit ){
+        uni.navigateBack()
+      }
+    },
+
     // 标记
     mark(){
       // 做过的题目不能打标记
@@ -237,10 +258,6 @@ export default {
         return;
       }
       this.questionList[this.current].mark = !this.questionList[this.current].mark
-    },
-
-    swiperChange(e){
-      this.current = e.detail.current
     },
 
     // 计算对错题 个数 
@@ -270,13 +287,6 @@ export default {
     // 弹窗-序号点击
     answerClick(current){
       this.current = current;
-    },
-
-    // 返回
-    goBack(){
-      if(this.modalCheck() || this.noSunmit ){
-        uni.navigateBack()
-      }
     },
 
     // 下一题
@@ -346,7 +356,7 @@ export default {
       this.modal.sure = this.submit
     },
 
-    // 倒计时
+    // 倒计时结束提交答案
     timeEnd(){
       this.submit()
     },
@@ -362,7 +372,7 @@ export default {
       this.questionList[this.current].questionCollectionCheck = this.questionList[this.current].questionCollectionCheck === 1 ? 2 : 1 
     },
     isStar(){
-      return this.questionList && this.questionList[this.current].questionCollectionCheck === 1
+      return this.questionList[this.current].questionCollectionCheck === 1 || false
     },
 
     // 提交
@@ -395,7 +405,7 @@ export default {
       if(this.type === 2){
         apiUrl = '/questionRecord/submit'
       }else{
-        params.questionType = this.type
+        params.questionType = this.type === 0 ? 1 : 2
       }
       
       this.$http.post(apiUrl,params,true).then((res)=>{
@@ -460,12 +470,22 @@ export default {
       this.questionList = data;
     },
 
-    // 查询全部解析
+    // 查询全部解析 backType === 1 全部错题解析 ，backType === 2 全部题目解析（显示所有题目解析）
     async queryQuestionList(backType){
       const params = {
         questionRecordId:this.questionRecordId,
       }
       const data =  await this.$http.get('/questionRecord/queryQuestionList',params,true) || []
+      // 从做题历史过来 只看解析 不用提交
+      if(this.form === 'history'){
+        this.current = 0
+        data.map((i,index)=>{
+          i.index = index
+          i.isShowAnswer = true
+        })
+        this.questionList = data
+        return;
+      }
       data.map(i=>{
         this.questionList.map(f=>{
           if(backType === 2){
@@ -476,7 +496,6 @@ export default {
               // 去除标记
               f.mark = false
               // 用户答案赋值到 questionList 如果用户答案等于正确答案 跳转到下一题
-              // item.userAnswer && item.answer != item.userAnswer
               f.userAnswer = i.userAnswer
               if(f.answer !== i.userAnswer){
                 f.isShowAnswer = true

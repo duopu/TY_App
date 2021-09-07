@@ -59,18 +59,19 @@ export default {
     exam(item){
       const { questionType, questionRecordId } = item || {}
       let type,url;
-      switch(questionType){
+      console.log(111,questionType)
+      switch(Number(questionType)){
         case 1: // 随机练习
           type = 0;
           break;
         case 2: // 顺序练习
           type = 1;
           break;
-        case 2: // 模拟考试
+        case 3: // 模拟考试
           type = 2;
           break;  
       }
-      url = `/pages-user/course/exam/exam?questionRecordId=${questionRecordId}&type=${type}&from=history`
+      url = `/pages-user/course/exam/exam?questionBankId=${this.questionBankId}&questionRecordId=${questionRecordId}&type=${type}&from=history`
       uni.navigateTo({
 				url,
 			});
