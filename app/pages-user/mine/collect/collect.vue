@@ -14,7 +14,7 @@
 			</swiper-item>
 			<!-- 足迹 -->
 			<swiper-item>
-				<view>这里是足迹</view>
+				<tabs-history>这里是足迹</tabs-history>
 			</swiper-item>
 		</swiper>
 	</view>
@@ -23,10 +23,12 @@
 <script>
 import TabsGoods from './tabs-goods.vue';
 import TabsStore from './tabs-store.vue';
+import TabsHistory from'./tabs-history.vue';
 export default {
 	components: {
 		TabsStore,
-		TabsGoods
+		TabsGoods,
+		TabsHistory
 	},
 	data() {
 		return {

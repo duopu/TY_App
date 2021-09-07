@@ -2,9 +2,9 @@
 <template>
 	<view class="activity-lists-item">
 		<view class="flex-center item-top">
-			<image src="../../static/images/other/demo.png" class="avatar-image" mode="aspectFill"></image>
+			<image :src="data.thumbnail" class="avatar-image" mode="aspectFill"></image>
 			<view class="right">
-				<view class="name text-bold">5天英语全能挑战只等你来</view>
+				<view class="name text-bold">{{data.goodsName}}</view>
 				<!-- 拼团进度条 -->
 				<view class="process-wrapper flex-center">
 					<view class="process-discount" :style="{left: '20%'}">
@@ -19,15 +19,16 @@
 						<text class="price">¥16</text>
 					</view>
 				</view>
-				<view class="time">拼团时间:2020-04-17 10:00:00</view>
+				<view class="time">拼团时间:{{data.startTime}}</view>
 			</view>
 		</view>
 		<!-- 底部，最低折扣 -->
 		<view class="flex-center-end item-bottom">
-			<view class="text-bold price">最低折扣价¥200</view>
-			<!-- 参与拼团 -->
-			<button class="btn-block"  v-if="false">参与拼团</button>
-			<button class="btn-block disable" v-if="true">已参与，等待拼团完成</button>
+			<view class="text-bold price">最低折扣价¥{{data.minPrice}}</view>
+			<!-- 参与拼团  这里几个不同状态的文案要怎么展示 -->
+			<button class="btn-block"  v-if="data.joinFlag === 3">参与拼团</button>
+			<button class="btn-block disable" v-else-if="data.joinFlag === 2">已参与，等待拼团完成</button>
+			<button class="btn-block disable" v-else-if="data.joinFlag === 1">已参与，去支付</button>
 		</view>
 	</view>
 </template>
@@ -35,6 +36,12 @@
 <script>
 	export default {
 		name:"active-group-lists-item",
+		props: {
+			data: {
+				type: Object,
+				required: true
+			}
+		},
 		data() {
 			return {
 				

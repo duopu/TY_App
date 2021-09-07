@@ -14,7 +14,7 @@
 					<view class="flex-center-between">
 						<view class="price">
 							<text class="unit">¥</text>
-							{{goodsVO.price}}
+							{{goodsVO.goodsPrice}}
 						</view>
 						<view class="number">×{{goodsVO.goodsNum}}</view>
 					</view>
@@ -40,15 +40,20 @@
 				<text class="label">补充描述*</text>
 				<textarea class="textarea" placeholder="请详细描述退款原因及要求" placeholder-class="input-placeholder" />
 			</view>
-			<view class="discount-row image-lists">
+			<uni-file-picker class="image-lists"  limit="3" mode="grid" :image-styles="{width:84, height:84}" @select="selectGoodsImg" @delete="deleteGoodsImg">
 				<view class="flex-center-center image-item">
 					<image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image>
 				</view>
-				<!-- 显示上传后的照片 -->
+			</uni-file-picker>	
+			<!-- <view class="discount-row image-lists">
+				<view class="flex-center-center image-item">
+					<image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image>
+				</view>
+				
 				<view v-if="false" class="image-item flex-center-center">
 					<image class="upload-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<!-- 提交退款 -->
 		<button class="btn">提交退款申请</button>
