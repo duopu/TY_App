@@ -189,8 +189,14 @@ export default {
 		 * @param {Object} goodsVO 当前商品对象
 		 */
 		evaluateOrder(goodsVO){
+			let that = this;
 			uni.navigateTo({
-				url: `/pages-user/mine/evaluate/evaluate?goodsVO=${encodeURIComponent(JSON.stringify(goodsVO))}`
+				url: `/pages-user/mine/evaluate/evaluate?goodsVO=${encodeURIComponent(JSON.stringify(goodsVO))}`,
+				events: {
+					onRefresh: function(){
+						that.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
+					}
+				}
 			});
 		},
 		

@@ -2,39 +2,39 @@
 <template>
 	<view class="account">
 		<view class="row flex-center-between">
-			<text>手机号</text>
+			<text class="text-bold">手机号</text>
 			<view class="flex-1 flex-center-end">
 				<text class="color-6">15839584958</text>
 				<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
 		</view>
 		<view class="row flex-center-between">
-			<text>密码修改</text>
+			<text class="text-bold">密码修改</text>
 			<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
 		<view class="row flex-center-between">
-			<text>邮箱</text>
+			<text class="text-bold">邮箱</text>
 			<view class="flex-1 flex-center-end">
 				<text class="color-6">尚未绑定</text>
 				<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
 		</view>
 		<view class="row flex-center-between">
-			<text>支付宝</text>
+			<text class="text-bold">支付宝</text>
 			<view class="flex-1 flex-center-end">
 				<text class="color-6">尚未绑定</text>
 				<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
 		</view>
 		<view class="row flex-center-between">
-			<text>微信</text>
+			<text class="text-bold">微信</text>
 			<view class="flex-1 flex-center-end">
 				<text class="color-6">尚未绑定</text>
 				<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
 		</view>
 		<view class="row flex-center-between">
-			<text>QQ</text>
+			<text class="text-bold">QQ</text>
 			<view class="flex-1 flex-center-end">
 				<text class="color-6">尚未绑定</text>
 				<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
@@ -59,9 +59,8 @@ export default {
 	overflow: hidden;
 	box-sizing: border-box;
 	.row {
-		padding: 42rpx 0;
+		padding: 40rpx 0;
 		font-size: 28rpx;
-		font-weight: bold;
 	}
 	.color-6{
 		color: #666666;

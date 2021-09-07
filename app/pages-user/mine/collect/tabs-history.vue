@@ -2,22 +2,25 @@
 	<view class="tab-content flex-column">
 		<my-scroll-view ref="scrollView" @loadData="loadData" class="collect-content">
 			<template v-slot:list="slotProps">
-				<view class="goods-lists-item" v-for="(item, index) in slotProps.list" :key="`goods-${index}`">
-					<view class="flex-center top">
-						<view class="shop-name">{{item.storeName}}</view>
-					</view>
-					<!-- 商品 -->
-					<view class="content flex-center" @click="jumpGoodsInfo(item.goodsId)">
-						<view class="radio" :class="{ on: idList.includes(item.id) }" @click.stop="chooseGoods(item.id)"></view>
-						<image class="avatar-image" :src="item.thumbnail" mode="aspectFill"></image>
-						<view class="flex-column-between flex-1">
-							<view class="name">{{item.goodsName}}</view>
-							<view class="price">
-								<text class="unit">¥</text>
-								{{item.price}}
-							</view>
+				<view class="flex-column" v-for="(item, index) in slotProps.list" :key="`history-${index}`">
+					<text class="history-time">{{item.footprintDate}}</text>
+					<view class="goods-lists-item" v-for="(subItem, subIndex) in item.goodsVOList" :key="`goods-history-${index}-${subIndex}`">
+						<view class="flex-center top">
+							<view class="shop-name">{{subItem.storeName}}</view>
 						</view>
-						<image class="icon-clear" src="../../../static/images/icons/icon-black-clear.svg" mode="aspectFill" @click.stop="deleteGoods(item.id)"></image>
+						<!-- 商品 -->
+						<view class="content flex-center" @click="jumpGoodsInfo(subItem.goodsId)">
+							<view class="radio" :class="{ on: idList.includes(subItem.id) }" @click.stop="chooseGoods(subItem.id)"></view>
+							<image class="avatar-image" :src="subItem.thumbnail" mode="aspectFill"></image>
+							<view class="flex-column-between flex-1">
+								<view class="name">{{subItem.goodsName}}</view>
+								<view class="price">
+									<text class="unit">¥</text>
+									{{subItem.price}}
+								</view>
+							</view>
+							<image class="icon-clear" src="../../../static/images/icons/icon-black-clear.svg" mode="aspectFill" @click.stop="deleteGoods(subItem.id)"></image>
+						</view>
 					</view>
 				</view>
 			</template>
@@ -36,7 +39,7 @@
 
 <script>
 export default {
-	name: 'tabs-goods',
+	name: 'tabs-history',
 	data() {
 		return {
 			idList: [], //要删除的商品收藏ID
@@ -60,9 +63,14 @@ export default {
 		 */
 		loadData(page, pageSize, callback){
 			this.$http
-				.get('/goods/collection/queryPage', {page:page, size:pageSize}, true)
+				.get('/goods/footprint/queryList', {page:page, size:pageSize}, true)
 				.then(res => {
-					callback(res);
+					// 因为这个接口不是常规的分页，所以需要封装一下
+					let data = {
+						content: res,
+						totalSize:res.length > 0 ? 99999 : 0
+					}
+					callback(data);
 				})
 				.catch(err => {
 					callback(null);
@@ -105,14 +113,14 @@ export default {
 			
 			if(this.isSelectAll){ //是否全选，是的话直接调用全删的接口
 				this.$http
-					.delete('/goods/collection/deleteAll', {type: 1}, true)
+					.delete('/goods/footprint/deleteAll', {type: 1}, true)
 					.then(res => {
 						this.isSelectAll = false;
 						this.$refs.scrollView.onRefresh();
 					});
 			}else {
 				this.$http
-					.delete('/goods/collection/delete', {idList:idList}, true)
+					.delete('/goods/footprint/delete', {idList:idList}, true)
 					.then(res => {
 						this.$refs.scrollView.onRefresh();
 					});

@@ -2,12 +2,7 @@
 <template>
 	<view class="check-in-person">
 		<!-- 进度 -->
-		<view class="flex-center-between process-lists">
-			<view class="item flex-column-center" v-for="(item, index) in processData" :key="index">
-				<view class="number">{{ index + 1 }}</view>
-				<view class="text">{{ item.text }}</view>
-			</view>
-		</view>
+		<check-in-process :index="processIndex" :data="processData"></check-in-process>
 		<!-- 内容 -->
 		<!-- step 1 签订入住协议 -->
 		<step-one v-if="processIndex === 1"></step-one>

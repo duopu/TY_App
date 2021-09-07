@@ -289,6 +289,21 @@
 						"navigationBarTitleText": "商家申请入驻",
 						"enablePullDownRefresh": false
 					}
+				}, {
+					"path": "index/store-details/store-details",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				}
+				, {
+					"path": "mine/information/information",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+				
 				}
 			]
 		},

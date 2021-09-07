@@ -8,19 +8,19 @@
 			</view>
 			<view class="row">
 				<text class="label text-bold">活动名称：</text>
-				<text>xxxx有奖竞猜活动</text>
+				<text>{{unremittinglyVO.unremittinglyName}}</text>
 			</view>
 			<view class="row">
 				<text class="label text-bold">活动规则：</text>
-				<text class="color-6">1.活动时间: 2017年8月14日0:00:00-2017年8月20日23:59:59。参与条件: 1、所购买商品为指定自营家用电器和家装建材(含彩电、冰洗、厨卫、空调、生活电器、建材六个品类,不含虚拟商品)</text>
+				<text class="color-6">1.活动时间: {{unremittinglyVO.startTime}}-{{unremittinglyVO.endTime}}。参与条件: {{unremittinglyVO.content}}</text>
 			</view>
 			<view class="row">
 				<text class="label text-bold">活动奖品：</text>
-				<text>iphone20</text>
+				<text>{{unremittinglyVO.goodsName}}</text>
 			</view>
 			<view class="row no-border flex-center-between">
-				<input class="input" type="text" placeholder="请输入活动号" placeholder-class="input-placeholder">
-				<button class="btn-block">立即参加</button>
+				<input v-if="unremittinglyVO.unremittinglyNumberFlag === 1" class="input" type="text" placeholder="请输入活动号" placeholder-class="input-placeholder" v-model="unremittinglyVO.unremittinglyNumber">
+				<button class="btn-block" @click="submit">立即参加</button>
 			</view>
 		</view>
 	</uni-popup>
@@ -29,8 +29,34 @@
 <script>
 export default {
 	name: 'sales-activity-popup',
+	emits: ['submit'],
+	props: {
+		data: {
+			type: Object,
+			default: {
+				activityPrice: 0,
+				content: undefined,
+				endTime: undefined,
+				goodsId: undefined,
+				goodsName: undefined,
+				joinFlag: 1,
+				startTime: undefined,
+				unremittinglyId: undefined,
+				unremittinglyName: undefined,
+				unremittinglyNumber: undefined,
+				unremittinglyNumberFlag: 0
+			}
+		}
+	},
 	data() {
-		return {};
+		return {
+			unremittinglyVO:this.data
+		};
+	},
+	watch: {
+		data(newV, oldV){
+			this.unremittinglyVO = newV;
+		}
 	},
 	methods:{
 		// 打开弹窗
@@ -40,6 +66,13 @@ export default {
 		// 关闭弹窗
 		close() {
 			this.$refs.popup.close();
+		},
+		submit(){
+			if(this.unremittinglyVO.unremittinglyNumberFlag === 1 && (this.unremittinglyVO.unremittinglyNumber === undefined || this.unremittinglyVO.unremittinglyNumber.length === 0)){
+				this.$tool.showToast("请输入活动号");
+				return
+			}
+			this.$emit('submit',this.unremittinglyVO);
 		}
 	}
 };

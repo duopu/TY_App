@@ -71,7 +71,7 @@
 					</view>
 				</view>
 				<!-- 优惠 -->
-				<view class="flex row">
+				<view class="flex row" v-if="storeCouponTypeContent || platformCouponTypeContent">
 					<text class="label color-9">优惠</text>
 					<view class="flex-1 flex">
 						<view class="discount-lists">
@@ -100,12 +100,12 @@
 					</view>
 				</view>
 				<!-- 参数 -->
-				<view class="flex">
+				<view class="flex row" v-if="courseCheck === 2 || questionCheck === 2">
 					<text class="label color-9">参数</text>
 					<view class="params-lists flex-1">
-						<view class="item" v-if="goodsInfo.courseVO && goodsInfo.courseVO.classNum > 0">课时</view>
-						<view class="item" v-if="goodsInfo.courseVO && goodsInfo.courseVO.classNum > 0">课程方式</view>
-						<view class="item" v-if="goodsInfo.questionBankVO && goodsInfo.questionBankVO.questionCount > 0">题库数量</view>
+						<view class="item" v-if="courseCheck === 2">课时</view>
+						<view class="item" v-if="courseCheck === 2">课程方式</view>
+						<view class="item" v-if="questionCheck === 2">题库数量</view>
 					</view>
 					<image @click="openPopup('parameterPopup')" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 				</view>
@@ -232,7 +232,10 @@ export default {
 				storeFreightConfigVO: {}, //运费规则
 				goodsDistributionStatus: 0 //商品分销状态
 			},
-			entityGoodsCheck: 1, //是否包含实体商品资源
+			entityGoodsCheck: 1, //是否包含实体商品资源 1 未包含 2 包含
+			courseCheck: 1, //是否包含课程资源 1 未包含 2 包含
+			examCheck: 1, // 是否包含考试资源 1 未包含 2 包含
+			questionCheck: 1, //是否包含题库资源 1 未包含 2 包含
 			swiperHeight: 0, //tab内容的高度
 			goodsBottomHeight: 0, //购物车工具条高度
 			tabsTop: 0, //TAB选项卡距离顶部的高度
@@ -424,6 +427,9 @@ export default {
 			this.$http.get('/goods/checkResource', { goodsId: this.goodsId }, true).then(res => {
 				this.tabsData = ['介绍'];
 				this.entityGoodsCheck = res.entityGoodsCheck;
+				this.courseCheck = res.courseCheck;
+				this.questionCheck = res.questionCheck;
+				this.examCheck = res.examCheck;
 				if (res.entityGoodsCheck === 2) {
 					this.tabsData.push('商品');
 				}
