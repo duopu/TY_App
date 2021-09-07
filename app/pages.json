@@ -65,7 +65,7 @@
 			}
 
 		}
-	],
+    ],
 	"subPackages": [{
 			"root": "pages-user",
 			"pages": [{

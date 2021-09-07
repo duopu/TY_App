@@ -11,29 +11,6 @@
 		color: #1aa8ff;
 	}
 }
-// 进度
-.process-lists {
-	flex-shrink: 0;
-	margin: 0 20rpx;
-	.item {
-		align-items: center;
-	}
-	.number {
-		width: 56rpx;
-		height: 56rpx;
-		font-size: 30rpx;
-		text-align: center;
-		line-height: 52rpx;
-		background-color: #ffb55b;
-		border: 4rpx solid #ffe8cc;
-		border-radius: 50%;
-	}
-	.text {
-		margin-top: 18rpx;
-		font-size: 22rpx;
-		color: #222222;
-	}
-}
 // 签订内容
 .check-in-form {
 	flex: 1;
@@ -52,18 +29,17 @@
 		border-radius: 20px;
 		overflow: hidden;
 	}
-	.download{
+	.download {
 		white-space: nowrap;
 	}
-	
-	.image-lists{
+	.image-lists {
 		margin-top: 40rpx;
-		.item{
+		.item {
 			margin-bottom: 16rpx;
 			position: relative;
 			width: 328rpx;
 			height: 204rpx;
-			border: 1rpx solid #DFE0E6;
+			border: 1rpx solid #dfe0e6;
 			border-radius: 16rpx;
 		}
 		.image {
@@ -81,24 +57,64 @@
 			z-index: 1;
 		}
 	}
-	.mesage{
+	.mesage {
 		margin-top: 60rpx;
 		line-height: 1.6;
 	}
-}
-//个人信息
-.form-row {
-	padding-top: 40rpx;
-	font-size: 28rpx;
-	.label {
-		padding-bottom: 40rpx;
-		flex-shrink: 0;
-		width: 190rpx;
+	// 上传图片
+	.upload-image {
+		position: relative;
+		border: 1rpx solid #dfe0e6;
+		border-radius: 16rpx;
+		box-sizing: border-box;
+		&.small {
+			width: 204rpx;
+			height: 204rpx;
+		}
+		.image-photo {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 80rpx;
+			height: 80rpx;
+			margin-left: -40rpx;
+			margin-top: -40rpx;
+			z-index: 1;
+		}
+		.image {
+			width: 100%;
+			height: 204rpx;
+		}
 	}
-	.right {
-		padding-bottom: 35rpx;
-		flex: 1;
-		border-bottom: 1rpx solid #dfe0e6;
+	// 选择时间
+	.select-time {
+		width: 100%;
+		&-picker {
+			padding: 30rpx 16rpx;
+			flex: 1;
+			border: 1rpx solid #dfe0e6;
+			border-radius: 16rpx;
+		}
+		.placeholder {
+			color: #cccccc;
+		}
+		.line {
+			flex-shrink: 0;
+			margin: 0 20rpx;
+		}
+		.icon-time {
+			width: 48rpx;
+			height: 48rpx;
+		}
+	}
+	//单选
+	.single-radio {
+		.agree-row {
+			margin: 0 60rpx 0 0;
+		}
+		.text {
+			font-size: 28rpx;
+		}
 	}
 	.btn-text {
 		flex-shrink: 0;
@@ -107,16 +123,6 @@
 		font-size: 28rpx;
 		text-align: center;
 		background-color: transparent;
-	}
-	.icon-right {
-		width: 48rpx;
-		height: 48rpx;
-	}
-	.image-avatar {
-		width: 80rpx;
-		height: 80rpx;
-		border-radius: 16rpx;
-		border: 1rpx solid #ffb55b;
 	}
 	.input {
 		font-size: 26rpx;
@@ -133,6 +139,12 @@
 	.input-placeholder {
 		color: #cccccc;
 	}
+	.image-avatar {
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 16rpx;
+		border: 1rpx solid #ffb55b;
+	}
 }
 // 身份证
 .identity-image-lists {
@@ -141,23 +153,13 @@
 		position: relative;
 		flex: 1;
 		max-width: 328rpx;
-	}
-	.image {
-		width: 100%;
-		height: 204rpx;
-	}
-	.image-photo {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 80rpx;
-		height: 80rpx;
-		margin-left: -40rpx;
-		margin-top: -40rpx;
-		z-index: 1;
+		border: 0;
+		& + .item {
+			margin-left: 50rpx;
+		}
 	}
 }
-// 同意协议
+// 同意协议 + 单选
 .agree-row {
 	margin: 20rpx 0;
 	.radio {

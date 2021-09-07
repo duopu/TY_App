@@ -1,0 +1,46 @@
+// 进度
+.process-lists {
+	flex-shrink: 0;
+	margin: 0 20rpx;
+	.item {
+		flex: 1;
+		position: relative;
+		align-items: center;
+		&.line::after {
+			content: '';
+			position: absolute;
+			top: 32rpx;
+			width: 50%;
+			left: 50%;
+			height: 4rpx;
+			background-image: url(../../static/images/icons/icon-line.svg);
+			background-repeat: no-repeat;
+			background-size: 100%;
+			transform: translateX(50%);
+		}
+		&.on {
+			&.line::after {
+				background-image: url(../../static/images/icons/icon-line-active.svg);
+			}
+			.number {
+				opacity: 1;
+			}
+		}
+	}
+	.number {
+		width: 56rpx;
+		height: 56rpx;
+		font-size: 30rpx;
+		text-align: center;
+		line-height: 52rpx;
+		background-color: #ffb55b;
+		border: 4rpx solid #ffe8cc;
+		border-radius: 50%;
+		opacity: 0.3;
+	}
+	.text {
+		margin-top: 18rpx;
+		font-size: 22rpx;
+		color: #222222;
+	}
+}

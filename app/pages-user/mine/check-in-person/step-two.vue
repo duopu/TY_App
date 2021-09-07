@@ -1,45 +1,31 @@
 <!-- 填写个人信息 -->
 <template>
 	<scroll-view scroll-y="true" class="check-in-form">
-		<view class="form-row flex-center-between m-top-60">
-			<text class="label text-bold">*姓名</text>
-			<view class="right flex-center-between flex-1">
-				<input v-model="formState.userName" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
-			</view>
-		</view>
-		<view class="form-row flex-center-between">
-			<text class="label text-bold">*手机号</text>
-			<view class="right flex-center-between flex-1">
-				<input v-model="formState.phone" type="number" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
-				<button class="btn-text" @click="getValidateCode">获取验证码</button>
-			</view>
-		</view>
-		<view class="form-row flex-center-between">
-			<text class="label text-bold">*验证码</text>
-			<view class="right flex-center-between flex-1">
-				<input v-model="formState.validator" type="number" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
-			</view>
-		</view>
-		<view class="form-row flex-center-between">
-			<text class="label text-bold">邮箱</text>
-			<view class="right flex-center-between flex-1">
-				<input v-model="formState.email" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
-			</view>
-		</view>
-		<view class="form-row flex-center-between">
-			<text class="label text-bold">QQ</text>
-			<view class="right flex-center-between flex-1">
-				<input v-model="formState.qq" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
-			</view>
-		</view>
-		<view class="form-row flex-center-between">
-			<text class="label text-bold">*身份证号</text>
-			<view class="right flex-center-between flex-1">
-				<input v-model="formState.identity" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
-			</view>
-		</view>
+		<check-in-form-item label="*姓名" class="m-top-60">
+			<input v-model="formState.userName" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
+		</check-in-form-item>
+		<check-in-form-item label="*手机号">
+			<input v-model="formState.userName" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
+			<button class="btn-text" @click="getValidateCode">获取验证码</button>
+		</check-in-form-item>
+		<check-in-form-item label="*验证码">
+			<input v-model="formState.validator" type="number" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
+		</check-in-form-item>
+		
+		<check-in-form-item label="邮箱">
+			<input v-model="formState.email" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
+		</check-in-form-item>
+		
+		<check-in-form-item label="QQ">
+			<input v-model="formState.qq" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
+		</check-in-form-item>
+		
+		<check-in-form-item label="*身份证号">
+			<input v-model="formState.identity" type="text" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
+		</check-in-form-item>
+		
 		<!-- 身份证上传 -->
-		<view class="identity-image-lists flex-center-between">
+		<view class="identity-image-lists flex-center">
 			<view class="item">
 				<!-- 替换已上传的图片 -->
 				<image class="image" src="../../../static/images/check-in-identity1.png" mode="widthFix"></image>

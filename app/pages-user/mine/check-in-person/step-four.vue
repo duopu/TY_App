@@ -5,7 +5,7 @@
 			传至系统。
 		</view>
 		<view class="image-lists flex-column-center">
-			<view class="item">
+			<view class="item upload-image">
 				<image class="image-photo" src="../../../static/images/check-in-photo.png" mode="aspectFill"></image>
 			</view>
 			<view class="text-bold">请上传手持承诺书照片</view>
