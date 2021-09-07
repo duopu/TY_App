@@ -4,20 +4,24 @@
 		<!-- 头部 -->
 		<view class="exam-top flex-center-between">
 			<image class="icon-back" @click="goBack" src="../../../static/images/icons/icon-back.svg" mode="aspectFill" />
-			<!-- 随机练习或者模拟考试 -->
+      
+      <!-- 模拟显示倒计时 -->
+      <uni-countdown v-if="isMoNi && !isGoBack" class="count-down" :show-day="false" :hour="count.hour" :minute="count.minute" :second="count.second" @timeup="timeEnd"></uni-countdown> 
 			<text>{{title}}</text>
 			<view class="right flex-center">
-				<image class="icons" @click="mark" src="../../../static/images/icons/icon-circle-wenhao.svg" mode="aspectFill" />
-				<!-- 未收藏 -->
-				<image v-if="isStart" @click="start(1)" class="icons" src="../../../static/images/icons/icon-star-black.svg" mode="aspectFill" />
-				<!-- 已收藏 -->
-				<image v-else @click="start(0)" class="icons" src="../../../static/images/icons/icon-star-save.svg" mode="aspectFill" />
+				<image v-if="isShowMark" class="icons" @click="mark" src="../../../static/images/icons/icon-circle-wenhao.svg" mode="aspectFill" />
+        <block v-if="isShowStar">
+          <!-- 未收藏/已收藏 -->
+          <image v-if="isStar()" @click="star(1)" class="icons" src="../../../static/images/icons/icon-star-black.svg" mode="aspectFill" />
+          <image v-else @click="star(2)" class="icons" src="../../../static/images/icons/icon-star-save.svg" mode="aspectFill" />
+        </block>
 				<!-- 模拟考试 -->
-				<button class="btn" @click="openPopup('submitPopup')">交卷</button>
+				<button v-if="type === 2 && !isGoBack" class="btn" @click="finish">交卷</button>
 			</view>
 		</view>
 		<!-- 内容 -->
 		<scroll-view class="exam-content">
+      <!-- 轮播 -->
       <swiper class="swiper" :current="current" @change="swiperChange" duration="10">
           <swiper-item v-for="(item,index) in questionList" :key="index"> 
               <!-- 考试题目 -->
@@ -40,7 +44,7 @@
                 </block>
 
                 <!-- 解析 -->
-                <view class="exam-analysis" v-if="item.userAnswer && item.answer != item.userAnswer">
+                <view class="exam-analysis" v-if="item.isShowAnswer" >
                   <view class="flex-center analysis-answer">
                     <view class="flex-1">正确答案：{{item.answer}}</view>
                     <view class="flex-1 color-9">考生答案：{{item.userAnswer}}</view>
@@ -50,15 +54,12 @@
                     <text v-html="item.answerAnalysis"></text>
                   </view>
                 </view>
-
-                <!-- 确定按钮 -->
-                <button class="btn" @click="btnSure(item)">确定</button>
               </view>
           </swiper-item>
       </swiper>  
 
-        
-      
+      <!-- 确定按钮 -->
+      <button v-if="!isGoBack" class="btn" @click="btnSure">确定</button>
 		</scroll-view>
 
 		<!-- 底部 -->
@@ -102,17 +103,29 @@ let that;
 export default {
 	data() {
 		return {
-      questionBankId:'',
-      type:undefined, //做题方式
+      questionBankId:'', // 题目id
+      questionRecordId:'', // 
+      type:undefined, //做题方式 随机练习0 | 顺序练习1 | 模式考试2 | 我的收藏3 | 我的错题4
       title:'',
       current:0,
-      questionList:[],
+      questionList:[], //题目列表
       examStartTime:new Date().valueOf(),
       modal:{
         title:'',
-        sure:()=>uni.navigateBack()
+        sure:()=> uni.navigateBack() //默认是返回上一页 不可删除
       },
       submitQuestionDTOList:[],
+      isMoNi:false, //是否是模拟题目
+      noSunmit:false, // 我的收藏和我的错题 不提交
+      isGoBack:false, // 模拟题是否从得分页面返回
+      count:{ //倒计时
+        hour:0,
+        minute:0,
+        second:0,
+      },
+      // 标注、收藏显示 模拟考试的时候要标注，不用收藏。考完看解析的时候要收藏，不要标注
+      isShowMark:true,
+      isShowStar:true,
     };
 	},
   filters:{
@@ -144,7 +157,18 @@ export default {
   },
 
   async onLoad(option){
-    const { questionBankId,type } = option || {}
+    const { questionBankId,type,examTime,from,questionRecordId} = option || {}
+    if(examTime){
+      if(examTime>=60){
+        this.count.hour = parseInt(examTime/60)
+        this.count.minute = parseInt(examTime%60)
+        this.count.second = 0
+        return;
+      }
+      this.count.hour = 0;
+      this.count.minute = parseInt(examTime%60)
+      this.count.second = 0
+    }
     this.questionBankId = questionBankId
     this.type = Number(type)
     let title = ''
@@ -157,10 +181,45 @@ export default {
         break;
       case 2:
         title = '模拟考试'
+        this.isMoNi = true
+        this.isShowStar = false
         break;
+      case 3:
+        title = '我的收藏'
+        this.noSunmit = true
+        break;
+      case 4:
+        title = '我的错题'
+        this.noSunmit = true
+        break;    
     }
     this.title = title
+    // 从我的历史题过来
+    this.questionRecordId = questionRecordId;
+    if(from === 'history'){
+      this.isGoBack = true
+      this.queryQuestionList(2)
+      return;
+    }
     this.queryList()
+  },
+
+  onShow(){
+    // 模拟提交后 返回
+    uni.$on("goBack", v => {
+      this.current = 0;
+      if(v == 1){
+        this.queryWrongList()
+      }else{
+        this.queryQuestionList(v)
+      }
+      if(v){
+        this.isGoBack = true
+        this.isShowMark = false
+      }
+      // 清除监听
+      uni.$off('goBack');
+    }) 
   },
 
 	methods: {
@@ -180,24 +239,11 @@ export default {
       this.questionList[this.current].mark = !this.questionList[this.current].mark
     },
 
-    // 收藏
-    start(type){
-      const params = {
-        questionBankId:this.questionBankId,
-        questionId:this.questionList[this.current].questionId
-      }
-      const apiUrl = type === 1 ?  '/question/collect' : '/question/cancelCollect'
-      this.$http.post(apiUrl,params,true)
-    },
-    isStart(){
-      return this.questionList[this.current].start === 1
-    },
-
     swiperChange(e){
       this.current = e.detail.current
     },
 
-    // 对错题 个数 
+    // 计算对错题 个数 
     getRightWrongQues(flag){
       let quesLen = 0;
       if(flag === 1){
@@ -208,76 +254,124 @@ export default {
       return quesLen
     },
 
-    // 弹窗校验
+    // 弹窗-校验
     modalCheck(){
       const questionLen = this.questionList.length;
       const isAnswerLen = this.questionList.filter(i=>i.isAnswer === 1).length;
       if(isAnswerLen === questionLen ){
         return true
       }else{
-        this.modal.title = `还有${questionLen - isAnswerLen}道题未完成，确定提交？`
+        this.modal.title = `还有${questionLen - isAnswerLen}道题未完成，确定${this.isMoNi ? '交卷' : '提交'}？`
         this.openPopup('submitPopup');
         return false
       }
     },
 
+    // 弹窗-序号点击
     answerClick(current){
       this.current = current;
     },
 
     // 返回
     goBack(){
-      if(this.modalCheck()){
+      if(this.modalCheck() || this.noSunmit ){
         uni.navigateBack()
       }
     },
 
+    // 下一题
+    next(){
+      this.current ++;
+    },
+
     // 答案选中事件
     checkChange(type,flag){
-       this.questionList.map(i=>{
-        (i.questionOptionVOList || []).map(f=>{
+       const currQues = this.questionList[this.current];
+       (currQues.questionOptionVOList || []).map(f=>{
           // 单选 | 判断
           if(type === 1 || type === 3){
             if(f.questionOptionId === flag.questionOptionId){
               f.checked = true
-              i.isAnswer = 1 //表示题目已经答过
+              currQues.isAnswer = 1 //表示题目已经答过
             }else{
               f.checked = false
             }
+          }
           // 多选
-          }else{
+          if(type === 2){
             if(f.questionOptionId === flag.questionOptionId){
-              f.checked = true
-              i.isAnswer = 1
+              f.checked = !f.checked
+              currQues.isAnswer = 1
             }
           }
-        })
       })
     },
-    
 
     // 按钮确定
-    btnSure(item){
-      const isAns = (item.questionOptionVOList || []).filter(i=>i.checked)
-      if(isAns.length === 0){
-        this.$tool.showToast('请至少选择一个答案')
+    btnSure(){
+      // 模拟题得分页面回来查看解析
+      if(this.isMoNi && this.isGoBack){
+        this.next();
+        return;
+      }
+      // 错题 + 收藏 不提交
+      if(this.noSunmit){
+        const currQuestion = this.questionList[this.current]
+        const checkedQuestionOption = currQuestion.questionOptionVOList.filter(i=>i.checked);
+        const userAns = (checkedQuestionOption || []).map(i=>i.optionLabel).join('') 
+        if(currQuestion.answer === userAns){
+          this.next();
+        }else{
+          this.$set(this.questionList[this.current],'userAnswer',userAns)
+          this.$set(this.questionList[this.current],'isShowAnswer',true)
+        }
+        return;
+      }
+      
+      // 模拟考试直接进入下一题 做完提交
+      if(this.isMoNi && this.current < (this.questionList.length - 1)){
+        this.next();
         return;
       }
       this.submit() 
     },
 
-    // 提交练习题
+    // 交卷 
+    finish(){
+      // 所有题目做完直接提交 ，未做完给弹窗提示
+      if(this.modalCheck()){
+        this.submit()
+        return;
+      }
+      this.modal.sure = this.submit
+    },
+
+    // 倒计时
+    timeEnd(){
+      this.submit()
+    },
+
+    // 收藏
+    star(type){
+      const params = {
+        questionBankId:this.questionBankId,
+        questionId:this.questionList[this.current].questionId
+      }
+      const apiUrl = (type === 1 ?  '/question/collect' : '/question/cancelCollect')
+      this.$http.post(apiUrl,params,true)
+      this.questionList[this.current].questionCollectionCheck = this.questionList[this.current].questionCollectionCheck === 1 ? 2 : 1 
+    },
+    isStar(){
+      return this.questionList && this.questionList[this.current].questionCollectionCheck === 1
+    },
+
+    // 提交
     submit(){
-      this.questionList.map(i=>{
+      const isAnswerList = this.questionList.filter(item=>item.isAnswer === 1);
+      (isAnswerList || []).map(i=>{
         const checkedQuestionOption = i.questionOptionVOList.filter(i=>i.checked)
         if(checkedQuestionOption.length>0){
-            // 单选 | 多选 取optionLabel  判断题 取 1或0 
-            let userAnswer = ''; 
-            if(i.type === 3 ){
-              userAnswer = (checkedQuestionOption || []).map(i=>i.content).indexOf('对')> -1 ?  1 : 0
-            }else{
-              userAnswer = (checkedQuestionOption || []).map(i=>i.optionLabel).join('') 
-            } 
+            let userAnswer =  (checkedQuestionOption || []).map(i=>i.optionLabel).join('') 
             const checkSubmitQuestionDTOList = this.submitQuestionDTOList.filter(item=>item.questionId === i.questionId)
             if(checkSubmitQuestionDTOList.length>0){
               checkSubmitQuestionDTOList.userAnswer = userAnswer
@@ -290,22 +384,36 @@ export default {
         }
       })
       const examStartTime = new Date().valueOf()
-      const examTime = examStartTime - this.examStartTime;
-      const params = {
+      const examTime = parseInt(((examStartTime - this.examStartTime) % (1000 * 60 * 60)) / (1000 * 60)); 
+      let params = {
         examTime,
         questionBankId:this.questionBankId,
         submitQuestionDTOList:this.submitQuestionDTOList,
-        questionType:this.type,
       }
-      this.$http.post('/questionRecord/practiceSubmit',params,true).then(async (res)=>{
-        const questionRecordId = res.questionRecordId
-        if(questionRecordId){
-          await this.queryQuestionList(questionRecordId)
+      let apiUrl = '/questionRecord/practiceSubmit'
+
+      if(this.type === 2){
+        apiUrl = '/questionRecord/submit'
+      }else{
+        params.questionType = this.type
+      }
+      
+      this.$http.post(apiUrl,params,true).then((res)=>{
+        const { questionRecordId , points} = res || {}
+        this.questionRecordId = questionRecordId
+
+        // 模拟考试跳转到结果页
+        if(this.type === 2){
+          uni.navigateTo({
+            url:`/pages-user/course/result/result?questionRecordId=${this.questionRecordId}&points=${points}`
+          });
+          return;
         }
+        this.queryQuestionList()
       })
     },
 
-    // 随机练习0 | 顺序练习1 | 模式练习2 | 我的收藏3 | 我的错题4
+    // 随机练习0 | 顺序练习1 | 模式考试2 | 我的收藏3 | 我的错题4
     async queryList(){
       const params = {
         questionBankId:this.questionBankId 
@@ -328,7 +436,7 @@ export default {
           apiUrl = '/questionBank/queryWrongListByUser'
           break;      
       }
-      const data =  await this.$http.get(apiUrl,params,true) || []
+      const data =  await this.$http.get(apiUrl,params,true) || [];
       data.map((i,index)=>{
         i.index = index;
         i.mark = false;
@@ -339,26 +447,43 @@ export default {
       this.questionList = data;
     }, 
 
-    // 查询全部解析
-    async queryQuestionList(questionRecordId){
+    // 查询错题解析
+    async queryWrongList(){
       const params = {
-        questionRecordId
+        questionRecordId:this.questionRecordId,
+      }
+      const data =  await this.$http.get('/questionRecord/queryWrongList',params,true) || []
+       data.map((i,index)=>{
+        i.index = index;
+        i.isShowAnswer = true
+      })
+      this.questionList = data;
+    },
+
+    // 查询全部解析
+    async queryQuestionList(backType){
+      const params = {
+        questionRecordId:this.questionRecordId,
       }
       const data =  await this.$http.get('/questionRecord/queryQuestionList',params,true) || []
       data.map(i=>{
         this.questionList.map(f=>{
+          if(backType === 2){
+            f.isShowAnswer = true
+          }
           if(i.userAnswer){
             if(i.questionId === f.questionId){
               // 去除标记
               f.mark = false
               // 用户答案赋值到 questionList 如果用户答案等于正确答案 跳转到下一题
+              // item.userAnswer && item.answer != item.userAnswer
               f.userAnswer = i.userAnswer
               if(f.answer !== i.userAnswer){
+                f.isShowAnswer = true
                 return;
               }
-              this.current ++;
+              this.next();
             }
-
           }
         })
       })

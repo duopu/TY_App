@@ -97,7 +97,7 @@ export default {
 
     route(name){
       let url = '';
-      const { questionBankId } = this.detail || {}
+      const { questionBankId,examTime } = this.detail || {}
       switch(name){
         case 'history':
           url = `/pages-user/course/history/history?questionBankId=${questionBankId}`
@@ -112,7 +112,7 @@ export default {
           break;
           // 模拟考试
         case 'exam2':
-          url = `/pages-user/course/exam/exam?questionBankId=${questionBankId}&type=2`
+          url = `/pages-user/course/exam/exam?questionBankId=${questionBankId}&type=2&examTime=${examTime}`
           break; 
           // 我的收藏
         case 'exam3':

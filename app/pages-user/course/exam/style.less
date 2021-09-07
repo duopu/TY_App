@@ -33,14 +33,24 @@
 		border-radius: 36rpx;
 		border: 2rpx solid #ffedd6;
 	}
+  .count-down{
+    position: absolute;
+		left: 60rpx;
+    /deep/ .uni-countdown__number{
+      font-size: 28rpx;
+    }
+  }
 }
 .exam-content {
 	flex: 1;
-	height: 100%;
+	height: 100%; 
 	padding: 20rpx;
 	font-size: 28rpx;
 	overflow: hidden;
 	box-sizing: border-box;
+  .swiper{
+    height: calc(100% - 216rpx); 
+  }
 	.exam-item {
 		margin-bottom: 60rpx;
 		.flex-name {
@@ -137,6 +147,3 @@
 }
 
 
-.swiper{
-  height:100%;
-}

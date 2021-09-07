@@ -4,7 +4,7 @@
 
 		<!-- 随机练习 -->
 		<scroll-view v-if="tabsIndex === 0" scroll-y="true" class="history-content">
-			<view class="history-item" v-for="(item,index) in practiceList" :key="index">
+			<view class="history-item" v-for="(item,index) in practiceList" :key="index" @click="exam(item)">
 				<view class="text">{{item.title}}</view>
 				<view class="time">
 					{{item.startTime}} 共{{item.questionNum}}道题，答对{{item.correctNum}}道
@@ -13,7 +13,7 @@
 		</scroll-view>
 		<!-- 模拟考试 -->
 		<scroll-view v-else scroll-y="true" class="history-content">
-			<view class="history-item" v-for="(item,index) in examList" :key="index">
+			<view class="history-item" v-for="(item,index) in examList" :key="index"  @click="exam(item)">
 				<view class="text">{{item.title}}</view>
 				<view class="time">
 					{{item.startTime}} 共{{item.questionNum}}道题，答对{{item.correctNum}}道
@@ -54,6 +54,26 @@ export default {
       const { practiceList,examList } = data
       this.practiceList = practiceList
       this.examList = examList
+    },
+
+    exam(item){
+      const { questionType, questionRecordId } = item || {}
+      let type,url;
+      switch(questionType){
+        case 1: // 随机练习
+          type = 0;
+          break;
+        case 2: // 顺序练习
+          type = 1;
+          break;
+        case 2: // 模拟考试
+          type = 2;
+          break;  
+      }
+      url = `/pages-user/course/exam/exam?questionRecordId=${questionRecordId}&type=${type}&from=history`
+      uni.navigateTo({
+				url,
+			});
     },
 	}
 };
