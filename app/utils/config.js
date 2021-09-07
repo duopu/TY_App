@@ -1,7 +1,15 @@
 
 const debug = true
 export default {
-	baseUrl:debug ? 'http://education.sinfinite.cn' : '',
+	
+	// #ifdef H5
+		baseUrl:debug ? '/api' : 'http://education.sinfinite.cn',
+	// #endif
+	
+	// #ifndef H5
+		baseUrl:debug ? 'http://education.sinfinite.cn' : '',
+	// #endif
+	
 	// 本地存储的key值
 	storageKeys:{
 		// 登录用户的信息

@@ -111,6 +111,12 @@ export default {
 	delete(url = '', data = {}, loading = false) {
 		return this.request(url, data, 'DELETE', loading);
 	},
+	
+	/**
+	 * 上传单个文件
+	 * @param {Object} data 参数  {path:"",file:{}}  path是文件路径  file是文件对象 
+	 * @param {Object} loading 是否显示loading效果
+	 */
 	upload( data = {}, loading = false) {
 
 		return new Promise((resolve, reject) => {
@@ -123,10 +129,12 @@ export default {
 			}
 			
 			uni.uploadFile({
-				url: config.baseUrl + '/core/upload/uploadPic', 
+				url: config.baseUrl + '/image/upload', 
 				filePath: data.path,
 				name: 'code',
-				formData: data,
+				formData: {
+					file:data.file
+				},
 				header:{
 					'x-uid':1
 				},

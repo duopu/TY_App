@@ -38,9 +38,9 @@
 				<textarea class="input" placeholder-class="input-placeholder" placeholder="写下您的评价" />
 				<!-- <view class="image-lists"> -->
 					<uni-file-picker  limit="9" 
-					title="最多选择9张图片" 
+					
 					mode="grid" 
-					:image-styles="{width:84, height:56}" 
+					:image-styles="{width:84, height:84}" 
 					@select="selectGoodsImg">
 						<view class="flex-center-center image-item"><image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image></view>
 					</uni-file-picker>
@@ -122,12 +122,16 @@ export default {
 			}
 		},
 		
-		selectGoodsImg({tempFiles}){
-			console.log("e == ",tempFiles);
+		selectGoodsImg(e){
+			console.log("e == ",e);
+			let formData = {
+				file: e.tempFiles[0].file,
+				path: e.tempFilePaths[0]
+			}
 			this.$http
-				.upload(tempFiles[0], true)
+				.upload(formData, true)
 				.then(res => {
-					
+					console.log("res ==== ",res);
 				});
 		},
 		
