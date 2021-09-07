@@ -296,14 +296,20 @@
 						"enablePullDownRefresh": false
 					}
 
-				}
-				, {
+				}, {
 					"path": "mine/information/information",
 					"style": {
 						"navigationBarTitleText": "",
 						"enablePullDownRefresh": false
 					}
-				
+
+				}, {
+					"path": "course/live-room/live-room",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+
 				}
 			]
 		},
