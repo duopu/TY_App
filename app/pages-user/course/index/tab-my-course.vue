@@ -7,7 +7,6 @@
 			  :key="index" 
 			  :data="item"
         :state="0"
-			  @clickItem="itemClick"
         @btnClick="btnClick"
         />
         
@@ -25,7 +24,7 @@ export default {
 	},
 	methods:{
 		onLoadData(page,size, callback){
-			this.$http.get('/course/queryPage',{ page, size },true).then(res=>{
+			this.$http.get('/userCourse/queryList',{ page, size },true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);
@@ -35,15 +34,13 @@ export default {
 		/**课程行点击
 		 * @param {Object} goodsId  课程ID
 		 */
-		itemClick(goodsId){
-			console.log("itemClick");
+		btnClick(data){
+      const { courseId } = data || {}
+			console.log(courseId);
 			// uni.navigateTo({
 			// 	url: `/pages-user/index/consult/details?articleId=${articleId}`
 			// });
 		},
-    btnClick(data){
-      this.$emit('btnClick',data)
-    },
 	}
 };
 </script>

@@ -1,0 +1,191 @@
+.check-in-person {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	overflow: hidden;
+	.m-top-60 {
+		margin-top: 60rpx;
+	}
+	.color-primary {
+		color: #1aa8ff;
+	}
+}
+
+// 签订内容
+.check-in-form {
+	flex: 1;
+	height: 100%;
+	padding: 0 20rpx 20rpx;
+	overflow: hidden;
+	box-sizing: border-box;
+	.protocol-title {
+		margin: 60rpx auto 24rpx;
+		font-size: 30rpx;
+		text-align: center;
+	}
+	.protocol {
+		height: 70%;
+		background-color: #f8f8f8;
+		border-radius: 20px;
+		overflow: hidden;
+	}
+	.download {
+		white-space: nowrap;
+	}
+
+	.image-lists {
+		margin-top: 40rpx;
+		.item {
+			margin-bottom: 16rpx;
+			position: relative;
+			width: 328rpx;
+			height: 204rpx;
+			border: 1rpx solid #dfe0e6;
+			border-radius: 16rpx;
+		}
+		.image {
+			width: 100%;
+			height: 204rpx;
+		}
+		.image-photo {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 80rpx;
+			height: 80rpx;
+			margin-left: -40rpx;
+			margin-top: -40rpx;
+			z-index: 1;
+		}
+	}
+	.mesage {
+		margin-top: 60rpx;
+		line-height: 1.6;
+	}
+	.image-avatar {
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 16rpx;
+		border: 1rpx solid #ffb55b;
+	}
+	// 上传图片
+	.upload-image {
+		position: relative;
+		border: 1rpx solid #dfe0e6;
+		border-radius: 16rpx;
+		box-sizing: border-box;
+		&.small {
+			width: 204rpx;
+			height: 204rpx;
+		}
+		.image-photo {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 80rpx;
+			height: 80rpx;
+			margin-left: -40rpx;
+			margin-top: -40rpx;
+			z-index: 1;
+		}
+		.image {
+			width: 100%;
+			height: 204rpx;
+		}
+	}
+	.btn-text {
+		flex-shrink: 0;
+		margin: 0;
+		padding: 0;
+		font-size: 28rpx;
+		text-align: center;
+		background-color: transparent;
+	}
+	.input {
+		font-size: 26rpx;
+		&.textarea {
+			width: 100%;
+		}
+		&.h-180 {
+			height: 180rpx;
+		}
+		&.h-300 {
+			height: 300rpx;
+		}
+	}
+	.input-placeholder {
+		color: #cccccc;
+	}
+}
+
+// 身份证
+.identity-image-lists {
+	margin: 38rpx auto;
+	.item {
+		position: relative;
+		flex: 1;
+		max-width: 328rpx;
+		& + .item {
+			margin-left: 50rpx;
+		}
+	}
+	.image {
+		width: 100%;
+		height: 204rpx;
+	}
+	.image-photo {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 80rpx;
+		height: 80rpx;
+		margin-left: -40rpx;
+		margin-top: -40rpx;
+		z-index: 1;
+	}
+}
+// 同意协议
+.agree-row {
+	margin: 20rpx 0;
+	.radio {
+		margin-right: 16rpx;
+		width: 32rpx;
+		height: 32rpx;
+		background-color: #ffffff;
+		border-radius: 50%;
+		border: 1rpx solid #cccccc;
+		box-sizing: border-box;
+		&.on {
+			border: 10rpx solid #1aa8ff;
+		}
+	}
+	.text {
+		font-size: 26rpx;
+		.service {
+			color: #1aa8ff;
+		}
+	}
+}
+// 底部
+.bottom {
+	flex-shrink: 0;
+	padding-bottom: 54rpx;
+	.btn {
+		flex: 1;
+		max-width: 336rpx;
+		font-size: 26rpx;
+		height: 96rpx;
+		line-height: 96rpx;
+		border-radius: 48rpx;
+		&.btn-block {
+			color: #ffffff;
+			background-color: #222222;
+		}
+		&.btn-border {
+			border: 1rpx solid #222222;
+			background-color: transparent;
+			box-sizing: border-box;
+		}
+	}
+}

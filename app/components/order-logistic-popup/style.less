@@ -1,0 +1,92 @@
+.popup-main {
+	padding: 0 20rpx 40rpx;
+	background-color: #ffffff;
+	border-radius: 32rpx 32rpx 0 0;
+	.icon {
+		width: 40rpx;
+		height: 40rpx;
+	}
+	.icon-close {
+		position: absolute;
+		top: 30rpx;
+		right: 24rpx;
+		width: 48rpx;
+		height: 48rpx;
+		z-index: 1;
+	}
+	.title {
+		padding: 30rpx 0;
+		font-size: 34rpx;
+		text-align: center;
+	}
+	.lists {
+		margin: 70rpx 45rpx 70rpx 50rpx;
+		.circle {
+			flex-shrink: 0;
+			margin-right: 40rpx;
+			width: 16rpx;
+			height: 16rpx;
+			border: 2rpx solid #e5e5e5;
+			border-radius: 50%;
+			background-color: #FFFFFF;
+			z-index: 2;
+			box-sizing: border-box;
+		}
+		.item {
+			position: relative;
+			font-size: 28rpx;
+			padding-bottom: 70rpx;
+			color: #999999;
+			&:last-child{
+				padding-bottom: 0;
+				&::before{
+					content: none;
+				}
+			}
+			&::before{
+				content: '';
+				position: absolute;
+				left: 9rpx;
+				bottom: -10rpx;
+				height: 100%;
+				width: 2rpx;
+				background-color: #E5E5E5;
+				z-index: 1;
+			}
+			&.on{
+				color: #222222;
+				.circle{
+					margin-left: -6rpx;
+					margin-right: 34rpx;
+					width: 28rpx;
+					height: 28rpx;
+					background-image: url(../../static/images/gou.png);
+					background-repeat: no-repeat;
+					background-size: 100% 100%;
+					border: 0;
+				}
+				.time{
+					color: #FF705B;
+				}
+			}
+			.time{
+				margin-left: 20rpx;
+			}
+		}
+	}
+
+	.popup-bottom {
+		font-size: 28rpx;
+		padding: 12rpx 0;
+		.btn {
+			margin-left: 24rpx;
+			flex: 1;
+			height: 80rpx;
+			font-size: 28rpx;
+			line-height: 80rpx;
+			color: #ffffff;
+			background: #ff705b;
+			border-radius: 40rpx;
+		}
+	}
+}

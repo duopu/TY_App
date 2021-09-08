@@ -31,7 +31,7 @@
 				<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 			</view>
 			<!-- 交易信息 -->
-			<view class="lists-item">
+			<view class="lists-item" @click="jump('trade')">
 				<image src="" mode="aspectFill" class="item-image"></image>
 				<view class="flex-column flex-1">
 					<view class="name text-bold">交易信息</view>
@@ -87,7 +87,14 @@ export default {
 		// 显示账号页面
 		openAccount(){
 			this.$emit('change');
-		}
+		},
+		jump(type){
+			if(type == 'trade'){
+				uni.navigateTo({
+					url:`/pages-business/message/trade/trade`
+				})
+			}
+		},
 	}
 };
 </script>

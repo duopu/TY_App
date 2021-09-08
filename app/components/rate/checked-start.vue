@@ -1,13 +1,15 @@
 <template>
-	<view class="checked-star-box">
-		<view class="color-star" v-bind:style="{background:background}"></view>
-		<image class="icon-star" src="../../static/images/icons/icon-star.png" mode="aspectFill"></image>
+	<view class="checked-star-box" @click="click">
+		<image v-if="num === 0" class="icon-star" src="../../static/images/icons/icon-star.png" mode="aspectFill"></image>
+		<image v-else-if="num === 100" class="icon-star" src="../../static/images/icons/icon-star-selected.svg" mode="aspectFill"></image>
+		<image v-else class="icon-star" src="../../static/images/icons/icon-star-half.svg" mode="aspectFill"></image>
 	</view>
 </template>
 
 <script>
 	export default {
 		name:'checked-start',
+		emits: ['click'],
 		props:{ //星星填充分值  0-100
 			number:{
 				type:Number,
@@ -16,12 +18,18 @@
 		},
 		watch:{
 			number(newV, oldV){
-				this.background = `linear-gradient(90deg, #ff9340 ${newV}%, #FFFFFF 20%)`
+				this.num = newV;
 			}
 		},
 		data(){
 			return {
-				background: `linear-gradient(90deg, #ff9340 ${this.number}%, #FFFFFF 20%)`
+				num: this.number
+			}
+		},
+		methods: {
+			// 星星被点击
+			click(){
+				this.$emit('click');
 			}
 		}
 	}
@@ -38,13 +46,6 @@
 		.icon-star {
 			width: 24rpx;
 			height: 24rpx;
-		}
-		
-		.color-star {
-			position: absolute;
-			width: 24rpx;
-			height: 24rpx;
-			background: linear-gradient(90deg, #ff9340 0%, #FFFFFF 0%);
 		}
 		
 		&:first-child {

@@ -177,7 +177,7 @@ export default {
 		 */
 		submitOrder(){
 			if(!this.isAgree){
-				this.$tool.showToast("请先同意《腾云课堂服务协议》");
+				this.$tool.showToast("请先勾选服务协议");
 				return
 			}
 			this.$http

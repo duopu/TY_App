@@ -34,9 +34,73 @@
 	height: 100%;
 	overflow: hidden;
 }
-.lists-item{
+
+.store{
 	margin: 20rpx;
+	padding: 32rpx 24rpx;
+	background-color: #ffffff;
+	border-radius: 20rpx;
+	// 头部
+	.top {
+		padding-bottom: 10rpx;
+		// border-bottom: 1rpx solid #dfe0e6;
+		.name {
+			font-size: 30rpx;
+			font-weight: bold;
+		}
+		.desc{
+			font-size: 24rpx;
+			color: #666666;
+		}
+	}
+	// 内容
+	.content {
+		padding-top: 32rpx;
+		// margin-right: 24rpx;
+		.avatar-image {
+			margin-right: 24rpx;
+			width: 240rpx;
+			height: 160rpx;
+			border-radius: 20rpx;
+		}
+		.title {
+			margin-bottom: 18rpx;
+			font-size: 28rpx;
+			font-weight: bold;
+		}
+		.tag {
+			margin-bottom: 4rpx;
+			display: flex;
+			align-items: center;
+			.tag-item {
+				margin-bottom: 16rpx;
+				margin-right: 16rpx;
+				padding: 0 16rpx;
+				display: inline-flex;
+				align-items: center;
+				height: 48rpx;
+				font-size: 24rpx;
+				text-align: center;
+				border-radius: 8rpx;
+				background-color: #f4f5f9;
+			}
+		}
+	
+		.price {
+			font-size: 34rpx;
+			font-weight: bold;
+			color: #ff705b;
+			.unit {
+				font-size: 24rpx;
+			}
+		}
+		.number {
+			font-size: 24rpx;
+		}
+	}	
 }
+
+
 .box{
 	margin: 20rpx 20rpx 0;
 	padding: 24rpx;
@@ -55,22 +119,22 @@
 	.input-placeholder{
 		color: #CCCCCC;
 	}
-}
-.image-lists{
-	display: flex;
-	.image-item{
-		margin-right: 20rpx;
-		width: 168rpx;
-		height: 112rpx;
-		border: 8rpx;
-		background-color: #F8F8F8;
-	}
-	.upload-image{
-		width: 100%;
-		height: 100%;
-	}
-	.icon-carme{
-		width: 32rpx;
-		height: 32rpx;
+		
+	&:last-child {
+		margin-bottom: 20rpx;
 	}
 }
+
+.image-item{
+	width: 168rpx;
+	height: 168rpx;
+	background-color: #F8F8F8;
+}
+.upload-image{
+	width: 100%;
+	height: 100%;
+}
+.icon-carme{
+	width: 32rpx;
+	height: 32rpx;
+}		
