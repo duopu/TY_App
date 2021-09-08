@@ -473,7 +473,14 @@
 					}
 
 				}
-			]
+			    ,{
+                    "path" : "index/live/live-broadcast",
+                    "style" :  {
+						"navigationBarTitleText": "直播",
+						"enablePullDownRefresh": false
+					}                                                                                 
+                }
+            ]
 		}
 	],
 	"tabBar": {

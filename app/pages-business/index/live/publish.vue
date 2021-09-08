@@ -29,9 +29,12 @@ export default {
 				liveName:this.liveName,
 				liveIntro:this.liveIntro
 			}
+			
 			this.$http.get('/live/getPushUrl',param,true).then(res=>{
 				const pushUrl = res.pushUrl;
-				
+				uni.navigateTo({
+					url:`/pages-business/index/live/live-broadcast?pushUrl=${pushUrl}`
+				})
 			})
 		}
 	}

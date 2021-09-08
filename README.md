@@ -22,3 +22,5 @@ sign: eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwiWpxSWGUInilOzEgoLMFCUrQxMDA1MzY0
 
 sign: eJwtzMEKgkAUheF3ueuwO9q1QWjXosQ2GoTRJnCsqyjTOMlU9O6ZujzfD*cDxyTzemUgAt9DWIybC9VaLnlkqzrrz6Er6qvWXEAkVogUBoLEVJTTbNTgROQj4qSWm7*FAa5DQpq149vw*2z7LV6WGRonqXalS6sqVUm8F3c0r-wkz*84zXePg2vkBr4-Vl0yHQ__
 
+
+推流地址：/pages-business/index/live/live-broadcast?pushUrl=rtmp://push.sinfinite.cn/live/5?txSecret=0559f8c567936c6806ca6693520766e3&txTime=613A31AC
