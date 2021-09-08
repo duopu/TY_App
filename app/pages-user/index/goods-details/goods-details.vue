@@ -368,9 +368,11 @@ export default {
 			this.$http.get('/im/getIMGroupId',{storeId:this.goodsInfo.storeId},true).then(res=>{
 				const groupId = res.groupId;
 				const user = getApp().globalData.user;
+				const url = `/pages/im-message/im-message?groupId=${groupId}&userName=${user.userName}&userPortrait=${user.portrait || ''}&userIM=${user.imNum}&storeName=${this.goodsInfo.storeName}&storePortrait=${this.goodsInfo.portrait || ''}`
 				uni.navigateTo({
-					url:`/pages/im-message/im-message?groupId=${groupId}&userName=${user.userName}&userPortrait=${user.portrait || ''}&userIM=${user.imNum}&storeName=${this.goodsInfo.storeName}&storePortrait=${this.goodsInfo.portrait || ''}`
+					url
 				})
+				console.log('跳转客服页面',url);
 			})
 		},
 		//优惠
