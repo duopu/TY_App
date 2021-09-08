@@ -25,7 +25,7 @@
 					}
 				},
 				fail(err) {
-					console.log('失败', err);
+					console.log('从本地恢复登录信息; 失败', err);
 					uni.reLaunch({
 						url: '/pages/login/login'
 					});
