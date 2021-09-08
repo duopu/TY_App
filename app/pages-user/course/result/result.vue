@@ -28,7 +28,7 @@ export default {
   },
   methods:{
     async goBack(v){
-       await uni.$emit("goBack",v);
+       await uni.$emit("goBack",v,this.questionRecordId);
        uni.navigateBack()
     },
   }
