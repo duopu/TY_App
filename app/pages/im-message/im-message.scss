@@ -9,14 +9,48 @@ view{
 	height: 100%;
 	background-color: #F8F8F8;
 	
+
+	.record-modal {
+		height: 150rpx;
+		width: 60vw;
+		background-color: black;
+		opacity: 0.8;
+		position: fixed;
+		top: 200px;
+		z-index: 9999;
+		left: 20vw;
+		border-radius: 12px;
+		display: flex;
+		flex-direction: column;
+	
+		.wrapper {
+			display: flex;
+			height: 100px;
+			box-sizing: border-box;
+			padding: 10vw;
+	
+			.modal-loading {
+				opacity: 1;
+				width: 20px;
+				height: 8px;
+				border-radius: 2px;
+				background-color: #006fff;
+				animation: loading 2s cubic-bezier(.17, .37, .43, .67) infinite;
+			}
+		}
+	
+		.modal-title {
+			text-align: center;
+			color: white;
+		}
+	}
+	
 	.list-view{
-		flex:1;
-		background-color: #00C777;
+		height: 90vh;
 	}
 	
 	.bottom{
 		background-color: #FFFFFF;
-		
 		.input-bar{
 			height: 108rpx;
 			flex-direction: row;
@@ -37,6 +71,18 @@ view{
 					flex:1;
 				}
 			}
+			.record{
+				flex:1;
+				height: 72rpx;
+				border-radius: 8rpx;
+				background-color: #F8F8F8;
+				align-items: center;
+				justify-content: center;
+				.record-text{
+					color: #212121;
+					font-size: 28rpx;
+				}
+			}
 			
 			.img-btn{
 				width: 56rpx;
@@ -45,7 +91,20 @@ view{
 			}
 		}
 		.bottom-emoji{
-			height: 600rpx;
+			height: 550rpx;
+			flex-wrap: wrap;
+			flex-direction: row;
+			background-color: #F8F8F8;
+			padding: 25rpx;
+			.emoji-view{
+				width: 100rpx;
+				height: 100rpx;
+				justify-content: center;
+				align-items: center;
+				.emoji-text{
+					font-size: 60rpx;
+				}
+			}
 		}
 	}
 }

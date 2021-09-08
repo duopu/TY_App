@@ -35,11 +35,12 @@
                   </view>
                 </view>
                 <block v-for="(flag,ind) in item.questionOptionVOList" :key="ind">
-                  <view class="select-row flex" @click="checkChange(item.type,flag)">
+                  <view class="select-row flex" @click="checkChange(item,flag)">
                     <!-- 多选 -->
                     <view v-if="item.type === 2" class="checkbox" :class="flag.checked && 'on'"></view>
                     <!-- 单选 | 判断题 -->
-                    <view v-else class="radio" :class="[ flag.isTrue && 'right',(flag.checked || item.userAnswer === flag.optionLabel) && 'on']"></view>
+                    <!-- item.userAnswer === flag.optionLabel -->
+                    <view v-else class="radio" :class="[ flag.isTrue && 'right',flag.checked && 'on']"></view>
                     <view>{{flag.optionLabel ? (flag.optionLabel + '、') : ''}}{{flag.content}}</view>
                   </view>
                 </block>
@@ -162,7 +163,7 @@ export default {
   },
 
   async onLoad(option){
-    const { questionBankId,type,examTime,from,questionRecordId} = option || {}
+    const { questionBankId, type, examTime, from, questionRecordId } = option || {}
     if(examTime){
       if(examTime>=60){
         this.count.hour = parseInt(examTime/60)
@@ -210,22 +211,18 @@ export default {
       return;
     }
     this.queryList()
-  },
 
-  onShow(){
     // 模拟提交后 返回 v:1 全部错题解析 v:2 全部题目解析
-    uni.$on("goBack", v => {
+    uni.$on("goBack", (v,questionRecordId) => {
       this.current = 0;
-      
-      if(v){
-        this.isGoBack = true
-        this.isShowMark = false
-        if(v == 1){
-          this.queryWrongList() //查看错题列表
-          return;
-        }
-        this.queryQuestionList(2)
+      this.questionRecordId = questionRecordId
+      this.isGoBack = true
+      this.isShowMark = false
+      if(v == 1){
+        this.queryWrongList() //查看错题列表
+        return;
       }
+      this.queryQuestionList(2)
       // 清除监听
       uni.$off('goBack');
     }) 
@@ -245,7 +242,7 @@ export default {
 
     // 返回
     goBack(){
-      if(this.modalCheck() || this.noSunmit ){
+      if(this.modalCheck() || this.noSunmit || this.isGoBack ){
         uni.navigateBack()
       }
     },
@@ -291,11 +288,18 @@ export default {
 
     // 下一题
     next(){
+      if((this.questionList.length - 1) === this.current){
+        return;
+      }
       this.current ++;
     },
 
     // 答案选中事件
-    checkChange(type,flag){
+    checkChange(item,flag){
+       const { type } = item || {}
+       if(item.userAnswer){
+         return;
+       }
        const currQues = this.questionList[this.current];
        (currQues.questionOptionVOList || []).map(f=>{
           // 单选 | 判断
@@ -372,7 +376,7 @@ export default {
       this.questionList[this.current].questionCollectionCheck = this.questionList[this.current].questionCollectionCheck === 1 ? 2 : 1 
     },
     isStar(){
-      return this.questionList[this.current].questionCollectionCheck === 1 || false
+      return this.questionList[this.current].questionCollectionCheck && this.questionList[this.current].questionCollectionCheck === 1
     },
 
     // 提交
@@ -400,11 +404,12 @@ export default {
         questionBankId:this.questionBankId,
         submitQuestionDTOList:this.submitQuestionDTOList,
       }
-      let apiUrl = '/questionRecord/practiceSubmit'
-
+      let apiUrl;
+      // 模拟考试 接口要跟其他类型区分
       if(this.type === 2){
         apiUrl = '/questionRecord/submit'
       }else{
+        apiUrl = '/questionRecord/practiceSubmit'
         params.questionType = this.type === 0 ? 1 : 2
       }
       
