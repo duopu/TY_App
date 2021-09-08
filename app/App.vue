@@ -17,6 +17,9 @@
 					const user = res.data;
 					if (user.token) {
 						this.$tool.login(user);
+						// uni.reLaunch({
+						// 	url: '/pages/login/login'
+						// });
 					} else {
 						// 本地无用户信息，去登录页
 						uni.reLaunch({

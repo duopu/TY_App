@@ -206,6 +206,11 @@ export default {
 					uni.navigateTo({
 						url:`/pages-business/my/ticket/ticket`
 					})
+				case 'live':
+					// 跳转直播，测试用 丁乐写
+					uni.navigateTo({
+						url:'/pages-business/index/live/publish'
+					})
 					break;
 			}
 		},
