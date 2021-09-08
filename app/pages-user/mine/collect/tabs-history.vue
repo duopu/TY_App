@@ -65,12 +65,7 @@ export default {
 			this.$http
 				.get('/goods/footprint/queryList', {page:page, size:pageSize}, true)
 				.then(res => {
-					// 因为这个接口不是常规的分页，所以需要封装一下
-					let data = {
-						content: res,
-						totalSize:res.length > 0 ? 99999 : 0
-					}
-					callback(data);
+					callback(res);
 				})
 				.catch(err => {
 					callback(null);
