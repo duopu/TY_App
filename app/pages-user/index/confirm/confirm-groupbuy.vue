@@ -1,0 +1,146 @@
+<!-- 订单确认 - 组团优惠商品 -->
+<template>
+	<view class="order-confirm">
+		<scroll-view class="order-confirm-content" scroll-y="true">
+			<!-- 收获地址  只有实体商品才需要填写收货地址 -->
+			<view v-if="groupBuyGoodsVO.entityGoodsFlag === 1" class="flex-center address" @click="jumpChooseAddress">
+				<image src="../../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
+				<view class="flex-column flex-1">
+					<view class="name">{{defaultAddress.name}} {{defaultAddress.phone}}</view>
+					<view class="desc">{{defaultAddress.provinceName}} {{defaultAddress.cityName}} {{defaultAddress.areaName}} {{defaultAddress.streetName}} {{defaultAddress.address}}</view>
+				</view>
+				<image class="icons" src="../../../static/images/icons/icon-light-arrow.png" mode="aspectFill"></image>
+			</view>
+
+			<!-- 购买列表 -->
+			<view class="box">
+				<!-- 商家 -->
+				<goods-order-list-item :storeGoodsVO="{...groupBuyGoodsVO, goodsNum: 1, goodsPrice:groupBuyGoodsVO.price}"></goods-order-list-item>
+				<view v-if="groupBuyGoodsVO.entityGoodsFlag === 1" class="row flex-center-between">
+					<text class="label">运费</text>
+					<text>¥{{groupBuyGoodsVO.freightAmount || 0}}</text>
+				</view>
+				<view class="row flex-center-between">
+					<text class="label">拼团定金</text>
+					<text>¥{{groupBuyGoodsVO.joinAmount}}</text>
+				</view>
+				<view class="row flex-center-between">
+					<text class="label">尾款</text>
+					<text>¥{{groupBuyGoodsVO.price - groupBuyGoodsVO.maxPrice}} - ¥{{groupBuyGoodsVO.price - groupBuyGoodsVO.minPrice}}</text>
+				</view>
+				<view class="column flex-column">
+					<text class="remark">{{groupBuyGoodsVO.endTime}}开始支付尾款，尾款金额由成团人数决定</text>
+					<button class="rule" @click="openPopup('groupPopup')">查看拼团规则</button>
+				</view>
+			</view>
+			<!-- 同意协议 -->
+			<view class="flex-center agree-row">
+				<!-- 选中 类名 on -->
+				<view class="radio" :class="{on:isAgree}" @click="setAgree()"></view>
+				<view class="flex-center text">
+					同意
+					<!-- TODO: 这里的协议地址需要配置 -->
+					<navigator class="service" url="">《腾云课堂服务协议》</navigator>
+				</view>
+			</view>
+		</scroll-view>
+		<!-- 底部合计 -->
+		<view class="order-confirm-bottom flex-center-between">
+			<view class="flex left">
+				<text>合计:</text>
+				<text class="price">¥{{groupBuyGoodsVO.joinAmount}}</text>
+			</view>
+			<button class="btn" @click="submitOrder">提交订单</button>
+		</view>
+		
+		<!-- 直选支付方式 弹窗 -->
+		<common-payment-popup ref="paymentPopup" ></common-payment-popup>
+		<!-- 弹窗 拼团规则-->
+		<goods-group-popup ref="groupPopup" :data="groupBuyGoodsVO" :showBottom="false"></goods-group-popup>
+	</view>
+</template>
+
+<script>
+import { mapState } from 'vuex'; //引入mapState
+export default {
+	data() {
+		return {
+			isAgree: true //是否同意协议
+		};
+	},
+	computed: mapState({
+		// 选中的收货地址
+		defaultAddress: state => state.defaultAddress,
+		// 下单时确定的组团优惠商品
+		groupBuyGoodsVO: state => state.groupBuyGoodsVO
+	}),
+	watch:{
+		defaultAddress(newV, oldV){
+			let {provinceName,cityName,areaName,streetName,address} = newV;
+			this.refreshOrderDetailParams.address = `${provinceName}${cityName}${areaName}${streetName}${address}`;
+			this.refreshOrderDetailParams.name = newV.name;
+			this.refreshOrderDetailParams.mobile = newV.phone;
+		}
+	},
+	onLoad(option) {
+		
+	},
+	methods: {
+		// 打开 支付方式弹窗
+		openPopup(value) {
+			this.$refs[value].open();
+		},
+		
+		// 是否同意点击
+		setAgree(){
+			this.isAgree = !this.isAgree;
+		},
+		
+		
+		/**
+		 * 提交订单
+		 */
+		submitOrder(){
+			
+			if(!this.isAgree){
+				this.$tool.showToast("请先勾选服务协议");
+				return
+			}
+			
+			let params = {
+				 groupBuyId: this.groupBuyGoodsVO.groupBuyId,
+				 address: undefined,
+				 mobile: undefined,
+				 name: undefined,
+			}
+			
+			if(this.groupBuyGoodsVO.entityGoodsFlag === 1 && !this.defaultAddress.id){
+				this.$tool.showToast("请填写收货地址");
+				return
+			}else {
+				let {provinceName,cityName,areaName,streetName,address,phone,name} = this.defaultAddress;
+				params.address = `${provinceName}${cityName}${areaName}${streetName}${address}`;
+				params.mobile = phone;
+				params.name = name;
+			}
+			
+			this.$http
+				.post('/groupBuy/create', params, true)
+				.then(res => {
+					this.$store.commit('setOrderChange');
+					// TODO: 如果支付过程中关闭弹窗或者取消交易，也跳转到我的订单页面
+					this.openPopup('paymentPopup');
+				});
+		},
+		
+		// 跳转到选择配送地址页面
+		jumpChooseAddress(){
+			uni.navigateTo({
+				url: `/pages-user/index/address/address`
+			});
+		}
+	}
+};
+</script>
+
+<style lang="less" src="./style.less"></style>

@@ -35,7 +35,7 @@ export default {
 	name: 'common-payment-popup',
 	data() {
 		return {
-			payIndex: 0
+			payIndex: -1
 		};
 	},
 	methods: {
