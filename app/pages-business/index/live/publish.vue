@@ -17,6 +17,7 @@ export default {
 	data() {
 		return {
 			courseId:3,
+			courseClassId:1,
 			liveName:'',
 			liveIntro:''
 			
@@ -27,13 +28,16 @@ export default {
 			const param = {
 				courseId:this.courseId,
 				liveName:this.liveName,
-				liveIntro:this.liveIntro
+				liveIntro:this.liveIntro,
+				courseClassId:this.courseClassId
 			}
 			
 			this.$http.get('/live/getPushUrl',param,true).then(res=>{
 				const pushUrl = res.pushUrl;
+				const navUrl = `/pages-business/index/live/live-broadcast?pushUrl=${pushUrl}&courseId=${this.courseId}&liveName=${this.liveName}&liveIntro=${this.liveIntro}&courseClassId=${this.courseClassId}`
+				console.log('导航去直播页面',navUrl);
 				uni.navigateTo({
-					url:`/pages-business/index/live/live-broadcast?pushUrl=${pushUrl}`
+					url:navUrl
 				})
 			})
 		}

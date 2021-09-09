@@ -483,15 +483,28 @@
 						"enablePullDownRefresh": false
 					}
 
-				}
-			    ,{
-                    "path" : "index/live/live-broadcast",
-                    "style" :  {
+				}, {
+					"path": "index/live/live-broadcast",
+					"style": {
 						"navigationBarTitleText": "直播",
-						"enablePullDownRefresh": false
-					}                                                                                 
-                }
-            ]
+						"enablePullDownRefresh": false,
+						"disableScroll": true,
+						"app-plus": {
+							"bounce": "none", //关闭窗口回弹效果
+							"titleNView": {
+								"buttons": [ //原生标题栏按钮配置,
+									{
+										"text": "切换摄像头",
+										"width": "100px",
+										"fontWeight": "normal",
+										"fontSize": "14px"
+									}
+								]
+							}
+						}
+					}
+				}
+			]
 		}
 	],
 	"tabBar": {

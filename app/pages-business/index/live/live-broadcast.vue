@@ -1,6 +1,6 @@
 <template>
-	<view>
-		
+	<view class="live-broadcast">
+		aaa
 	</view>
 </template>
 
@@ -14,6 +14,6 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="less" src="./style.less">
 
 </style>
