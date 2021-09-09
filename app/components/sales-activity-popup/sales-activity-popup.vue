@@ -11,8 +11,12 @@
 				<text>{{unremittinglyVO.unremittinglyName}}</text>
 			</view>
 			<view class="row">
+				<text class="label text-bold">活动时间：</text>
+				<text class="color-6">{{unremittinglyVO.startTime}}-{{unremittinglyVO.endTime}}</text>
+			</view>
+			<view class="row">
 				<text class="label text-bold">活动规则：</text>
-				<text class="color-6">1.活动时间: {{unremittinglyVO.startTime}}-{{unremittinglyVO.endTime}}。参与条件: {{unremittinglyVO.content}}</text>
+				<text class="color-6">{{unremittinglyVO.content}}</text>
 			</view>
 			<view class="row">
 				<text class="label text-bold">活动奖品：</text>

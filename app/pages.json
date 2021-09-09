@@ -126,7 +126,12 @@
 						"navigationBarTitleText": "",
 						"enablePullDownRefresh": false
 					}
-
+				},{
+					"path": "index/goods-details/goods-details-unremittingly",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
 				}, {
 					"path": "index/goods-comment/goods-comment",
 					"style": {
@@ -161,6 +166,12 @@
 					}
 				}, {
 					"path": "index/confirm/confirm",
+					"style": {
+						"navigationBarTitleText": "订单确认",
+						"enablePullDownRefresh": false
+					}
+				},{
+					"path": "index/confirm/confirm-groupbuy",
 					"style": {
 						"navigationBarTitleText": "订单确认",
 						"enablePullDownRefresh": false
