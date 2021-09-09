@@ -173,12 +173,13 @@
 				<image class="icons" v-else src="../../../static/images/icons/icon-save.svg" @click="collectClick(true)"></image>
 				<text>收藏</text>
 			</view>
-			<!-- 拼团或正常购买 -->
-			<block v-if="true">
+			<!-- 普通商品 -->
+			<block v-if="goodsInfo.goodsGroupBy === 0">
 				<button class="btn btn-light" @click="jumpAddCar">加入购物车</button>
 				<button class="btn btn-block" @click="jumpConfirm">立即购买</button>
 			</block>
-			<block v-if="false"><button @click="openPopup('groupPopup')" class="btn btn-block flex-1">参与拼团</button></block>
+			<!-- 参团商品 -->
+			<block v-else><button @click="openPopup('groupPopup')" class="btn btn-block flex-1">参与拼团</button></block>
 		</view>
 		<!-- 弹窗 属性分类 -->
 		<goods-classify-popup ref="classifyPopup"
@@ -249,7 +250,9 @@ export default {
 			selectGoodsVO: {}, //选中的商品对象
             goodsClassifyPopType: 1, //商品属性弹窗类型 1加入购物车 2立即购买
 			platformCouponTypeContent:undefined, //平台最大优惠力度
-			storeCouponTypeContent:undefined //商家最大优惠力度
+			storeCouponTypeContent:undefined, //商家最大优惠力度
+			goodsGroupBy: 0, //是否是组团活动的商品：0:否 1是
+			joinFlagGroupBy: undefined, //是否参团：1-参团(未支付) 2-参团(已支付) 3-未参团
 		};
 	},
 	computed: mapState({
