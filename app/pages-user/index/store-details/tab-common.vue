@@ -46,6 +46,9 @@ export default {
 		goodsItemClick() {},
 		// 打开弹窗
 		openPopup(refName) {
+			// uni.pageScrollTo({
+			// 	scrollTop:120
+			// })
 			this.$refs[refName].open();
 		},
 		// 加载数据
