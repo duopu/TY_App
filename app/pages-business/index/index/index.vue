@@ -170,11 +170,11 @@ export default {
 		this.queryGoodsNumber();
 		
 		// 测试推流 丁乐
-		setTimeout(()=>{
-			uni.navigateTo({
-				url:'/pages-business/index/live/live-broadcast?pushUrl=rtmp://push.sinfinite.cn/live/10?txSecret=c6454257db0e9be54726b64a0c7154c4&txTime=6146C2C6&courseId=3&liveName=让人&liveIntro=好👌？我'
-			})
-		},1000)
+		// setTimeout(()=>{
+		// 	uni.navigateTo({
+		// 		url:'/pages-business/index/live/live-broadcast?pushUrl=rtmp://push.sinfinite.cn/live/10?txSecret=c6454257db0e9be54726b64a0c7154c4&txTime=6146C2C6&courseId=3&liveName=让人&liveIntro=好👌？我'
+		// 	})
+		// },1000)
 	},
 	methods: {
 		changeState(value) {
