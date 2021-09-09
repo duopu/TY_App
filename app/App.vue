@@ -57,6 +57,8 @@
 <style lang="less">
 	@import './less/common.less';
 
+	/* #ifndef APP-PLUS-NVUE */
+				
 	page {
 		--safe-area-inset-top: 0;
 		--safe-area-inset-right: 0;
@@ -67,7 +69,7 @@
 		height: 100%;
 		box-sizing: border-box;
 	}
-
+	
 	@supports (top: constant(safe-area-inset-top)) {
 		page {
 			--safe-area-inset-top: constant(safe-area-inset-top);
@@ -76,7 +78,7 @@
 			--safe-area-inset-left: constant(safe-area-inset-left);
 		}
 	}
-
+	
 	@supports (top: env(safe-area-inset-top)) {
 		page {
 			--safe-area-inset-top: env(safe-area-inset-top);
@@ -85,4 +87,6 @@
 			--safe-area-inset-left: env(safe-area-inset-left);
 		}
 	}
+	/* #endif */
+	
 </style>

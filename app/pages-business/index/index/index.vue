@@ -172,7 +172,7 @@ export default {
 		// 测试推流 丁乐
 		setTimeout(()=>{
 			uni.navigateTo({
-				url:'/pages-business/index/live/live-broadcast?pushUrl=rtmp://push.sinfinite.cn/live/5?txSecret=0559f8c567936c6806ca6693520766e3&txTime=613A31AC'
+				url:'/pages-business/index/live/live-broadcast?pushUrl=rtmp://push.sinfinite.cn/live/10?txSecret=c6454257db0e9be54726b64a0c7154c4&txTime=6146C2C6&courseId=3&liveName=让人&liveIntro=好👌？我'
 			})
 		},1000)
 	},
