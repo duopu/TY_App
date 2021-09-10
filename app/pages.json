@@ -126,7 +126,7 @@
 						"navigationBarTitleText": "",
 						"enablePullDownRefresh": false
 					}
-				},{
+				}, {
 					"path": "index/goods-details/goods-details-unremittingly",
 					"style": {
 						"navigationBarTitleText": "",
@@ -170,7 +170,7 @@
 						"navigationBarTitleText": "订单确认",
 						"enablePullDownRefresh": false
 					}
-				},{
+				}, {
 					"path": "index/confirm/confirm-groupbuy",
 					"style": {
 						"navigationBarTitleText": "订单确认",
@@ -321,6 +321,33 @@
 						"enablePullDownRefresh": false
 					}
 
+				}, {
+					"path": "mine/wallet/wallet",
+					"style": {
+						"navigationBarTitleText": "我的钱包",
+						"navigationBarBackgroundColor": "#F8F8F8",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "mine/benefit/benefit",
+					"style": {
+						"navigationBarTitleText": "会员权益",
+						"enablePullDownRefresh": false
+					}
+				}, {
+					"path": "mine/sign-in/sign-in",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "index/message/message",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
 				}
 			]
 		},

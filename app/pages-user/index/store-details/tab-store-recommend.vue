@@ -1,8 +1,8 @@
-<!-- 首页-推荐 -->
+<!-- 二级 店铺-推荐 -->
 <template>
 	<view class="recommend">
 		<!-- 大咖推荐 -->
-		<view class="flex-center-between recommend-title">
+		<view class="flex-center-between recommend-title m-top-20">
 			<view class="flex-center">
 				<image class="icon-image" src="../../../static/images/index/index-menu-02.png" mode="aspectFill"></image>
 				<text class="title text-bold">大咖直播</text>
@@ -26,14 +26,14 @@
 			<image class="broadcast-item-image" src="../../../static/images/index/live_img.png" mode="aspectFill"></image>
 		</view>
 		<!-- 精品课程 -->
-		<view class="flex-center-between recommend-title">
+		<view class="flex-center-between recommend-title" id="s">
 			<view class="flex-center">
 				<image class="icon-image" src="../../../static/images/index/index-menu-05.png" mode="aspectFill"></image>
 				<text class="title text-bold">精品课程</text>
 			</view>
 			<view class="more flex-center"><image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right-black.svg" mode="aspectFill"></image></view>
 		</view>
-		<block v-for="(item, index) in [{},{},{}]" :key="index"><course-lists-item></course-lists-item></block>
+		<block v-for="(item, index) in [{}, {}, {}, {}, {}]" :key="index"><course-lists-item></course-lists-item></block>
 	</view>
 </template>
 
@@ -42,6 +42,13 @@ export default {
 	name: 'tab-store-recommend',
 	data() {
 		return {};
+	},
+	onLoad() {
+		setTimeout(() => {
+			uni.pageScrollTo({
+				selector: '#s'
+			});
+		}, 1000);
 	}
 };
 </script>
