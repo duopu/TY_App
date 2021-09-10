@@ -3,7 +3,7 @@
 	<view class="sign-in">
 		<!-- 头部 -->
 		<view class="sign-in-top flex-center-between">
-			<image class="icon" src="../../../static/images/icons/icon-back-white.svg" mode="aspectFill"></image>
+			<image @click="goBack()" class="icon" src="../../../static/images/icons/icon-back-white.svg" mode="aspectFill"></image>
 			<view class="number flex-center-center">
 				<image class="icon" src="../../../static/images/sign-in-time.png" mode="aspectFill"></image>
 				<text class="text-bold">500</text>
@@ -63,6 +63,14 @@
 export default {
 	data() {
 		return {};
+	},
+	methods: {
+		// 返回上一级
+		goBack() {
+			uni.navigateBack({
+				delta: -1
+			});
+		}
 	}
 };
 </script>

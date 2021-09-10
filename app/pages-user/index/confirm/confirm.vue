@@ -3,12 +3,17 @@
 	<view class="order-confirm">
 		<scroll-view class="order-confirm-content" scroll-y="true">
 			<!-- 收获地址 -->
-			<view v-if="orderVO.needAddress" class="flex-center address" @click="jumpChooseAddress">
+			<view class="flex-center address" @click="jumpChooseAddress">
 				<image src="../../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
-				<view class="flex-column flex-1">
-					<view class="name">{{defaultAddress.name}} {{defaultAddress.phone}}</view>
-					<view class="desc">{{defaultAddress.provinceName}} {{defaultAddress.cityName}} {{defaultAddress.areaName}} {{defaultAddress.streetName}} {{defaultAddress.address}}</view>
+				<!-- 显示收货地址 -->
+				<view class="flex-column flex-1" v-if="orderVO.needAddress">
+					<view class="name">{{ defaultAddress.name }} {{ defaultAddress.phone }}</view>
+					<view class="desc">
+						{{ defaultAddress.provinceName }} {{ defaultAddress.cityName }} {{ defaultAddress.areaName }} {{ defaultAddress.streetName }} {{ defaultAddress.address }}
+					</view>
 				</view>
+				<!-- 没有收货地址 -->
+				<view class="flex-1 text-bold label" v-else>添加收货地址</view>
 				<image class="icons" src="../../../static/images/icons/icon-light-arrow.png" mode="aspectFill"></image>
 			</view>
 
@@ -18,41 +23,51 @@
 				<merchanism-order-lists-item :storeGoodsVO="item"></merchanism-order-lists-item>
 				<view class="row flex-center-between">
 					<text class="label">商品原价</text>
-					<text>¥{{item.orderAmount}}</text>
+					<text>¥{{ item.orderAmount }}</text>
 				</view>
 				<view v-if="orderVO.needAddress" class="row flex-center-between">
 					<text class="label">运费</text>
-					<text>¥{{item.freightAmount}}</text>
+					<text>¥{{ item.freightAmount }}</text>
 				</view>
-				<view class="row flex-center-between"  @click="chooseStoreCoupon(item.storeCouponId, item.storeCouponList, index)">
+				<view class="row flex-center-between" @click="chooseStoreCoupon(item.storeCouponId, item.storeCouponList, index)">
 					<text class="label">商家优惠</text>
-					<text v-if="item.storeCouponId" class="flex-1 color-red">-¥{{item.storeDiscountAmount}}</text>
-					<text v-else class="flex-1 color-9">{{item.storeCouponList && item.storeCouponList.length > 0 ? '请选择优惠券' : '无可用优惠券'}}</text>
-					<image v-if="item.storeCouponList && item.storeCouponList.length > 0" class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
+					<text v-if="item.storeCouponId" class="flex-1 color-red">-¥{{ item.storeDiscountAmount }}</text>
+					<text v-else class="flex-1 color-9">{{ item.storeCouponList && item.storeCouponList.length > 0 ? '请选择优惠券' : '无可用优惠券' }}</text>
+					<image
+						v-if="item.storeCouponList && item.storeCouponList.length > 0"
+						class="icon-arrow"
+						mode="aspectFill"
+						src="../../../static/images/icons/icon-arrow-right.svg"
+					></image>
 				</view>
 				<view class="row flex-center-between">
-					<text class="flex-1 color-red">小计: ¥{{item.payAmount}}</text>
+					<text class="flex-1 color-red">小计: ¥{{ item.payAmount }}</text>
 				</view>
 			</view>
 			<!-- 平台优惠券 -->
 			<view class="box platform">
 				<view class="row flex-center-between" @click="choosePlatformCoupon()">
 					<text class="label">平台优惠</text>
-					<text v-if="orderVO.platformCouponId" class="flex-1 color-red">-¥{{orderVO.platformDiscountAmount}}</text>
-					<text v-else class="flex-1 color-9">{{orderVO.platFormCouponList && orderVO.platFormCouponList.length > 0 ? '请选择优惠券' : '无可用优惠券'}}</text>
-					<image v-if="orderVO.platFormCouponList && orderVO.platFormCouponList.length > 0" class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
+					<text v-if="orderVO.platformCouponId" class="flex-1 color-red">-¥{{ orderVO.platformDiscountAmount }}</text>
+					<text v-else class="flex-1 color-9">{{ orderVO.platFormCouponList && orderVO.platFormCouponList.length > 0 ? '请选择优惠券' : '无可用优惠券' }}</text>
+					<image
+						v-if="orderVO.platFormCouponList && orderVO.platFormCouponList.length > 0"
+						class="icon-arrow"
+						mode="aspectFill"
+						src="../../../static/images/icons/icon-arrow-right.svg"
+					></image>
 				</view>
 				<view v-if="orderVO.goldCoin && orderVO.goldCoin > 0" class="row flex-center-between" @click="openPopup('dicountPopup')">
 					<text class="label">金币抵扣</text>
-					<text v-if="orderVO.goldDeductionAmount && orderVO.goldDeductionAmount > 0" class="flex-1 color-red">-¥{{orderVO.goldDeductionAmount}}</text>
+					<text v-if="orderVO.goldDeductionAmount && orderVO.goldDeductionAmount > 0" class="flex-1 color-red">-¥{{ orderVO.goldDeductionAmount }}</text>
 					<text v-else class="flex-1 color-9">请选择</text>
 					<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
-				</view>	
+				</view>
 			</view>
 			<!-- 同意协议 -->
 			<view class="flex-center agree-row">
 				<!-- 选中 类名 on -->
-				<view class="radio" :class="{on:isAgree}" @click="setAgree()"></view>
+				<view class="radio" :class="{ on: isAgree }" @click="setAgree()"></view>
 				<view class="flex-center text">
 					同意
 					<!-- TODO: 这里的协议地址需要配置 -->
@@ -64,31 +79,37 @@
 		<view class="order-confirm-bottom flex-center-between">
 			<view class="flex left">
 				<text>合计:</text>
-				<text class="price">¥{{orderVO.payAmount}}</text>
+				<text class="price">¥{{ orderVO.payAmount }}</text>
 			</view>
 			<button class="btn" @click="submitOrder">提交订单</button>
 		</view>
 		<!-- 直选支付方式 弹窗 -->
 		<common-payment-popup ref="paymentPopup"></common-payment-popup>
 		<!-- 金币抵扣弹窗 -->
-		<confirm-dicount-popup v-if="orderVO.goldCoin && orderVO.goldCoin > 0" 
-		ref="dicountPopup" 
-		:useGoldCoin="orderVO.useGoldCoin" 
-		:goldCoin="orderVO.goldCoin" 
-		:goldDeductionAmount="orderVO.goldDeductionAmount" 
-		@submit="goldCoinSubmit"></confirm-dicount-popup>
+		<confirm-dicount-popup
+			v-if="orderVO.goldCoin && orderVO.goldCoin > 0"
+			ref="dicountPopup"
+			:useGoldCoin="orderVO.useGoldCoin"
+			:goldCoin="orderVO.goldCoin"
+			:goldDeductionAmount="orderVO.goldDeductionAmount"
+			@submit="goldCoinSubmit"
+		></confirm-dicount-popup>
 		<!-- 商家优惠券 -->
-		<confirm-ticket-popup ref="storeCouponPopup" 
-		title="商家优惠券"
-		:couponList="storeCouponList || []" 
-		:selectCouponId="selectStoreCouponId" 
-		@submit="storeCouponSubmit"></confirm-ticket-popup>
+		<confirm-ticket-popup
+			ref="storeCouponPopup"
+			title="商家优惠券"
+			:couponList="storeCouponList || []"
+			:selectCouponId="selectStoreCouponId"
+			@submit="storeCouponSubmit"
+		></confirm-ticket-popup>
 		<!-- 平台优惠券 -->
-		<confirm-ticket-popup ref="platformCouponPopup" 
-		title="平台优惠券"
-		:couponList="platFormCouponList" 
-		:selectCouponId="refreshOrderDetailParams.platFormCouponId" 
-		@submit="platformCouponSubmit"></confirm-ticket-popup>
+		<confirm-ticket-popup
+			ref="platformCouponPopup"
+			title="平台优惠券"
+			:couponList="platFormCouponList"
+			:selectCouponId="refreshOrderDetailParams.platFormCouponId"
+			@submit="platformCouponSubmit"
+		></confirm-ticket-popup>
 	</view>
 </template>
 
@@ -98,33 +119,33 @@ export default {
 	data() {
 		return {
 			isAgree: true, //是否同意协议
-			orderVO:{
-				freightAmount:0, //运费
-				goldCoin:0, //能使用的金币数量
-				goldDeductionAmount:0, //金币抵扣金额
-				maxGoldCoin:0, //可使用金币数
-				maxGoldCoinAmount:0, //可用金币抵金额
-				needAddress:false, //是否需要收货地址
-				orderAmount:0, //订单原始金额
-				payAmount:0, //支付金额
-				platformCouponId:undefined, //平台优惠券ID
-				platformDiscountAmount:0, //平台优惠金额
-				platFormCouponList:[], //平台可用优惠券
-				storeDiscountAmount:0, //商家优惠金额
-				storeOrderList:[], //店铺订单明细
-				useGoldCoin:0 //是否使用金币 0:不使用 1:使用
+			orderVO: {
+				freightAmount: 0, //运费
+				goldCoin: 0, //能使用的金币数量
+				goldDeductionAmount: 0, //金币抵扣金额
+				maxGoldCoin: 0, //可使用金币数
+				maxGoldCoinAmount: 0, //可用金币抵金额
+				needAddress: false, //是否需要收货地址
+				orderAmount: 0, //订单原始金额
+				payAmount: 0, //支付金额
+				platformCouponId: undefined, //平台优惠券ID
+				platformDiscountAmount: 0, //平台优惠金额
+				platFormCouponList: [], //平台可用优惠券
+				storeDiscountAmount: 0, //商家优惠金额
+				storeOrderList: [], //店铺订单明细
+				useGoldCoin: 0 //是否使用金币 0:不使用 1:使用
 			},
-			storeCouponList:[], //商家可用优惠券
-			selectStoreCouponId:undefined, //商家选中的优惠券
-			currentStoreCouponIndex:0, //当前点击的第几个商家下面的优惠券
-			platFormCouponList:[], //平台可用优惠券
-			refreshOrderDetailParams:{
-				address:undefined,
-				useGoldCoin:0,
-				mobile:undefined,
-				name:undefined,
-				platFormCouponId:undefined,
-				storeGoodsList:[]
+			storeCouponList: [], //商家可用优惠券
+			selectStoreCouponId: undefined, //商家选中的优惠券
+			currentStoreCouponIndex: 0, //当前点击的第几个商家下面的优惠券
+			platFormCouponList: [], //平台可用优惠券
+			refreshOrderDetailParams: {
+				address: undefined,
+				useGoldCoin: 0,
+				mobile: undefined,
+				name: undefined,
+				platFormCouponId: undefined,
+				storeGoodsList: []
 			}
 		};
 	},
@@ -132,9 +153,9 @@ export default {
 		// 选中的收货地址
 		defaultAddress: state => state.defaultAddress
 	}),
-	watch:{
-		defaultAddress(newV, oldV){
-			let {provinceName,cityName,areaName,streetName,address,name,phone} = newV;
+	watch: {
+		defaultAddress(newV, oldV) {
+			let { provinceName, cityName, areaName, streetName, address, name, phone } = newV;
 			this.refreshOrderDetailParams.address = `${provinceName}${cityName}${areaName}${streetName}${address}`;
 			this.refreshOrderDetailParams.name = name;
 			this.refreshOrderDetailParams.mobile = phone;
@@ -148,90 +169,88 @@ export default {
 		openPopup(value) {
 			this.$refs[value].open();
 		},
-		
+
 		// 是否同意点击
-		setAgree(){
+		setAgree() {
 			this.isAgree = !this.isAgree;
 		},
-		
+
 		// 下单之前获取订单信息
-		getOrderDetail(){
-			this.$http
-				.post('/order/getDetail', {goodsList:this.$store.state.storeGoodsList}, true)
-				.then(res => {
-					this.initOrderVO(res);
-				});
+		getOrderDetail() {
+			this.$http.post('/order/getDetail', { goodsList: this.$store.state.storeGoodsList }, true).then(res => {
+				this.initOrderVO(res);
+			});
 		},
-		
+
 		// 刷新订单信息
-		refreshOrderDetail(){
-			this.$http
-				.post('/order/refreshDetail', this.refreshOrderDetailParams, true)
-				.then(res => {
-					this.initOrderVO(res);
-				});
+		refreshOrderDetail() {
+			this.$http.post('/order/refreshDetail', this.refreshOrderDetailParams, true).then(res => {
+				this.initOrderVO(res);
+			});
 		},
-		
+
 		/**
 		 * 提交订单
 		 */
-		submitOrder(){
-			if(!this.isAgree){
-				this.$tool.showToast("请先勾选服务协议");
-				return
+		submitOrder() {
+			if (!this.isAgree) {
+				this.$tool.showToast('请先勾选服务协议');
+				return;
 			}
-			if(this.orderVO.needAddress && !this.defaultAddress.id){
-				this.$tool.showToast("请填写收货地址");
-				return
+			if (this.orderVO.needAddress && !this.defaultAddress.id) {
+				this.$tool.showToast('请填写收货地址');
+				return;
 			}
-			this.$http
-				.post('/order/submit', this.refreshOrderDetailParams, true)
-				.then(res => {
-					if(this.orderVO.payAmount === 0){
-						//TODO: 不需要显示支付弹窗，直接跳转到我的订单页面
-					}else {
-						// TODO: 如果支付过程中关闭弹窗或者取消交易，也跳转到我的订单页面
-						this.openPopup('paymentPopup');
-					}
-				});
+			this.$http.post('/order/submit', this.refreshOrderDetailParams, true).then(res => {
+				if (this.orderVO.payAmount === 0) {
+					//TODO: 不需要显示支付弹窗，直接跳转到我的订单页面
+				} else {
+					// TODO: 如果支付过程中关闭弹窗或者取消交易，也跳转到我的订单页面
+					this.openPopup('paymentPopup');
+				}
+			});
 		},
-		
+
 		/**
 		 * 初始化订单详情对象
 		 * @param {Object} data 接口返回的下订单对象
 		 */
-		initOrderVO(data){
+		initOrderVO(data) {
 			this.orderVO = data;
-			
+
 			// 平台优惠券赋值，因为平台优惠券列表返回的优惠券ID叫做userCouponId，要改成couponId
 			let platFormCouponList = [];
-			platFormCouponList = data.platFormCouponList && data.platFormCouponList.map(function(value){
-				let obj = {...value};
-				obj.couponId = value.userCouponId;
-				return obj;
-			});
-			this.platFormCouponList = platFormCouponList;
-			
-			
-			let storeGoodsList = [];
-			storeGoodsList = data.storeOrderList && data.storeOrderList.map(function(value){
-				
-				let orderItemList = [];
-				orderItemList = value.orderItemList && value.orderItemList.map(function(v){
-					return {
-						attributesId: v.attributesId,
-						goodsId: v.goodsId,
-						goodsNum: v.goodsNum
-					}
+			platFormCouponList =
+				data.platFormCouponList &&
+				data.platFormCouponList.map(function(value) {
+					let obj = { ...value };
+					obj.couponId = value.userCouponId;
+					return obj;
 				});
-				return {
-					storeId: value.storeId,
-					storeCouponId: value.storeCouponId,
-					orderItemList: orderItemList
-				}
-			})
+			this.platFormCouponList = platFormCouponList;
 
-			let {provinceName,cityName,areaName,streetName,address} = this.defaultAddress;
+			let storeGoodsList = [];
+			storeGoodsList =
+				data.storeOrderList &&
+				data.storeOrderList.map(function(value) {
+					let orderItemList = [];
+					orderItemList =
+						value.orderItemList &&
+						value.orderItemList.map(function(v) {
+							return {
+								attributesId: v.attributesId,
+								goodsId: v.goodsId,
+								goodsNum: v.goodsNum
+							};
+						});
+					return {
+						storeId: value.storeId,
+						storeCouponId: value.storeCouponId,
+						orderItemList: orderItemList
+					};
+				});
+
+			let { provinceName, cityName, areaName, streetName, address } = this.defaultAddress;
 
 			this.refreshOrderDetailParams = {
 				address: `${provinceName}${cityName}${areaName}${streetName}${address}`,
@@ -241,68 +260,74 @@ export default {
 				platFormCouponId: data.platformCouponId,
 				storeGoodsList: storeGoodsList
 			};
-			
+
 			this.selectPlatformCouponId = data.platformCouponId;
 		},
-		
+
 		/**
 		 * 商家优惠点击
 		 * @param {Object} storeCouponId  选中的商家优惠券ID
 		 * @param {Object} storeCouponList  可选择的商家优惠券列表
 		 * @param {Object} index 当前商家的索引值
 		 */
-		chooseStoreCoupon(storeCouponId, storeCouponList, index){
-			if(!storeCouponList || storeCouponList.length === 0){ return }
+		chooseStoreCoupon(storeCouponId, storeCouponList, index) {
+			if (!storeCouponList || storeCouponList.length === 0) {
+				return;
+			}
 			this.selectStoreCouponId = storeCouponId;
 			let finalStoreCouponList = [];
-			finalStoreCouponList = storeCouponList && storeCouponList.map(function(value){
-				let obj = {...value};
-				obj.couponId = value.userCouponId;
-				return obj;
-			})
+			finalStoreCouponList =
+				storeCouponList &&
+				storeCouponList.map(function(value) {
+					let obj = { ...value };
+					obj.couponId = value.userCouponId;
+					return obj;
+				});
 			this.storeCouponList = finalStoreCouponList;
 			this.currentStoreCouponIndex = index;
 			this.openPopup('storeCouponPopup');
 		},
-		
+
 		/**
 		 * 商家优惠券确定点击回调
 		 * @param Number storeCouponId  选中的商家优惠券ID
 		 */
-		storeCouponSubmit(storeCouponId){
+		storeCouponSubmit(storeCouponId) {
 			this.selectStoreCouponId = storeCouponId;
 			this.refreshOrderDetailParams.storeGoodsList[this.currentStoreCouponIndex].storeCouponId = storeCouponId;
 			this.refreshOrderDetail();
 		},
-		
+
 		/**
 		 * 平台优惠点击
 		 */
-		choosePlatformCoupon(){
-			if(!this.orderVO.platFormCouponList || this.orderVO.platFormCouponList.length === 0) { return }
+		choosePlatformCoupon() {
+			if (!this.orderVO.platFormCouponList || this.orderVO.platFormCouponList.length === 0) {
+				return;
+			}
 			this.openPopup('platformCouponPopup');
 		},
-		
+
 		/**
 		 * 平台优惠券确定点击回调
 		 * @param Number platformCouponId  选中的平台优惠券ID
 		 */
-		platformCouponSubmit(platformCouponId){
+		platformCouponSubmit(platformCouponId) {
 			this.refreshOrderDetailParams.platFormCouponId = platformCouponId;
 			this.refreshOrderDetail();
 		},
-		
+
 		/**
 		 * 金币使用情况回调
 		 * @param {Object} useGoldCoin 是否使用金币
 		 */
-		goldCoinSubmit(useGoldCoin){
+		goldCoinSubmit(useGoldCoin) {
 			this.refreshOrderDetailParams.useGoldCoin = useGoldCoin;
 			this.refreshOrderDetail();
 		},
-		
+
 		// 跳转到选择配送地址页面
-		jumpChooseAddress(){
+		jumpChooseAddress() {
 			uni.navigateTo({
 				url: `/pages-user/index/address/address`
 			});

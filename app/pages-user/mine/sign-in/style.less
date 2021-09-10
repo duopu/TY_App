@@ -29,10 +29,10 @@
 // 头部
 .sign-in-top {
 	flex-shrink: 0;
-	padding: 0 20rpx;
+	padding:var(--status-bar-height) 20rpx 0;
 	height: 88rpx;
 	background-image: url(../../../static/images/sign-in-bg-01.png);
-	background-size: 100% 100%;
+	background-size: 100% 89rpx;
 	background-repeat: no-repeat;
 	.icon {
 		width: 48rpx;
@@ -56,14 +56,15 @@
 	height: 100%;
 	overflow: hidden;
 	.sign-in-button {
+		padding: 20rpx 0;
 		width: 100%;
 		height: 380rpx;
 		background-size: 100% 100%;
 		background-image: url(../../../static/images/sign-in-bg-02.png);
 		background-repeat: no-repeat;
+		box-sizing: border-box;
 		.image-btn {
 			margin: auto;
-			padding: 20rpx 0;
 			display: block;
 			width: 208rpx;
 			height: 208rpx;
