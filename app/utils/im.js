@@ -6,6 +6,27 @@ if (txIm) {
 	}, result => {
 		console.log('初始化sdk', result);
 	})
+
+	// 设置基本消息（文本消息和自定义消息）的事件监听器
+	txIm.addSimpleMsgListener(result => {
+		uni.$emit('SimpleMsgListen', result)
+	})
+
+	// 设置高级消息接口监听
+	txIm.addAdvancedMsgListener(result => {
+		uni.$emit('AdvancedMsgListen', result)
+	})
+
+	// 设置群消息监听
+	txIm.setGroupListener(result => {
+		uni.$emit('GroupListen', result)
+	})
+	
+	// 设置会话监听器
+	txIm.setConversationListener(result=>{
+		uni.$emit('ConversationListen', result)
+	})
+	
 }
 
 // im登录
@@ -23,6 +44,8 @@ const login = (userId, userSig) => {
 		})
 	})
 }
+
+
 
 const loadingStart = (loading = true) => {
 	if (loading) {

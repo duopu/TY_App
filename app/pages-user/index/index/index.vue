@@ -70,7 +70,14 @@ export default {
 		// 	uni.navigateTo({
 		// 		url:'/pages/im-message/im-message?groupId=@TGS#2XZIVENHN&userName=18911755085&userPortrait=https://bm-oss.oss-cn-hangzhou.aliyuncs.com/bmkit/webpage/logo512.png&userIM=Czm0l61Ac8R0Cvt4z&storeName=雪梨小店&storePortrait=https://bm-oss.oss-cn-hangzhou.aliyuncs.com/coll_mp.png'
 		// 	})
-		// },600)
+		// },600) 
+		
+		// 跳转课程播放页面  测试用
+		// setTimeout(()=>{
+		// 	uni.navigateTo({
+		// 		url:'/pages-user/index/live/room'
+		// 	})
+		// },600) 
 	},
 	created() {},
 

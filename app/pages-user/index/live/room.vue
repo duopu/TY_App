@@ -1,4 +1,4 @@
-<!-- 直播家 -->
+<!-- 直播间 -->
 <template>
 	<view class="page-wrapper live-room">
 		<view class="live-room-top">
@@ -12,9 +12,9 @@
 					<text>492</text>
 				</view>
 				<image src="../../../static/images/icons/icon-close.svg" mode="aspectFill" class="icon-close"></image>
-			</view>
-			<!-- 视频 -->
-			<video class="video-wrapper" src="" controls></video>
+			</view> 
+			<!-- 视频 直播 兼容-->
+			<video class="video-wrapper" :src="pullUrl" :autoplay="true" controls></video>
 			<!-- 菜单 -->
 			<custom-horizontal-tabs :currentIndex="tabsIndex" :data="tabsData" @change="getCurrentIndex"></custom-horizontal-tabs>
 		</view>
@@ -64,14 +64,30 @@ export default {
 	data() {
 		return {
 			tabsIndex: 0,
-			tabsData: ['评论', '简介']
+			tabsData: ['评论', '简介'],
+			pullUrl:'rtmp://live.sinfinite.cn/live/24',
+			groupId: "@TGS#2XZIVENHN",
+			
 		};
+	},
+	onLoad() {
+		// this.$tool.anchor()
+		// 监听群消息
+		uni.$on('GroupListen',this.getNewMessage)
+	},
+	onUnload() {
+		uni.$off('GroupListen',this.getNewMessage)
 	},
 	methods:{
 		// 切换 tab
 		getCurrentIndex(value){
 			this.tabsIndex = value;
+		},
+		// 收到新消息
+		getNewMessage(message){
+			
 		}
+		
 	}
 	
 };
