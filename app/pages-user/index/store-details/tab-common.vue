@@ -14,11 +14,7 @@
 				<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill"></image>
 			</view>
 		</view>
-		<my-scroll-view ref="list" class="classify-details-lists" :pageSize="queryParams.size" @loadData="onLoadData">
-			<template v-slot:list="slotProps">
-				<course-lists-item v-for="(item, index) in slotProps.list" :key="index" :data="item" @itemClick="goodsItemClick(item)"></course-lists-item>
-			</template>
-		</my-scroll-view>
+		<block v-for="(item, index) in [{}, {}, {}, {}, {}]" :key="index" @itemClick="goodsItemClick(item)"><course-lists-item></course-lists-item></block>
 		<!-- 综合排序 -->
 		<classify-sort-popup :current-index="sortIndex" ref="sortPopup"></classify-sort-popup>
 		<!-- 分类 -->
@@ -34,7 +30,7 @@ export default {
 	data() {
 		return {
 			slotProps: {
-				list: []
+				list: [{}, {}, {}, {}, {}]
 			},
 			queryParams: {
 				size: 20
@@ -46,9 +42,6 @@ export default {
 		goodsItemClick() {},
 		// 打开弹窗
 		openPopup(refName) {
-			// uni.pageScrollTo({
-			// 	scrollTop:120
-			// })
 			this.$refs[refName].open();
 		},
 		// 加载数据
