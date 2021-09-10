@@ -5,7 +5,7 @@
 		<scroll-view scroll-y="true" class="protocol"><view></view></scroll-view>
 		<view class="flex-center agree-row">
 			<!-- 选中 类名 on -->
-			<view class="radio" :class="{ on: isAgree }" @click="setAgree()"></view>
+			<view class="radio" :class="{ on: isAgree }" @click="setAgree"></view>
 			<view class="flex-center text">我已阅读并同意入驻协议</view>
 		</view>
 	</scroll-view>
@@ -14,15 +14,20 @@
 <script>
 export default {
 	name:"stepOne",
+	props:{
+		isAgree:{
+			type:Boolean,
+			default:false
+		}
+	},
 	data() {
 		return {
-			isAgree: true
 		};
 	},
 	methods: {
 		// 同意协议
 		setAgree() {
-			this.isAgree = !this.isAgree;
+			this.$emit('isAgreeAction',!this.isAgree)
 		}
 	}
 };

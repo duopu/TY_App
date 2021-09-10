@@ -60,7 +60,7 @@
 				<!-- 课程中心 -->
 				<view class="title">课程中心</view>
 				<view class="course-lists">
-					<view class="item" v-for="(item,index) in courseLists" :key="index">
+					<view class="item" v-for="(item,index) in courseLists" :key="index" @click="sourseClick(item)">
 						<image class="item-image" :src="item.image" mode="aspectFill"></image>
 						<text class="text">{{item.text}}</text>
 					</view>
@@ -117,7 +117,8 @@ export default {
 				},
 				{
 					image: '../../../static/images/my/my-task.png',
-					text: '每日任务'
+					text: '每日任务',
+					page:'/pages-user/mine/sign-in/sign-in'
 				},
 				{
 					image: '../../../static/images/my/my-ticket.png',
@@ -137,7 +138,8 @@ export default {
 				},
 				{
 					image:'../../../static/images/my/my-wyrz.png',
-					text:'我要入驻'
+					text:'我要入驻',
+					page:'/pages-user/mine/check-in/check-in'
 				},
 				{
 					image:'../../../static/images/my/my-lxkf.png',
@@ -154,11 +156,18 @@ export default {
 		
 		/**
 		 * 页面跳转
-		 * @param {Object} pagePath 页面路由
+		 * @param {Object} page 页面路由
 		 */
-		jumpPage(pagePath){
+		jumpPage(page){
+			console.log(page);
 			uni.navigateTo({
-				url:pagePath
+				url:page
+			})
+		},
+		// 课程中心点击事件
+		sourseClick(item){
+			uni.navigateTo({
+				url:item.page
 			})
 		},
 		// 退出登陆
