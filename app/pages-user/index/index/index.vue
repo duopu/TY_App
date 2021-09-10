@@ -20,16 +20,20 @@
 				<image src="../../../static/images/icons/icon-search-yellow.svg" mode="aspectFill" class="icon-image"></image>
 			</view>
 		</view>
+		<!-- 主页 -->
+		<tab-recommend v-if="tabIndex === 0"></tab-recommend>
 		<!-- 活动 -->
-		<tab-activity></tab-activity>
+		<tab-activity v-else-if="tabIndex === 1"></tab-activity>
 	</view>
 </template>
 
 <script>
 import TabActivity from '../activity/activity.vue';
+import TabRecommend from './tab-recommend.vue';
 export default {
 	components:{
-		TabActivity
+		TabActivity,
+		TabRecommend
 	},
 	data() {
 		return {

@@ -1,4 +1,4 @@
-<!-- 订单确认 -->
+<!-- 订单确认 -  普通商品 -->
 <template>
 	<view class="order-confirm">
 		<scroll-view class="order-confirm-content" scroll-y="true">
@@ -134,10 +134,10 @@ export default {
 	}),
 	watch:{
 		defaultAddress(newV, oldV){
-			let {provinceName,cityName,areaName,streetName,address} = newV;
+			let {provinceName,cityName,areaName,streetName,address,name,phone} = newV;
 			this.refreshOrderDetailParams.address = `${provinceName}${cityName}${areaName}${streetName}${address}`;
-			this.refreshOrderDetailParams.name = newV.name;
-			this.refreshOrderDetailParams.mobile = newV.phone;
+			this.refreshOrderDetailParams.name = name;
+			this.refreshOrderDetailParams.mobile = phone;
 		}
 	},
 	onLoad() {
@@ -178,6 +178,10 @@ export default {
 		submitOrder(){
 			if(!this.isAgree){
 				this.$tool.showToast("请先勾选服务协议");
+				return
+			}
+			if(this.orderVO.needAddress && !this.defaultAddress.id){
+				this.$tool.showToast("请填写收货地址");
 				return
 			}
 			this.$http

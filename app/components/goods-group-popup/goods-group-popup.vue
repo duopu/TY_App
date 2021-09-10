@@ -8,29 +8,29 @@
 			</view>
 			<view class="row">
 				<text class="label text-bold">团购开始时间：</text>
-				<text class="color-6">2020-04-16 10:00:00</text>
+				<text class="color-6">{{detail.startTime}}</text>
 			</view>
 			<view class="row">
 				<text class="label text-bold">团购结束时间：</text>
-				<text class="color-6">2020-04-16 10:00:00</text>
+				<text class="color-6">{{detail.endTime}}</text>
 			</view>
 			<view class="row">
 				<text class="label text-bold">拼团规则：</text>
-				<text class="color-6">1.活动时间: 2017年8月14日0:00:00-2017年8月20日23:59:59。参与条件: 1、所购买商品为指定自营家用电器和家装建材(含彩电、冰洗、厨卫、空调、生活电器、建材六个品类,不含虚拟商品)</text>
+				<text class="color-6">{{detail.content}}</text>
 			</view>
 			<view class="row">
 				<text class="label text-bold">已参团人数：</text>
-				<text class="color-6">23</text>
+				<text class="color-6">{{detail.groupBuyNum}}</text>
 			</view>
 			<view class="row price">
-				最低折扣：¥2000
+				最低折扣：¥{{detail.minPrice}}
 			</view>
-			<view class="flex-center-between popup-bottom">
-				<view class="flex-column-center">
-					<image class="icon" src="" mode="aspectFill"></image>
+			<view v-if="showBottom" class="flex-center-between popup-bottom">
+				<view class="flex-column-center" @click="customerClick">
+					<image class="icon" src="../../static/images/icons/icon-kf.svg" mode="aspectFill"></image>
 					<text>客服</text>
 				</view>
-				<button class="btn flex-1">参与拼团</button>
+				<button class="btn flex-1" @click="submit">{{`¥${detail.joinAmount}  参与拼团`}}</button>
 			</view>
 		</view>
 	</uni-popup>
@@ -39,8 +39,24 @@
 <script>
 export default {
 	name: 'goods-group-popup',
+	props: {
+		data: {
+			type: Object
+		},
+		showBottom: { //是否显示底部操作按钮
+			type: Boolean,
+			default: true
+		}
+	},
 	data() {
-		return {};
+		return {
+			detail: this.data
+		};
+	},
+	watch: {
+		data(newV, oldV){
+			this.detail = newV;
+		}
 	},
 	methods:{
 		// 打开弹窗
@@ -50,6 +66,18 @@ export default {
 		// 关闭弹窗
 		close() {
 			this.$refs.popup.close();
+		},
+		// 参与拼团按钮点击
+		submit(){
+			this.$store.commit('setGroupBuyGoodsVO', this.detail);
+			this.close();
+			uni.navigateTo({
+				url: `/pages-user/index/confirm/confirm-groupbuy`
+			});
+		},
+		// 客服按钮点击
+		customerClick(){
+			//TODO: 这里需要跳转到IM界面
 		}
 	}
 };
