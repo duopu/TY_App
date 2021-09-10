@@ -155,7 +155,7 @@
 			getNewMessage(message){
 				if(message.type !== "onRecvNewMessage")  return;
 				let msg = message.msg
-				if(msg.elemType == 1 && msg.groupId == this.groupId){
+				if(msg.groupId == this.groupId){
 					this.messageList.push(msg)
 				}
 			},
