@@ -77,11 +77,11 @@ export default {
 		// },600) 
 		
 		// 跳转课程播放页面  测试用
-		setTimeout(()=>{
-			uni.navigateTo({
-				url:'/pages-user/index/live/room'
-			})
-		},600) 
+		// setTimeout(()=>{
+		// 	uni.navigateTo({
+		// 		url:'/pages-user/index/live/room'
+		// 	})
+		// },600) 
 	},
 	created() {},
 

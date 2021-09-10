@@ -11,7 +11,7 @@
 					<image class="icon-user" src="../../../static/images/icons/icon-user.svg" mode="aspectFill"></image>
 					<text>492</text>
 				</view>
-				<image src="../../../static/images/icons/icon-close.svg" mode="aspectFill" class="icon-close"></image>
+				<image src="../../../static/images/icons/icon-close.svg" mode="aspectFill" class="icon-close" @click="closePage"></image>
 			</view> 
 			<!-- 视频 直播 兼容-->
 			<video class="video-wrapper" :src="pullUrl" :autoplay="true" controls></video>
@@ -91,6 +91,10 @@ export default {
 		// 切换 tab
 		getCurrentIndex(value){
 			this.tabsIndex = value;
+		},
+		// 关闭页面
+		closePage(){
+			uni.navigateBack({})
 		},
 		// 加载历史消息
 		getGroupHistoryMessageList() {
