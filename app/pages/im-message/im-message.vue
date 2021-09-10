@@ -10,7 +10,7 @@
 			</view>
 		</view>
 
-		<scroll-view class="list-view" :scroll-y="true">
+		<scroll-view class="list-view" :scroll-top="messageScrollTop" :scroll-y="true">
 			<message-item v-for="msg in messageList" :message="msg" :userInfo="userInfo" @showBigImage="showBigImage">
 			</message-item>
 
@@ -73,12 +73,17 @@
 				title: '',
 				// 消息列表 
 				messageList: [],
+				messageScrollTop:0,
 				bottomPaddingBottom: '0rpx'
 			};
 		},
-		watch: {
-
-		},
+	watch:{
+		messageList(){
+			this.$nextTick(()=>{
+				this.messageScrollTop = this.messageList.length * 200
+			})
+		}
+	},
 		computed: {},
 		onLoad(option) {
 			this.groupId = option.groupId;
@@ -94,6 +99,12 @@
 				// 用户im账号
 				userIM: option.userIM
 			}
+			
+			// 监听群消息
+			uni.$on('AdvancedMsgListen',this.getNewMessage)
+		},
+		onUnload() {
+			uni.$off('AdvancedMsgListen',this.getNewMessage)
 		},
 		onReady() {
 			uni.setNavigationBarTitle({
@@ -137,10 +148,16 @@
 			getGroupHistoryMessageList() {
 				const oldMessage = this.messageList[0] || {}
 				this.$tool.imTool.getGroupHistoryMessageList(this.groupId, oldMessage.msgId).then(historys => {
-					historys.forEach(msg => {
-						this.messageList.unshift(msg)
-					})
+					this.messageList = historys.reverse()
 				})
+			},
+			// 收到新消息
+			getNewMessage(message){
+				if(message.type !== "onRecvNewMessage")  return;
+				let msg = message.msg
+				if(msg.elemType == 1 && msg.groupId == this.groupId){
+					this.messageList.push(msg)
+				}
 			},
 			// 发送文本消息
 			sendTextMessage() {
@@ -268,13 +285,6 @@
 						this.$tool.showToast('保存失败')
 					}
 				});
-			},
-
-			// 滚动到列表bottom
-			scrollToBottom() {
-				if (this.isShow) {
-
-				}
 			},
 		}
 	}

@@ -23,7 +23,7 @@ export default {
 
 		if (loading) {
 			uni.showLoading({
-				title: '奋力加载中...',
+				title: url + '奋力加载中...',
 				mask: true,
 			})
 		}

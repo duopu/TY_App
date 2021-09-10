@@ -47,6 +47,7 @@ const login = (user)=>{
 		// im 登录
 		saveUserStorage({...user,...res});
 		imTool.login(res.imNum,res.sig)
+		console.log('IM 准备登录',{...user,...res});
 	}
 	
 	if(user.roleStatus == 'user'){

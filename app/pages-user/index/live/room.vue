@@ -19,24 +19,15 @@
 			<custom-horizontal-tabs :currentIndex="tabsIndex" :data="tabsData" @change="getCurrentIndex"></custom-horizontal-tabs>
 		</view>
 		<!-- 评论 -->
-		<scroll-view v-if="tabsIndex === 0" scroll-y="true" class="live-room-content">
-			<view class="chat-row">
-				<text class="nickname">奔跑的草泥马:</text>
-				<view>上个知识点没整明白呢老师</view>
-			</view>
-			<view class="chat-row">
-				<text class="nickname">小星星:</text>
-				<view>老师幸苦了！</view>
-			</view>
-
-			<view class="chat-row">
-				<text class="nickname">曾曾曾神::</text>
-				<view>解决了我多年的疑惑！</view>
+		<scroll-view :scroll-top="messageScrollTop" v-show="tabsIndex === 0" scroll-y="true" class="live-room-content">
+			<view class="chat-row" v-for="msg in messageList">
+				<text class="nickname">{{msg.userName}}:</text>
+				<view>{{msg.textElem.msg}}</view>
 			</view>
 		</scroll-view>
 		<!-- 简介 -->
-		<scroll-view v-else-if="tabsIndex === 1" scroll-y="true" class="live-room-content">
-			<view class="chat-row">
+		<scroll-view v-show="tabsIndex === 1" scroll-y="true" class="live-room-content">
+			<view class="chat-row" >
 				<text class="label">直播名称:</text>
 				<view>奥数竞赛知识体系讲解</view>
 			</view>
@@ -52,8 +43,9 @@
 		</scroll-view>
 		<!-- 底部 输入框 -->
 		<view class="live-room-bottom flex-center">
-			<input class="input" placeholder-class="input-placeholder" type="text" value="" placeholder="快来参与互动吧" />
-			<image class="icon" src="../../../static/images/icons/icon-talk.svg" mode="aspectFill"></image>
+			<input class="input" placeholder-class="input-placeholder" type="text" v-model="messageText" placeholder="快来参与互动吧" confirm-type="send"/>
+			<!-- <image class="icon" src="../../../static/images/icons/icon-talk.svg" mode="aspectFill"></image> -->
+			<text @click="sendMessage">发送</text>
 			<image class="icon" src="../../../static/images/icons/icon-share.svg" mode="aspectFill"></image>
 		</view>
 	</view>
@@ -65,27 +57,65 @@ export default {
 		return {
 			tabsIndex: 0,
 			tabsData: ['评论', '简介'],
+			// 拉流地址
 			pullUrl:'rtmp://live.sinfinite.cn/live/24',
-			groupId: "@TGS#2XZIVENHN",
-			
+			// 群id
+			groupId: "@TGS#267A3BNHW",
+			// 消息为
+			messageText:'',
+			// 消息列表
+			messageList: [],
+			messageScrollTop:0,
+
 		};
 	},
 	onLoad() {
-		// this.$tool.anchor()
 		// 监听群消息
-		uni.$on('GroupListen',this.getNewMessage)
+		uni.$on('AdvancedMsgListen',this.getNewMessage)
+		// 加入群聊
+		this.$tool.imTool.joinGroup(this.groupId);
+		// 获取群历史
+		this.getGroupHistoryMessageList();
 	},
-	onUnload() {
-		uni.$off('GroupListen',this.getNewMessage)
+	onUnload() { 
+		uni.$off('AdvancedMsgListen',this.getNewMessage)
+	},
+	watch:{
+		messageList(){
+			this.$nextTick(()=>{
+				this.messageScrollTop = this.messageList.length * 200
+			})
+		}
 	},
 	methods:{
 		// 切换 tab
 		getCurrentIndex(value){
 			this.tabsIndex = value;
 		},
+		// 加载历史消息
+		getGroupHistoryMessageList() {
+			const oldMessage = this.messageList[0] || {}
+			this.$tool.imTool.getGroupHistoryMessageList(this.groupId, oldMessage.msgId).then(historys => {
+				this.messageList = historys.filter(msg=>msg.elemType == 1).reverse()
+			})
+		},
 		// 收到新消息
 		getNewMessage(message){
-			
+			if(message.type !== "onRecvNewMessage")  return;
+			let msg = message.msg
+			if(msg.elemType == 1 && msg.groupId == this.groupId){
+				this.messageList.push(msg)
+				// this.$nextTick(()=>{
+				// 	this.$refs.messageList.
+				// })
+			}
+		},
+		// 发送消息
+		sendMessage(){
+			this.$tool.imTool.sendGroupTextMessage(this.messageText, this.groupId).then(msg => {
+				this.messageList.push(msg);
+				this.messageText = ''
+			})
 		}
 		
 	}
