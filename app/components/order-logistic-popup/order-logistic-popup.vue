@@ -15,7 +15,7 @@
 				</view>
 			</view>
 			<!-- 底部 -->
-			<view class="flex-center-between popup-bottom"><button class="btn flex-1">确定</button></view>
+			<view class="flex-center-between popup-bottom"><button class="btn flex-1" @click="close()">确定</button></view>
 		</view>
 	</uni-popup>
 </template>
@@ -23,6 +23,12 @@
 <script>
 export default {
 	name: 'order-logistic-popup',
+	props: {
+		id: {
+			type: String,
+			default:undefined
+		}
+	},
 	data() {
 		return {
 			logisticData: [
@@ -57,6 +63,18 @@ export default {
 		// 关闭弹窗
 		close() {
 			this.$refs.popup.close();
+		},
+		
+		/**
+		 * 查询物流信息
+		 * @param {Object} orderNum 订单编号
+		 */
+		queryLogistics(orderNum){
+			this.$http
+				.get('/order/logistics', {orderNum:orderNum}, true)
+				.then(res => {
+					
+				});
 		}
 	}
 };

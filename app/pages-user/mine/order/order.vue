@@ -43,6 +43,10 @@
 		</uni-popup>
 		
 		
+		<!-- 物流 弹窗 -->
+		<order-logistic-popup ref="logisticPopup"></order-logistic-popup>
+		
+		
 	</view>
 </template>
 
@@ -95,6 +99,7 @@ export default {
 			this.$http
 				.post('/order/cancel', {cancelMsg:this.cancelMsg, orderNum:this.orderNum}, true)
 				.then(res => {
+					this.$store.commit('setOrderChange');
 					this.cancelMsg = undefined;
 					this.$refs.cancelOrderPop.close();
 					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
@@ -205,7 +210,7 @@ export default {
 		 * @param {Object} goodsVO 当前商品对象
 		 */
 		queryLogistics(goodsVO){
-			
+			this.$refs.logisticPopup.open();
 		},
 		
 		/**

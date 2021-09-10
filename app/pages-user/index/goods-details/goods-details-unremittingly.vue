@@ -153,7 +153,7 @@
 		</view>
 		<!-- 弹窗 属性分类 -->
 		<goods-classify-popup ref="classifyPopup"
-		:type="goodsClassifyPopType"
+		:type="2"
 		:goodsInfo="goodsInfo"
 		@submit="goodsAttributesSubmit"></goods-classify-popup>
 		<!-- 弹窗 保障 -->
@@ -213,8 +213,7 @@ export default {
 			examCommentVOList: [], //考试评论
 			questionCommentVOList: [], //题库评论
 			courseCommentVOList: [], //课程评论
-			selectGoodsVO: {}, //选中的商品对象
-            goodsClassifyPopType: 1 //商品属性弹窗类型 1加入购物车 2立即购买
+			selectGoodsVO: {} //选中的商品对象
 		};
 	},
 	computed: mapState({
@@ -238,7 +237,9 @@ export default {
 				price = storeFreightConfigVO.freightAmount;
 			}
 			return price;
-		}
+		},
+		// 坚持不懈报名活动对象
+		unremittinglyVO: state => state.unremittinglyVO
 	}),
 	watch: {
 		'$store.state.goodsDetailsHeightChange': {
@@ -252,8 +253,8 @@ export default {
 		}
 	},
 	onLoad(option) {
-		this.goodsId = option.goodsId;
-		this.unremittinglyId = option.unremittinglyId;
+		this.goodsId = this.unremittinglyVO.goodsId;
+		this.unremittinglyId = this.unremittinglyVO.unremittinglyId;
 		this.getTabsTopAndHeight();
 		this.getGoodsBottomHeight();
 		this.getGoodsResource();
@@ -323,7 +324,6 @@ export default {
 		},
 		//立即购买
 		jumpConfirm(){
-			this.goodsClassifyPopType = 2;
 			if(this.entityGoodsCheck === 2){ //只有实体商品才会弹出商品属性选择
 				this.openPopup('classifyPopup');
 			}else { //如果是虚拟商品，就不需要选择商品属性，直接进行下一步操作
@@ -451,27 +451,10 @@ export default {
 		 * 商品属性提交回调
 		 */
 		goodsAttributesSubmit({goodsAttributes,count}){
-			this.selectGoodsVO = {...goodsAttributes,goodsNum:count};
-			if(this.goodsClassifyPopType === 1){ //加入购物车
-				this.$http
-					.post('/shopping/cart/add', {goodsId:this.goodsInfo.goodsId, attributesId:goodsAttributes.attributesId}, true)
-					.then(res => {
-						this.$tool.showSuccess("添加成功，在购物车等亲~");
-					});
-			}else{ //立即购买
-			
-				let storeGoodList = [{
-					attributesId:goodsAttributes.attributesId,
-					goodsId: this.goodsInfo.goodsId,
-					goodsNum: count,		 
-				}];
-				// 设置下单时要购买的商品
-				this.$store.commit('setStoreGoodsList',storeGoodList)
-			
-				uni.navigateTo({
-					url: `/pages-user/index/confirm/confirm`
-				});
-			}
+			this.selectGoodsVO = {...goodsAttributes,goodsNum:count};						
+			uni.navigateTo({
+				url: `/pages-user/index/confirm/confirm-unremittingly?goodsNum=${count}&attributesId=${goodsAttributes.attributesId}`
+			});
 
 		},
 

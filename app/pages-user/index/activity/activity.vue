@@ -227,8 +227,10 @@ export default {
 		 * @param {Object} unremittinglyVO 活动报名对象
 		 */
 		unremittinglySubmit(unremittinglyVO){
+			this.$refs.salesActivityPopup.close();
+			this.$store.commit('setUnremittinglyVO',unremittinglyVO);
 			uni.navigateTo({
-				url: `/pages-user/index/goods-details/goods-details-unremittingly?goodsId=${this.currentUnremittinglyVO.goodsId}&unremittinglyId=${this.currentUnremittinglyVO.unremittinglyId}`
+				url: `/pages-user/index/goods-details/goods-details-unremittingly`
 			});
 		}
 	}

@@ -32,6 +32,7 @@
 			<!-- 测试使用，以后删除掉！！！ -->
 			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
 			<button class="btn btn-block" @click.stop="evaluateOrder">去评价</button>
+			<button class="btn btn-border black" @click.stop="queryLogistics(item)">查看物流</button>
 		</view>
 		
 		<!-- 待发货 -->
@@ -60,7 +61,10 @@
 			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
 			<button class="btn btn-border grey" @click.stop="deletOrder">删除订单</button>
 		</view>
-
+		
+		<!-- 底部的插槽 -->
+		<slot name="bottom"></slot>
+		
 	</view>
 </template>
 

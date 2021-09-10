@@ -7,7 +7,57 @@
 			<text class="text-bold">{{ showStateName }}</text>
 		</view>
 		<!-- 商品 -->
-		<goods-order-list-item :storeGoodsVO="orderVO"></goods-order-list-item>
+		<goods-order-list-item :storeGoodsVO="orderVO">
+			<template v-slot:bottom>
+				<view class="box">
+					<!-- 组团商品 -->
+					<block v-if="orderVO.orderType === 2">
+						<!-- 只有实体商品才会有运费 -->
+						<view v-if="orderVO.attributesId" class="row flex-center-between">
+							<text class="label">运费</text>
+							<text class="flex-1 color-9">¥{{ orderVO.freightAmount || 0 }}</text>
+						</view>
+						<view class="row flex-center-between">
+							<text class="label">拼团定金（已支付）</text>
+							<text class="flex-1 color-9">¥{{ orderVO.joinAmount || 0 }}</text>
+						</view>
+						<view class="row flex-center-between">
+							<text class="label">尾款（待支付）</text>
+							<text class="flex-1 color-9">¥{{ orderVO.payAmount }}</text>
+						</view>
+						<view class="column flex-column">
+							<text class="remark">{{orderVO.endTime}}开始支付尾款，尾款金额由成团人数决定</text>
+							<button class="rule" @click="openPopup('groupPopup')">查看拼团规则</button>
+						</view>
+					</block>
+					
+					<!-- 坚持不懈商品 -->
+					<block v-if="orderVO.orderType === 3">
+						<!-- 只有实体商品才会有运费 -->
+						<view v-if="orderVO.attributesId" class="row flex-center-between">
+							<text class="label">运费</text>
+							<text class="flex-1 color-9">¥{{ orderVO.freightAmount || 0 }}</text>
+						</view>
+						<view class="row flex-center-between">
+							<text class="label">商品原价</text>
+							<text class="flex-1 color-9">¥{{ orderVO.orderAmount }}</text>
+						</view>
+						<view class="row flex-center-between">
+							<text class="label">活动折扣</text>
+							<text class="flex-1 color-9">8折</text>
+						</view>
+						<view class="row flex-center-between">
+							<text class="label">实际支付</text>
+							<text class="flex-1">¥{{ orderVO.payAmount }}</text>
+						</view>
+						<view class="column flex-column">
+							<text class="remark">付款后活动开始，活动结束时若不满足活动要求，将自动按比例退款</text>
+							<button class="rule" @click="openPopup('salesActivityPopup')">查看活动规则</button>
+						</view>
+					</block>
+				</view>
+			</template>
+		</goods-order-list-item>
 		<!-- 地址 -->
 		<view class="flex-center address" @click="jumpChooseAddress">
 			<image src="../../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
@@ -27,12 +77,17 @@
 				<view class="flex-1 text-left">{{ orderVO.createTime }}</view>
 			</view>
 		</view>
-		<!-- 优惠信息 -->
-		<view class="box">
+		<!-- 普通商品  优惠信息 -->
+		<view v-if="orderVO.orderType === 1" class="box">
 			<view class="title text-bold">优惠信息</view>
 			<view class="row flex-center-between">
 				<text class="label">商品原价</text>
 				<text class="flex-1">¥{{ orderVO.orderAmount }}</text>
+			</view>
+			<!-- 只有实体商品才会有运费 -->
+			<view v-if="orderVO.attributesId" class="row flex-center-between">
+				<text class="label">运费</text>
+				<text class="flex-1 color-9">¥{{ orderVO.freightAmount || 0 }}</text>
 			</view>
 			<view class="row flex-center-between">
 				<text class="label">平台优惠</text>
@@ -53,6 +108,13 @@
 		</view>
 		<!-- 物流 弹窗 -->
 		<order-logistic-popup ref="logisticPopup"></order-logistic-popup>
+		
+		<!-- 弹窗 拼团规则-->
+		<goods-group-popup ref="groupPopup" :data="groupBuyGoodsVO" :showBottom="false"></goods-group-popup>
+		
+		<!-- 弹窗 坚持不懈规则 -->
+		<sales-activity-popup ref="salesActivityPopup" :showBottom="false" :data="unremittinglyVO"></sales-activity-popup>
+		
 	</scroll-view>
 </template>
 
@@ -61,7 +123,9 @@ export default {
 	data() {
 		return {
 			orderNum: undefined, //订单编号
-			orderVO: {} //订单对象
+			orderVO: {}, //订单对象
+			groupBuyGoodsVO: {}, //组团优惠活动详情对象
+			unremittinglyVO: {} //坚持不懈活动详情对象
 		};
 	},
 	computed: {

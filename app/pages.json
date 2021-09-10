@@ -177,6 +177,12 @@
 						"enablePullDownRefresh": false
 					}
 				}, {
+					"path": "index/confirm/confirm-unremittingly",
+					"style": {
+						"navigationBarTitleText": "订单确认",
+						"enablePullDownRefresh": false
+					}
+				}, {
 					"path": "mine/refund/refund",
 					"style": {
 						"navigationBarTitleText": "退款服务",
