@@ -6,6 +6,28 @@ if (txIm) {
 	}, result => {
 		console.log('初始化sdk', result);
 	})
+
+	// 设置基本消息（文本消息和自定义消息）的事件监听器
+	txIm.removeSimpleMsgListener();
+	txIm.addSimpleMsgListener(result => {
+		console.log('基本消息监听',result);
+		uni.$emit('SimpleMsgListen', result)
+	})
+
+	// 设置高级消息接口监听
+	txIm.removeAdvancedMsgListener()
+	txIm.addAdvancedMsgListener(result => {
+		console.log('高级消息接口监听',result);
+		uni.$emit('AdvancedMsgListen', result)
+	})
+	
+	// 设置会话监听器
+	txIm.removeConversationListener()
+	txIm.setConversationListener(result=>{
+		console.log('会话监听器',result);
+		uni.$emit('ConversationListen', result)
+	})
+	
 }
 
 // im登录
@@ -15,6 +37,7 @@ const login = (userId, userSig) => {
 			userId,
 			userSig
 		}, result => {
+			console.log('IM  登录',result);
 			if (result.code == 0) {
 				resolve();
 			} else {
@@ -23,6 +46,8 @@ const login = (userId, userSig) => {
 		})
 	})
 }
+
+
 
 const loadingStart = (loading = true) => {
 	if (loading) {
@@ -67,13 +92,11 @@ const sendGroupTextMessage = (textMsg, groupId, loading = true) => {
 // 获取群组历史消息
 const getGroupHistoryMessageList = (groupId, msgId = '', loading = true) => {
 	return new Promise((resolve, reject) => {
-		loadingStart(loading)
 		txIm.getGroupHistoryMessageList({
 			groupId,
-			count: 20,
+			count: 1000,
 			msgId
 		}, result => {
-			loadingEnd(loading, result);
 			if (result.code == 0) {
 				resolve(result.msgs)
 			} else {
@@ -177,6 +200,20 @@ const downloadSound = (msgId) => {
 	})
 }
 
+// 加入群聊
+const  joinGroup = (groupId)=>{
+	return new Promise((resolve,reject)=>{
+		txIm.joinGroup({groupId},result=>{
+			console.log('加入群聊',result);
+			if (result.code == 0) {
+				resolve(result)
+			} else {
+				reject(result.errMsg);
+			}
+		})
+	})
+}
+
 export default {
 	login,
 	sendGroupTextMessage,
@@ -185,4 +222,5 @@ export default {
 	sendImageMessage,
 	downloadImage,
 	downloadSound,
+	joinGroup,
 }

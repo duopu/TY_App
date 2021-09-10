@@ -7,9 +7,18 @@
 			<custom-search placeholder="搜索" @search="getSearchInput"></custom-search>
 		</view>
 		<view class="flex-center filter">
-			<view class="filter-item" @click="openSortPopup()">{{ sortItem.name }}</view>
-			<view class="filter-item" @click="opencloudPopup()">{{ categoryItem.categoryName }}</view>
-			<view class="filter-item" @click="openFilterPopup()">筛选</view>
+			<view class="filter-item flex-center-center flex-1" @click="openSortPopup()">
+				<text>{{ sortItem.name }}</text>
+				<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill"></image>
+			</view>
+			<view class="filter-item flex-center-center flex-1" @click="opencloudPopup()">
+				<text>{{ categoryItem.categoryName }}</text>
+				<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill"></image>
+			</view>
+			<view class="filter-item flex-center-center flex-1" @click="openFilterPopup()">
+				<text>筛选</text>
+				<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill"></image>
+			</view>
 		</view>
 		<my-scroll-view ref="list" class="classify-details-lists" :pageSize="queryParams.size" @loadData="onLoadData">
 			<template v-slot:list="slotProps">
@@ -48,7 +57,7 @@ export default {
 	},
 	onLoad(option) {
 		this.queryParams.categoryId = option.categoryId;
-		this.categoryItem = { categoryName: option.categoryName, categoryId: option.categoryId};
+		this.categoryItem = { categoryName: option.categoryName, categoryId: option.categoryId };
 	},
 	methods: {
 		//返回 上一级

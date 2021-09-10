@@ -82,6 +82,14 @@
 							<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 						</view>
 					</view>
+					
+					<view class="flex-center-between item" @click="logOut">
+						<image class="item-image" src="../../../static/images/icons/icon-my-setting.svg" mode="aspectFill"></image>
+						<view class="flex-center-between right">
+							<text class="text">退出登陆 临时 丁乐加</text>
+							<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
+						</view>
+					</view>
 				</view>
 			</view>
 		</scroll-view>
@@ -152,6 +160,10 @@ export default {
 			uni.navigateTo({
 				url:pagePath
 			})
+		},
+		// 退出登陆
+		logOut(){
+			this.$tool.logout()
 		}
 	}
 };

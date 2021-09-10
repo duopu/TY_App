@@ -1,7 +1,7 @@
 <template>
 	<view class="live-broadcast">
 		<live-pusher id='livePusher' class="livePusher" :url="pushUrl" @error="onLivePusherError" :enable-camera="true"
-			:auto-focus="true" beauty="1" whiteness="2" orientation="vertical" aspect="16:9"
+			:auto-focus="true" beauty="1" whiteness="2" orientation="horizontal" aspect="16:9"
 			@statechange="onStatechange" @netstatus="onNetstatus"></live-pusher>
 		<cover-view class="cover-text">
 			<text class="title">直播间名称</text>
@@ -10,12 +10,11 @@
 			<text class="desc">{{liveIntro}}</text>
 		</cover-view>
 
-		<cover-view class="cover-start-btn" @click="startLive">
+		<cover-view class="cover-start-btn" @click="startLive" v-if="!pushing">
 			<text class="btn">开启直播</text>
 		</cover-view>
 	</view>
 </template>
-
 <script>
 	export default {
 		data() {
@@ -24,6 +23,7 @@
 				courseId: '',
 				courseClassId: '',
 				liveName: '',
+				pushing:false
 			};
 		},
 		onLoad(option) {
@@ -64,17 +64,23 @@
 
 			},
 			onStatechange(e) {
-				console.log("onStatechange:" + JSON.stringify(e));
-
+				console.log("onStatechange:" ,e);
 			},
 			onNetstatus() {
-				console.log("onStatechange:" + JSON.stringify(e));
+				console.log("onStatechange:" ,e);
 			},
 			// 开始直播
 			startLive() {
+				
+
 				this.context.start({
 					success: (a) => {
-						console.log("开始直播推流:" + JSON.stringify(a));
+						console.log("开始直播推流:" ,a);
+						uni.showToast({
+							title:'直播开始',
+							icon:'success',
+						})
+						this.pushing = true
 					}
 				});
 			},

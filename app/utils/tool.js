@@ -42,6 +42,14 @@ const login = (user)=>{
 	// 保存用户信息
 	saveUserStorage(user)
 	
+	// im 信息处理
+	const imTodo = (res)=>{
+		// im 登录
+		saveUserStorage({...user,...res});
+		imTool.login(res.imNum,res.sig)
+		console.log('IM 准备登录',{...user,...res});
+	}
+	
 	if(user.roleStatus == 'user'){
 		
 		// 从本地读取用户搜索历史信息
@@ -50,19 +58,17 @@ const login = (user)=>{
 		store.dispatch('queryUserDefaultAddress');
 		
 		// 获取IM 信息
-		request.get('/im/getUserSig',{},true).then(res=>{
-			// im 登录
-			saveUserStorage({...user,...res});
-			return imTool.login(res.imNum,res.sig)
-		}).then(res=>{
-			console.log('im 登录成功');
-		})
+		request.get('/im/getUserSig',{},true).then(imTodo)
 		
 		// 跳转用户首页页面 
 		uni.reLaunch({
 			url: '/pages-user/index/index/index'
 		});
 	}else{
+
+		// 获取商家IM 信息
+		request.get('/im/getStoreImSig',{},true).then(imTodo)
+		
 		// 跳转商家首页页面
 		uni.reLaunch({
 			url: '/pages-business/main/main'
