@@ -86,6 +86,13 @@ const logout = ()=>{
 	})
 }
 
+// 跳转消息列表
+const toMessageList = ()=>{
+	uni.navigateTo({
+		url:'/pages-user/index/message/message'
+	})
+}
+
 // 系统信息 初始化时获取一次
 let systemInfo = {}
 uni.getSystemInfo({
@@ -102,5 +109,6 @@ export default {
 	showSuccess,
 	logout,
 	login,
-	saveUserStorage
+	saveUserStorage,
+	toMessageList
 }

@@ -11,7 +11,7 @@
 				</view>
 				<view class="flex-center">
 					<image class="icon-image" src="../../../static/images/icons/icon-search.svg" mode="aspectFill" @click="searchClick()"></image>
-					<image class="icon-image" src="../../../static/images/icons/icon-message.svg" mode="aspectFill"></image>
+					<image class="icon-image" src="../../../static/images/icons/icon-message.svg" mode="aspectFill" @click="goMessageList"></image>
 				</view>
 			</view>
 			<!-- 横向-菜单 -->
@@ -90,7 +90,10 @@ export default {
 		getTabIndex(value) {
 			this.tabIndex = value;
 		},
-		
+		// 跳转消息列表
+		goMessageList(){
+			this.$tool.toMessageList()
+		},
 		// 搜索点击
 		searchClick(){
 			uni.navigateTo({
