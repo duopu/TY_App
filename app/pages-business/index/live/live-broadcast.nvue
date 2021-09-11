@@ -1,0 +1,146 @@
+<template>
+	<view class="live-broadcast">
+		<live-pusher id='livePusher' class="livePusher" :url="pushUrl" @error="onLivePusherError" :enable-camera="true"
+			:auto-focus="true" beauty="1" whiteness="2" orientation="horizontal" aspect="16:9"
+			@statechange="onStatechange" @netstatus="onNetstatus"></live-pusher>
+		<cover-view class="cover-text">
+			<text class="title">直播间名称</text>
+			<text class="desc">{{liveName}}</text>
+			<text class="title">直播间简介</text>
+			<text class="desc">{{liveIntro}}</text>
+		</cover-view>
+
+		<cover-view class="cover-start-btn" @click="startLive" v-if="!pushing">
+			<text class="btn">开启直播</text>
+		</cover-view>
+	</view>
+</template>
+<script>
+	export default {
+		data() {
+			return {
+				pushUrl: '',
+				courseId: '',
+				courseClassId: '',
+				liveName: '',
+				pushing:false
+			};
+		},
+		onLoad(option) {
+			console.log(option, `${option.pushUrl}&txTime=${option.txTime}`);
+			this.pushUrl = `${option.pushUrl}&txTime=${option.txTime}`;
+			this.courseId = option.courseId;
+			this.courseClassId = option.courseClassId;
+			this.liveName = option.liveName;
+			this.liveIntro = option.liveIntro;
+		},
+		onReady() {
+			// 注意：需要在onReady中 或 onLoad 延时
+			this.context = uni.createLivePusherContext("livePusher", this);
+			console.log('直播预览', this.context);
+			setTimeout(() => {
+				// 直播预览
+				this.context.startPreview({
+					success: (a) => {
+						console.log("直播预览 成功:" + JSON.stringify(a));
+					},
+					fail: (err) => {
+						console.log('直播预览 失败', err);
+					},
+					complete: (e) => {
+						console.log('直播预览2 ==', e);
+					}
+				});
+			}, 500)
+
+		},
+		onNavigationBarButtonTap() {
+			this.switchCamera()
+		},
+		methods: {
+
+			onLivePusherError(e) {
+				console.log("error:" + JSON.stringify(e));
+
+			},
+			onStatechange(e) {
+				console.log("onStatechange:" ,e);
+			},
+			onNetstatus() {
+				console.log("onStatechange:" ,e);
+			},
+			// 开始直播
+			startLive() {
+				
+
+				this.context.start({
+					success: (a) => {
+						console.log("开始直播推流:" ,a);
+						uni.showToast({
+							title:'直播开始',
+							icon:'success',
+						})
+						this.pushing = true
+					}
+				});
+			},
+			// 切换摄像头
+			switchCamera(){
+				this.context.switchCamera({
+					success: (a) => {
+						console.log("切换摄像头:" + JSON.stringify(a));
+					}
+				});
+			}
+		}
+	}
+</script>
+
+<style lang="less">
+	.live-broadcast {
+		flex-direction: 1;
+
+		.livePusher {
+			flex: 1;
+		}
+
+		.cover-text {
+			position: absolute;
+			left: 40rpx;
+			top: 14rpx;
+
+			.title {
+				font-weight: bold;
+				margin-top: 32rpx;
+				color: #EAEAEA;
+				font-size: 28rpx;
+			}
+
+			.desc {
+				margin-top: 18rpx;
+				color: #EAEAEA;
+				font-size: 28rpx;
+			}
+		}
+
+		.cover-start-btn {
+			position: absolute;
+			left: 40rpx;
+			right: 40rpx;
+			bottom: 108rpx;
+			height: 72rpx;
+			background-color: #FFB55B;
+			border-radius: 8rpx;
+			justify-content: center;
+			align-items: center;
+
+			.btn {
+				color: #FFFFFF;
+				font-size: 28rpx;
+				font-weight: bold;
+			}
+		}
+
+
+	}
+</style>

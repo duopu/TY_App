@@ -8,10 +8,13 @@ Vue.use(Vuex);//vue的插件机制
 //Vuex.Store 构造器选项
 const store = new Vuex.Store({
     state:{
-		historySearchList:[], //搜索历史
-		goodsDetailsHeightChange:false, //商品详情页高度变化
-		defaultAddress:undefined, //用户当前选择的收货地址（默认为默认地址）
-		storeGoodsList:[] //用户下订单时选择的商品
+		historySearchList: [], //搜索历史
+		goodsDetailsHeightChange: false, //商品详情页高度变化
+		defaultAddress: {}, //用户当前选择的收货地址（默认为默认地址）
+		storeGoodsList: [], //用户下订单时选择的商品
+		groupBuyGoodsVO: {}, //用户下订单时选择的组团优惠商品
+		unremittinglyVO: {}, //用户当前选中的坚持不懈活动对象
+		orderChange: 0 //记录订单发生变化（比如当用户生成订单或者订单状态发生改变时，通过监听该值的变化来实现一些页面的被动刷新效果，例如：当用户在组团优惠列表页下了一个订单，等订单完成的时候列表页需要主动刷新）
     },
 	
 	mutations:{
@@ -90,6 +93,32 @@ const store = new Vuex.Store({
 		 */
 		setStoreGoodsList(state,storeGoodsList){
 			state.storeGoodsList = storeGoodsList;
+		},
+		
+		/**
+		 * 设置下订单时确定的组团优惠商品
+		 * @param {Object} state
+		 * @param {Object} groupBuyGoodsVO
+		 */
+		setGroupBuyGoodsVO(state,groupBuyGoodsVO){
+			state.groupBuyGoodsVO = groupBuyGoodsVO;
+		},
+		
+		/**
+		 * 设置用户当前选中的坚持不懈活动对象
+		 * @param {Object} state
+		 * @param {Object} unremittinglyVO
+		 */
+		setUnremittinglyVO(state, unremittinglyVO){
+			state.unremittinglyVO = unremittinglyVO;
+		},
+		
+		/**
+		 * 记录订单发生变化，当用户提交订单、支付订单、评价订单等等一系列改变订单状态操作时，需要调用次方法来让页面实被动刷新
+		 * @param {Object} state
+		 */
+		setOrderChange(state){
+			state.orderChange += 1;
 		}
 	},
 	

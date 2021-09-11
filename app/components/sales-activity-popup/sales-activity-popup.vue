@@ -11,14 +11,18 @@
 				<text>{{unremittinglyVO.unremittinglyName}}</text>
 			</view>
 			<view class="row">
+				<text class="label text-bold">活动时间：</text>
+				<text class="color-6">{{unremittinglyVO.startTime}}-{{unremittinglyVO.endTime}}</text>
+			</view>
+			<view class="row">
 				<text class="label text-bold">活动规则：</text>
-				<text class="color-6">1.活动时间: {{unremittinglyVO.startTime}}-{{unremittinglyVO.endTime}}。参与条件: {{unremittinglyVO.content}}</text>
+				<text class="color-6">{{unremittinglyVO.content}}</text>
 			</view>
 			<view class="row">
 				<text class="label text-bold">活动奖品：</text>
 				<text>{{unremittinglyVO.goodsName}}</text>
 			</view>
-			<view class="row no-border flex-center-between">
+			<view v-if="showBottom" class="row no-border flex-center-between">
 				<input v-if="unremittinglyVO.unremittinglyNumberFlag === 1" class="input" type="text" placeholder="请输入活动号" placeholder-class="input-placeholder" v-model="unremittinglyVO.unremittinglyNumber">
 				<button class="btn-block" @click="submit">立即参加</button>
 			</view>
@@ -46,6 +50,10 @@ export default {
 				unremittinglyNumber: undefined,
 				unremittinglyNumberFlag: 0
 			}
+		},
+		showBottom: { //是否显示底部操作功能
+			type: Boolean,
+			default: true
 		}
 	},
 	data() {

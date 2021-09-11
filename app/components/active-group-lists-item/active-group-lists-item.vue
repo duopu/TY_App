@@ -1,12 +1,12 @@
 <!-- 活动拼团 -->
 <template>
 	<view class="activity-lists-item">
-		<view class="flex-center item-top">
+		<view class="flex item-top" @click="jumpGoodsDetail">
 			<image :src="data.thumbnail" class="avatar-image" mode="aspectFill"></image>
 			<view class="right">
-				<view class="name text-bold">{{data.goodsName}}</view>
+				<view class="name text-bold">{{data.groupBuyName}}</view>
 				<!-- 拼团进度条 -->
-				<view class="process-wrapper flex-center">
+				<!-- <view class="process-wrapper flex-center">
 					<view class="process-discount" :style="{left: '20%'}">
 						<text class="text">当前优惠:</text>
 						<text class="price">¥23</text>
@@ -18,18 +18,22 @@
 						<text class="text">预计优惠:</text>
 						<text class="price">¥16</text>
 					</view>
-				</view>
-				<view class="time">拼团时间:{{data.startTime}}</view>
+				</view> -->
+				<view class="time">开团时间:{{data.startTime}}</view>
+				<view class="text-bold price">最低折扣价¥{{data.minPrice}}</view>
 			</view>
 		</view>
-		<!-- 底部，最低折扣 -->
+		<!-- 底部 -->
 		<view class="flex-center-end item-bottom">
-			<view class="text-bold price">最低折扣价¥{{data.minPrice}}</view>
-			<!-- 参与拼团  这里几个不同状态的文案要怎么展示 -->
-			<button class="btn-block"  v-if="data.joinFlag === 3">参与拼团</button>
-			<button class="btn-block disable" v-else-if="data.joinFlag === 2">已参与，等待拼团完成</button>
-			<button class="btn-block disable" v-else-if="data.joinFlag === 1">已参与，去支付</button>
+			<!-- 参与拼团 -->
+			<button class="btn-block"  v-if="data.joinFlag === 3" @click="submit">参与拼团</button>
+			<button class="btn-block disable" v-else>已参与，等待拼团完成</button>
 		</view>
+		
+		
+		<!-- 弹窗 参与拼团 -->
+		<goods-group-popup ref="groupPopup" :data="groupBuyVO"></goods-group-popup>
+		
 	</view>
 </template>
 
@@ -44,8 +48,31 @@
 		},
 		data() {
 			return {
-				
+				groupBuyVO:{} //组团优惠详情对象
 			};
+		},
+		methods: {
+			// 参与拼团按钮点击
+			submit(){
+				this.$http.get('/groupBuy/queryInfoByLogin', { groupBuyId: this.data.groupBuyId }, true).then(res => {
+					this.groupBuyVO = res;
+					this.$refs.groupPopup.open();
+				});
+			},
+			// 跳转到组团优惠商品下订单页面
+			jumpGroupBuyConfirm(){
+				this.$store.commit('setGroupBuyGoodsVO', this.groupBuyVO);
+				uni.navigateTo({
+					url: `/pages-user/index/confirm/confirm-groupbuy`
+				});
+			},
+			
+			// 跳转到商品详情页
+			jumpGoodsDetail(){
+				uni.navigateTo({
+					url: `/pages-user/index/goods-details/goods-details?goodsId=${this.data.goodsId}`
+				});
+			}
 		}
 	}
 </script>

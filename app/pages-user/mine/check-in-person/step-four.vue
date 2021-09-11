@@ -5,8 +5,8 @@
 			传至系统。
 		</view>
 		<view class="image-lists flex-column-center">
-			<view class="item upload-image">
-				<image class="image-photo" src="../../../static/images/check-in-photo.png" mode="aspectFill"></image>
+			<view class="item upload-image" @click="selectCommitmentBook">
+				<image class="image-photo" :src="commitmentBook" mode="aspectFill"></image>
 			</view>
 			<view class="text-bold">请上传手持承诺书照片</view>
 		</view>
@@ -16,8 +16,38 @@
 <script>
 export default {
 	name:'StepFour',
+	props:{
+		contractInfo:{
+			type:Object,
+			default:()=>{}
+		}
+	},
 	data() {
 		return {};
+	},
+	computed:{
+		commitmentBook(){
+			return this.contractInfo.commitmentBook || '../../../static/images/check-in-photo.png'
+		}
+	},
+	methods:{
+		selectCommitmentBook(){
+			uni.chooseImage({
+				count: 1, //默认9
+				sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+				sourceType: ['camera', 'album'], //从相册选择
+				success: (e) => {
+					let formData = { 
+						file: e.tempFiles[0],
+						path: e.tempFilePaths[0]
+					}
+					// 上传图片
+					this.$http.upload(formData).then(res => {
+						this.$emit('changeContractInfo',{commitmentBook:res})
+					})
+				}
+			});
+		}
 	}
 };
 </script>

@@ -4,20 +4,13 @@
 		<view class="row flex-center-between">
 			<text class="text-bold">手机号</text>
 			<view class="flex-1 flex-center-end">
-				<text class="color-6">15839584958</text>
+				<text class="color-6">{{mineInfo.phone}}</text>
 				<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
 		</view>
-		<view class="row flex-center-between">
+		<view class="row flex-center-between" @click="changePwd">
 			<text class="text-bold">密码修改</text>
 			<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
-		</view>
-		<view class="row flex-center-between">
-			<text class="text-bold">邮箱</text>
-			<view class="flex-1 flex-center-end">
-				<text class="color-6">尚未绑定</text>
-				<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
-			</view>
 		</view>
 		<view class="row flex-center-between">
 			<text class="text-bold">支付宝</text>
@@ -46,7 +39,35 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			mineInfo: {},
+		};
+	},
+	onLoad() {
+		this.queryMineInfo()
+	},
+	onNavigationBarButtonTap(event){
+		this.saveUserInfo()
+	},
+	methods: {
+		queryMineInfo() {
+			this.$http.get('/user/queryInfo').then(res => {
+				this.mineInfo = res;
+			})
+		},
+		saveUserInfo(){
+			this.$http.post('/user/modify',this.mineInfo,true).then(res=>{
+				this.$tool.showSuccess('保存成功',()=>{
+					uni.navigateBack({})
+				})
+			})
+		},
+		// 修改密码
+		changePwd(){
+			uni.navigateTo({
+				url:'/pages/reset-password/reset-password'
+			})
+		}
 	}
 };
 </script>

@@ -22,7 +22,7 @@
 		<view class="sales-list marchant">
 			<custom-horizontal-tabs :currentIndex="tabsIndex" :data="tabsData" @change="changeTabsIndex"></custom-horizontal-tabs>
 			<!-- 1、商家分销 -->
-			<view v-if="tabsIndex === 0">
+			<view v-show="tabsIndex === 0">
 				<block v-if="true">
 					<sales-goods-lists-item @open="openPopup('distributePopup',0)" v-for="(item, index) in ['', '', '', '']" :key="index">
 					</sales-goods-lists-item>
@@ -36,7 +36,7 @@
 				</block>
 			</view>
 			<!-- 2、 店铺分销 -->
-			<view v-if="tabsIndex === 1">
+			<view v-show="tabsIndex === 1">
 				<block v-if="true">
 					<view class="flex-center-between marchant-item" v-for="(item, index) in ['', '', '', '']" :key="index">
 						<view class="flex-center">

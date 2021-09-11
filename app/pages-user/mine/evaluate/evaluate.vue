@@ -144,6 +144,8 @@ export default {
 				file: e.tempFiles[0].file,
 				path: e.tempFilePaths[0]
 			}
+			
+			console.log('图片选择回调',formData);
 			this.$http
 				.upload(formData, true)
 				.then(res => {

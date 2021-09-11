@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>返回</title>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="每日任务" transform="translate(-13.000000, -54.000000)">
+            <g id="返回" transform="translate(13.000000, 54.000000)">
+                <rect id="矩形" fill="#222222" opacity="0" x="0" y="0" width="24" height="24" rx="12"></rect>
+                <polyline id="路径-19" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="13 7 9 12 13 17"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

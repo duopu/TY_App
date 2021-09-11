@@ -17,6 +17,9 @@
 					const user = res.data;
 					if (user.token) {
 						this.$tool.login(user);
+						// uni.reLaunch({
+						// 	url: '/pages/login/login'
+						// });
 					} else {
 						// 本地无用户信息，去登录页
 						uni.reLaunch({
@@ -54,6 +57,8 @@
 <style lang="less">
 	@import './less/common.less';
 
+	/* #ifndef APP-PLUS-NVUE */
+				
 	page {
 		--safe-area-inset-top: 0;
 		--safe-area-inset-right: 0;
@@ -64,7 +69,7 @@
 		height: 100%;
 		box-sizing: border-box;
 	}
-
+	
 	@supports (top: constant(safe-area-inset-top)) {
 		page {
 			--safe-area-inset-top: constant(safe-area-inset-top);
@@ -73,7 +78,7 @@
 			--safe-area-inset-left: constant(safe-area-inset-left);
 		}
 	}
-
+	
 	@supports (top: env(safe-area-inset-top)) {
 		page {
 			--safe-area-inset-top: env(safe-area-inset-top);
@@ -82,4 +87,6 @@
 			--safe-area-inset-left: env(safe-area-inset-left);
 		}
 	}
+	/* #endif */
+	
 </style>

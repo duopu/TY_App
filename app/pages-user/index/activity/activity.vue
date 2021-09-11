@@ -42,10 +42,11 @@
 		<tabs-sales v-show="tabsIndex === 2"></tabs-sales>
 	
 		
-		<!-- tab content 分销活动详情 弹窗 -->
+		<!-- 坚持不懈活动详情 弹窗 -->
 		<sales-activity-popup ref="salesActivityPopup" 
 		:data="currentUnremittinglyVO" 
 		@submit="unremittinglySubmit"></sales-activity-popup>
+		
 	</scroll-view>
 </template>
 
@@ -71,12 +72,12 @@ export default {
 			groupBuyParams: { //组团优惠参数
 				page: 1,
 				size: 20,
-				status: 'more' //加载更多状态
+				status: 'more' 
 			},
 			unremittinglyParams: { //坚持不懈参数
 				page: 1,
 				size: 20,
-				status: 'more' //加载更多状态
+				status: 'more' 
 			},
 			groupBuyList: [], //组团优惠商品
 			unremittinglyList: [], //坚持不懈
@@ -84,7 +85,14 @@ export default {
 			
 		};
 	},
-	computed: {},
+	watch:{
+		'$store.state.orderChange': function(){
+			this.groupBuyParams.page = 1;
+			this.unremittinglyParams.page = 1;
+			this.queryGroupBuy();
+			this.queryUnremittingly();
+		}
+	},
 	created() {
 		this.queryGroupBuy();
 		this.queryUnremittingly();
@@ -200,12 +208,18 @@ export default {
 		 * @param {Object} unremittinglyId 活动id
 		 */
 		submitUnremittingly(unremittinglyId){
-			this.$http
-				.get('/unremittingly/queryInfo', {unremittinglyId: unremittinglyId}, true)
-				.then(res => {
-					this.currentUnremittinglyVO = res;
-					this.openPopup('salesActivityPopup');
-				});
+			
+			// 先调接口判断用户能否报名参加活动（一个用户只能参加一个活动，如果已经参加过就不能再参加其他活动了）
+			this.$http.get('/unremittingly/queryDetail', {}, true).then(res => {
+				
+				// 查询活动详情
+				this.$http
+					.get('/unremittingly/queryInfo', {unremittinglyId: unremittinglyId}, true)
+					.then(res => {
+						this.currentUnremittinglyVO = res;
+						this.openPopup('salesActivityPopup');
+					});	
+			});
 		},
 		
 		/**
@@ -213,7 +227,11 @@ export default {
 		 * @param {Object} unremittinglyVO 活动报名对象
 		 */
 		unremittinglySubmit(unremittinglyVO){
-			
+			this.$refs.salesActivityPopup.close();
+			this.$store.commit('setUnremittinglyVO',unremittinglyVO);
+			uni.navigateTo({
+				url: `/pages-user/index/goods-details/goods-details-unremittingly`
+			});
 		}
 	}
 };

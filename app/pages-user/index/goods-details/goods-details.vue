@@ -1,3 +1,4 @@
+<!-- 商品详情 - 普通商品|组团优惠商品 -->
 <template>
 	<view class="goods">
 		<scroll-view scroll-y="true" class="goods-content" @scroll="scrollHandle">
@@ -25,14 +26,15 @@
 							{{ priceArry[1] }}
 						</view>
 					</view>
-					<!-- 分销申请审核中 -->
-
-					<view v-if="goodsInfo.goodsDistributionStatus === 0 || goodsInfo.goodsDistributionStatus === 2" @click="goodsApply" class="state color-2 flex-center">
-						<image class="icon-share" src="" mode="aspectFill"></image>
-						申请分销
-					</view>
-					<view v-else-if="goodsInfo.goodsDistributionStatus === 3" class="state" @click="goGoodsApply">分销申请审核中</view>
-					<view v-else-if="goodsInfo.goodsDistributionStatus === 1" class="state" @click="goGoodsApply">查看分销进度</view>
+					<!-- 分销申请 只有是普通商品才显示分销的功能 组团的商品、坚持不懈的商品都不显示 -->
+					<block v-if="goodsInfo.goodsGroupBy === 0">
+						<view v-if="goodsInfo.goodsDistributionStatus === 0 || goodsInfo.goodsDistributionStatus === 2" @click="goodsApply" class="state color-2 flex-center">
+							<image class="icon-share" src="" mode="aspectFill"></image>
+							申请分销
+						</view>
+						<view v-else-if="goodsInfo.goodsDistributionStatus === 3" class="state" @click="goGoodsApply">分销申请审核中</view>
+						<view v-else-if="goodsInfo.goodsDistributionStatus === 1" class="state" @click="goGoodsApply">查看分销进度</view>
+					</block>
 				</view>
 			</view>
 			<!-- 规格参数信息 -->
@@ -173,12 +175,16 @@
 				<image class="icons" v-else src="../../../static/images/icons/icon-save.svg" @click="collectClick(true)"></image>
 				<text>收藏</text>
 			</view>
-			<!-- 拼团或正常购买 -->
-			<block v-if="true">
+			<!-- 普通商品 -->
+			<block v-if="goodsInfo.goodsGroupBy === 0">
 				<button class="btn btn-light" @click="jumpAddCar">加入购物车</button>
 				<button class="btn btn-block" @click="jumpConfirm">立即购买</button>
 			</block>
-			<block v-if="false"><button @click="openPopup('groupPopup')" class="btn btn-block flex-1">参与拼团</button></block>
+			<!-- 参团商品 -->
+			<block v-else-if="goodsInfo.goodsGroupBy === 1">
+				<button v-if="goodsInfo.joinFlagGroupBy === 3" @click="openGroupBuyPop" class="btn btn-block flex-1">参与拼团</button>
+				<button v-else class="btn btn-gray flex-1">已参与，等待拼团完成</button>
+			</block>
 		</view>
 		<!-- 弹窗 属性分类 -->
 		<goods-classify-popup ref="classifyPopup"
@@ -192,7 +198,7 @@
 		<!-- 弹窗 分销 -->
 		<goods-distribute-popup ref="distributePopup"></goods-distribute-popup>
 		<!-- 弹窗 参与拼团 -->
-		<goods-group-popup ref="groupPopup"></goods-group-popup>
+		<goods-group-popup ref="groupPopup" :data="groupBuyVO"></goods-group-popup>
 	</view>
 </template>
 
@@ -230,7 +236,9 @@ export default {
 				questionBankVO: {}, //题库
 				examVO: {}, //考试
 				storeFreightConfigVO: {}, //运费规则
-				goodsDistributionStatus: 0 //商品分销状态
+				goodsDistributionStatus: 0, //商品分销状态
+				goodsGroupBy: undefined, //是否是组团活动的商品：0:否 1是
+				joinFlagGroupBy: undefined, //是否参团：1-参团(未支付) 2-参团(已支付) 3-未参团
 			},
 			entityGoodsCheck: 1, //是否包含实体商品资源 1 未包含 2 包含
 			courseCheck: 1, //是否包含课程资源 1 未包含 2 包含
@@ -249,7 +257,8 @@ export default {
 			selectGoodsVO: {}, //选中的商品对象
             goodsClassifyPopType: 1, //商品属性弹窗类型 1加入购物车 2立即购买
 			platformCouponTypeContent:undefined, //平台最大优惠力度
-			storeCouponTypeContent:undefined //商家最大优惠力度
+			storeCouponTypeContent:undefined, //商家最大优惠力度
+			groupBuyVO: {} //组团优惠详情对象
 		};
 	},
 	computed: mapState({
@@ -281,6 +290,9 @@ export default {
 				//动态设置swiper的高度
 				this.setSwiperHeight();
 			}
+		},
+		'$store.state.orderChange': function(){
+			this.getGoodsInfo();
 		}
 	},
 	onLoad(option) {
@@ -569,6 +581,14 @@ export default {
 			// uni.navigateTo({
 			// 	url: `/pages-user/index/address/address`
 			// });
+		},
+		
+		// 参与拼团按钮点击
+		openGroupBuyPop(){
+			this.$http.get('/groupBuy/queryInfoByLogin', { groupBuyId: this.goodsInfo.groupBuyId }, true).then(res => {
+				this.groupBuyVO = res;
+				this.openPopup('groupPopup');
+			});
 		}
 	}
 };

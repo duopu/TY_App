@@ -14,15 +14,20 @@
 <script>
 export default {
 	name:"stepOne",
+	props:{
+		isAgree:{
+			type:Boolean,
+			default:false
+		}
+	},
 	data() {
 		return {
-			isAgree: true
 		};
 	},
 	methods: {
 		// 同意协议
 		setAgree() {
-			this.isAgree = !this.isAgree;
+			this.$emit('isAgreeAction',!this.isAgree)
 		}
 	}
 };
