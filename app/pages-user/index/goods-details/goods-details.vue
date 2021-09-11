@@ -156,7 +156,7 @@
 		</scroll-view>
 		<!-- 底部 -->
 		<view class="goods-bottom flex-center-between" id="goods-bottom">
-			<view class="flex-column">
+			<view class="flex-column" @click="gotoStoreDetail">
 				<image class="icons" src="../../../static/images/icons/icon-room.svg" mode="aspectFill"></image>
 				<text>店铺</text>
 			</view>
@@ -589,6 +589,13 @@ export default {
 				this.groupBuyVO = res;
 				this.openPopup('groupPopup');
 			});
+		},
+		// 跳转店铺详情
+		gotoStoreDetail(){
+			const storeId = this.goodsInfo.storeId;
+			uni.navigateTo({
+				url:`/pages-user/index/store-details/store-details?storeId=${this.goodsInfo.storeId}`
+			})
 		}
 	}
 };
