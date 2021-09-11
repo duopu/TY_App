@@ -27,13 +27,18 @@
 				<view class="font-24 color-9">连续7天签到有惊喜</view>
 				<!-- 时间 -->
 				<view class="series-list flex">
+					<view class="item normal flex-center-center" v-for="item in signInfo.signInList">
+						<text class="number" v-if="item.flag">{{item.dailyDate.substr(8,2)}}</text>
+						<image class="image"v-else src="../../../static/images/sign-in-time.png" mode="aspectFill">
+					</view>
+					<!-- 
 					<view class="item normal flex-center-center"><text class="number">29</text></view>
 					<view class="item normal flex-center-center"><text class="number ">30</text></view>
 					<view class="item normal flex-center-center"><text class="number ">1</text></view>
 					<view class="item normal flex-center-center"><image class="image" src="../../../static/images/sign-in-time.png" mode="aspectFill"></image></view>
 					<view class="item normal flex-center-center"><image class="image" src="../../../static/images/sign-in-time.png" mode="aspectFill"></image></view>
 					<view class="item normal flex-center-center"><image class="image" src="../../../static/images/sign-in-time.png" mode="aspectFill"></image></view>
-					<image class="image item" src="../../../static/images/sign-in-gift.png" mode="aspectFill"></image>
+					<image class="image item" src="../../../static/images/sign-in-gift.png" mode="aspectFill"></image> -->
 				</view>
 			</view>
 			<!-- 每日任务 -->
