@@ -1,7 +1,7 @@
 <!-- 关于腾讯云课堂 -->
 <template>
 	<view class="about">
-		<image class="image-about" mode="widthFix" src="../../../static/images/other/good_banner.png"></image>
+		<image class="image-about" mode="widthFix" src="../../static/images/other/good_banner.png"></image>
 		<view class="title text-bold">我们是腾讯云课堂</view>
 		<view class="text">我是介绍文案我是我是介绍文案我是介绍文案 介绍文案我是介绍文案我是介绍文案我是介绍文案 我是介绍文案我是介我是介绍文案我是介绍文案</view>
 		<view class="text">欢迎与我们合作联系。</view>

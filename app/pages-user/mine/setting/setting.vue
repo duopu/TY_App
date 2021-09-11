@@ -1,19 +1,19 @@
 <!-- 系统设置 -->
 <template>
 	<view class="setting">
-		<view class="row flex-center-between">
+		<view class="row flex-center-between" @click="checkVersion">
 			<text>版本更新</text>
 			<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
-		<view class="row flex-center-between">
+		<view class="row flex-center-between" @click="callUs">
 			<text>联系我们</text>
 			<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
-		<view class="row flex-center-between">
+		<view class="row flex-center-between" @click="aboutUs">
 			<text>关于我们</text>
 			<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
-		<view class="row flex-center-between">
+		<view class="row flex-center-between" @click="onFeedback">
 			<text>意见反馈</text>
 			<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
@@ -30,10 +30,34 @@
 			};
 		},
 		methods:{
+			// 检查版本
+			checkVersion(){
+				// App 版本号
+				const versionStr = (plus.runtime.version).split('.').join('');
+				this.$tool.showSuccess('当时是最新版本')
+			},
+			callUs(){
+				uni.navigateTo({
+					url:'/pages-user/mine/online-service/online-service'
+				})
+			},
+			// 关于我们
+			aboutUs(){
+				uni.navigateTo({
+					url:'/pages/about/about'
+				})
+			},
+			// 意见反馈
+			onFeedback(){
+				uni.navigateTo({
+					url:'/pages/help/help'
+				})
+			},
 			// 退出登录
 			logout(){
 				this.$tool.logout();
-			}
+			},
+			
 		}
 	}
 </script>

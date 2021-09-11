@@ -4,8 +4,8 @@
 		<!-- 顶部 -->
 		<view class="my-top flex-center-between">
 			<view class="flex-center">
-				<image class="icons" src="../../../static/images/icons/icon-setting.svg" mode="aspectFill"></image>
-				<image class="icons m-left-20" src="../../../static/images/icons/icon-scan.svg" mode="aspectFill"></image>
+				<image class="icons" @click="gotoSystemSet" src="../../../static/images/icons/icon-setting.svg" mode="aspectFill"></image>
+				<image class="icons m-left-20" @click="openScan" src="../../../static/images/icons/icon-scan.svg" mode="aspectFill"></image>
 			</view>
 			<view class="right">
 				<image class="icons" src="../../../static/images/icons/icon-message2.svg" mode="aspectFill"></image>
@@ -68,25 +68,17 @@
 				<!-- 其他服务 -->
 				<view class="title">其他服务</view>
 				<view class="other-lists">
-					<view class="flex-center-between item">
+					<view class="flex-center-between item" @click="gotoAccountSet">
 						<image class="item-image" src="../../../static/images/icons/icon-my-account.svg" mode="aspectFill"></image>
 						<view class="flex-center-between right">
 							<text class="text">账户与安全</text>
 							<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 						</view>
 					</view>
-					<view class="flex-center-between item">
+					<view class="flex-center-between item" @click="gotoSystemSet">
 						<image class="item-image" src="../../../static/images/icons/icon-my-setting.svg" mode="aspectFill"></image>
 						<view class="flex-center-between right">
 							<text class="text">设置中心</text>
-							<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
-						</view>
-					</view>
-					
-					<view class="flex-center-between item" @click="logOut">
-						<image class="item-image" src="../../../static/images/icons/icon-my-setting.svg" mode="aspectFill"></image>
-						<view class="flex-center-between right">
-							<text class="text">退出登陆 临时 丁乐加</text>
 							<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 						</view>
 					</view>
@@ -135,7 +127,8 @@ export default {
 			courseLists:[
 				{
 					image:'../../../static/images/my/my-kcfx.png',
-					text:'课程分销'
+					text:'课程分销',
+					page:'kcfx'
 				},
 				{
 					image:'../../../static/images/my/my-wyrz.png',
@@ -144,11 +137,13 @@ export default {
 				},
 				{
 					image:'../../../static/images/my/my-lxkf.png',
-					text:'联系客服'
+					text:'联系客服',
+					page:'/pages-user/mine/online-service/online-service'
 				},
 				{
 					image:'../../../static/images/my/my-swhz.png',
-					text:'商务合作'
+					text:'商务合作',
+					page:'/pages-user/mine/cooperate/cooperate'
 				}
 			],
 			// 我的信息
@@ -204,9 +199,39 @@ export default {
 		},
 		// 课程中心点击事件
 		sourseClick(item){
+			if(item.page == 'kcfx'){
+				// 跳转课程分销页面
+				uni.switchTab({
+					url:'/pages-user/index/index/index'
+				})
+				// 打开首页，活动,分销大使
+				uni.$emit('kcfx-open')
+			}else{
+				uni.navigateTo({
+					url:item.page
+				})
+			}
+		},
+		// 跳转账户与安全
+		gotoAccountSet(){
 			uni.navigateTo({
-				url:item.page
+				url:'/pages-user/mine/account/account'
 			})
+		},
+		// 跳转系统设置
+		gotoSystemSet(){
+			uni.navigateTo({
+				url:'/pages-user/mine/setting/setting'
+			})
+		},
+		// 打开扫码功能
+		openScan(){
+			uni.scanCode({
+			    success: function (res) {
+			        console.log('条码类型：' + res.scanType);
+			        console.log('条码内容：' + res.result);
+			    }
+			});
 		},
 		// 退出登陆
 		logOut(){

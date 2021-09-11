@@ -64,6 +64,22 @@
 				"navigationBarTextStyle": "black"
 			}
 
+		},
+		{
+			"path": "pages/about/about",
+			"style": {
+				"navigationBarTitleText": "关于腾讯云课堂",
+				"enablePullDownRefresh": false
+			}
+		
+		},
+		{
+			"path": "pages/help/help",
+			"style": {
+				"navigationBarTitleText": "帮助与反馈",
+				"enablePullDownRefresh": false
+			}
+		
 		}
 	],
 	"subPackages": [{
@@ -396,22 +412,6 @@
 					"path": "index/goods/goods",
 					"style": {
 						"navigationStyle": "custom",
-						"enablePullDownRefresh": false
-					}
-
-				},
-				{
-					"path": "my/about/about",
-					"style": {
-						"navigationBarTitleText": "关于腾讯云课堂",
-						"enablePullDownRefresh": false
-					}
-
-				},
-				{
-					"path": "my/help/help",
-					"style": {
-						"navigationBarTitleText": "帮助与反馈",
 						"enablePullDownRefresh": false
 					}
 
