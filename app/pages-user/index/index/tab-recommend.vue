@@ -1,17 +1,17 @@
 <!-- 首页 -->
 <template>
-	<scroll-view scroll-y="true" class="main-content">
+	<scroll-view scroll-y="true" class="main-content" :scroll-top="scrollTop" @scroll="onScroll">
 		<!-- 轮播图 -->
 		<view class="swiper">
 			<swiper class="swiper" :indicator-dots="true" :autoplay="true" interval="4000" duration="500">
-				<swiper-item><image class="swiper-img" src="../../../static/images/login/advert.png" mode=""></image></swiper-item>
-				<swiper-item><image class="swiper-img" src="../../../static/images/login/advert.png" mode=""></image></swiper-item>
-				<swiper-item><image class="swiper-img" src="../../../static/images/login/advert.png" mode=""></image></swiper-item>
+				<swiper-item v-for="item in bannerList">
+					<image class="swiper-img" :src="item.image" mode=""></image>
+				</swiper-item>
 			</swiper>
 		</view>
 		<!-- 分类 -->
 		<view class="menus flex-center">
-			<view class="menus-item flex-column-center" v-for="(item, index) in menusData" :key="index">
+			<view class="menus-item flex-column-center" v-for="(item, index) in menusData" @click="menuClick(item)" :key="index">
 				<image class="icon-image" :src="item.url" mode="aspectFill"></image>
 				<text class="text">{{ item.text }}</text>
 			</view>
@@ -167,10 +167,15 @@ export default {
 			dakaIndex:null,
 			// 直播数据
 			liveData:null,
+			// banner图
+			bannerList:[],
+			// 滚动条顶部位置
+			scrollTop:0
 		};
 	},
 	mounted() {
 		this.dakaIndex = 0;
+		this.queryBannerList();
 	},
 	computed:{
 		...mapState([
@@ -186,6 +191,32 @@ export default {
 		}
 	},
 	methods: {
+		// 滚动事件
+		onScroll(event){
+			this.scrollTop = event.detail.scrollTop;
+		},
+		// 查询轮播图
+		queryBannerList(){
+			this.$http.get('navigate/queryBannerList').then(res=>{
+				this.bannerList = res;
+			})
+		},
+		// 菜单按钮点击事件
+		menuClick(item){
+			if(item.path == 'fl'){
+				uni.switchTab({
+					url:'/pages-user/classify/index/index'
+				})
+			}else if(item.path == 'dkzb'){
+				this.scrollTop = 410
+			}else if(item.path == 'kstk'){
+				this.scrollTop = 600
+			}else if(item.path == 'gxzh'){
+				this.scrollTop = 783
+			}else if(item.path == 'jpkc'){
+				this.scrollTop = 1026
+			}
+		},
 		// 跳转大咖直播页面
 		gotoLiveList(){
 			uni.navigateTo({
@@ -198,12 +229,12 @@ export default {
 				url:'/pages-user/classify/index/index'
 			})
 		},
-		// 查询直播课程
+		// 查询直播
 		queryLive(cateId){
 			this.$http.get('/live/queryLiveList',{cateIdList:[cateId]}).then(res=>{
 				if(res && res.length > 0) this.liveData = res[0];				
 			})
-		}
+		},
 		
 		
 		
