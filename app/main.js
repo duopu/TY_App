@@ -4,7 +4,7 @@ import request from '@/utils/request.js'
 import store from '@/store/index.js';
 import tool from '@/utils/tool.js';
 
-Vue.config.productionTip = false
+// Vue.config.productionTip = false
 
 // 注入http
 Vue.prototype.$http = request;

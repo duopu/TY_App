@@ -3,7 +3,7 @@
 	<view class="live-room">
 		<!-- 视频 -->
 		<view class="live-room-top">
-			<video class="video" :src="videoUrl" controls ></video>
+			<!-- <video class="video" :src="videoUrl" controls ></video> -->
 			<video class="video" :src="videoUrl2" controls ></video>
 			<view class="flex-center-between text-bold process">
 				<text class="title text-bold">{{detail.courseName}}</text>
@@ -96,9 +96,11 @@ export default {
     this.courseId = courseId
     this.queryDetail()
     uni.getSavedFileList({
-      success: function (res) {
-        // this.videoUrl2 = plus.io.convertLocalFileSystemURL(res.fileList[0].filePath)
-        this.videoUrl2 = 'file://' + plus.io.convertLocalFileSystemURL(res.fileList[0].filePath)
+      success:  (res) =>{
+		  const path = res.fileList[0].filePath;
+		  console.log(path);
+        this.videoUrl2 = plus.io.convertLocalFileSystemURL(path)
+        // this.videoUrl2 = 'file://' + plus.io.convertLocalFileSystemURL(res.fileList[0].filePath)
         console.log(333,this.videoUrl2)
       }
     });
@@ -118,6 +120,9 @@ export default {
     //下载课程 
     down(){
       let that = this;
+	  uni.showLoading({
+	  	title:'下载中...'
+	  })
       uni.downloadFile({
           url: that.videoUrl, //仅为示例，并非真实的资源
           success: (res) => {
@@ -137,7 +142,10 @@ export default {
                   })
                   
               }
-          }
+          },
+		  complete:()=>{
+			uni.hideLoading()
+		  }
       });
     },
 
