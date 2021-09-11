@@ -3,7 +3,7 @@
 	<view class="page-wrapper main">
 		<!-- 头部 -->
 		<view class="main-top">
-			<view class="flex-center-between" v-if="tabIndex === 0">
+			<view class="flex-center-between">
 				<view class="flex-center">
 					<image class="image-eduction" src="../../../static/images/index/eduction-course.png" mode="aspectFill"></image>
 					<text class="line"></text>
@@ -17,7 +17,6 @@
 			<!-- 横向-菜单 -->
 			<view class="main-tabs flex-center-between">
 				<custom-horizontal-tabs class="custom-tabs" :data="tabsData" :current-index="tabIndex" @change="getTabIndex"></custom-horizontal-tabs>
-				<image src="../../../static/images/icons/icon-search-yellow.svg" mode="aspectFill" class="icon-image"></image>
 			</view>
 		</view>
 		<!-- 主页 -->
@@ -42,7 +41,7 @@ export default {
 			interval: 4000,
 			duration: 500,
 			typesShow: true,
-			tabIndex: 1,
+			tabIndex: 0,
 			tabsData: ['推荐', '活动', '高新转行', '认证', '提升', '好物'],
 			menusData: [
 				{
@@ -82,6 +81,9 @@ export default {
 		// 		url:'/pages-user/index/live/room'
 		// 	})
 		// },600) 
+	},
+	onShow() {
+		this.$store.dispatch('queryInterestList');
 	},
 	created() {},
 

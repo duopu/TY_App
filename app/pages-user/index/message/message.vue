@@ -3,7 +3,7 @@
 	<view class="message">
 		<!-- 头部 -->
 		<view class="message-top flex-center-between">
-			<image class="icon-back" @click="goBack()" src="../../../static/images/login/back.png" mode="aspectFill"></image>
+			<image class="icon-back" @click="goBack" src="../../../static/images/login/back.png" mode="aspectFill"></image>
 			<text class="text-bold title">消息</text>
 			<text class="color-6">清除未读</text>
 		</view>
@@ -41,7 +41,7 @@ export default {
 	data() {
 		return {
 			tabIndex: 0,
-			showGoods:true,
+			showGoods:false,
 			tabsData: [
 				{
 					number: 3,
@@ -57,9 +57,7 @@ export default {
 	methods: {
 		//  返回上一级
 		goBack() {
-			uni.navigateBack({
-				delta: -1
-			});
+			uni.navigateBack({});
 		},
 		// 切换菜单
 		changeTab(index) {
