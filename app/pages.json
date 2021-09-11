@@ -48,7 +48,7 @@
 			"path": "pages-user/mine/index/index",
 			"style": {
 				"navigationStyle": "custom",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/bind-phone/bind-phone",
@@ -316,8 +316,20 @@
 				}, {
 					"path": "mine/information/information",
 					"style": {
-						"navigationBarTitleText": "",
-						"enablePullDownRefresh": false
+						"navigationBarTitleText": "个人信息",
+						"enablePullDownRefresh": false,
+						"app-plus":{
+							"titleNView":{
+								"buttons":[
+									{
+										"text":"保存",
+										"color":"#333333",
+										"fontSize":"30rpx",
+										"width":"80rpx"
+									}
+								]
+							}
+						}
 					}
 
 				}, {

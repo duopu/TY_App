@@ -14,33 +14,33 @@
 		</view>
 		<scroll-view scroll-y="true" class="my-content">
 			<!-- 头像 -->
-			<view class="flex-center avatar">
-				<image class="avatar-image" src="../../../static/images/other/girl.png" mode="aspectFill"></image>
+			<view class="flex-center avatar" @click="gotoSetMineInfo">
+				<image class="avatar-image" :src="mineInfo.avatar" mode="aspectFill"></image>
 				<view class="right">
 					<view class="flex-center">
-						<text class="name">我是木子呀！</text>
+						<text class="name">{{mineInfo.nickName || '--'}}</text>
 						<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 					</view>
-					<view class="level">LV1</view>
+					<view class="level">LV{{mineInfo.level || 1}}</view>
 				</view>
 			</view>
 			<!-- 任务 -->
 			<view class="flex-center task-lists">
 				<view class="item">
-					<text class="text">20小时</text>
+					<text class="text">{{(learnInfo.minuteTotal || 0) / 60}}小时</text>
 					<text class="desc">学习超过</text>
 				</view>
 				<view class="item">
-					<text class="text">97%学员</text>
+					<text class="text">{{learnInfo.beyondPlatformTotal || 0}}%学员</text>
 					<text class="desc">超过平台</text>
 				</view>
 				<view class="item">
-					<text class="text">3次</text>
+					<text class="text">{{learnInfo.daskNum || 0}}次</text>
 					<text class="desc">完成任务</text>
 				</view>
 			</view>
 			<!-- 会员 -->
-			<view class="vip flex-center-between">
+			<view class="vip flex-center-between" @click="gotoVipInfo">
 				<view class="flex-center">
 					<image class="vip-image" src="../../../static/images/my/vip.png" mode="aspectFill"></image>
 					<text class="name">vip会员</text>
@@ -103,7 +103,8 @@ export default {
 			serviceLists: [
 				{
 					image: '../../../static/images/my/my-money.png',
-					text: '我的钱包'
+					text: '我的钱包',
+					page:'/pages-user/mine/wallet/wallet'
 				},
 				{
 					image: '../../../static/images/my/my-order.png',
@@ -149,10 +150,47 @@ export default {
 					image:'../../../static/images/my/my-swhz.png',
 					text:'商务合作'
 				}
-			]
+			],
+			// 我的信息
+			mineInfo:{},
+			// 学习情况信息
+			learnInfo:{},
 		};
 	},
+	onPullDownRefresh() {
+		this.queryMineInfo()
+	},
+	onLoad() {
+		this.queryMineInfo()
+	},
 	methods:{
+		// 查询我的信息
+		queryMineInfo(){
+			this.$http.get('/member/queryMemberDetail').then(res=>{
+				this.mineInfo = res;
+				uni.stopPullDownRefresh()
+			}).catch(err=>{
+				uni.stopPullDownRefresh()
+			})
+		},
+		// 查询学习情况
+		queryLearnInfo(){
+			this.$http.get('/dailyTask/queryLearnStatistic').then(res=>{
+				this.learnInfo = res;
+			})
+		},
+		// 跳转设置我的信息
+		gotoSetMineInfo(){
+			uni.navigateTo({
+				url:'/pages-user/mine/information/information'
+			})
+		},
+		// 跳转Vip  会员权益页面
+		gotoVipInfo(){
+			uni.navigateTo({
+				url:'/pages-user/mine/benefit/benefit'
+			})
+		},
 		
 		/**
 		 * 页面跳转

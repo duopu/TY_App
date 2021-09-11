@@ -57,7 +57,7 @@
 						<text class="font-24 color-6" v-if="item.totalMinute">今天已完成：{{item.minute || 0}}/{{item.totalMinute}}</text>
 					</view>
 					<!-- yellow -->
-					<button class="btn text-bold " :class="{ yellow: index === 1 }">去完成</button>
+					<button class="btn text-bold " :class="{ yellow: item.flag === 1 }">{{item.flag == 0 ? '未完成' : '已完成'}}</button>
 				</view>
 			</view>
 		</scroll-view>
@@ -95,8 +95,10 @@ export default {
 		},
 		// 签到操作
 		signClick(){
-			this.$http.post('/dailyTask/create',{type:1},true).then(res=>{
-				
+			const today = dayjs().format('YYYY-MM-DD')
+			const todaySign = this.signInfo.signInList.find(s=>s.dailyDate == today)
+			this.$http.post('/dailyTask/create',{type:1,gold:todaySign.gold},true).then(res=>{
+				this.queryLearnStatistic()
 			})
 		},
 		
