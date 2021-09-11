@@ -20,9 +20,9 @@
 			</view>
 		</view>
 		<!-- 主页 -->
-		<tab-recommend v-if="tabIndex === 0"></tab-recommend>
+		<tab-recommend v-show="tabIndex === 0"></tab-recommend>
 		<!-- 活动 -->
-		<tab-activity v-else-if="tabIndex === 1"></tab-activity>
+		<tab-activity v-show="tabIndex === 1"></tab-activity>
 	</view>
 </template>
 
@@ -36,35 +36,8 @@ export default {
 	},
 	data() {
 		return {
-			indicatorDots: true,
-			autoplay: true,
-			interval: 4000,
-			duration: 500,
-			typesShow: true,
 			tabIndex: 0,
 			tabsData: ['推荐', '活动', '高新转行', '认证', '提升', '好物'],
-			menusData: [
-				{
-					text: '分类',
-					url: '../../../static/images/index/index-menu-01.png'
-				},
-				{
-					text: '大咖直播',
-					url: '../../../static/images/index/index-menu-02.png'
-				},
-				{
-					text: '考试题库',
-					url: '../../../static/images/index/index-menu-03.png'
-				},
-				{
-					text: '高薪转行',
-					url: '../../../static/images/index/index-menu-04.png'
-				},
-				{
-					text: '精品课程',
-					url: '../../../static/images/index/index-menu-05.png'
-				}
-			]
 		};
 	},
 	onLoad() {
@@ -80,7 +53,10 @@ export default {
 		// 	uni.navigateTo({
 		// 		url:'/pages-user/index/live/room'
 		// 	})
-		// },600) 
+		// },600)
+		uni.$on('kcfx-open',()=>{
+			this.tabIndex = 1;
+		})
 	},
 	onShow() {
 		this.$store.dispatch('queryInterestList');
