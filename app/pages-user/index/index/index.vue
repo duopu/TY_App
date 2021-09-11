@@ -23,16 +23,20 @@
 		<tab-recommend v-show="tabIndex === 0"></tab-recommend>
 		<!-- 活动 -->
 		<tab-activity v-show="tabIndex === 1"></tab-activity>
+		<!-- 高薪转业 -->
+		<tab-index-salary v-show="tabIndex === 2"></tab-index-salary>
 	</view>
 </template>
 
 <script>
 import TabActivity from '../activity/activity.vue';
 import TabRecommend from './tab-recommend.vue';
+import TabIndexSalary from "../salary/salary.vue";
 export default {
 	components:{
 		TabActivity,
-		TabRecommend
+		TabRecommend,
+		TabIndexSalary
 	},
 	data() {
 		return {
