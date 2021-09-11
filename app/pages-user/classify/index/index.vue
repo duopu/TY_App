@@ -5,7 +5,7 @@
 		<view class="title text-bold">我的兴趣</view>
 		<view class="classify-lists block-box">
 			<view class="classify-lists-item" 
-			v-for="(item, index) in interestCategoryVOList" 
+			v-for="(item, index) in interestList" 
 			:key="item.categoryId" 
 			@click="goDetail(item.categoryId, item.interestName)">
 				<image class="item-image" :src="item.img" mode="aspectFill"></image>
@@ -44,24 +44,27 @@
 		<!-- 弹窗 -->
 		<classify-category-popup ref="categoryPopup" 
 			:data="{hotCategoryVOList:hotCategoryVOList,
-					interestCategoryVOList:interestCategoryVOList,
-					categoryVOList:categoryVOList}" 
-			@submitSuccess="getAllCategory()"></classify-category-popup>
+					categoryVOList:categoryVOList}" ></classify-category-popup>
 	</view>
 </template>
 
 <script>
+	import { mapState } from 'vuex'
+	
 export default {
 	data() {
 		return {
 			hotCategoryVOList:[], //热门分类
-			interestCategoryVOList:[], //我的兴趣分类
 			categoryVOList:[] //分类
 		};
 	},
 	onLoad() {
-		this.getInterestList();
 		this.getAllCategory();
+	},
+	computed:{
+		...mapState([
+			'interestList', // 兴趣点列表
+		])
 	},
 	methods:{
 		
@@ -72,14 +75,6 @@ export default {
 				this.categoryVOList = res.categoryVOList || [];
 			})
 		},
-		
-		// 获取我感兴趣的分类
-		getInterestList(){
-			this.$http.get('/category/queryInterestList',{},true).then(res=>{
-				this.interestCategoryVOList = res || [];
-			})
-		},
-		
 		// 更多
 		onAddMore(){
 		  this.$refs.categoryPopup.open();

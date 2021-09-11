@@ -39,14 +39,14 @@
 					<text class="line"></text>
 					<text class="color-9">很多大咖可更换</text>
 				</view>
-				<view class="more flex-center">
+				<view class="more flex-center" @click="gotoLiveList">
 					<text>更多</text>
 					<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
 				</view>
 			</view>
 			<view class="classify-tabs flex-center">
-				<view v-for="(item, index) in ['', '', '']" :key="index" :class="{ on: index === 0 }" class="classify-tabs-item">分类一</view>
-				<view class="color-9 border-item">修改兴趣</view>
+				<view v-for="(item, index) in interestList" @click="()=>dakaIndex=index"  :key="index" :class="{ on: index === dakaIndex }" class="classify-tabs-item">{{item.interestName}}</view>
+				<view class="color-9 border-item" @click="gotoChangeInterestList">修改兴趣</view>
 			</view>
 			<view class="broadcast-item flex-center-between">
 				<view class="broadcast-item-left">
@@ -164,21 +164,32 @@ export default {
 					url: '../../../static/images/index/index-menu-05.png'
 				}
 			],
+			// 打卡直播 选中兴趣点
+			dakaIndex:null,
 		};
 	},
 	mounted() {
-		setTimeout(()=>{
-			console.log('asd',this.interestList);
-		},2000)
+		this.dakaIndex = 0;
 	},
 	computed:{
 		...mapState([
 			'interestList', // 兴趣点列表
 		])
 	},
-
 	methods: {
+		// 跳转大咖直播页面
+		gotoLiveList(){
+			uni.navigateTo({
+				url:'/pages-user/index/live/live'
+			})
+		},
 		
+		// 跳转修改兴趣点
+		gotoChangeInterestList(){
+			uni.switchTab({
+				url:'/pages-user/classify/index/index'
+			})
+		}
 		
 	}
 };
