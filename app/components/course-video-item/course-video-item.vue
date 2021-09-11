@@ -1,7 +1,7 @@
 <!-- 课程列表项 -->
 <template>
 	<!-- 项 -->
-	<view class="course-lists-item" @click="itemOnClick()">
+	<view class="course-lists-item" @click="itemOnClick">
 		<image :src="data.thumbnail" mode="aspectFill" class="item-image" />
 		<view class="item-content">
 			<view class="flex-1">
@@ -16,7 +16,7 @@
 					<image src="../../static/images/course/shop.png"  mode="aspectFill" class="icon-image" />
 					<text>{{data.storeName}}</text>
 				</view>
-				<button class="btn btn-block black" v-if="state === 0" @click.stop="btnClick()">观看学习</button>
+				<button class="btn btn-block black" v-if="state === 0">观看学习</button>
 				<button class="btn btn-block black" v-else @click.stop="btnClick()">开始做题</button>
 			</view>
 		</view>
@@ -50,7 +50,7 @@ export default {
 	},
 	methods: {
 		itemOnClick(){
-			this.$emit("clickItem",this.data.id)
+			this.$emit("clickItem",this.data)
 		},
     // 观看学习 | 开始做题 点击事件
     btnClick(){
