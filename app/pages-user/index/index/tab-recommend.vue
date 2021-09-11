@@ -3,7 +3,7 @@
 	<scroll-view scroll-y="true" class="main-content">
 		<!-- 轮播图 -->
 		<view class="swiper">
-			<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+			<swiper class="swiper" :indicator-dots="true" :autoplay="true" interval="4000" duration="500">
 				<swiper-item><image class="swiper-img" src="../../../static/images/login/advert.png" mode=""></image></swiper-item>
 				<swiper-item><image class="swiper-img" src="../../../static/images/login/advert.png" mode=""></image></swiper-item>
 				<swiper-item><image class="swiper-img" src="../../../static/images/login/advert.png" mode=""></image></swiper-item>
@@ -48,16 +48,16 @@
 				<view v-for="(item, index) in interestList" @click="()=>dakaIndex=index"  :key="index" :class="{ on: index === dakaIndex }" class="classify-tabs-item">{{item.interestName}}</view>
 				<view class="color-9 border-item" @click="gotoChangeInterestList">修改兴趣</view>
 			</view>
-			<view class="broadcast-item flex-center-between">
+			<view class="broadcast-item flex-center-between" v-if="liveData">
 				<view class="broadcast-item-left">
-					<view class="name">最强大脑3天挑战极限记忆力</view>
-					<view class="desc">世界记忆大师带你深挖记忆潜能</view>
+					<view class="name">{{liveData.title}}</view>
+					<view class="desc">{{liveData.content}}</view>
 					<view class="flex-center-between broadcast-item-live">
-						<text>2021-04-21 18:00</text>
+						<text>{{liveData.time || '--'}}</text>
 						<text class="color-white">预约直播</text>
 					</view>
 				</view>
-				<image class="broadcast-item-image" src="../../../static/images/index/live_img.png" mode="aspectFill"></image>
+				<image class="broadcast-item-image" :src="liveData.img.split(',')[0]" mode="aspectFill"></image>
 			</view>
 		</view>
 		<!-- 考试题库 -->
@@ -67,10 +67,10 @@
 					<image class="icon-image" src="../../../static/images/index/index-menu-03.png" mode="aspectFill"></image>
 					<text class="title">考试题库</text>
 				</view>
-				<view class="more flex-center">
+				<!-- <view class="more flex-center" >
 					<text>更多</text>
 					<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
-				</view>
+				</view> -->
 			</view>
 			<scroll-view scroll-x="true" class="question-bank-lists">
 				<view class="lists-item" v-for="(item, index) in ['', '', '', '']" :key="index">
@@ -103,10 +103,10 @@
 					<image class="icon-image" src="../../../static/images/index/index-menu-04.png" mode="aspectFill"></image>
 					<text class="title">高薪转行</text>
 				</view>
-				<view class="more flex-center">
+				<!-- <view class="more flex-center">
 					<text>更多</text>
 					<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<!-- 精品课程 -->
@@ -136,36 +136,37 @@ export default {
 	name: 'tab-recommend',
 	data() {
 		return {
-			indicatorDots: true,
-			autoplay: true,
-			interval: 4000,
-			duration: 500,
-			typesShow: true,
-			tabIndex: 0,
 			menusData: [
 				{
 					text: '分类',
-					url: '../../../static/images/index/index-menu-01.png'
+					url: '../../../static/images/index/index-menu-01.png',
+					path:'fl'
 				},
 				{
 					text: '大咖直播',
-					url: '../../../static/images/index/index-menu-02.png'
+					url: '../../../static/images/index/index-menu-02.png',
+					path:'dkzb'
 				},
 				{
 					text: '考试题库',
-					url: '../../../static/images/index/index-menu-03.png'
+					url: '../../../static/images/index/index-menu-03.png',
+					path:'kstk'
 				},
 				{
 					text: '高薪转行',
-					url: '../../../static/images/index/index-menu-04.png'
+					url: '../../../static/images/index/index-menu-04.png',
+					path:'gxzh'
 				},
 				{
 					text: '精品课程',
-					url: '../../../static/images/index/index-menu-05.png'
+					url: '../../../static/images/index/index-menu-05.png',
+					path:'jpkc'
 				}
 			],
 			// 打卡直播 选中兴趣点
 			dakaIndex:null,
+			// 直播数据
+			liveData:null,
 		};
 	},
 	mounted() {
@@ -176,6 +177,14 @@ export default {
 			'interestList', // 兴趣点列表
 		])
 	},
+	watch:{
+		dakaIndex(){
+			const interest = this.interestList[this.dakaIndex];
+			if(interest){
+				this.queryLive(interest.categoryId)
+			}
+		}
+	},
 	methods: {
 		// 跳转大咖直播页面
 		gotoLiveList(){
@@ -183,13 +192,20 @@ export default {
 				url:'/pages-user/index/live/live'
 			})
 		},
-		
 		// 跳转修改兴趣点
 		gotoChangeInterestList(){
 			uni.switchTab({
 				url:'/pages-user/classify/index/index'
 			})
+		},
+		// 查询直播课程
+		queryLive(cateId){
+			this.$http.get('/live/queryLiveList',{cateIdList:[cateId]}).then(res=>{
+				if(res && res.length > 0) this.liveData = res[0];				
+			})
 		}
+		
+		
 		
 	}
 };
