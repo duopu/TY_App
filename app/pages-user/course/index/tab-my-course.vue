@@ -7,7 +7,7 @@
 			  :key="index" 
 			  :data="item"
         :state="0"
-        @btnClick="btnClick"
+        @clickItem="clickItem"
         />
         
 		</template>
@@ -34,12 +34,11 @@ export default {
 		/**课程行点击
 		 * @param {Object} goodsId  课程ID
 		 */
-		btnClick(data){
+		clickItem(data){
       const { courseId } = data || {}
-			console.log(courseId);
-			// uni.navigateTo({
-			// 	url: `/pages-user/index/consult/details?articleId=${articleId}`
-			// });
+			uni.navigateTo({
+				url: `/pages-user/course/live-room/live-room?courseId=${courseId}`
+			});
 		},
 	}
 };

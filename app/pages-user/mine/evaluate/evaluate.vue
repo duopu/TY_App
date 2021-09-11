@@ -99,6 +99,7 @@ export default {
 		};
 	},
 	onLoad(option){
+    console.log(1,option.goodsVO);
 		this.goodsVO = JSON.parse(decodeURIComponent(option.goodsVO));
 		this.evaluateVO.goodsId = this.goodsVO.goodsId;
 		this.evaluateVO.orderNum = this.goodsVO.orderNum;
