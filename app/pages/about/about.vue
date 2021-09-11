@@ -11,7 +11,19 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			info:{}
+		};
+	},
+	onLoad() {
+		this.queryUsInfo()
+	},
+	methods:{
+		queryUsInfo(){
+			this.$http.get('').then(res=>{
+				this.info = res;
+			})
+		}
 	}
 };
 </script>
