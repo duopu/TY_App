@@ -5,7 +5,7 @@
 		<image :src="data.thumbnail" mode="aspectFill" class="item-image" />
 		<view class="item-content">
 			<view class="flex-1">
-				<view class="name text-bold text-ellipsis">{{state === 0 ? data.courseName : data.title}}</view>
+				<view class="name text-bold text-ellipsis">{{state === 1 ? data.title : data.courseName }}</view>
 				<view class="learn-color" v-if="state === 0">
 					已学习
 					<text class="learn-process">{{data.learnCount}}</text>
@@ -16,8 +16,8 @@
 					<image src="../../static/images/course/shop.png"  mode="aspectFill" class="icon-image" />
 					<text>{{data.storeName}}</text>
 				</view>
-				<button class="btn btn-block black" v-if="state === 0">观看学习</button>
-				<button class="btn btn-block black" v-else @click.stop="btnClick()">开始做题</button>
+				<button class="btn btn-block black" v-if="state === 1" @click.stop="btnClick()">开始做题</button>
+        <button class="btn btn-block black" v-else>观看学习</button>
 			</view>
 		</view>
 	</view>

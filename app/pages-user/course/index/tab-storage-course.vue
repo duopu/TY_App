@@ -1,7 +1,13 @@
 <!-- tab 缓存课程 -->
 <template>
 	<scroll-view scroll-y="true" class="course-lists">
-		<course-video-item v-for="(item, index) in ['', '', '', '', '', '', '']" :key="index"></course-video-item>
+		<course-video-item 
+      v-for="(item, index) in dataList" 
+      :key="index" 
+      :state="2"
+      :data="item"
+      @clickItem="clickItem"
+      />
 	</scroll-view>
 </template>
 
@@ -10,9 +16,25 @@
 		name:'tab-storage-course',
 		data() {
 			return {
-				
+        dataList:[]
 			};
-		}
+		},
+    beforeMount(){
+      const data = uni.getStorageSync('courseList') || []
+      this.dataList = data
+      console.log('缓存课程1111',this.dataList)
+    },
+    methods:{
+      /**课程行点击
+       * @param {Object} goodsId  课程ID
+       */
+      clickItem(data){
+        const { courseId } = data || {}
+        uni.navigateTo({
+          url: `/pages-user/course/live-room/live-room?courseId=${courseId}&from=local`
+        });
+      },
+    }
 	}
 </script>
 

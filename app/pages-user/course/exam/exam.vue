@@ -274,11 +274,10 @@ export default {
       const isAnswerLen = this.questionList.filter(i=>i.isAnswer === 1).length;
       if(isAnswerLen === questionLen ){
         return true
-      }else{
-        this.modal.title = `还有${questionLen - isAnswerLen}道题未完成，确定${this.isMoNi ? '交卷' : '提交'}？`
-        this.openPopup('submitPopup');
-        return false
       }
+      this.modal.title = `还有${questionLen - isAnswerLen}道题未完成，确定${this.isMoNi ? '交卷' : '提交'}？`
+      this.openPopup('submitPopup');
+      return false
     },
 
     // 弹窗-序号点击
@@ -376,7 +375,7 @@ export default {
       this.questionList[this.current].questionCollectionCheck = this.questionList[this.current].questionCollectionCheck === 1 ? 2 : 1 
     },
     isStar(){
-      return this.questionList[this.current].questionCollectionCheck && this.questionList[this.current].questionCollectionCheck === 1
+      return this.current && this.questionList[this.current].questionCollectionCheck && (this.questionList[this.current].questionCollectionCheck === 1) ? true : false
     },
 
     // 提交

@@ -3,11 +3,10 @@
 	<view class="live-room">
 		<!-- 视频 -->
 		<view class="live-room-top">
-			<!-- <video class="video" :src="videoUrl" controls ></video> -->
-			<video class="video" :src="videoUrl2" controls ></video>
+			<video class="video" :src="videoUrl" controls :autoplay="true" ></video>
 			<view class="flex-center-between text-bold process">
 				<text class="title text-bold">{{detail.courseName}}</text>
-				<text class="color-red">{{detail.learnRate || 0}}%</text>
+				<text v-if="!isLocal" class="color-red">{{detail.learnRate || 0}}%</text>
 			</view>
 		</view>
 
@@ -25,12 +24,14 @@
 						<view class="flex-column flex-1">
 							<view class="flex-center">
 								<text>{{subItem.courseClassName}}</text>
-								<text class="tag">上次学到</text>
+								<text v-if="!isLocal" class="tag">上次学到</text>
 							</view>
 							<view class="flex-center desc">
 								<text>{{subItem.learnTime || filterDate}}分钟</text>
-								<text class="m-left-40">已学习</text>
-								<text class="color-red">{{ subItem.learnTime | filterProgress(subItem.classTime)}}%</text>
+                <block v-if="!isLocal">
+								  <text class="m-left-40">已学习</text>
+								  <text class="color-red">{{ subItem.learnTime | filterProgress(subItem.classTime)}}%</text>
+                </block>
 							</view>
 						</view>
 					</view>
@@ -38,7 +39,7 @@
 			</view>
 		</scroll-view>
 		<!-- 底部 -->
-		<view class="live-room-bottom flex-center-between">
+		<view v-if="!isLocal" class="live-room-bottom flex-center-between">
 			<view class="item flex-column-center" @click="down">
 				<image class="icon" src="../../../static/images/icons/icon-colorful-download.svg" mode="aspectFill" />
 				<text>下载</text>
@@ -70,9 +71,11 @@ export default {
         storeName:'',
         isEval:true
       },
-      current:-1,
-      videoUrl:'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20200317.mp4',
-      videoUrl2:''
+      current:0,
+      videoUrl:'',
+      id:'', //课时id
+      isLocal:false,
+      courseSyncList : uni.getStorageSync('courseList') || []
 		};
 	},
   filters:{
@@ -92,18 +95,15 @@ export default {
     },
   },
   async onLoad(option){
-    const { courseId } = option || {}
+    const { courseId,from } = option || {}
     this.courseId = courseId
-    this.queryDetail()
-    uni.getSavedFileList({
-      success:  (res) =>{
-		  const path = res.fileList[0].filePath;
-		  console.log(path);
-        this.videoUrl2 = plus.io.convertLocalFileSystemURL(path)
-        // this.videoUrl2 = 'file://' + plus.io.convertLocalFileSystemURL(res.fileList[0].filePath)
-        console.log(333,this.videoUrl2)
-      }
-    });
+    this.isLocal = from === 'local'
+    if(this.isLocal){
+      this.setDetail()
+    }else{
+      this.queryDetail()
+    }
+    // uni.setStorageSync('courseList',[])
   },
 	methods: {
 
@@ -114,39 +114,78 @@ export default {
 
     // 课时点击
     periodClick(item){
+      this.id = item.id
       this.videoUrl = item.url
     },
 
     //下载课程 
     down(){
       let that = this;
-	  uni.showLoading({
-	  	title:'下载中...'
-	  })
+      const courseSyncList = this.courseSyncList
+      let isSync = false;
+      courseSyncList.map(item=>{
+        (item.userCourseClassList || []).map(subItem=>{
+          isSync = (subItem.nodes || []).filter(flag=>flag.id == this.id).length> 0;
+          if(isSync){
+            this.$tool.showToast('您已经缓存过了')
+            return;
+          }
+        })
+      })
+      uni.showLoading({
+        title:'下载中...'
+      })
       uni.downloadFile({
-          url: that.videoUrl, //仅为示例，并非真实的资源
+          url: that.videoUrl,
           success: (res) => {
               if (res.statusCode === 200) {
-                  let tempFilePath = this.fileNameEscape(res.tempFilePath);
+                  let tempFilePath = res.tempFilePath;
                   that.$tool.showSuccess('下载成功',()=>{
                     uni.saveFile({
                       tempFilePath,
                       success: (res) => {
-                        let savedFilePath = res.savedFilePath;
-                        console.log('保存成功',savedFilePath)
+                        let savedFilePath = this.fileNameEscape(res.savedFilePath);
+                        this.saveCourseList(savedFilePath)
                       },
-                      complete:(res)=>{
-                        console.log('------',res)
+                      fail:(err)=>{
+                        that.$tool.showToast(err.msg || '保存本地失败')
                       }
                     });
                   })
                   
               }
           },
-		  complete:()=>{
-			uni.hideLoading()
-		  }
+		      complete:()=>{
+            uni.hideLoading()
+          }
       });
+    },
+
+    /**
+     * 课程信息 存储到本地
+     * @param {String} file
+     */
+    saveCourseList(file){
+      const courseSyncList = this.courseSyncList
+      const { thumbnail,courseName,storeName,userCourseClassList = [] } = this.detail
+      const classList = userCourseClassList;
+      classList.map(item=>{
+        (item.nodes || []).map(flag=>{
+          if(flag.id === this.id ){
+            flag.url = file
+          }else{
+            flag.url = ''
+          }
+        })
+      })
+      courseSyncList.push({
+          courseId:this.courseId,
+          courseName,
+          thumbnail,
+          storeName,
+          userCourseClassList:classList
+      })
+      uni.setStorageSync('courseList',courseSyncList)
     },
 
     /**
@@ -154,8 +193,9 @@ export default {
      * @param {String} filename
      */
     fileNameEscape(filename) {
-      if (uni.getSystemInfoSync().platform == "ios") {
-        filename = escape(filename);
+      const reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+      if (uni.getSystemInfoSync().platform == "ios" && reg.test(filename)) {
+        return escape(filename);
       }
       return filename;
     },
@@ -193,9 +233,17 @@ export default {
       const data = await this.$http.get('/userCourse/queryDetail',params,true)
       if(data.userCourseClassList[0] && data.userCourseClassList[0].nodes[0]){
         this.videoUrl = data.userCourseClassList[0].nodes[0].url
+        this.id = data.userCourseClassList[0].nodes[0].id
       }
       this.detail = data;
     },
+
+    // 本地缓存数据-设置详情
+    setDetail(){
+      const courseList = uni.getStorageSync('courseList')
+      const detail = courseList.filter(item=>item.courseId == this.courseId)[0]
+      this.detail = detail
+    }
 	}
 };
 </script>
