@@ -49,7 +49,6 @@ const login = (user)=>{
 		imTool.login(res.imNum,res.sig)
 		console.log('IM 准备登录',{...user,...res});
 	}
-	
 	if(user.roleStatus == 'user'){
 		
 		// 从本地读取用户搜索历史信息
@@ -59,6 +58,7 @@ const login = (user)=>{
 		
 		// 获取IM 信息
 		request.get('/im/getUserSig',{},true).then(imTodo)
+		
 		
 		// 跳转用户首页页面 
 		uni.reLaunch({
@@ -86,6 +86,13 @@ const logout = ()=>{
 	})
 }
 
+// 跳转消息列表
+const toMessageList = ()=>{
+	uni.navigateTo({
+		url:'/pages-user/index/message/message'
+	})
+}
+
 // 系统信息 初始化时获取一次
 let systemInfo = {}
 uni.getSystemInfo({
@@ -102,5 +109,6 @@ export default {
 	showSuccess,
 	logout,
 	login,
-	saveUserStorage
+	saveUserStorage,
+	toMessageList
 }

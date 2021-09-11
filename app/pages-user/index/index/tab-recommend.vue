@@ -130,6 +130,8 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
+	
 export default {
 	name: 'tab-recommend',
 	data() {
@@ -140,7 +142,6 @@ export default {
 			duration: 500,
 			typesShow: true,
 			tabIndex: 0,
-			tabsData: ['推荐', '活动', '高新转行', '认证', '提升', '好物'],
 			menusData: [
 				{
 					text: '分类',
@@ -162,17 +163,23 @@ export default {
 					text: '精品课程',
 					url: '../../../static/images/index/index-menu-05.png'
 				}
-			]
+			],
 		};
 	},
-	onLoad() {},
-	created() {},
+	mounted() {
+		setTimeout(()=>{
+			console.log('asd',this.interestList);
+		},2000)
+	},
+	computed:{
+		...mapState([
+			'interestList', // 兴趣点列表
+		])
+	},
 
 	methods: {
-		// 横向菜单，返回值
-		getTabIndex(value) {
-			this.tabIndex = value;
-		}
+		
+		
 	}
 };
 </script>
