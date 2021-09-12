@@ -4,13 +4,13 @@
 		<view class="item-top">
 			<image class="goods-image" src="../../static/images/other/demo.png" mode="aspectFill"></image>
 			<view class="right flex-column-between">
-				<view class="name">5天英语全能挑战</view>
+				<view class="name">{{data.goodsName}}</view>
 				<view class="flex-center-between">
-					<view class="">售价:¥500</view>
+					<view class="">售价:¥{{data.price}}</view>
 					<view class="flex-center">
 						预计佣金:
 						<view class="price">
-							500
+							{{data.gold}}
 							<text class="unit">金币</text>
 						</view>
 					</view>
@@ -42,6 +42,13 @@
 <script>
 export default {
 	name: 'sales-goods-lists-item',
+	props: {
+		data: {
+			type: Object,
+			required: true
+		}
+	},
+	
 	data() {
 		return {};
 	},

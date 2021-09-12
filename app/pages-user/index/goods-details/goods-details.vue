@@ -572,6 +572,7 @@ export default {
 			this.$http.post('/distribution/goodsApply', { goodsId: this.goodsInfo.goodsId, storeId: this.goodsInfo.storeId }, true).then(res => {
 				this.goodsInfo.goodsDistributionStatus = 3;
 				this.openPopup('distributePopup');
+				this.$store.commit('setOrderChange');
 			});
 		},
 
