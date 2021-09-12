@@ -1,15 +1,19 @@
-<!-- 高薪转行 -->
+<!-- 课程小模块 -->
 <template>
 	<view class="course-lists-item" @click="itemClick()">
-		<image class="item-image" :src="data.thumbnail" mode="aspectFill"></image>
+		<image class="item-image" :src="data.thumbnail" mode="aspectFill" />
 		<view class="item-right">
 			<view class="name text-bold">{{data.goodsName}}</view>
 			<view class="item-desc flex-center">
-				<view class="flex price text-bold">
+				<view class="flex price text-bold" :class="from && 'cost'">
 					<text class="unit">￥</text>
 					<view>{{data.price}}</view>
 				</view>
-				<view class="number">{{data.sales}}人最近报名</view>
+        <view v-if="from" class="flex price text-bold">
+					<text class="unit">￥</text>
+					<view>{{data.discountPrice}}</view>
+				</view>
+				<view v-if="!from" class="number">{{data.sales}}人最近报名</view>
 			</view>
 		</view>
 	</view>
@@ -28,7 +32,15 @@
 					price:0,
 					sales:0
 				})
-			}
+			},
+      /*
+       @params:String
+        benefit 会员权益跳转过来的页面
+      */ 
+      from:{
+        type:String,
+        default:'', 
+      }
 		},
 		data() {
 			return {
