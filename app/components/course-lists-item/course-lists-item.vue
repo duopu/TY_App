@@ -22,12 +22,12 @@
 		props:{
 			data: {
 				type:Object,
-				default:{
+				default:()=>({
 					goodsName:'幼儿美术基础(免费特级/少儿美术/儿童绘画/随到随学)',
 					thumbnail: '../../../static/images/other/demo.png',
 					price:0,
 					sales:0
-				}
+				})
 			}
 		},
 		data() {
