@@ -6,7 +6,7 @@
 				<text>{{goldCoin}}</text>
 				<text class="unit">金币</text>
 			</view>
-			<button class="btn text-bold">我要提现</button>
+			<button class="btn text-bold" @click="openWithdrawal">我要提现</button>
 			<view class="title text-bold">提现规则：</view>
 			<view class="desc">1、满500金币即可提现。2、100金币等于人民币1元</view>
 		</view>
@@ -21,6 +21,8 @@
 				<view class="money text-bold" :class="item.type != 1  && 'color-red'">{{ item.type == 1 ? '+' : '-' }}{{item.gold}}金币</view>
 			</view>
 		</view>
+		<!-- 提现弹窗 -->
+		<wallet-withdrawal-popup ref="withdrawalPopup"></wallet-withdrawal-popup>
 	</view>
 </template>
 
@@ -55,6 +57,11 @@ export default {
   },
 
   methods:{
+
+    // 打开弹窗
+		openWithdrawal() {
+			this.$refs['withdrawalPopup'].open();
+		},
 
     // 查询用户信息(金币)
     async queryInfo(){
