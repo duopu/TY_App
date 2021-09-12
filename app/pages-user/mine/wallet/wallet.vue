@@ -22,7 +22,7 @@
 			</view>
 		</view>
 		<!-- 提现弹窗 -->
-		<wallet-withdrawal-popup ref="withdrawalPopup"></wallet-withdrawal-popup>
+		<wallet-withdrawal-popup ref="withdrawalPopup" @submit="_submit"></wallet-withdrawal-popup>
 	</view>
 </template>
 
@@ -60,8 +60,22 @@ export default {
 
     // 打开弹窗
 		openWithdrawal() {
+      if(parseInt(this.goldCoin) < 500){
+        this.$tool.showToast('金币小于500不可提现')
+        return;
+      }
 			this.$refs['withdrawalPopup'].open();
 		},
+
+    _submit(form){
+      const params = {...form, goldCoin:this.goldCoin}
+      this.$http.post('/user/withdraw',params,true).then(res=>{
+        this.$tool.showSuccess('提现成功',()=>{
+          this.queryInfo()
+          this._refresh()	
+				})
+      })
+    },
 
     // 查询用户信息(金币)
     async queryInfo(){
