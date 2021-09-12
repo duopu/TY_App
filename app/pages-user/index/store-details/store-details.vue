@@ -4,7 +4,7 @@
 		<!-- 头部 -->
 		<view class="flex-center-between store-top">
 			<image @click="goBack" class="icon-back" src="../../../static/images/icons/icon-back.svg" mode="aspectFill"></image>
-			<custom-search v-if="b_tabIndex === 1" placeholder="搜索" :value="searchText" @search="onSearchInput"></custom-search>
+			<custom-search placeholder="搜索" :value="searchText" @search="onSearchInput"></custom-search>
 		</view>
 		<scroll-view scroll-y="true" class="store-content">
 			<!-- 店铺信息-->
@@ -36,33 +36,24 @@
 				</view>
 			</view>
 			<!-- 菜单  推荐、全部宝贝、新品-->
-			<custom-horizontal-tabs class="custom-tabs" v-if="b_tabIndex == 0" @change="i=>t_tabIndex=i" :data="tabsData" :currentIndex="t_tabIndex"></custom-horizontal-tabs>
+			<custom-horizontal-tabs class="custom-tabs" @change="i=>t_tabIndex=i" :data="tabsData" :currentIndex="t_tabIndex"></custom-horizontal-tabs>
 			
 			<!-- 筛选 综合排序， 云计算，筛选 -->
-			<filter-tab v-if="!(t_tabIndex==0&&b_tabIndex==0)"></filter-tab>
+			<filter-tab v-show="t_tabIndex!==0" @filterParam="onFilterParam"></filter-tab>
 			
-			<block v-for="(item, index) in [{}, {}, {}, {}, {}, {}, {}, {}, {}]" :key="index" @itemClick="goodsItemClick(item)">
-				<course-lists-item></course-lists-item>
+			<block v-for="(item, index) in goodsList" :key="index" @itemClick="goodsItemClick(item)">
+				<course-lists-item :data="item" @itemClick="goodsClick(item)"></course-lists-item>
 			</block>
 			
 		</scroll-view>
-
-		<!-- 底部 tabbar -->
-		<bottom-tab :tabbarIndex="b_tabIndex" @tabbarIndexChange="i=>b_tabIndex=i"></bottom-tab>
 	</view>
 </template>
 
 <script>
-import TabStore from './tab-store.vue';
-import TabGoods from './tab-goods.vue';
-import bottomTab from './bottom-tab.vue';
 import filterTab from './filter-tab.vue';
 
 export default {
 	components: {
-		TabStore,
-		TabGoods,
-		bottomTab,
 		filterTab
 	},
 	data() {
@@ -75,10 +66,11 @@ export default {
 			tabsData: ['推荐', '全部宝贝', '新品'],
 			// 顶部tab 序号
 			t_tabIndex:0,
-			// 底部 tab 序号
-			b_tabIndex: 0,
 			// 搜索文字
-			searchText:''
+			searchText:'',
+			// 筛选条件
+			filterParam:{},
+			goodsList:[],
 		};
 	},
 	onLoad(option) {
@@ -90,15 +82,11 @@ export default {
 		t_tabIndex(){
 			this.queryGoodsList()
 		},
-		b_tabIndex(){
-			this.queryGoodsList()
-		},
 		searchText(){
 			this.queryGoodsList()
 		}
 	},
 	methods: {
-		
 		// 查询店铺详情
 		queryStoreInfo(){
 			this.$http.get('/store/queryInfoByLogin',{storeId:this.storeId},true).then(res=>{
@@ -121,9 +109,31 @@ export default {
 		onSearchInput(text){
 			this.searchText = text;
 		},
+		// 筛选条件改变
+		onFilterParam(param){
+			this.filterParam = param;
+			this.queryGoodsList();
+		},
 		// 查询商品列表
 		queryGoodsList(){
-			
+			const source = [3,4,1][this.t_tabIndex];
+			let param = {
+				source,
+				page:1,
+				size:1000,
+				searchText:this.searchText
+			}
+			if(this.t_tabIndex !== 0 ){
+				param = {...param,...this.filterParam}
+			}
+			this.$http.get('/category/goods/queryPage',param,true).then(res=>{
+				this.goodsList = res.content;
+			})
+		},
+		goodsClick(item){
+			uni.navigateTo({
+				url:`/pages-user/index/goods-details/goods-details?goodsId=${item.goodsId}`
+			})
 		},
 		//  返回上一级
 		goBack() {
