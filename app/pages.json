@@ -368,6 +368,13 @@
                         "enablePullDownRefresh": false
                     }
                 }, {
+                    "path": "mine/benefit/course-list",
+                    "style": {
+                        "navigationBarTitleText": "会员权益课程列表",
+                        "enablePullDownRefresh": false
+                    }
+
+                }, {
                     "path": "mine/sign-in/sign-in",
                     "style": {
                         "navigationStyle": "custom",
@@ -407,20 +414,11 @@
                     }
                 },
                 {
-                    "path": "index/goods/goods",
-                    "style": {
-                        "navigationStyle": "custom",
-                        "enablePullDownRefresh": false
-                    }
-
-                },
-                {
                     "path": "my/money/money",
                     "style": {
                         "navigationBarTitleText": "保证金",
                         "enablePullDownRefresh": false
                     }
-
                 },
                 {
                     "path": "my/account/account",

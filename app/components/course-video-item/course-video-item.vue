@@ -8,7 +8,7 @@
 				<view class="name text-bold text-ellipsis">{{state === 1 ? data.title : data.courseName }}</view>
 				<view class="learn-color" v-if="state === 0">
 					已学习
-					<text class="learn-process">{{data.learnCount}}</text>
+					<text class="learn-process">{{parseInt(data.learnCount * 100) + '%'}}</text>
 				</view>
 			</view>
 			<view class="flex-center-between">
