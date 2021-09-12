@@ -3,15 +3,15 @@
 	<view class="online">
 		<view class="flex-center row">
 			<image class="icons" src="../../../static/images/icons/icon-yellow-phone.svg" mode="aspectFill"></image>
-			<text>平台客服电话:0420-58475928582</text>
+			<text>平台客服电话:{{info.mobile}}</text>
 		</view>
 		<view class="flex-center row">
 			<image class="icons" src="../../../static/images/icons/icon-yellow-qq.svg" mode="aspectFill"></image>
-			<text>QQ:194819491</text>
+			<text>QQ:{{info.qq}}</text>
 		</view>
 		<view class="flex-center row">
 			<image class="icons" src="../../../static/images/icons/icon-yellow-email.svg" mode="aspectFill"></image>
-			<text>邮箱:tiejtlr@126.com</text>
+			<text>邮箱:{{info.email}}</text>
 		</view>
 	</view>
 </template>
@@ -20,8 +20,18 @@
 	export default {
 		data() {
 			return {
-				
+				info:{}
 			};
+		},
+		onLoad() {
+			this.queryInfo()
+		},
+		methods:{
+			queryInfo(){
+				this.$http.get('/online/queryDetail',{},true).then(res=>{
+					this.info = res
+				})
+			}
 		}
 	}
 </script>

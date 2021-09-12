@@ -96,6 +96,9 @@ export default {
 	created() {
 		this.queryGroupBuy();
 		this.queryUnremittingly();
+		uni.$on('kcfx-open',()=>{
+			this.tabsIndex = 2;
+		})
 	},
 	methods: {
 		// change tabs index
