@@ -31,9 +31,23 @@
 					});
 				}
 			});
+			
+			
+			// 监听会话变化
+			uni.$on('ConversationListen',(data)=>{
+				console.log('监听会话变化 22',data);
+				if(data.type == 'onConversationChanged'){
+					this.$store.commit('onConversationChanged',data.conversationList)
+				}
+			})
+			
+			setTimeout(()=>{
+				this.$store.dispatch('getGroupConversationMap')
+			},2000)
+			
 
 		
-		// 定时刷新token
+			// 定时刷新token
 			this.$http.refreshToken();
 			const timer = setInterval(() => {
 				this.$http.refreshToken();
