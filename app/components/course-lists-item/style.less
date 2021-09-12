@@ -1,42 +1,49 @@
 .course-lists-item {
-	display: flex;
-	flex-direction: row;
-	padding: 30rpx 0;
-	align-items: stretch;
-	& + .course-lists-item {
-		border-top: 1px solid #DFE0E6;
-	}
-	.item-image {
-		margin-right: 24rpx;
-		flex-shrink: 0;
-		width: 240rpx;
-		height: 160rpx;
-		border-radius: 20rpx;
-		overflow: hidden;
-	}
-	.item-right {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		overflow: hidden;
-		.name {
-			font-size: 28rpx;
-		}
-	}
-	.item-desc {
-		.price {
-			align-items: baseline;
-			font-size: 34rpx;
-			color: #ff705b;
-			.unit {
-				font-size: 24rpx;
-			}
-		}
-		.number {
-			margin-left: 24rpx;
-			font-size: 24rpx;
-			color: #666666;
-		}
-	}
+  display: flex;
+  flex-direction: row;
+  padding: 30rpx 0;
+  align-items: stretch;
+  & + .course-lists-item {
+    border-top: 1px solid #dfe0e6;
+  }
+  .item-image {
+    margin-right: 24rpx;
+    flex-shrink: 0;
+    width: 240rpx;
+    height: 160rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
+  }
+  .item-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    .name {
+      font-size: 28rpx;
+    }
+  }
+  .item-desc {
+    .price {
+      align-items: baseline;
+      font-size: 34rpx;
+      color: #ff705b;
+      .unit {
+        font-size: 24rpx;
+      }
+      &:last-child {
+        margin-left: 24rpx;
+      }
+      &.cost {
+        text-decoration: line-through;
+        color: #999;
+      }
+    }
+    .number {
+      margin-left: 24rpx;
+      font-size: 24rpx;
+      color: #666666;
+    }
+  }
 }

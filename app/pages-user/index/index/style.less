@@ -1,43 +1,43 @@
-@color-yellow:#FFB55B;
-@color-red:#FF705B;
+@color-yellow: #FFB55B;
+@color-red: #FF705B;
 
-.page-wrapper.main{
+.page-wrapper.main {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 	overflow: hidden;
 	// 公用
-	.color-yellow{
+	.color-yellow {
 		color: @color-yellow;
 	}
-	.color-red{
+	.color-red {
 		color: @color-red;
 	}
-	.color-9{
+	.color-9 {
 		color: #999999;
 	}
-	.color-6{
+	.color-6 {
 		color: #666666;
 	}
-	.font-24{
+	.font-24 {
 		font-size: 24rpx;
 	}
-	.font-34{
+	.font-34 {
 		font-size: 34rpx;
 	}
-	.font-20{
+	.font-20 {
 		font-size: 20rpx;
 	}
 }
 // 头部
-.main-top{
+.main-top {
 	flex-shrink: 0;
-	padding: calc(var(--status-bar-height) + 24rpx)  20rpx 0;
-	.image-eduction{
+	padding: calc(var(--status-bar-height) + 24rpx) 20rpx 0;
+	.image-eduction {
 		width: 208rpx;
 		height: 42rpx;
 	}
-	.line{
+	.line {
 		margin: auto 16rpx;
 		width: 2rpx;
 		height: 24rpx;
@@ -45,24 +45,24 @@
 		border-radius: 2rpx;
 		opacity: 0.3;
 	}
-	.icon-image{
+	.icon-image {
 		width: 40rpx;
 		height: 40rpx;
-		& + .icon-image{
+		& + .icon-image {
 			margin-left: 24rpx;
 		}
 	}
-	.custom-tabs{
+	.custom-tabs {
 		margin: 20rpx -20rpx;
 	}
 }
 // 菜单
-.main-tabs{
-	.custom-tabs{
+.main-tabs {
+	.custom-tabs {
 		margin: atuo 0;
 		flex: 1;
 	}
-	.icon-image{
+	.icon-image {
 		margin-right: 20rpx;
 		flex-shrink: 0;
 		width: 40rpx;
@@ -70,96 +70,113 @@
 	}
 }
 //内容
-.main-content{
+.main-content {
 	flex: 1;
 	height: 100%;
 	overflow: hidden;
 	box-sizing: border-box;
 	//标题
-	.index-title{
+	.index-title {
 		margin-bottom: 20rpx;
-		.icon-image{
+		.icon-image {
 			margin-right: 8rpx;
 			width: 48rpx;
 			height: 48rpx;
 		}
-		.title{
+		.title {
 			font-size: 30rpx;
 			font-weight: bold;
 		}
-		.line{
+		.line {
 			margin: 0 16rpx;
 			width: 2rpx;
 			height: 24rpx;
-			background-color: #CCCCCC;
+			background-color: #cccccc;
 			border-radius: 1px;
 		}
-		.icon-arrow{
+		.icon-arrow {
 			margin-left: 8rpx;
 			width: 32rpx;
 			height: 32rpx;
 		}
 	}
 	// banner switch
-	.swiper{
+	.swiper {
 		margin: auto 20rpx;
 	}
 	// 菜单
-	.menus{
+	.menus {
 		margin-top: 20rpx;
-		&-item{
+		&-item {
 			flex: 1;
 			text-align: center;
-			.icon-image{
+			.icon-image {
 				margin-bottom: 8rpx;
 				width: 80rpx;
 				height: 80rpx;
 			}
-			.text{
+			.text {
 				font-size: 22rpx;
 			}
 		}
 	}
 	//咨询
-	.consult{
-		margin: 20rpx;
-		&-item{
-			flex: 1;
+	.consult {
+		margin: 40rpx 20rpx;
+		.image-left {
+			margin-right: 16rpx;
+			width: 100%;
+			height: 256rpx;
+			border-radius: 20rpx;
+		}
+		.image-right {
+			width: 100%;
+			height: 120rpx;
+			border-radius: 20rpx;
+		}
+		.image-right-small {
+			margin-top: 16rpx;
+			width: 100%;
+			height: 120rpx;
+			border-radius: 20rpx;
+			& + .image-right-small {
+				margin-left: 20rpx;
+			}
 		}
 	}
 	//大咖直播
-	.broadcast{
+	.broadcast {
 		margin: 40rpx 20rpx;
-		&-item{
+		&-item {
 			margin-right: 22rpx;
 			padding: 30rpx 20rpx;
-			background-color: #F8F8F8;
-			.color-white{
-				color: #FFFFFF;
+			background-color: #f8f8f8;
+			.color-white {
+				color: #ffffff;
 			}
-			&-left{
+			&-left {
 				margin-right: 22rpx;
 				flex: 1;
 				overflow: hidden;
-				.name{
+				.name {
 					font-size: 28rpx;
 					width: 100%;
 					font-weight: bold;
 					white-space: nowrap;
-					text-overflow:ellipsis;
+					text-overflow: ellipsis;
 					overflow: hidden;
 				}
-				.desc{
+				.desc {
 					margin-top: 16rpx;
 					font-size: 22rpx;
 					color: #666;
 					width: 100%;
 					white-space: nowrap;
-					text-overflow:ellipsis;
+					text-overflow: ellipsis;
 					overflow: hidden;
 				}
 			}
-			&-live{
+			&-live {
 				padding: 0 12rpx;
 				margin-top: 28rpx;
 				line-height: 64rpx;
@@ -169,106 +186,160 @@
 				background-size: 100% 100%;
 				background-repeat: no-repeat;
 			}
-			&-image{
+			&-image {
 				width: 240rpx;
 				height: 160rpx;
 				border-radius: 20rpx;
 			}
 		}
-		.border-item{
-			padding: 0 16rpx;
-			font-size: 24rpx;
-			line-height: 48rpx;
-			border: 1px solid #DFE0E6;
-			border-radius: 8px;
-		}
-		.classify-tabs{
-			margin: 20rpx auto;
-			&-item{
-				margin-right: 48rpx;
-				&.on{
-					color: @color-yellow;
-				}
+	}
+	.classify-tabs {
+		margin: 20rpx auto;
+		&-item {
+			margin-right: 48rpx;
+			&.on {
+				color: @color-yellow;
 			}
 		}
 	}
-	
+	.border-item {
+		padding: 0 16rpx;
+		font-size: 24rpx;
+		line-height: 48rpx;
+		border: 1rpx solid #dfe0e6;
+		border-radius: 8rpx;
+	}
 	// 考试题库
-	.question-bank{
-		.index-title{
+	.question-bank {
+		.index-title {
 			margin-top: 20rpx;
 			margin-left: 20rpx;
 			margin-right: 20rpx;
 		}
-		&-lists{
+		&-lists {
 			width: auto;
 			min-height: 258rpx;
 			white-space: nowrap;
-			.lists-item{
-				&:last-child{
+			.lists-item {
+				&:last-child {
 					margin-right: 20rpx;
 				}
 				width: 600rpx;
 				padding: 30rpx 20rpx;
 				margin-left: 20rpx;
 				display: inline-block;
-				background: #F8F8F8;
+				background: #f8f8f8;
 				border-radius: 20rpx;
-				.sub-title{
+				.sub-title {
 					margin-right: 16rpx;
 					padding: 0 14rpx;
 					display: inline-block;
 					font-size: 22rpx;
-					color:#FFFFFF;
-					background-image: linear-gradient(180deg, #6D88F7 0%, #91A6FF 100%);
+					color: #ffffff;
+					background-image: linear-gradient(180deg, #6d88f7 0%, #91a6ff 100%);
 					border-radius: 4rpx;
 				}
-				.name{
+				.name {
 					font-size: 28rpx;
 					font-weight: bold;
 					white-space: pre-wrap;
 					line-height: 1.8;
 				}
-				.person-image{
+				.person-image {
 					margin-right: 8rpx;
 					width: 56rpx;
 					height: 56rpx;
 					border-radius: 50%;
 				}
-				.number{
+				.number {
 					margin-top: 4rpx;
 					font-size: 34rpx;
 					color: @color-red;
 					text-align: right;
 				}
-				&-bottom{
+				&-bottom {
 					display: flex;
 					margin-top: 40rpx;
 					justify-content: space-between;
 					align-items: flex-end;
 				}
-				.price{
+				.price {
 					color: @color-red;
-					font-weight:bold;
+					font-weight: bold;
 					text-align: right;
-					&-unit{
+					&-unit {
 						font-size: 24rpx;
 					}
-					&-number{
+					&-number {
 						margin-top: 4rpx;
 						font-size: 34rpx;
 					}
 				}
 			}
-			
 		}
 	}
 	// 高薪转行
-	.change-career{
-		margin: 20rpx;
+	.change-career {
+		margin-top: 40rpx;
+		.index-title{
+			margin-left: 20rpx;
+		}
 	}
 	//精品课程
-	.course{
-		margin: 20rpx;
+	.course {
+		margin:40rpx 20rpx;
+	}
+}
+// 高薪转行
+.career-lists {
+	width: auto;
+	height: 430rpx;
+	white-space: nowrap;
+	.item{
+		margin-left: 20rpx;
+		display: inline-flex;
+		position: relative;
+		width: 280rpx;
+		padding: 30rpx 20rpx 58rpx;
+		min-height: 350rpx;
+		border-radius: 20rpx;
+		text-align: center;
+		background-image: url(../../../static/images/index-career-bg.png);
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		box-sizing: border-box;
+		&:nth-child(2){
+			background-image: url(../../../static/images/index-career-bg02.png);
+		}
+		&:last-child{
+			margin-right: 20rpx;
+			background-image: url(../../../static/images/index-career-bg03.png);
+		}
+		.title{
+			margin-bottom: 40rpx;
+			font-size: 28rpx;
+		}
+		.text-line{
+			margin-bottom: 32rpx;
+			font-size: 22rpx;
+			color: #666666;
+			text-decoration: underline;
+		}
+		.text{
+			font-size: 24rpx;
+		}
+		.btn{
+			margin-left: -80rpx;
+			position: absolute;
+			bottom: -32rpx;
+			left: 50%;
+			font-size: 26rpx;
+			width: 160rpx;
+			height: 56rpx;
+			line-height: 56rpx;
+			color: #FFFFFF;
+			background-color: #FFB55B;
+			border-radius: 32rpx;
+		}
 	}
 }

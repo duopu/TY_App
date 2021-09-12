@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import config from '../utils/config.js';
-import request from '../utils/request.js'
+import request from '../utils/request.js';
+import imtool from '../utils/im.js';
 
 Vue.use(Vuex);//vue的插件机制
 
@@ -16,6 +17,7 @@ const store = new Vuex.Store({
 		unremittinglyVO: {}, //用户当前选中的坚持不懈活动对象
 		orderChange: 0, //记录订单发生变化（比如当用户生成订单或者订单状态发生改变时，通过监听该值的变化来实现一些页面的被动刷新效果，例如：当用户在组团优惠列表页下了一个订单，等订单完成的时候列表页需要主动刷新）
 		interestList:[],  // 用户兴趣点， 类型 categoryId: number ，img: string ,interestName: string
+		groupConversationMap:{},// 会话map，key：群组id  value：会话对象
     },
 	
 	mutations:{
@@ -121,8 +123,19 @@ const store = new Vuex.Store({
 		setOrderChange(state){
 			state.orderChange += 1;
 		},
+		// 设置用户兴趣点
 		setInterestList(state,list){
 			state.interestList = list;
+		},
+		// 设置 会话map
+		setGroupConversationMap(state,map){
+			state.groupConversationMap = map;
+		},
+		// 会话发生变化
+		onConversationChanged(state,list){
+			list.forEach(cov=>{
+				state.groupConversationMap[cov.groupId] = cov
+			})
 		}
 	},
 	
@@ -161,6 +174,13 @@ const store = new Vuex.Store({
 		queryInterestList({commit}) {
 			request.get('/category/queryInterestList').then(res=>{
 				commit('setInterestList',res)
+			})
+		},
+		// 获取群组会话列表
+		getGroupConversationMap({commit}){
+			imtool.getGroupConversationMap().then(map=>{
+				console.log('获取群组会话列表',map);
+				commit('setGroupConversationMap',map)
 			})
 		}
 	}
