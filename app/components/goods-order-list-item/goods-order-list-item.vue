@@ -32,7 +32,7 @@
 			<!-- 测试使用，以后删除掉！！！ -->
 			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
 			<button class="btn btn-block" @click.stop="evaluateOrder">去评价</button>
-			<button class="btn btn-border black" @click.stop="queryLogistics(item)">查看物流</button>
+			<button class="btn btn-border black" @click.stop="queryLogistics">查看物流</button>
 		</view>
 		
 		<!-- 待发货 -->
@@ -44,7 +44,7 @@
 		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 2">
 			<button v-if="item.examState === 1" class="btn btn-border black">电子凭证</button>
 			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
-			<button v-if="item.deliveryState !== -1" class="btn btn-border black" @click.stop="queryLogistics(item)">查看物流</button>
+			<button v-if="item.deliveryState !== -1" class="btn btn-border black" @click.stop="queryLogistics">查看物流</button>
 			<button class="btn btn-block" @click="receivedOrder">确认收货</button>
 		</view>
 		
@@ -65,13 +65,14 @@
 		<!-- 底部的插槽 -->
 		<slot name="bottom"></slot>
 		
+		
 	</view>
 </template>
 
 <script>
 export default {
 	name: 'goods-order-list-item',
-	emits: ['goodsClick','cancelOrder', 'queryLogistics', 'payOrder', 'deletOrder', 'applyRefund', 'evaluateOrder', 'receivedOrder'],
+	emits: ['goodsClick','cancelOrder', 'payOrder', 'queryLogistics', 'deletOrder', 'applyRefund', 'evaluateOrder', 'receivedOrder'],
 	props: {
 		type: {
 			type: Number,
@@ -142,7 +143,7 @@ export default {
 
 		// 商品点击
 		goodsClick(){
-			this.$emit("goodsClick");
+			this.$emit('goodsClick');
 		},
 		// 取消订单
 		cancelOrder(){
@@ -152,10 +153,6 @@ export default {
 		payOrder(){
 			this.$emit("payOrder");
 		},
-		//查看物流
-		queryLogistics(){
-			this.$emit("queryLogistics");
-		},
 		// 删除订单
 		deletOrder(){
 			this.$emit("deletOrder");
@@ -163,6 +160,10 @@ export default {
 		// 申请退款
 		applyRefund(){
 			this.$emit("applyRefund");
+		},
+		// 查看物流
+		queryLogistics(){
+			this.$emit("queryLogistics");
 		},
 		//去评价
 		evaluateOrder(){
