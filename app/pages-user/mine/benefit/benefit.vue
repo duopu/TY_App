@@ -3,37 +3,46 @@
 	<view class="benefit">
 		<!-- tab -->
 		<view class="tabs-lists flex-center-between">
-			<view class="item on">白银</view>
-			<view class="item">黄金</view>
-			<view class="item">钻石</view>
+			<view 
+        v-if="detail.memberLevelList" v-for="(item,index) in detail.memberLevelList" 
+        :key="index" class="item" :class="current === index && 'on'"
+        @click="tabChange(index)"
+      >{{item.levelName}}</view>
 		</view>
-		<view class="benefit-silver">
-			<image class="image" src="../../../static/images/benefit-silver.png" mode="widthFix"></image>
-			<view class="describe flex-column-between">
-				<view class="name text-bold">白银会员</view>
-				<view class="text flex-1">当前成长值:1200,升级还需:800</view>
-				<view class="process">
-					<view class="process-bar" style="width: 60%;"></view>
-				</view>
-			</view>
-		</view>
+    <block v-if="current === index" v-for="(item,index) in detail.memberLevelList" :key="index" >
+      <view class="benefit-silver">
+        <image class="image" :src="item.logo || '../../../static/images/benefit-silver.png'" mode="widthFix" />
+        <view class="describe flex-column-between">
+          <view class="name text-bold">{{item.levelName}}</view>
+          <view class="text flex-1">
+            <text v-if="detail.level > item.levelId ">当前高于该等级</text>
+            <text v-else-if="item.levelId === detail.level">{{detail.conditions}}</text>
+            <text v-else>成长值达到{{item.growth}}可升级</text>
+          </view>
+          <view v-if="item.levelId === detail.level" class="process">
+            <view class="process-bar" style="width: 60%;"></view>
+          </view>
+        </view>
+      </view>
 
-		<!-- 白银特权 -->
-		<view class="box privilege">
-			<view class="title text-bold">白银特权</view>
-			<view class="privilege-list">
-				<view class="flex-column item" v-for="(item, index) in privilegeLists" :key="index">
-					<image class="image" mode="aspectFill" :src="item.image"></image>
-					<text>{{ item.text }}</text>
-				</view>
-			</view>
-		</view>
+      <!-- 白银特权 -->
+      <view class="box privilege">
+        <view class="title text-bold">{{item.levelName}}特权</view>
+        <view class="privilege-list">
+          <view class="flex-column item" v-for="(item, index) in privilegeLists" :key="index">
+            <image class="image" mode="aspectFill" :src="item.image" />
+            <text>{{ item.text }}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+		
 		<!-- 获取成长值去升级 -->
 		<view class="box upgrade">
 			<view class="title text-bold">获取成长值去升级</view>
 			<view class="upgrade-list">
 				<view class="item flex-center-between" v-for="(item, index) in upgradeLists" :key="index">
-					<image class="image" mode="aspectFill" :src="item.image"></image>
+					<image class="image" mode="aspectFill" :src="item.image" />
 					<view class="flex-column flex-1">
 						<view class="text-bold">{{ item.name }}</view>
 						<view class="desc">{{ item.desc }}</view>
@@ -82,10 +91,29 @@ export default {
 					name: '购买题库',
 					desc: '20元/成长值'
 				}
-			]
+			],
+      detail:{
+
+      },
+      current:0,
 		};
 	},
-	methods: {}
+  onLoad(){
+    this.queryDetail()
+  },
+	methods: {
+
+    // tab 点击事件
+    tabChange(current){
+      this.current = current
+    },
+
+    // 查询会员权益
+    async queryDetail(){
+      const data =  await this.$http.get('/member/queryMemberDetail',{},true) || {}
+      this.detail = data
+    }
+  }
 };
 </script>
 
