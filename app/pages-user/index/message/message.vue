@@ -31,6 +31,7 @@
 				<view class="message-tag" v-if="item.unreadCount > 0">{{item.unreadCount}}</view>
 			</view>
 		</scroll-view>
+		<!-- 系统消息 -->
 		<scroll-view v-show="tabIndex === 1" scroll-y="true" class="message-scroll-content">
 			<view class="system-item flex-center-between"  v-for="(item,index) in systemMsg" :key="item.announcementId" @click="navAnnouncementDetail(item)">
 				<image class="image" src="../../../static/images/gantanhao.png" mode="aspectFill"></image>
@@ -64,7 +65,6 @@ export default {
 		groupList(){
 			const newGroup = this.insideData.map(group=>{
 				let cov = this.groupConversationMap[group.groupId]
-				console.log(group.groupId,cov);
 				if(cov){
 					const covInfo = this.$tool.imTool.getInfoFromConversation(cov);
 					return {...group,...covInfo};
@@ -103,10 +103,6 @@ export default {
 			this.$http.get('/im/queryGroupList').then(res=>{
 				this.insideData = res;
 			})
-			
-			setTimeout(()=>{
-				console.log('efv',this.groupList);
-			},2000)
 		},
 		// 跳转聊天界面
 		navImMessage(item){

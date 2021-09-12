@@ -46,15 +46,15 @@
 				</view>
 			</view>
 			<!-- 用户消息列表 --> 
-			<view class="lists-item" v-for="(item,index) in ['','','','','']" :key="index">
-				<image src="../../../static/images/other/girl.png" mode="aspectFill" class="item-image"></image>
+			<view class="lists-item" v-for="(item,index) in groupList" :key="index" @click="navImMessage(item)">
+				<image :src="item.avatar" mode="aspectFill" class="item-image"></image>
 				<view class="flex-column flex-1">
-					<view class="name text-bold">用户A</view>
-					<view class="desc">好哒，亲～～</view>
+					<view class="name text-bold">{{item.nickName}}</view>
+					<view class="desc">{{item.message}}</view>
 				</view>
 				<view class="flex-column item-right">
-					<view class="time text-bold">2012-20-12</view>
-					<view class="number">15</view>
+					<view class="time text-bold">{{item.time}}</view>
+					<view class="number">{{item.unreadCount}}</view>
 				</view>
 			</view>
 		</scroll-view>
@@ -62,6 +62,8 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'; 
+	
 export default {
 	name: 'messageIndex',
 	components: {
@@ -69,15 +71,42 @@ export default {
 	data() {
 		return {
 			showPop:false,
-			dotsData: ['全部标为已读', '删除全部会话', '聊天设置', '新消息通知设置']
+			dotsData: ['全部标为已读', '删除全部会话', '聊天设置', '新消息通知设置'],
+			insideData:[],
 		};
 	},
+	computed:{
+		...mapState([
+			'groupConversationMap' // 兴趣点列表
+		]),
+		groupList(){
+			const newGroup = this.insideData.map(group=>{
+				let cov = this.groupConversationMap[group.groupId]
+				if(cov){
+					const covInfo = this.$tool.imTool.getInfoFromConversation(cov);
+					return {...group,...covInfo};
+				}
+				return group
+			})
+			return newGroup;
+		},
+	},
 	mounted(){
-
+		this.queryGroupList()
 	},
 	methods: {
-		
-		
+		// 查询群组列表
+		queryGroupList(){
+			this.$http.get('/im/queryGroupList').then(res=>{
+				this.insideData = res;
+			})
+		},
+		// 跳转聊天界面
+		navImMessage(item){
+			uni.navigateTo({
+				url:`/pages/im-message/im-message?groupId=${item.groupId}&userPortrait=${item.avatar}&userIM=${item.imNum}&storeName=${item.storeName}&storePortrait=${item.storeAvatar}`
+			})
+		},
 		// 跳转页面 便利方法
 		jump(type){
 			if(type == 'trade'){
