@@ -27,9 +27,9 @@
 				<view class="font-24 color-9">连续7天签到有惊喜</view>
 				<!-- 时间 -->
 				<view class="series-list flex">
-					<view class="item normal flex-center-center" v-for="item in signInfo.signInList">
+					<view class="item normal flex-center-center" v-for="(item,index) in signInfo.signInList" :key="index">
 						<text class="number" v-if="item.flag">{{item.dailyDate.substr(8,2)}}</text>
-						<image class="image"v-else src="../../../static/images/sign-in-time.png" mode="aspectFill">
+						<image class="image" v-else src="../../../static/images/sign-in-time.png" mode="aspectFill">
 					</view>
 					<!-- 
 					<view class="item normal flex-center-center"><text class="number">29</text></view>

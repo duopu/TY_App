@@ -69,7 +69,8 @@ export default {
         storeId:'',
         avatar:'',
         storeName:'',
-        isEval:true
+        isEval:true,
+        type:undefined,
       },
       current:0,
       videoUrl:'',
@@ -231,6 +232,13 @@ export default {
         courseId:this.courseId
       }
       const data = await this.$http.get('/userCourse/queryDetail',params,true)
+      // 直播课跳转
+      if(data.type == 3){
+        uni.redirectTo({
+						url:`/pages-business/index/live/publish?courseId=${this.courseId}`
+				})
+        return;
+      }
       if(data.userCourseClassList[0] && data.userCourseClassList[0].nodes[0]){
         this.videoUrl = data.userCourseClassList[0].nodes[0].url
         this.id = data.userCourseClassList[0].nodes[0].id
