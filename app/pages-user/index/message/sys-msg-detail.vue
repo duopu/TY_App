@@ -15,7 +15,6 @@
 		},
 		onLoad(option) {
 			this.id = option.id;
-			console.log(option);
 			this.queryMessageInfo();
 			this.readAnnouncement();
 		},

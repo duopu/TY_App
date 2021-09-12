@@ -63,11 +63,11 @@ const login = (user)=>{
 		// 跳转用户首页页面 
 		uni.reLaunch({
 			url: '/pages-user/index/index/index'
-		});
+		}); 
 	}else{
 
 		// 获取商家IM 信息
-		request.get('/im/getStoreImSig',{},true).then(imTodo)
+		request.get('/im/getStoreImSig',{imNum:user.imNum},true).then(imTodo)
 		
 		// 跳转商家首页页面
 		uni.reLaunch({

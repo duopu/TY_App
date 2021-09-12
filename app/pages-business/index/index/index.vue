@@ -88,25 +88,25 @@ export default {
 			ordersStateData: [
 				{
 					key: 'noPayCount',
-					icon: '../../../static/images/order/dfk.png',
+					icon: '../../static/images/order/dfk.png',
 					number: 0,
 					label: '待付款'
 				},
 				{
 					key: 'noDeliveryCount',
-					icon: '../../../static/images/order/dfh.png',
+					icon: '../../static/images/order/dfh.png',
 					number: 0,
 					label: '待发货'
 				},
 				{
 					key: 'afterSaleCount',
-					icon: '../../../static/images/order/dsh.png',
+					icon: '../../static/images/order/dsh.png',
 					number: 0,
 					label: '待售后'
 				},
 				{
 					key: 'noEvaluateCount',
-					icon: '../../../static/images/order/dpj.png',
+					icon: '../../static/images/order/dpj.png',
 					label: '待评价',
 					number: 0,
 				}
@@ -117,50 +117,50 @@ export default {
 					label: '已上架',
 					type: 1,
 					key: 'pushCount',
-					number: 5
+					number: 0
 				},
 				{
 					label: '未上架',
 					type: 2,
 					key: 'noPushCount',
-					number: 5
+					number: 0
 				},
 				{
 					label: '回收站',
 					type: 3,
 					key: 'recycleCount',
-					number: 15
+					number: 0
 				}
 			],
 			// 优惠卷
 			ticketsData: {
 				oldTicketsData: [
 					{
-						icon: '../../../static/images/icons/icon-ticket-created.svg',
+						icon: '../../static/images/icons/icon-ticket-created.svg',
 						label: '已创建'
 					},
 					{
-						icon: '../../../static/images/icons/icon-ticket-created-invalid.svg',
+						icon: '../../static/images/icons/icon-ticket-created-invalid.svg',
 						label: '已生效'
 					}
 				],
 				nowTicketsData: [
 					{
-						icon: '../../../static/images/icons/icon-ticket-add.svg',
+						icon: '../../static/images/icons/icon-ticket-add.svg',
 						label: '创建优惠劵',
 						key: 'created-ticket'
 					},
 					{
-						icon: '../../../static/images/icons/icon-live.svg',
+						icon: '../../static/images/icons/icon-live.svg',
 						label: '直播',
 						key: 'live'
-					}
+					} 
 				]
 			}
 		};
 	},
-	created(data) {
-		console.log(getApp().globalData.user);
+	mounted(data) {
+		console.log('首页的用户信息打印',getApp().globalData.user);
 
 		// 获取公告列表
 		this.queryNoticeList();
@@ -222,26 +222,26 @@ export default {
 			}
 		},
 		queryOrderNumber(){
-			this.$http.get('/order/statistic',null,false).then(res => {
+			this.$http.get('/order/statistic').then(res => {
 				let ordersStateData = [...this.ordersStateData];
-				ordersStateData.map(item =>  {
-					item.number = res.data[item.key]
+				ordersStateData.forEach(item =>  {
+					item.number = res[item.key]
 				});
 				this.ordersStateData = ordersStateData;
 			})
 		},
 		// 获取商品列表统计信息
 		queryGoodsNumber(){
-			this.$http.get('/goods/statistic',null,false).then(res => {
+			this.$http.get('/goods/statistic').then(res => { 
 				if(!res) return;
 				let goodsStateData = [...this.goodsStateData];
-				goodsStateData.map(item =>  {
-					item.number = res.data[item.key]
+				goodsStateData.forEach(item =>  {
+					item.number = res[item.key] || 0
 				});
 				this.goodsStateData = goodsStateData;
 			})
 		}
-	}
+	} 
 };
 </script>
 
