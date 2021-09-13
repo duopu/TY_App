@@ -202,7 +202,6 @@ export default {
 			})
 		},
 		jump(name,type){
-			console.log(name,'type')
 			switch (name) {
 				case 'ticket':
 					uni.navigateTo({
@@ -211,8 +210,9 @@ export default {
 					break;
 				case 'created-ticket':
 					uni.navigateTo({
-						url:`/pages-business/my/ticket/ticket`
-					})
+						url:`/pages-business/my/ticket/add`
+					});
+					break;
 				case 'live':
 					// 跳转直播，测试用 丁乐写
 					uni.navigateTo({

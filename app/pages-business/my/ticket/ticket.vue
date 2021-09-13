@@ -3,7 +3,7 @@
 		<view class="ticket-top">
 			<business-common-navigation></business-common-navigation>
 			<!-- tabs -->
-			<custom-horizontal-tabs :data="tabsData" :currentIndex="tabsIndex" class="custom-tabs"></custom-horizontal-tabs>
+			<custom-horizontal-tabs @change="onChange" :data="tabsData" :currentIndex="tabsIndex" class="custom-tabs"></custom-horizontal-tabs>
 		</view>
 		<!-- 优惠卷 -->
 		<scroll-view scroll-y="true">
@@ -18,7 +18,7 @@
 					</view>
 					<view class="middle flex-column">
 						<view class="text">
-							{{item.ruleDescription}}
+							{{item.couponName}}
 <!--							<text class="color-red">5</text>-->
 						</view>
 						<view class="tag red">{{item.effectContent}}</view>
@@ -37,24 +37,24 @@
 				</view>
 			</block>
 			<!-- 优惠券 -->
-			<view class="ticket-item flex-center-between">
-				<view class="left flex-column">
-					<view class="price flex">
-						<view class="unit">¥</view>
-						5
-					</view>
-					<view class="desc">满20元可用</view>
-				</view>
-				<view class="middle flex-column">
-					<view class="text">
-						产品
-						<text class="color-red">5</text>
-						元优惠券
-					</view>
-					<view class="tag yellow">剩余XXX天失效</view>
-				</view>
-				<view class="right flex-center-center"><image src="../../../static/images/icons/icon-copy.svg" class="icon-copy" mode="aspectFill"></image></view>
-			</view>
+<!--			<view class="ticket-item flex-center-between">-->
+<!--				<view class="left flex-column">-->
+<!--					<view class="price flex">-->
+<!--						<view class="unit">¥</view>-->
+<!--						5-->
+<!--					</view>-->
+<!--					<view class="desc">满20元可用</view>-->
+<!--				</view>-->
+<!--				<view class="middle flex-column">-->
+<!--					<view class="text">-->
+<!--						产品-->
+<!--						<text class="color-red">5</text>-->
+<!--						元优惠券-->
+<!--					</view>-->
+<!--					<view class="tag yellow">剩余XXX天失效</view>-->
+<!--				</view>-->
+<!--				<view class="right flex-center-center"><image src="../../../static/images/icons/icon-copy.svg" class="icon-copy" mode="aspectFill"></image></view>-->
+<!--			</view>-->
 		</scroll-view>
 	</view>
 </template>
@@ -74,9 +74,9 @@ export default {
 	},
 	methods:{
 		// 查询优惠券列表
-		queryTicket(){
+		queryTicket(ty){
 			this.$http.get('/coupon/queryListByStoreId',{
-				status: 1
+				status: this.tabsIndex + 1
 			},false).then(res => {
 				this.dataList = res;
 			})
@@ -88,6 +88,10 @@ export default {
 			},false).then(res => {
 				this.dataList = res;
 			})
+		},
+		onChange(data){
+			this.tabsIndex = data;
+			this.queryTicket()
 		}
 	}
 };
