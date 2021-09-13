@@ -4,17 +4,9 @@
 		<!-- 平台分销 -->
 		<view class="sales-list platform">
 			<view class="item">
-				<view class="flex-center-between row">
-					<text class="text">邀请好友注册</text>
-					<button class="btn">查看详情</button>
-				</view>
-				<view class="flex-center-between row">
-					<text class="text">邀请好友参加组团</text>
-					<button class="btn">查看详情</button>
-				</view>
-				<view class="flex-center-between row">
-					<text class="text">邀请好友参加打卡</text>
-					<button class="btn">查看详情</button>
+				<view class="flex-center-between row" v-for="(item,index) in plantformDistributionList" :key="`palantform-${index}`">
+					<text class="text">{{item.title}}</text>
+					<button class="btn" @click="plantformOpenDetail(item.id)">查看详情</button>
 				</view>
 			</view>
 		</view>
@@ -27,7 +19,9 @@
 					<sales-goods-lists-item v-for="(item, index) in goodsList" 
 					:key="`distribution-goods-${index}`"
 					:data="item"
-					@open="openPopup('distributePopup',0)">
+					@openDetail="showGoodsDetail(item)" 
+					@cancel="cancelGoodsApply(item)" 
+					@apply="goodsApply(item)">
 					</sales-goods-lists-item>
 					<uni-load-more :status="goodsState" 
 					:icon-size="16" 
@@ -37,7 +31,7 @@
 				<block v-else>
 					<view class="flex-center-center no-lists">
 						您还没有商品分销任务，
-						<view class="color-blue" @click="openPopup('salesPopup', 0)">点击申请</view>
+						<view class="color-blue" @click="openPopup('goodsSalesPopup')">点击申请</view>
 					</view>
 				</block>
 			</view>
@@ -55,7 +49,7 @@
 							分销折扣：
 							<text class="discount">{{item.discount}}折</text>
 						</view>
-						<button class="btn" @click="openPopup('distributePopup',1)">复制链接</button>
+						<button class="btn">复制链接</button>
 					</view>
 					<uni-load-more :status="storeState"
 					:icon-size="16" 
@@ -65,15 +59,20 @@
 				<block v-else>
 					<view class="flex-center-center no-lists">
 						您还没有店铺分销任务，
-						<view class="color-blue" @click="openPopup('salesPopup', 1)">点击申请</view>
+						<view class="color-blue" @click="openPopup('goodsSalesPopup', 1)">点击申请</view>
 					</view>
 				</block>
 			</view>
 		</view>
-		<!-- 分销申请说明弹窗 -->
-		<sales-apply-popup :state="salesPopupState" ref="salesPopup"></sales-apply-popup>
-		<!-- 商品分销/平台分销弹窗 -->
-		<sales-distribute-popup :state="salesPopupState" ref="distributePopup"></sales-distribute-popup>
+		
+		<!-- 店铺分销申请说明弹窗 -->
+		<sales-apply-popup :state="1" ref="storeSalesPopup"></sales-apply-popup>
+		<!-- 商品分销申请说明弹窗 -->
+		<sales-apply-popup :state="2" ref="goodsSalesPopup"></sales-apply-popup>
+		<!-- 平台分销弹窗 -->
+		<sales-distribute-popup :state="1" ref="plantformDistributePopup" :data="plantformDistributionDetail"></sales-distribute-popup>
+		<!-- 商品分销弹窗 -->
+		<sales-distribute-popup :state="2" ref="goodsDistributePopup" :data="goodsDistributionDetail"></sales-distribute-popup>
 	</view>
 </template>
 
@@ -116,7 +115,9 @@ export default {
 		return {
 			tabsData: ['商品分销', '店铺分销'],
 			tabsIndex: 0,
-			salesPopupState: 0,
+			plantformDistributionList: [], //平台分销活动列表
+			plantformDistributionDetail: {}, //平台分销活动详情对象
+			goodsDistributionDetail: {}, //商品分销活动对象
 			goodsList: this.distributionGoodsList,
 			storeList: this.distributionStoreList,
 			goodsState: this.goodsLoadMoreState,
@@ -128,6 +129,9 @@ export default {
 			}
 		};
 	},
+	created() {
+		this.queryPlantformDistribution();
+	},
 	methods: {
 		// change tabs index
 		changeTabsIndex(value) {
@@ -135,15 +139,57 @@ export default {
 			this.tabsIndex = value;
 			this.$emit('tabChange',value);
 		},
+		// 查询平台分销活动列表
+		queryPlantformDistribution(){
+			this.$http
+				.get('/platformDistribution/queryList', {}, true)
+				.then(res => {
+					this.plantformDistributionList = res;
+				});	
+		},
 		/**
 		 * 打开弹窗
 		 * @param {Object} refName 弹窗ref的名称
-		 * @param {Object} state 0-商品 1-分销
 		 */
-		openPopup(refName, state) {
-			this.salesPopupState = state;
+		openPopup(refName) {
 			this.$refs[refName].open();
 		},
+		
+		/**
+		 * 平台分销活动查看详情
+		 * @param {Object} id 平台分销id
+		 */
+		plantformOpenDetail(id){
+			this.$http
+				.get('/platformDistribution/queryInfo', {id:id}, true)
+				.then(res => {
+					this.plantformDistributionDetail = res;
+					this.openPopup('plantformDistributePopup');
+				});	
+		},
+		
+		/**
+		 * 商品分销查看详情
+		 * @param {Object} item  商品分销对象
+		 */
+		showGoodsDetail(item){
+			// this.openPopup('goodsDistributePopup')
+		},
+		
+		/**
+		 * 商品取消分销
+		 * @param {Object} item 商品分销对象
+		 */
+		cancelGoodsApply(item){
+		},
+		
+		/**
+		 * 商品重新申请分销
+		 * @param {Object} item 商品分销对象
+		 */
+		goodsApply(item){
+			
+		}
 		
 		
 	}
