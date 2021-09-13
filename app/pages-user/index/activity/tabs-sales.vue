@@ -173,7 +173,18 @@ export default {
 		 * @param {Object} item  商品分销对象
 		 */
 		showGoodsDetail(item){
-			// this.openPopup('goodsDistributePopup')
+			this.$http
+				.get('/distribution/queryGoodsDetail', {id:item.id}, true)
+				.then(res => {
+					this.goodsDistributionDetail = {
+						commission: res.totalGold,
+						content: res.content,
+						extensionCount: res.personNum,
+						title: res.title,
+						id: res.id
+					};
+					this.openPopup('goodsDistributePopup');
+				});	
 		},
 		
 		/**

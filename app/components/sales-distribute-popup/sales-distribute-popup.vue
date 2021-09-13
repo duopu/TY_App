@@ -75,17 +75,19 @@ export default {
 				content: undefined,
 				extensionCount: 0,
 				title: undefined,
-				type: 0,
 				id: undefined
 			}
 		}
 	},
 	watch: {
-		data(newV, oldV){
-			this.detail = newV;
-			this.page = 1;
-			this.loadStatus = 'more';
-			this.getDataList();
+		data: {
+			handler(newV, oldV){
+				this.detail = newV;
+				this.page = 1;
+				this.loadStatus = 'more';
+				this.getDataList();
+			},
+			deep: true
 		}
 	},
 	data() {
@@ -125,6 +127,29 @@ export default {
 				}
 				this.$http
 					.get('/platformDistribution/queryCommissionPage', {id:this.detail.id, page:this.page, size: this.pageSize}, true)
+					.then(res => {
+						if(this.page == 1){
+							this.dataList = res.content;
+						}else {
+							this.dataList = this.dataList.concat(res.content);
+						}
+						if(res.totalSize <= this.page * this.pageSize){
+							this.loadStatus = "noMore"
+						}else{
+							this.loadStatus = "more"
+						}
+					}).catch(err => {
+						if(this.page > 1){
+							this.loadStatus = "more";
+							this.page -= 1;
+						}
+					});
+			}else{
+				if(!this.detail.id){
+					return;
+				}
+				this.$http
+					.get('/distribution/queryGoodsPage', {page:this.page, size: this.pageSize}, true)
 					.then(res => {
 						if(this.page == 1){
 							this.dataList = res.content;

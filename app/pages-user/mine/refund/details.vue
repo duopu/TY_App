@@ -89,13 +89,17 @@
 			<view class="discount-row">
 				<text class="label">补充描述*</text>
 				<!-- 图片展示 -->
-				<uni-file-picker class="image-lists"  limit="3" mode="grid" :image-styles="{width:84, height:84}" :readonly="true" :value="orderVO.refundImg || []">
+				<uni-file-picker class="image-lists"
+				mode="grid" 
+				:image-styles="{width:84, height:84}" 
+				:readonly="true" 
+				:value="orderVO.refundImg || []">
 				</uni-file-picker>	
 				<view class="remark">{{orderVO.refundAddMsg}}</view>
 			</view>
 		</view>
 		<view class="bottom">
-			<button class="btn">撤销退款申请</button>
+			<button class="btn" @click="cancelRefund">撤销退款申请</button>
 			<button class="btn">修改退款申请</button>
 			<button class="btn">提交退款申请</button>
 			<button class="btn">提交运单信息</button>
@@ -123,6 +127,13 @@ export default {
 				this.orderVO = res;
 			});
 		},
+		
+		// 取消退款
+		cancelRefund(){
+			this.$http.post('/order/cancelRefund', { orderNum: this.orderNum }, true).then(res => {
+				//TODO: 不知道后续是啥操作
+			});
+		}
 	}
 };
 </script>
