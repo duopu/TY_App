@@ -422,6 +422,14 @@
                     }
                 },
                 {
+                    "path": "index/goods/goods",
+                    "style": {
+                        "navigationStyle": "custom",
+                        "enablePullDownRefresh": false
+                    }
+
+                },
+                {
                     "path": "my/money/money",
                     "style": {
                         "navigationBarTitleText": "保证金",

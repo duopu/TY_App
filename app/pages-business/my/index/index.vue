@@ -20,9 +20,9 @@
 				<image class="tabs-image" src="../../../static/images/icons/icon-money.svg" mode="aspectFill"></image>
 				<text class="text-bold">保证金</text>
 			</view>
-			<view class="flex-1 flex-center-center">
+			<view class="flex-1 flex-center-center" @click="jump('quanyi')">
 				<image class="tabs-image" src="../../../static/images/icons/icon-gift.svg" mode="aspectFill"></image>
-				<text class="text-bold">保证金</text>
+				<text class="text-bold">权益中心</text>
 			</view>
 		</view>
 		<!-- 列表 -->
@@ -68,6 +68,26 @@
 		methods: {
 			logout(){
 				this.$tool.logout();
+			},
+			jump(type){
+				switch (type) {
+					case 'quanyi':
+						uni.navigateTo({
+							url:'/pages-business/my/benefit/benefit'
+						})
+						break;
+					case 'created-ticket':
+						uni.navigateTo({
+							url:`/pages-business/my/ticket/add`
+						});
+						break;
+					case 'live':
+						// 跳转直播，测试用 丁乐写
+						uni.navigateTo({
+							url:'/pages-business/index/live/record'
+						})
+						break;
+				}
 			}
 		}
 	}

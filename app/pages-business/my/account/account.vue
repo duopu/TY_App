@@ -6,7 +6,7 @@
 			<text class="text">18874698846</text>
 			<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
-		<view class="flex-center-between row">
+		<view class="flex-center-between row" @click="jump('resetPassword')">
 			<text class="label">密码修改</text>
 			<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
@@ -29,6 +29,11 @@
 			return {
 				
 			};
+		},
+		methods:{
+			jump(type){
+
+			}
 		}
 	}
 </script>
