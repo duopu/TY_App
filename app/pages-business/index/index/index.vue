@@ -6,7 +6,7 @@
 				<image class="avatar-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
 				<view>
 					<view class="name text-bold">忙碌的管理员</view>
-					<view class="flex-center account">关联其他账号 ></view>
+<!--					<view class="flex-center account">关联其他账号 ></view>-->
 				</view>
 			</view>
 			<view class="state-lists" :class="{on:showState}" @click="changeState">
@@ -216,7 +216,7 @@ export default {
 				case 'live':
 					// 跳转直播，测试用 丁乐写
 					uni.navigateTo({
-						url:'/pages-business/index/live/publish'
+						url:'/pages-business/index/live/record'
 					})
 					break;
 			}
