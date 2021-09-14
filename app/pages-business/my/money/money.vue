@@ -6,11 +6,11 @@
 		<view class="block-box">
 			<view class="flex sum-money">
 				<text class="unit">¥</text>
-				2000.00
+				{{ info.cashDepositAmount / 100 }}
 			</view>
 			<view class="flex-center-center">
-				<button class="btn btn-block">立即缴纳</button>
-				<button class="btn btn-light">保证金退款</button>
+				<button class="btn btn-block" v-if="info.cashDepositState">立即缴纳</button>
+				<button class="btn btn-light" v-else>保证金退款</button>
 			</view>
 		</view>
 		<!-- 保证金说明 -->
@@ -28,7 +28,19 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			info: {}
+		};
+	},
+	onLoad(){
+
+	},
+	methods:{
+		queryInfo(){
+			this.$http.get('/cash/deposit/queryInfo',null).then(res => {
+				this.info = res;
+			})
+		}
 	}
 };
 </script>
