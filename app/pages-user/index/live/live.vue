@@ -3,21 +3,20 @@
 	<view class="page-wrapper live">
 		<!-- 商家信息 -->
 		<view class="flex-center-between live-profile">
-			<text class="text-bold">直播名称吧啦吧啦</text>
+			<text class="text-bold">{{detail.courseName}}</text>
 			<view class="flex-center">
-				<image class="image-name" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
-				<text class="font-24">商家名</text>
+				<image class="image-name" :src="detail.avatar" mode="aspectFill" />
+				<text class="font-24">{{detail.storeName}}</text>
 			</view>
 		</view>
-		<!-- 广告 -->
-		<view class="live-advertise">
-			<image class="image-advertise" src="../../../static/images/index/live_img.png" mode="aspectFill"></image>
+		<view class="live-advertise" v-if="detail.img && detail.img.length>1">
+			<image class="image-advertise" :src="detail.img[0]" mode="aspectFill" />
 		</view>
 		
     	<!-- 目录 -->
 		<scroll-view class="live-room-category" scroll-y="true">
 			<!-- 列表 -->
-			<view  class="lists-item" :class="index === current && 'on'" @click="collapseItem(index)" v-for="(item, index) in [{},{}]" :key="index">
+			<view  class="lists-item" :class="index === current && 'on'" @click="collapseItem(index)" v-for="(item, index) in detail.userCourseClassList" :key="index">
 				<view class="row flex-center-between">
 					<text class="text-bold title">{{(index + 1)}}、{{item.courseClassName}}</text>
 					<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill" />
@@ -49,8 +48,37 @@
 <script>
 export default {
 	data() {
-		return {};
-	}
+		return {
+      courseId:'',
+      current:0,
+      detail:{
+        img:[],
+        userCourseClassList:[]
+      }
+    };
+	},
+  onLoad(option){
+    const { courseId,from } = option || {}
+    this.courseId = courseId
+    this.queryDetail();
+  },
+  methods:{
+
+    // 展开目录
+		collapseItem(index) {
+      this.current = index;
+		},
+
+     // 查询课程详情
+    async queryDetail(){
+      const params = {
+        courseId:this.courseId
+      }
+      const data = await this.$http.get('/userCourse/queryDetail',params,true)
+      this.detail = data;
+    },
+
+  }
 };
 </script>
 

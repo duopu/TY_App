@@ -35,10 +35,10 @@ export default {
 		 * @param {Object} goodsId  课程ID
 		 */
 		clickItem(data){
-      const { courseId } = data || {}
+      const { courseId,type } = data || {}
+      const url = type === 3 ? `/pages-user/index/live/live?courseId=${courseId}` : `/pages-user/course/live-room/live-room?courseId=${courseId}`
 			uni.navigateTo({
-				url: `/pages-user/index/live/live`
-				// url: `/pages-user/course/live-room/live-room?courseId=${courseId}`
+				url
 			});
 		},
 	}
