@@ -3,7 +3,8 @@
 	<view class="live-room">
 		<!-- 视频 -->
 		<view class="live-room-top">
-			<video class="video" :src="videoUrl" controls :autoplay="true" ></video>
+      <image v-if="detail.type === 3" :src="detail.img[0]" class="live-img"  />
+			<video v-else class="video" :src="videoUrl" controls :autoplay="true" ></video>
 			<view class="flex-center-between text-bold process">
 				<text class="title text-bold">{{detail.courseName}}</text>
 				<text v-if="!isLocal" class="color-red">{{detail.learnRate || 0}}%</text>
@@ -116,6 +117,13 @@ export default {
     // 课时点击
     periodClick(item){
       this.id = item.id
+       // 直播课跳转
+      if(this.detail.type == 3){
+        uni.navigateTo({
+						url:`/pages-user/index/live/room?courseId=${this.courseId}&courseClassId=${item.courseClassId}`
+				})
+        return;
+      }
       this.videoUrl = item.url
     },
 
@@ -232,13 +240,6 @@ export default {
         courseId:this.courseId
       }
       const data = await this.$http.get('/userCourse/queryDetail',params,true)
-      // 直播课跳转
-      if(data.type == 3){
-        uni.redirectTo({
-						url:`/pages-business/index/live/publish?courseId=${this.courseId}`
-				})
-        return;
-      }
       if(data.userCourseClassList[0] && data.userCourseClassList[0].nodes[0]){
         this.videoUrl = data.userCourseClassList[0].nodes[0].url
         this.id = data.userCourseClassList[0].nodes[0].id

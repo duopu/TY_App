@@ -87,7 +87,7 @@
             "pages": [{
                     "path": "index/live/live",
                     "style": {
-                        "navigationBarTitleText": "大咖直播",
+                        "navigationBarTitleText": "直播详情",
                         "enablePullDownRefresh": false
                     }
                 },

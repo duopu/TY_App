@@ -16,9 +16,6 @@
               <view class="describe flex-column-between">
                 <view class="name text-bold">{{item.levelName}}</view>
                 <view class="text flex-1">
-                  <!-- <text v-if="detail.level > item.levelId ">当前高于该等级</text>
-                  <text v-else-if="item.levelId === detail.level">{{detail.conditions}}</text>
-                  <text v-else>成长值达到{{item.growth}}可升级</text> -->
                   <text>{{item.conditions}}</text>
                 </view>
                 <view v-if="item.levelId === detail.level" class="process">

@@ -37,7 +37,8 @@ export default {
 		clickItem(data){
       const { courseId } = data || {}
 			uni.navigateTo({
-				url: `/pages-user/course/live-room/live-room?courseId=${courseId}`
+				url: `/pages-user/index/live/live`
+				// url: `/pages-user/course/live-room/live-room?courseId=${courseId}`
 			});
 		},
 	}
