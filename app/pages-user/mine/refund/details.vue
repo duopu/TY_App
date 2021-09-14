@@ -3,56 +3,88 @@
 	<scroll-view scroll-y="true" class="refund">
 		<!-- 处理状态 -->
 		<view class="box">
-			<view class="state text-bold flex-center">
-				<!-- 申请退款中 -->
-				<block v-if="orderVO.orderState === 5">
+			<!-- 申请退款中 -->
+			<block v-if="orderVO.orderState === 5 || orderVO.orderState === 11">
+				<view class="state text-bold flex-center">
 					<image class="image-state" src="../../../static/images/gou.png" mode="aspectFill"></image>
 					<text>商家处理中</text>
-				</block>
-				
-				<!-- 待用户填写发货信息 -->
-				<block v-else-if="orderVO.orderState === 6">
-					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
-					<text>商家已同意退款，请寄回退货商品</text>
-				</block>
-				
-				<!-- 用户已填写发货信息待退款 -->
-				<block v-if="orderVO.orderState === 7">
-					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
-					<text>已寄回退货商品，等待商家确认</text>
-				</block>
-				
-				<!-- 退款中 -->
-				<block v-if="orderVO.orderState === 8">
-					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
-					<text>商家已收到货，等待退款到账</text>
-				</block>
-				
-				<!-- 退款完成 -->
-				<block v-if="orderVO.orderState === 9">
-					<image class="image-state" src="../../../static/images/gou.png" mode="aspectFill"></image>
-					<text v-if="orderVO.entityGoodsId">商家已收到货，退款成功</text>
-					<text v-else>退款成功</text>
-				</block>
-			</view>
-			<block v-if="orderVO.orderState === 5">
+				</view>
 				<view class="desc">您已成功发起退款申请，请耐心等待商家处理</view>
 			</block>
-			<block v-if="orderVO.orderState === 6">
+			
+			<!-- 商家允许退款待填写发货信息 -->
+			<block v-else-if="orderVO.orderState === 12">
+				<view class="state text-bold flex-center">
+					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
+					<text>商家已同意退款，请寄回退货商品</text>
+				</view>
 				<view class="desc">请按商家提供的地址退货，并及时填写运单信息</view>
 				<view class="desc">7天0小时后自动关闭退款申请</view>
 			</block>
-			<block v-if="orderVO.orderState === 7">
+			
+			<!-- 用户已填写发货单待商家退款 -->
+			<block v-if="orderVO.orderState === 14">
+				<view class="state text-bold flex-center">
+					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
+					<text>已寄回退货商品，等待商家确认</text>
+				</view>
 				<view class="desc">商家确认后，退款将原路返回至支付账户</view>
 			</block>
-			<block v-if="orderVO.orderState === 8">
-				<view class="desc">正在退款中，退款将原路返回至支付账户</view>
-			</block>
-			<block v-if="orderVO.orderState === 9">
-				<view class="desc">退款将原路返回至支付账户</view>
+			
+			<!-- 拒绝退款 -->
+			<block v-if="orderVO.orderState === 7 || orderVO.orderState === 13">
+				<view class="state text-bold flex-center">
+					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
+					<text>商家已拒绝退款</text>
+				</view>
+				<view class="desc">请与商家协商后，修改退款申请，并重新提交</view>
 			</block>
 			
+			<!-- 退款中 -->
+			<block v-if="orderVO.orderState === 6 || orderVO.orderState === 15">
+				<view class="state text-bold flex-center">
+					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
+					<text v-if="orderVO.entityGoodsId">商家已收到货，等待退款到账</text>
+					<text v-else>商家已同意退款，等待退款到账</text>
+				</view>
+				<view class="desc">正在退款中，退款将原路返回至支付账户</view>
+			</block>
+			
+			
+			<!-- 退款失败 -->
+			<block v-if="orderVO.orderState === 8 || orderVO.orderState === 16">
+				<view class="state text-bold flex-center">
+					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
+					<text>退款失败</text>
+				</view>
+				<view class="desc">请及时联系商家</view>
+			</block>
+			
+			<!-- 退款完成 -->
+			<block v-if="orderVO.orderState === 9">
+				<view class="state text-bold flex-center">
+					<image class="image-state" src="../../../static/images/gou.png" mode="aspectFill"></image>
+					<text v-if="orderVO.entityGoodsId">商家已收到货，退款成功</text>
+					<text v-else>退款成功</text>
+				</view>
+				<view class="desc">退款将原路返回至支付账户</view>
+			</block>
 		</view>
+		
+		<!-- 运单 -->
+		<view class="box" v-if="orderVO.orderState !== 11 && orderVO.orderState !== 5">
+			<view class="discount-row">
+				<text class="label">退货地址：{{storeAddressVO.receiver}} {{storeAddressVO.receiverPhone}}</text>
+			</view>
+			<view class="discount-row">
+				<text class="label">{{storeAddressVO.storeAddress}}</text>
+			</view>
+			<view class="discount-row flex-center-between">
+				<text class="label">快递单号*</text>
+				<input class="input" type="text" placeholder="请输入快递单号" v-model="deliveryNum" :disabled="orderVO.orderState !== 12"/>
+			</view>
+		</view>
+		
 		<!-- 商品 -->
 		<view class="store">
 			<view class="flex-center-between top"><view class="name">退款商品</view></view>
@@ -88,21 +120,20 @@
 			</view>
 			<view class="discount-row">
 				<text class="label">补充描述*</text>
+				<view class="remark">{{orderVO.refundAddMsg}}</view>
 				<!-- 图片展示 -->
 				<uni-file-picker class="image-lists"
 				mode="grid" 
 				:image-styles="{width:84, height:84}" 
 				:readonly="true" 
-				:value="orderVO.refundImg || []">
+				:value="refundImgs">
 				</uni-file-picker>	
-				<view class="remark">{{orderVO.refundAddMsg}}</view>
 			</view>
 		</view>
 		<view class="bottom">
 			<button class="btn" @click="cancelRefund">撤销退款申请</button>
-			<button class="btn">修改退款申请</button>
-			<button class="btn">提交退款申请</button>
-			<button class="btn">提交运单信息</button>
+			<button class="btn" @click="editRefund">修改退款申请</button>
+			<button class="btn" @click="returnSales">提交运单信息</button>
 		</view>
 		
 	</scroll-view>
@@ -113,18 +144,39 @@ export default {
 	data() {
 		return {
 			orderNum: undefined,
-			orderVO: {}
+			orderVO: {},
+			deliveryNum: undefined, //快递单号
+			storeAddressVO: {}, //商家收货地址
+			refundImgs:[] //退款照片数组
 		};
 	},
 	onLoad(option) {
 		this.orderNum = option.orderNum;
 		this.queryOrderDetail();
+		this.queryStoreAddress();
 	},
 	methods: {
 		// 查询订单详情
 		queryOrderDetail() {
 			this.$http.get('/order/queryDetail', { orderNum: this.orderNum }, true).then(res => {
 				this.orderVO = res;
+				this.deliveryNum = res.refundDeliveryNum;
+				this.refundImgs = res.refundImg.map((value)=>{
+					let name = this.formatterImgName(value);
+					let extname = this.formatterImgType(name);
+					return {
+						name: name,
+						extname: extname,
+						url: value
+					}
+				})
+			});
+		},
+		
+		// 查询商家收货地址
+		queryStoreAddress(){
+			this.$http.get('/order/queryStoreAddress', { orderNum: this.orderNum }, true).then(res => {
+				this.storeAddressVO = res;
 			});
 		},
 		
@@ -133,6 +185,47 @@ export default {
 			this.$http.post('/order/cancelRefund', { orderNum: this.orderNum }, true).then(res => {
 				//TODO: 不知道后续是啥操作
 			});
+		},
+		// 修改退款信息
+		editRefund(){
+			uni.redirectTo({
+				url: `/pages-user/mine/refund/refund?goodsVO=${encodeURIComponent(JSON.stringify(this.orderVO))}`
+			});
+		},
+		// 提交运单信息
+		returnSales(){
+			if(this.deliveryNum === undefined || this.deliveryNum.length === 0){
+				this.$tool.showToast("请输入运单号");
+				return
+			}
+			this.$http.post('/order/returnSales', { orderNum: this.orderNum,  deliveryNum: this.deliveryNum}, true).then(res => {
+				//TODO: 不知道后续是啥操作
+			});
+		},
+		
+		/**
+		 * 通过url获取图片名
+		 * @param {Object} path  图片在服务器上的url地址
+		 */
+		formatterImgName(path){
+			let filename;
+			if (path.indexOf("/") > 0) //如果包含有"/"号 从最后一个"/"号+1的位置开始截取字符串
+			{
+				filename = path.substring(path.lastIndexOf("/") + 1, path.length);
+			} else {
+				filename = path;
+			}
+			return filename;	
+		},
+		
+		/**
+		 * 根据图片名获取图片类型
+		 * @param {Object} name 图片名
+		 */
+		formatterImgType(name){
+			var index= name.lastIndexOf(".");
+			var ext = name.substr(index+1);
+			return ext;
 		}
 	}
 };

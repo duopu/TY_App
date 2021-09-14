@@ -7,16 +7,16 @@
 				<view class="name">退款商品</view>
 			</view>
 			<view class="content flex">
-				<image class="avatar-image" :src="goodsVO.thumbnail" mode="aspectFill"></image>
+				<image class="avatar-image" :src="orderVO.thumbnail" mode="aspectFill"></image>
 				<view class="flex-column flex-1 right">
-					<view class="title">{{goodsVO.goodsName}}</view>
-					<view class="tag"><view v-if="goodsVO.attributesId" class="tag-item">{{goodsVO.attributesName}}</view></view>
+					<view class="title">{{orderVO.goodsName}}</view>
+					<view class="tag"><view v-if="orderVO.attributesId" class="tag-item">{{orderVO.attributesName}}</view></view>
 					<view class="flex-center-between">
 						<view class="price">
 							<text class="unit">¥</text>
-							{{goodsVO.goodsPrice}}
+							{{orderVO.goodsPrice}}
 						</view>
-						<view class="number">×{{goodsVO.goodsNum}}</view>
+						<view class="number">×{{orderVO.goodsNum}}</view>
 					</view>
 				</view>
 			</view>
@@ -26,7 +26,7 @@
 		<view class="box discount">
 			<view class="discount-row flex-center-between">
 				<text class="label">退款数量*</text>
-				<text class="flex-1">{{goodsVO.goodsNum}}</text>
+				<text class="flex-1">{{orderVO.goodsNum}}</text>
 			</view>
 			<view class="discount-row flex-center-between">
 				<text class="label">退款原因*</text>
@@ -44,7 +44,13 @@
 				<text class="label">补充描述*</text>
 				<textarea class="textarea" placeholder="请详细描述退款原因及要求" placeholder-class="input-placeholder" v-model="refundParams.refundAddMsg"/>
 			</view>
-			<uni-file-picker class="image-lists"  limit="3" mode="grid" :image-styles="{width:84, height:84}" @select="selectImg" @delete="deleteImg">
+			<uni-file-picker class="image-lists" 
+			limit="3" 
+			mode="grid" 
+			:image-styles="{width:84, height:84}" 
+			:value="orderVO.refundImg || []"
+			@select="selectImg" 
+			@delete="deleteImg">
 				<view class="flex-center-center image-item">
 					<image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image>
 				</view>
@@ -74,7 +80,8 @@
 export default {
 	data() {
 		return {
-			goodsVO: {} ,//商品对象
+			orderNum: undefined, //订单编号
+			orderVO: {} ,//订单对象
 			reasonList: [], //退款原因
 			reasonIndex: undefined, //当前选择的退款原因下标
 			refundParams: {
@@ -88,16 +95,30 @@ export default {
 		};
 	},
 	onLoad(option){
-		this.goodsVO = JSON.parse(decodeURIComponent(option.goodsVO));
-		this.refundParams = {
-			orderNum: this.goodsVO.orderNum,
-			refundAmount: this.goodsVO.payAmount,
-			refundImg: [],
-			refundMsg: undefined
-		}
+		this.orderNum = option.orderNum;
 		this.queryCancelReason();
+		this.queryOrderDetail();
 	},
 	methods: {
+		
+		// 查询订单详情
+		queryOrderDetail(){
+			this.$http.get('/order/queryDetail', { orderNum: this.orderNum }, true).then(res => {
+				this.orderVO = res;
+				this.refundParams.orderNum = res.orderNum;
+				this.refundParams.refundAmount = res.refundAmount || res.payAmount;
+				this.refundParams.refundMsg = res.refundMsg;
+				this.refundParams.refundAddMsg = res.refundAddMsg;
+				this.refundParams.refundImg = res.refundImg;
+				if(res.refundMsg && res.refundAddMsg.length > 0){
+					for(var i=0; i<this.reasonList.length; i++){
+						if(this.reasonList[i].reason === res.refundMsg){
+							this.reasonIndex = i;
+						}
+					}
+				}
+			});
+		},
 		// 查询退款原因
 		queryCancelReason(){
 			this.$http.get('/order/queryCancelReason', {}, true).then(res => {
@@ -157,31 +178,44 @@ export default {
 		// 申请退款
 		applyRefund(){
 			
-			if(this.refundParams.refundMsg === undefined || this.refundParams.refundMsg.length === 0){
+			if(!(this.refundParams.refundMsg && this.refundParams.refundMsg.length > 0)){
 				this.$tool.showToast("请选择退款原因");
 				return;
 			}
 			
-			if(this.refundParams.refundAddMsg === undefined || this.refundParams.refundAddMsg.length === 0){
+			if(!(this.refundParams.refundAddMsg && this.refundParams.refundAddMsg.length > 0)){
 				this.$tool.showToast("请填写补充描述");
 				return;
 			}
+			
+			
+			// if(this.refundParams.refundAmount <= 0){
+			// 	this.$tool.showToast("退款金额不能为0");
+			// 	return;
+			// }
+			
+			let orginRefundAmount = this.orderVO.refundAmount || this.orderVO.payAmount;
+			if(this.refundParams.refundAmount > orginRefundAmount) {
+				this.$tool.showToast("退款金额不能超过支付金额");
+				return;
+			}
+			
 			
 			this.refundParams.refundImg = this.refundUploadImgs.map(function(value){
 				return value.serviceFilePath
 			})
 			
-			uni.redirectTo({
-			    url: `/pages-user/mine/refund/details?orderNum=${this.goodsVO.orderNum}`
-			});
-
-			// this.$http.get('/order/applyRefund', this.refundParams, true).then(res => {
-				
-			// 	uni.redirectTo({
-			// 	    url: `/pages-user/mine/refund/details?orderNum=${this.goodsVO.orderNum}`
-			// 	});
-				
+			// uni.redirectTo({
+			//     url: `/pages-user/mine/refund/details?orderNum=${this.orderNum}`
 			// });
+
+			this.$http.post('/order/applyRefund', this.refundParams, true).then(res => {
+				
+				uni.redirectTo({
+				    url: `/pages-user/mine/refund/details?orderNum=${this.orderNum}`
+				});
+				
+			});
 		}
 	}
 };

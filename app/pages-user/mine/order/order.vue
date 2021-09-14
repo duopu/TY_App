@@ -144,7 +144,7 @@ export default {
 		 */
 		applyRefund(goodsVO){
 			uni.navigateTo({
-				url: `/pages-user/mine/refund/refund?goodsVO=${encodeURIComponent(JSON.stringify(goodsVO))}`
+				url: `/pages-user/mine/refund/refund?orderNum=${goodsVO.orderNum}`
 			});
 		},
 		
