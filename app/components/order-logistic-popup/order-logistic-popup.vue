@@ -8,9 +8,9 @@
 				<image @click="close()" class="icon-close" src="../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
 			</view>
 			<view class="lists">
-				<view class="item flex-center-between" :class="{ on: index === 0 }" v-for="(item, index) in logisticData" :key="index">
+				<view class="item flex-center-between" :class="{ on: index === 0 }" v-for="(item, index) in logisticsVO.logisticsData || []" :key="`logistics-${index}`">
 					<text class="circle"></text>
-					<view class="flex-1">{{ item.name }}</view>
+					<view class="flex-1">{{ item.context }}</view>
 					<view class="time">{{ item.time }}</view>
 				</view>
 			</view>
@@ -24,36 +24,25 @@
 export default {
 	name: 'order-logistic-popup',
 	props: {
-		id: {
+		orderNum: {
 			type: String,
-			default:undefined
+			default: undefined
 		}
 	},
 	data() {
 		return {
-			logisticData: [
-				{
-					name: '订单已提交',
-					time: '03-09 14:06'
-				},
-				{
-					name: '付款成功',
-					time: '03-09 14:06'
-				},
-				{
-					name: '卖家已发货',
-					time: '03-09 14:06'
-				},
-				{
-					name: '开始派送',
-					time: '03-09 14:06'
-				},
-				{
-					name: '包裹已签收',
-					time: '03-09 14:06'
-				}
-			]
+			logisticsVO: {
+				logisticsData:[]
+			}
 		};
+	},
+	watch: {
+		orderNum(newV, oldV){
+			this.queryLogistics(newV);
+		}
+	},
+	created(){
+		this.queryLogistics(this.orderNum);
 	},
 	methods: {
 		// 打开弹窗
@@ -70,10 +59,13 @@ export default {
 		 * @param {Object} orderNum 订单编号
 		 */
 		queryLogistics(orderNum){
+			if(!orderNum){
+				return
+			}
 			this.$http
 				.get('/order/logistics', {orderNum:orderNum}, true)
 				.then(res => {
-					
+					this.logisticsVO = res;
 				});
 		}
 	}

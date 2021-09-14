@@ -39,7 +39,12 @@
 		
 		
 		<!-- 分销大使 -->
-		<tabs-sales v-show="tabsIndex === 2"></tabs-sales>
+		<tabs-sales v-show="tabsIndex === 2" 
+		:distributionGoodsList="distributionGoodsList"
+		:distributionStoreList="distributionStoreList"
+		:goodsLoadMoreState="distributionGoodsParams.status"
+		:storeLoadMoreState="distributionStoreParams.status"
+		@tabChange="salesTabsChange"></tabs-sales>
 	
 		
 		<!-- 坚持不懈活动详情 弹窗 -->
@@ -79,9 +84,22 @@ export default {
 				size: 20,
 				status: 'more' 
 			},
+			distributionGoodsParams: { //商品分销参数
+				page: 1,
+				size: 20,
+				status: 'more' 
+			},
+			distributionStoreParams: { //店铺分销参数
+				page: 1,
+				size: 20,
+				status: 'more' 
+			},
 			groupBuyList: [], //组团优惠商品
 			unremittinglyList: [], //坚持不懈
-			currentUnremittinglyVO: {} //当前选中的坚持不懈报名产品
+			distributionGoodsList: [], //商品分销
+			distributionStoreList: [], //店铺分销
+			currentUnremittinglyVO: {}, //当前选中的坚持不懈报名产品
+			tabsSaleIndex: 0 //当前分销大使Tabs索引  0商品分销  1店铺分销
 			
 		};
 	},
@@ -89,13 +107,19 @@ export default {
 		'$store.state.orderChange': function(){
 			this.groupBuyParams.page = 1;
 			this.unremittinglyParams.page = 1;
+			this.distributionGoodsParams.page = 1;
+			this.distributionStoreParams.page = 1;
 			this.queryGroupBuy();
 			this.queryUnremittingly();
+			this.queryDistributionGoods();
+			this.queryDistributionStore();
 		}
 	},
 	created() {
 		this.queryGroupBuy();
 		this.queryUnremittingly();
+		this.queryDistributionGoods();
+		this.queryDistributionStore();
 		uni.$on('kcfx-open',()=>{
 			this.tabsIndex = 2;
 		})
@@ -172,6 +196,66 @@ export default {
 		},
 		
 		/**
+		 * 查询商品分销
+		 */
+		queryDistributionGoods(){
+			this.$http
+				.get('/distribution/queryGoodsPage', this.distributionGoodsParams, true)
+				.then(res => {
+					if(this.distributionGoodsParams.page == 1){
+						this.triggered = false;
+						this._freshing = false;
+						this.distributionGoodsList = res.content;
+					}else {
+						this.distributionGoodsList = this.distributionGoodsList.concat(res.content);
+					}
+					if(res.totalSize <= this.distributionGoodsParams.page * this.distributionGoodsParams.size){
+						this.distributionGoodsParams.status = "noMore"
+					}else{
+						this.distributionGoodsParams.status = "more"
+					}
+				}).catch(err => {
+					if(this.distributionGoodsParams.page == 1){
+						this.triggered = false;
+						this._freshing = false;
+					}else {
+						this.distributionGoodsParams.status = "more";
+						this.distributionGoodsParams.page -= 1;
+					}
+				});
+		},
+		
+		/**
+		 * 查询店铺分销
+		 */
+		queryDistributionStore(){
+			this.$http
+				.get('/distribution/queryStorePage', this.distributionStoreParams, true)
+				.then(res => {
+					if(this.distributionStoreParams.page == 1){
+						this.triggered = false;
+						this._freshing = false;
+						this.distributionStoreList = res.content;
+					}else {
+						this.distributionStoreList = this.distributionStoreList.concat(res.content);
+					}
+					if(res.totalSize <= this.distributionStoreParams.page * this.distributionStoreParams.size){
+						this.distributionStoreParams.status = "noMore"
+					}else{
+						this.distributionStoreParams.status = "more"
+					}
+				}).catch(err => {
+					if(this.distributionStoreParams.page == 1){
+						this.triggered = false;
+						this._freshing = false;
+					}else {
+						this.distributionStoreParams.status = "more";
+						this.distributionStoreParams.page -= 1;
+					}
+				});
+		},
+		
+		/**
 		 * 下拉刷新
 		 */
 		onRefresh(){
@@ -186,7 +270,11 @@ export default {
 				this.unremittinglyParams.page = 1;
 				this.queryUnremittingly();
 			}else if(this.tabsIndex === 2){
-				
+				if(this.tabsSaleIndex === 0){
+					this.queryDistributionGoods();
+				}else if(this.tabsSaleIndex === 1){
+					this.queryDistributionStore();
+				}
 			}
 			
 		},
@@ -199,10 +287,20 @@ export default {
 				this.groupBuyParams.status = 'more';
 				this.groupBuyParams.page += 1;
 				this.queryGroupBuy();
-			}else if(this.tabsIndex === 1){
-				
+			}else if(this.tabsIndex === 1 && this.unremittinglyParams.status !== 'noMore'){
+				this.unremittinglyParams.status = 'more';
+				this.unremittinglyParams.page += 1;
+				this.queryUnremittingly();
 			}else if(this.tabsIndex === 2){
-				
+				if(this.tabsSaleIndex === 0 && this.distributionGoodsParams.status !== 'noMore'){
+					this.distributionGoodsParams.status = 'more';
+					this.distributionGoodsParams.page += 1;
+					this.queryDistributionGoods();
+				}else if(this.tabsSaleIndex === 1 && this.distributionStoreParams.status !== 'noMore'){
+					this.distributionStoreParams.status = 'more';
+					this.distributionStoreParams.page += 1;
+					this.queryDistributionStore();
+				}
 			}
 		},
 		
@@ -235,6 +333,10 @@ export default {
 			uni.navigateTo({
 				url: `/pages-user/index/goods-details/goods-details-unremittingly`
 			});
+		},
+		
+		salesTabsChange(index){
+			this.tabsSaleIndex = index;
 		}
 	}
 };

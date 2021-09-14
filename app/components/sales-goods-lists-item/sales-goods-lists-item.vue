@@ -2,39 +2,39 @@
 <template>
 	<view class="sales-goods-lists-item">
 		<view class="item-top">
-			<image class="goods-image" src="../../static/images/other/demo.png" mode="aspectFill"></image>
+			<image class="goods-image" :src="data.thumbnail" mode="aspectFill"></image>
 			<view class="right flex-column-between">
-				<view class="name">5天英语全能挑战</view>
+				<view class="name">{{data.goodsName}}</view>
 				<view class="flex-center-between">
-					<view class="">售价:¥500</view>
+					<view class="">售价:¥{{data.price}}</view>
 					<view class="flex-center">
 						预计佣金:
 						<view class="price">
-							500
+							{{data.gold}}
 							<text class="unit">金币</text>
 						</view>
 					</view>
 				</view>
 				<view class="flex-center process">
 					<view class="process-item">
-						<text class="number">1</text>
+						<text class="number">{{data.waitNum}}</text>
 						等待下单
 					</view>
 					<view class="process-item">
-						<text class="number">2</text>
-						等待下单
+						<text class="number">{{data.waitRebateNum}}</text>
+						等待返佣
 					</view>
 					<view class="process-item">
-						<text class="number">3</text>
+						<text class="number">{{data.rebateNum}}</text>
 						已返佣
 					</view>
 				</view>
 			</view>
 		</view>
 		<view class="item-bottom flex-center-end">
-			<button class="btn btn-border grey">取消分销</button>
-			<button class="btn btn-border black">重新申请</button>
-			<button class=" btn btn-block" @click="openDetailsPopup">查看详情</button>
+			<button class="btn btn-border grey" @click="cancel">取消分销</button>
+			<button class="btn btn-border black" @click="apply">重新申请</button>
+			<button class=" btn btn-block" @click="openDetail">查看详情</button>
 		</view>
 	</view>
 </template>
@@ -42,13 +42,28 @@
 <script>
 export default {
 	name: 'sales-goods-lists-item',
+	emits: ['openDetail', 'cancel', 'apply'],
+	props: {
+		data: {
+			type: Object,
+			required: true
+		}
+	},
+	
 	data() {
 		return {};
 	},
 	methods:{
 		// 查看详情
-		openDetailsPopup(){
-			this.$emit('open');
+		openDetail(){
+			this.$emit('openDetail');
+		},
+		// 取消分销
+		cancel(){
+			this.$emit('cancel')
+		},
+		apply(){
+			this.$emit('apply')
 		}
 	}
 };

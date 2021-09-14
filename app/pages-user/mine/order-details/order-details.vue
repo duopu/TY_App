@@ -23,10 +23,10 @@
 						</view>
 						<view class="row flex-center-between">
 							<text class="label">尾款（待支付）</text>
-							<text class="flex-1 color-9">¥{{ orderVO.payAmount }}</text>
+							<text class="flex-1 color-9">¥{{ orderVO.finalPayment }}</text>
 						</view>
 						<view class="column flex-column">
-							<text class="remark">{{orderVO.endTime}}开始支付尾款，尾款金额由成团人数决定</text>
+							<text class="remark">{{groupBuyGoodsVO.endTime}}开始支付尾款，尾款金额由成团人数决定</text>
 							<button class="rule" @click="openPopup('groupPopup')">查看拼团规则</button>
 						</view>
 					</block>
@@ -44,7 +44,7 @@
 						</view>
 						<view class="row flex-center-between">
 							<text class="label">活动折扣</text>
-							<text class="flex-1 color-9">8折</text>
+							<text class="flex-1 color-9">{{ orderVO.unremittinglyDiscount }}折</text>
 						</view>
 						<view class="row flex-center-between">
 							<text class="label">实际支付</text>
@@ -110,10 +110,16 @@
 		<order-logistic-popup ref="logisticPopup"></order-logistic-popup>
 		
 		<!-- 弹窗 拼团规则-->
-		<goods-group-popup ref="groupPopup" :data="groupBuyGoodsVO" :showBottom="false"></goods-group-popup>
+		<goods-group-popup v-if="orderVO.orderType === 2" 
+		ref="groupPopup" 
+		:data="groupBuyGoodsVO" 
+		:showBottom="false"></goods-group-popup>
 		
 		<!-- 弹窗 坚持不懈规则 -->
-		<sales-activity-popup ref="salesActivityPopup" :showBottom="false" :data="unremittinglyVO"></sales-activity-popup>
+		<sales-activity-popup v-if="orderVO.orderType === 3" 
+		ref="salesActivityPopup" 
+		:showBottom="false" 
+		:data="unremittinglyVO"></sales-activity-popup>
 		
 	</scroll-view>
 </template>
@@ -170,11 +176,35 @@ export default {
 		this.queryOrderDetail();
 	},
 	methods: {
+		// 查询订单详情
 		queryOrderDetail() {
 			this.$http.get('/order/queryDetail', { orderNum: this.orderNum }, true).then(res => {
 				this.orderVO = res;
+				
+				if(res.orderType === 2){ // 如果是组团商品，需要查询组团活动详情
+					this.queryGroupBuyInfo();
+				}else if(res.orderType === 3){ // 如果是坚持不懈商品，需要查询坚持不懈活动详情
+					this.queryUnremittingly();
+				}
+				
 			});
 		},
+		// 查询拼团活动详情
+		queryGroupBuyInfo(){
+			this.$http.get('/groupBuy/queryInfoByLogin', { groupBuyId: this.orderVO.groupBuyId }, true).then(res => {
+				this.groupBuyGoodsVO = res;
+			});
+		},
+		
+		// 查询坚持不懈活动详情
+		queryUnremittingly(){
+			this.$http
+				.get('/unremittingly/queryInfo', {unremittinglyId: this.orderVO.unremittinglyId}, true)
+				.then(res => {
+					this.unremittinglyVO = res;
+				});	
+		},
+		
 		// 打开弹窗
 		openPopup(value) {
 			this.$refs[value].open();

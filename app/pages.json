@@ -388,6 +388,14 @@
                         "enablePullDownRefresh": false
                     }
                 }
+                ,{
+                    "path" : "index/message/sys-msg-detail",
+                    "style" :                                                                                    
+					{
+						"navigationBarTitleText": "系统消息",
+						"enablePullDownRefresh": false
+					}
+                }
             ]
         },
         {

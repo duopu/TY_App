@@ -1,4 +1,6 @@
 const txIm = uni.requireNativePlugin('TX-TencentIM-Plus');
+import dayjs from 'dayjs';
+
 if (txIm) {
 	let isSuccess = txIm.initSDK({
 		sdkAppID: 1400563151,
@@ -10,24 +12,24 @@ if (txIm) {
 	// 设置基本消息（文本消息和自定义消息）的事件监听器
 	txIm.removeSimpleMsgListener();
 	txIm.addSimpleMsgListener(result => {
-		console.log('基本消息监听',result);
+		console.log('基本消息监听', result);
 		uni.$emit('SimpleMsgListen', result)
 	})
 
 	// 设置高级消息接口监听
 	txIm.removeAdvancedMsgListener()
 	txIm.addAdvancedMsgListener(result => {
-		console.log('高级消息接口监听',result);
+		console.log('高级消息接口监听', result);
 		uni.$emit('AdvancedMsgListen', result)
 	})
-	
+
 	// 设置会话监听器
 	txIm.removeConversationListener()
-	txIm.setConversationListener(result=>{
-		console.log('会话监听器',result);
+	txIm.setConversationListener(result => {
+		console.log('会话监听器', result);
 		uni.$emit('ConversationListen', result)
 	})
-	
+
 }
 
 // im登录
@@ -37,7 +39,7 @@ const login = (userId, userSig) => {
 			userId,
 			userSig
 		}, result => {
-			console.log('IM  登录',result);
+			console.log('IM  登录', result);
 			if (result.code == 0) {
 				resolve();
 			} else {
@@ -201,10 +203,12 @@ const downloadSound = (msgId) => {
 }
 
 // 加入群聊
-const  joinGroup = (groupId)=>{
-	return new Promise((resolve,reject)=>{
-		txIm.joinGroup({groupId},result=>{
-			console.log('加入群聊',result);
+const joinGroup = (groupId) => {
+	return new Promise((resolve, reject) => {
+		txIm.joinGroup({
+			groupId
+		}, result => {
+			console.log('加入群聊', result);
 			if (result.code == 0) {
 				resolve(result)
 			} else {
@@ -212,6 +216,47 @@ const  joinGroup = (groupId)=>{
 			}
 		})
 	})
+}
+
+// 获取会话列表
+const getGroupConversationMap = () => {
+	return new Promise((resolve, reject) => {
+		txIm.getConversationList({
+			nextSeq: 0,
+			count: 1000
+		}, result => {
+			if(result.code == 0){
+				const map = {}
+				result.conversationList.forEach(c=>{
+					if(c.type == 2){
+						map[c.groupId] = c;
+					}
+				})
+				resolve(map)
+			}else{
+				reject('获取会话失败')
+			}
+		})
+	})
+}
+
+// 获取会话信息
+const getInfoFromConversation = (cov)=>{
+	const info = {}
+	info.unreadCount = cov.unreadCount || 0;
+	const lastMessage = cov.lastMessage
+	if(lastMessage){
+		if(lastMessage.elemType == 1){ // 文字消息
+			info.message = lastMessage.textElem.msg;
+		}else if(lastMessage.elemType == 3){
+			info.message = '[图片]'
+		}else if(lastMessage.elemType == 4){
+			info.message = '[语音]'
+		}
+		
+		info.time = dayjs(lastMessage.time).format('YYYY-MM-DD HH:mm') 
+	}
+	return info
 }
 
 export default {
@@ -223,4 +268,6 @@ export default {
 	downloadImage,
 	downloadSound,
 	joinGroup,
+	getGroupConversationMap,
+	getInfoFromConversation,
 }

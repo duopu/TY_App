@@ -7,16 +7,16 @@
 				<view class="name">退款商品</view>
 			</view>
 			<view class="content flex">
-				<image class="avatar-image" :src="goodsVO.thumbnail" mode="aspectFill"></image>
+				<image class="avatar-image" :src="orderVO.thumbnail" mode="aspectFill"></image>
 				<view class="flex-column flex-1 right">
-					<view class="title">{{goodsVO.goodsName}}</view>
-					<view class="tag"><view v-if="goodsVO.attributesId" class="tag-item">{{goodsVO.attributesName}}</view></view>
+					<view class="title">{{orderVO.goodsName}}</view>
+					<view class="tag"><view v-if="orderVO.attributesId" class="tag-item">{{orderVO.attributesName}}</view></view>
 					<view class="flex-center-between">
 						<view class="price">
 							<text class="unit">¥</text>
-							{{goodsVO.goodsPrice}}
+							{{orderVO.goodsPrice}}
 						</view>
-						<view class="number">×{{goodsVO.goodsNum}}</view>
+						<view class="number">×{{orderVO.goodsNum}}</view>
 					</view>
 				</view>
 			</view>
@@ -25,38 +25,54 @@
 		<!-- 退款原因 -->
 		<view class="box discount">
 			<view class="discount-row flex-center-between">
+				<text class="label">退款数量*</text>
+				<text class="flex-1">{{orderVO.goodsNum}}</text>
+			</view>
+			<view class="discount-row flex-center-between">
 				<text class="label">退款原因*</text>
-				<picker mode="selector" class="flex-1">
-					<view class="color-9">请选择</view>
+				<picker mode="selector" class="flex-1" :range="reasonList" range-key="reason" @change="bindPickerChange">
+					<view :class="{'color-9':reasonIndex === undefined}">{{reasonIndex !== undefined ? reasonList[reasonIndex].reason : '请选择'}}</view>
 				</picker>
 				<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-light-arrow.png"></image>
 			</view>
-			<view class="discount-row flex-center-between">
+			<view class="discount-row flex-center-between" @click="openRefundAmount">
 				<text class="label">退款金额*</text>
-				<text class="flex-1">¥500</text>
+				<text class="flex-1">¥{{refundParams.refundAmount}}</text>
 				<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-light-arrow.png"></image>
 			</view>
 			<view class="discount-row">
 				<text class="label">补充描述*</text>
-				<textarea class="textarea" placeholder="请详细描述退款原因及要求" placeholder-class="input-placeholder" />
+				<textarea class="textarea" placeholder="请详细描述退款原因及要求" placeholder-class="input-placeholder" v-model="refundParams.refundAddMsg"/>
 			</view>
-			<uni-file-picker class="image-lists"  limit="3" mode="grid" :image-styles="{width:84, height:84}" @select="selectGoodsImg" @delete="deleteGoodsImg">
+			<uni-file-picker class="image-lists" 
+			limit="3" 
+			mode="grid" 
+			:image-styles="{width:84, height:84}" 
+			:value="orderVO.refundImg || []"
+			@select="selectImg" 
+			@delete="deleteImg">
 				<view class="flex-center-center image-item">
 					<image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image>
 				</view>
 			</uni-file-picker>	
-			<!-- <view class="discount-row image-lists">
-				<view class="flex-center-center image-item">
-					<image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image>
-				</view>
-				
-				<view v-if="false" class="image-item flex-center-center">
-					<image class="upload-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
-				</view>
-			</view> -->
 		</view>
 		<!-- 提交退款 -->
-		<button class="btn">提交退款申请</button>
+		<view class="bottom">
+			<button class="btn" @click="applyRefund">提交退款申请</button>
+		</view>
+		
+		
+		
+		<uni-popup ref="refundAmountPop" type="dialog">
+		    <uni-popup-dialog mode="input" 
+			title="退款金额"
+			:duration="2000" 
+			:beforeClose="true" 
+			:value="refundParams.refundAmount" 
+			@confirm="refundAmountConfirm" 
+			@close="()=>{$refs.refundAmountPop.close()}"></uni-popup-dialog>
+		</uni-popup>
+		
 	</scroll-view>
 </template>
 
@@ -64,11 +80,143 @@
 export default {
 	data() {
 		return {
-			goodsVO:{} //商品对象
+			orderNum: undefined, //订单编号
+			orderVO: {} ,//订单对象
+			reasonList: [], //退款原因
+			reasonIndex: undefined, //当前选择的退款原因下标
+			refundParams: {
+				orderNum: undefined,
+				refundAmount: 0,
+				refundImg: [],
+				refundMsg: undefined,
+				refundAddMsg: undefined
+			},
+			refundUploadImgs:[] //退款原因图片上传数组
 		};
 	},
 	onLoad(option){
-		this.goodsVO = JSON.parse(decodeURIComponent(option.goodsVO));
+		this.orderNum = option.orderNum;
+		this.queryCancelReason();
+		this.queryOrderDetail();
+	},
+	methods: {
+		
+		// 查询订单详情
+		queryOrderDetail(){
+			this.$http.get('/order/queryDetail', { orderNum: this.orderNum }, true).then(res => {
+				this.orderVO = res;
+				this.refundParams.orderNum = res.orderNum;
+				this.refundParams.refundAmount = res.refundAmount || res.payAmount;
+				this.refundParams.refundMsg = res.refundMsg;
+				this.refundParams.refundAddMsg = res.refundAddMsg;
+				this.refundParams.refundImg = res.refundImg;
+				if(res.refundMsg && res.refundAddMsg.length > 0){
+					for(var i=0; i<this.reasonList.length; i++){
+						if(this.reasonList[i].reason === res.refundMsg){
+							this.reasonIndex = i;
+						}
+					}
+				}
+			});
+		},
+		// 查询退款原因
+		queryCancelReason(){
+			this.$http.get('/order/queryCancelReason', {}, true).then(res => {
+				this.reasonList = res;
+			});
+		},
+		// 退款原因选择回调
+		bindPickerChange(e){
+			this.reasonIndex = e.target.value;
+			this.refundParams.refundMsg = this.reasonList[e.target.value].reason;
+		},
+		// 打开退款金额弹窗
+		openRefundAmount(){
+			this.$refs.refundAmountPop.open();
+		},
+		
+		refundAmountConfirm(value){
+			console.log("value == ",value);
+			let reg = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/  //判断是否是正数
+			if(!reg.test(value)){
+				this.$tool.showToast("请输入正确的退款金额");
+				return
+			}else if(parseFloat(value) === 0){ 
+				this.$tool.showToast("退款金额必须大于0");
+				return
+			}else{
+				this.refundParams.refundAmount = parseFloat(value);
+				this.$refs.refundAmountPop.close();
+			}
+		},
+		
+		// 图片选择回调
+		selectImg(e){
+			let formData = {
+				file: e.tempFiles[0].file,
+				path: e.tempFilePaths[0]
+			}
+			this.$http
+				.upload(formData, true)
+				.then(res => {
+					this.refundUploadImgs.push({
+						tempFilePath: formData.path, //本地文件路径
+						serviceFilePath: res, //上传到服务器后的文件路径
+					});
+				});
+		},
+		
+		// 图片删除回调
+		deleteImg(e){
+			for(var i=0; i<this.refundUploadImgs.length; i++){
+				if(this.refundUploadImgs[i].tempFilePath === e.tempFilePath) {
+					this.refundUploadImgs.splice(i, 1);
+				}
+			}
+		},
+		
+		// 申请退款
+		applyRefund(){
+			
+			if(!(this.refundParams.refundMsg && this.refundParams.refundMsg.length > 0)){
+				this.$tool.showToast("请选择退款原因");
+				return;
+			}
+			
+			if(!(this.refundParams.refundAddMsg && this.refundParams.refundAddMsg.length > 0)){
+				this.$tool.showToast("请填写补充描述");
+				return;
+			}
+			
+			
+			// if(this.refundParams.refundAmount <= 0){
+			// 	this.$tool.showToast("退款金额不能为0");
+			// 	return;
+			// }
+			
+			let orginRefundAmount = this.orderVO.refundAmount || this.orderVO.payAmount;
+			if(this.refundParams.refundAmount > orginRefundAmount) {
+				this.$tool.showToast("退款金额不能超过支付金额");
+				return;
+			}
+			
+			
+			this.refundParams.refundImg = this.refundUploadImgs.map(function(value){
+				return value.serviceFilePath
+			})
+			
+			// uni.redirectTo({
+			//     url: `/pages-user/mine/refund/details?orderNum=${this.orderNum}`
+			// });
+
+			this.$http.post('/order/applyRefund', this.refundParams, true).then(res => {
+				
+				uni.redirectTo({
+				    url: `/pages-user/mine/refund/details?orderNum=${this.orderNum}`
+				});
+				
+			});
+		}
 	}
 };
 </script>
