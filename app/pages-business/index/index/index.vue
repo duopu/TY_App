@@ -3,9 +3,9 @@
 	<scroll-view scroll-y="true" class="index">
 		<view class="flex-center-between index-top">
 			<view class="flex-center">
-				<image class="avatar-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
+				<image class="avatar-image" :src="storeInfo.avatar" mode="aspectFill"></image>
 				<view>
-					<view class="name text-bold">忙碌的管理员</view>
+					<view class="name text-bold">{{storeInfo.storeName}}</view> 
 <!--					<view class="flex-center account">关联其他账号 ></view>-->
 				</view>
 			</view>
@@ -76,6 +76,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'; 
+
 export default {
 	name: 'businessIndex',
 	data() {
@@ -175,6 +177,14 @@ export default {
 		// 		url:'/pages-business/index/live/live-broadcast?pushUrl=rtmp://push.sinfinite.cn/live/10?txSecret=c6454257db0e9be54726b64a0c7154c4&txTime=6146C2C6&courseId=3&liveName=让人&liveIntro=好👌？我'
 		// 	})
 		// },1000)
+		
+		// 更新店铺信息
+		this.$store.dispatch('queryStoreInfo')
+	},
+	computed:{
+		...mapState([
+			'storeInfo' // 兴趣点列表
+		])
 	},
 	methods: {
 		changeState(value) {
@@ -241,6 +251,7 @@ export default {
 				this.goodsStateData = goodsStateData;
 			})
 		}
+		
 	} 
 };
 </script>

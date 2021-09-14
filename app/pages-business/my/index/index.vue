@@ -4,10 +4,10 @@
 		<!-- 头部 -->
 		<view class="flex-center-between my-top">
 			<view class="flex-center">
-				<image class="avatar-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
+				<image class="avatar-image" :src="storeInfo.avatar" mode="aspectFill"></image>
 				<view>
-					<view class="name text-bold">忙碌的管理员</view>
-					<view class="flex-center account">关联其他账号 ></view>
+					<view class="name text-bold">{{storeInfo.storeName}}</view>
+					<!-- <view class="flex-center account">关联其他账号 ></view> -->
 				</view>
 			</view>
 			<view class="state-lists">
@@ -20,9 +20,9 @@
 				<image class="tabs-image" src="../../../static/images/icons/icon-money.svg" mode="aspectFill"></image>
 				<text class="text-bold">保证金</text>
 			</view>
-			<view class="flex-1 flex-center-center" @click="jump('quanyi')">
+			<view class="flex-1 flex-center-center">
 				<image class="tabs-image" src="../../../static/images/icons/icon-gift.svg" mode="aspectFill"></image>
-				<text class="text-bold">权益中心</text>
+				<text class="text-bold">保证金</text>
 			</view>
 		</view>
 		<!-- 列表 -->
@@ -58,6 +58,8 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex';
+	
 	export default {
 		name:"myIndex",
 		data() {
@@ -65,29 +67,14 @@
 				
 			}
 		},
+		computed:{
+			...mapState([
+				'storeInfo' // 兴趣点列表
+			])
+		},
 		methods: {
 			logout(){
 				this.$tool.logout();
-			},
-			jump(type){
-				switch (type) {
-					case 'quanyi':
-						uni.navigateTo({
-							url:'/pages-business/my/benefit/benefit'
-						})
-						break;
-					case 'created-ticket':
-						uni.navigateTo({
-							url:`/pages-business/my/ticket/add`
-						});
-						break;
-					case 'live':
-						// 跳转直播，测试用 丁乐写
-						uni.navigateTo({
-							url:'/pages-business/index/live/record'
-						})
-						break;
-				}
 			}
 		}
 	}
