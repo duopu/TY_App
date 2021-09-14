@@ -47,14 +47,14 @@
 			</view>
 			<!-- 用户消息列表 --> 
 			<view class="lists-item" v-for="(item,index) in groupList" :key="index" @click="navImMessage(item)">
-				<image :src="item.avatar" mode="aspectFill" class="item-image"></image>
+				<image :src="item.avatar" mode="aspectFill" class="item-image"></image> 
 				<view class="flex-column flex-1">
-					<view class="name text-bold">{{item.nickName}}</view>
+					<view class="name text-bold">{{item.nickName || '-'}}</view>
 					<view class="desc">{{item.message}}</view>
 				</view>
 				<view class="flex-column item-right">
 					<view class="time text-bold">{{item.time}}</view>
-					<view class="number">{{item.unreadCount}}</view>
+					<view class="number" v-if="item.unreadCount">{{item.unreadCount}}</view>
 				</view>
 			</view>
 		</scroll-view>
@@ -88,6 +88,7 @@ export default {
 				}
 				return group
 			})
+			console.log('消息列表',newGroup);
 			return newGroup;
 		},
 	},

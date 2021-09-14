@@ -254,7 +254,7 @@ const getInfoFromConversation = (cov)=>{
 			info.message = '[语音]'
 		}
 		
-		info.time = dayjs(lastMessage.time).format('YYYY-MM-DD HH:mm') 
+		info.time = dayjs(lastMessage.time * 1000).format('YYYY-MM-DD HH:mm') 
 	}
 	return info
 }

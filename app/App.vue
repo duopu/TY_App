@@ -7,8 +7,6 @@
 			user: {}
 		},
 		onLaunch: function() {
-			// setRemInit();
-			console.log('App Launch');
 
 			// 从本地恢复登录信息;
 			uni.getStorage({
