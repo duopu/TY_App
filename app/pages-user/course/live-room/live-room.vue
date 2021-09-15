@@ -237,7 +237,6 @@
 
 					getApp().globalData.messageParam = {
 						groupId:groupId,
-						userPortrait:user.portrait,
 						userIM:user.imNum,
 						userName:user.nickName,
 						storeName:storeName,

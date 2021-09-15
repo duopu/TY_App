@@ -87,7 +87,7 @@
 		computed: {},
 		onLoad() {
 			const messageParam = getApp().globalData.messageParam
-			console.log('消息页面', messageParam);
+			console.log('消息页面 参数', messageParam);
 			this.groupId = messageParam.groupId;
 			this.userInfo = messageParam
 

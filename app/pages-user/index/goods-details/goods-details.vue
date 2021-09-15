@@ -398,11 +398,10 @@ export default {
 				const user = getApp().globalData.user;
 				getApp().globalData.messageParam = {
 					groupId:groupId,
-					userPortrait:user.portrait,
 					userIM:user.imNum,
-					userName:user.nickName,
+					userName:user.userName,
 					storeName:this.goodsInfo.storeName,
-					storePortrait:this.goodsInfo.portrait 
+					storePortrait:this.goodsInfo.avatar 
 				}
 				
 				uni.navigateTo({

@@ -141,7 +141,7 @@ export default {
 				success: (uploadFileRes) => {
 
 					const res = JSON.parse(uploadFileRes.data);
-					console.log('上传成功',res);
+					console.log('上传结束',res);
 					
 					const rescode = res.code;
 					const msg = res.message;

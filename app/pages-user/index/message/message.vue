@@ -108,7 +108,6 @@ export default {
 		navImMessage(item){
 			getApp().globalData.messageParam = {
 				groupId:item.groupId,
-				userPortrait:item.avatar,
 				userIM:item.imNum,
 				userName:item.nickName,
 				storeName:item.storeName,
