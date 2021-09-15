@@ -1,6 +1,6 @@
 <!-- 首页 -->
 <template>
-	<scroll-view scroll-y="true" class="main-content" :scroll-top="scrollTop" @scroll="onScroll">
+	<scroll-view scroll-y="true" class="main-content" :scroll-top="scrollTop">
 		<!-- 轮播图 -->
 		<view class="swiper">
 			<swiper class="swiper" :indicator-dots="true" :autoplay="true" interval="4000" duration="500">
@@ -64,10 +64,6 @@
 					<image class="icon-image" src="../../../static/images/index/index-menu-03.png" mode="aspectFill"></image>
 					<text class="title">考试题库</text>
 				</view>
-				<!-- <view class="more flex-center" >
-					<text>更多</text>
-					<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
-				</view> -->
 			</view>
 			<scroll-view scroll-x="true" class="question-bank-lists">
 				<view class="lists-item" v-for="(item, index) in ['', '', '', '']" :key="index">
@@ -100,10 +96,6 @@
 					<image class="icon-image" src="../../../static/images/index/index-menu-04.png" mode="aspectFill"></image>
 					<text class="title">高薪转行</text>
 				</view>
-				<!-- <view class="more flex-center">
-					<text>更多</text>
-					<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
-				</view> -->
 			</view>
 			<scroll-view scroll-x="true" class="career-lists" >
 				<view class="item flex-column-center" v-for="(item, index) in ['', '', '']" :key="index">
@@ -129,10 +121,10 @@
 				</view>
 			</view>
 			<view class="classify-tabs flex-center">
-				<view v-for="(item, index) in ['', '', '']" :key="index" :class="{ on: index === 0 }" class="classify-tabs-item">分类一</view>
-				<view class="color-9 border-item">修改兴趣</view>
+				<view v-for="(item, index) in interestList" @click="() => (jpkcIndex = index)" :key="index" :class="{ on: index === jpkcIndex }" class="classify-tabs-item">{{ item.interestName }}</view>
+				<view class="color-9 border-item" @click="gotoChangeInterestList">修改兴趣</view>
 			</view>
-			<course-lists-item></course-lists-item>
+			<course-lists-item :data="clsssData" v-if="clsssData"></course-lists-item>
 		</view>
 	</scroll-view>
 </template>
@@ -171,10 +163,14 @@ export default {
 					path: 'jpkc'
 				}
 			],
-			// 打卡直播 选中兴趣点
+			// 大咖直播 选中兴趣点
 			dakaIndex: null,
-			// 直播数据
+			// 精品课程 选中兴趣点
+			jpkcIndex:null,
+			// 大咖直播数据
 			liveData: null,
+			// 精品课程 数据
+			clsssData:null,
 			// banner图
 			bannerList: [],
 			// 滚动条顶部位置
@@ -183,6 +179,7 @@ export default {
 	},
 	mounted() {
 		this.dakaIndex = 0;
+		this.jpkcIndex = 0;
 		this.queryBannerList();
 	},
 	computed: {
@@ -196,33 +193,36 @@ export default {
 			if (interest) {
 				this.queryLive(interest.categoryId);
 			}
+		},
+		jpkcIndex(){
+			const interest = this.interestList[this.jpkcIndex];
+			if (interest) {
+				this.queryClass(interest.categoryId);
+			}
 		}
 	},
 	methods: {
-		// 滚动事件
-		onScroll(event) {
-			this.scrollTop = event.detail.scrollTop;
-		},
 		// 查询轮播图
 		queryBannerList() {
-			this.$http.get('navigate/queryBannerList').then(res => {
+			this.$http.get('/navigate/queryBannerList').then(res => {
 				this.bannerList = res;
 			});
 		},
 		// 菜单按钮点击事件
 		menuClick(item) {
+			
 			if (item.path == 'fl') {
 				uni.switchTab({
 					url: '/pages-user/classify/index/index'
 				});
 			} else if (item.path == 'dkzb') {
-				this.scrollTop = 410;
+				this.scrollTop = 410 + Math.random();
 			} else if (item.path == 'kstk') {
-				this.scrollTop = 600;
+				this.scrollTop = 600 + Math.random();
 			} else if (item.path == 'gxzh') {
-				this.scrollTop = 783;
+				this.scrollTop = 783 + Math.random();
 			} else if (item.path == 'jpkc') {
-				this.scrollTop = 1026;
+				this.scrollTop = 1026 + Math.random();
 			}
 		},
 		// 跳转大咖直播页面
@@ -241,6 +241,12 @@ export default {
 		queryLive(cateId) {
 			this.$http.get('/live/queryLiveList', { cateIdList: [cateId] }).then(res => {
 				if (res && res.length > 0) this.liveData = res[0];
+			});
+		},
+		// 查询 精品课程
+		queryClass(cateId){
+			this.$http.get('/course/queryList', { cateIdList: [cateId] }).then(res => {
+				if (res && res.length > 0) this.clsssData = res[0];
 			});
 		}
 	}

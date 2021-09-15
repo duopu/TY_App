@@ -3,7 +3,7 @@
 	<view class="consult">
 		<!-- 头部 -->
 		<view class="consult-top flex-center">
-			<view class="title text-bold flex-1">资讯22</view>
+			<view class="title text-bold flex-1">资讯</view>
 			<image @click="addConsult" class="icon-edit" src="../../../static/images/icons/icon-edit.svg" mode="aspectFill"></image>
 		</view>
 		<!-- 菜单 -->
@@ -43,7 +43,7 @@ export default {
 			})
 		},
 		addConsult(){
-			//
+			// 发布文章
 			uni.navigateTo({
 				url:`/pages-business/consult/publish-article/publish-article`
 			})

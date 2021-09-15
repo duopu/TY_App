@@ -22,7 +22,6 @@
     beforeMount(){
       const data = uni.getStorageSync('courseList') || []
       this.dataList = data
-      console.log('缓存课程1111',this.dataList)
     },
     methods:{
       /**课程行点击

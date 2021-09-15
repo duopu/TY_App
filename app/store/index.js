@@ -172,7 +172,7 @@ const store = new Vuex.Store({
 								break;
 							}
 						}
-					}
+					} 
 				});
 		},
 		// 查询兴趣点

@@ -2,8 +2,8 @@
 <template>
 	<scroll-view scroll-y="true" class="trade">
 		<!-- 列表 -->
-		<block v-for="(item, index) in ['', '','','','']" :key="index">
-			<trade-lists-item></trade-lists-item>
+		<block v-for="(item, index) in dataList" :key="index">
+			<trade-lists-item :dataItem="item" :state="1"></trade-lists-item>
 		</block>
 		<!-- 占位符 -->
 		<view class="slot-item"></view>
@@ -13,7 +13,19 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			dataList: []
+		};
+	},
+	onLoad(){
+		this.queryMessage();
+	},
+	methods:{
+		queryMessage(){
+			this.$http.get('/message/queryListByStoreId',null,true).then(res => {
+				this.dataList = res;
+			})
+		}
 	}
 };
 </script>

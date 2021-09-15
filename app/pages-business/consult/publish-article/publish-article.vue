@@ -2,9 +2,9 @@
 <template>
 	<view class="article">
 		<view class="article-top flex-center">
-			<text class="color-9">取消</text>
+			<text class="color-9" @click="goBack">取消</text>
 			<text class="title text-bold">发布文章</text>
-			<text>发布</text>
+			<text @click="publishArticle">发布</text>
 		</view>
 		<!-- 旧版本 -->
 		<!-- <view class="article-content">
@@ -17,16 +17,16 @@
 		<view class="article-classify flex-center">
 			<view class="text">分类</view>
 			<scroll-view scroll-x="true" class="classify-lists">
-				<view class="item" :class="{'on':index === 1}" v-for="(item, index) in classifyData" :key="index">{{ item }}</view>
+				<view class="item" @click="articleCategoryId = item.articleCategoryId" :class="{'on': articleCategoryId === item.articleCategoryId }" v-for="(item, index) in classifyData" :key="index">{{ item.name }}</view>
 			</scroll-view>
 		</view>
 		<scroll-view class="article-edit" scroll-y="true">
 			<view class="box">
 				<view class="flex-center">
 					<text class="label">标题</text>
-					<input placeholder-class="input-placeholder" class="input" v-model="title" type="text" placeholder="请输入" />
+					<input @blur="changeCallBack" data-type="title" placeholder-class="input-placeholder" class="input" v-model="title" type="text" placeholder="请输入" />
 				</view>
-				<textarea placeholder-class="input-placeholder" class="textarea" v-model="content" placeholder="请输入" />
+				<textarea @blur="changeCallBack" data-type="content" placeholder-class="input-placeholder" class="textarea" v-model="content" placeholder="请输入" />
 			</view>
 		</scroll-view>
 	</view>
@@ -37,10 +37,44 @@ export default {
 	name: 'publishArticle',
 	data() {
 		return {
-			classifyData: ['政治', '经济', '教育', '健康', '科技', '文化'],
+			classifyData: [],
+			articleCategoryId: '',
 			title: '',
-			content: ''
+			content: '',
+			activeIndex: 0
 		};
+	},
+	onLoad(){
+		this.queryClassifyData();
+	},
+	methods:{
+		// 查询分类数据
+		queryClassifyData(){
+			this.$http.get('/article/queryCategoryList',null,false).then(res => {
+				this.classifyData = res;
+			})
+		},
+		changeCallBack(event){
+			if( event.target.dataset.type === 'title'){
+				this.title = event.detail.value;
+			}else{
+				this.content = event.detail.value;
+			}
+		},
+		// 发布文章
+		publishArticle(){
+			let params = {
+				articleCategoryId: this.articleCategoryId,
+				content: this.content,
+				title: this.title
+			}
+			this.$http.post('/article/create',params,true).then(res => {
+				this.classifyData = res;
+			})
+		},
+		goBack(){
+			uni.navigateBack();
+		}
 	}
 };
 </script>
