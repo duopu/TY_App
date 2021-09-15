@@ -85,29 +85,31 @@
 	.bank-lists{
 		margin-bottom: 60rpx;
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 		flex-wrap: wrap;
 		align-items: center;
 	}
 	.bank-item-middle{
-		margin: 60rpx 10rpx;
+		margin: 30rpx 10rpx;
 		justify-content: center;
 		flex-shrink: 0;
-		width: 300rpx;
-		height: 300rpx;
+		width: 230rpx;
+		height: 230rpx;
 		color: #FFFFFF;
 		font-size: 28rpx;
-		background-color: #FC7474;
 		border-radius: 50%;
 		box-sizing: border-box;
+		background-position: center;
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
 		.font-24{
 			margin-top: 20rpx;
 		}
 		&.red{
-			background-image: linear-gradient(top,#FFC1C1 0%,#FC6D6D 100%);
+			background-image: url(../../../static/images/course-bank-red.png);
 		}
 		&.blue{
-			background-image: linear-gradient(top,#C1C8FF 0%,#6D91FC 100%);
+			background-image: url(../../../static/images/course-bank-blue.png);
 		}
 	}
 	.bank-item{
@@ -121,7 +123,7 @@
 		}
 	}
 	.my-bank{
-		margin-bottom: 20rpx;
+		margin-top: 20rpx;
 		padding: 32rpx 24rpx;
 		background: #F8F8F8;
 		border-radius: 16rpx;

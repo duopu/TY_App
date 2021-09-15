@@ -11,7 +11,10 @@
 				</view>
 			</view>
 			<view class="state-lists">
-				<view class="state-lists-item">在线</view>
+				<view class="state-lists-item flex-center-center">
+					<image class="image" src="../../../static/images/my-state-zx.png" mode="aspectFill"></image>
+					<text>在线</text>
+				</view>
 			</view>
 		</view>
 		<!-- 菜单 -->

@@ -8,7 +8,7 @@
 		<scroll-view scroll-y="true" class="goods-content">
 			<view class="goods-item" v-for="(item,index) in goodList" :key="item.goodsId">
 				<view class="item-top">
-					<image class="image-goods" :src="item.thumbnail"></image>
+					<image class="image-goods" :src="item.thumbnail" mode="aspectFill"></image>
 					<view class="name text-bold">{{ item.goodsName }}</view>
 					<view class="price flex-center">
 						<view class="flex-center"><text class="unit">￥</text>{{ !item.entityGoodsVO ? item.price : item.minPrice}}</view>

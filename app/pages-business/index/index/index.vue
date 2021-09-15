@@ -10,14 +10,24 @@
 				</view>
 			</view>
 			<view class="state-lists" :class="{on:showState}" @click="changeState">
-				<view v-show="showState || (!showState && userStatus === 1)" @click="userStatus = 1"  class="state-lists-item">在线</view>
-				<view v-show="showState || (!showState && userStatus === 2)" @click="userStatus = 2" class="state-lists-item">忙碌</view>
-				<view v-show="showState || (!showState && userStatus === 3)" @click="userStatus = 3" class="state-lists-item">离线</view>
+				<view v-show="showState || (!showState && userStatus === 1)" @click="userStatus = 1"  class="state-lists-item">
+					<image class="image" src="../../../static/images/my-state-zx.png" mode="aspectFill"></image>
+					<text>在线</text>
+				</view>
+				<view v-show="showState || (!showState && userStatus === 2)" @click="userStatus = 2" class="state-lists-item border-top-none">
+					<image class="image" src="../../../static/images/my-state-ml.png" mode="aspectFill"></image>
+					<text>忙碌</text>
+				</view>
+				<view v-show="showState || (!showState && userStatus === 3)" @click="userStatus = 3" class="state-lists-item border-top-none">
+					<image class="image" src="../../../static/images/my-state-lx.png" mode="aspectFill"></image>
+					<text>离线</text>
+				</view>
 			</view>
 		</view>
 		<!-- 公告 -->
-		<view class="block-box notice">
-			<swiper :vertical="true" :circular="true" :indicator-dots="false" :autoplay="true" :interval="2000">
+		<view class="block-box notice flex-center-between">
+			<image class="icon-notice" src="../../../static/images/icons/icon-notice.svg" mode="aspectFill"></image>
+			<swiper class="flex-1" :vertical="true" :circular="true" :indicator-dots="false" :autoplay="true" :interval="2000">
 				<swiper-item v-for="(item,index) in noticeList" @click="jumpNotice" :key="index">
 					<view class="swiper-item">{{ item.title }}</view>
 				</swiper-item>
@@ -26,7 +36,7 @@
 		<!-- 订单 -->
 		<view class="flex-center-between index-title">
 			<text class="text">订单</text>
-			<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
+			<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right-black.svg" mode="aspectFill"></image>
 		</view>
 		<view class="order-lists flex-center block-box">
 			<view class="order-lists-item" @click="onJump(index)" v-for="(item, index) in ordersStateData" :key="index">

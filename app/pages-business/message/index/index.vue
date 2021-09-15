@@ -4,12 +4,12 @@
 		<!-- 头部 -->
 		<view class="message-top flex-center-between">
 			<view class="state flex-center">
-				<image mode="aspectFill" src="" class="icon-state"></image>
+				<image mode="aspectFill" src="../../../static/images/my-state-zx.png" class="icon-state"></image>
 				<text>在线</text>
 			</view>
 			<text class="title text-bold">消息</text>
 			<view class="right-text">
-				<image @click="()=>showPop=!showPop" class="icon-more-dot" src="" mode="aspectFill"></image>
+				<image @click="()=>showPop=!showPop" class="icon-more-dot" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 				<view class="dot-lists" v-show="showPop">
 					<view class="dot-lists-item" v-for="(item, index) in dotsData" :key="index">{{ item }}</view>
 				</view>

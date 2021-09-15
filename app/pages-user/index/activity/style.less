@@ -48,17 +48,18 @@
 	font-weight: bold;
 	background-color: #ffeaea;
 	border-radius: 20rpx;
+	z-index: 1;
 	&::after{
 		content: '';
 		position: absolute;
-		bottom: 0;
+		bottom: -5rpx;
 		left: 50%;
 		width: 160rpx;
 		height: 100rpx;
 		background-image: url(../../../static/images/gift.png);
 		background-repeat: no-repeat;
 		background-size: 100%;
-		z-index: 1;
+		z-index: -1;
 	}
 	.flex-column {
 		flex: 1;
@@ -73,7 +74,7 @@
 	}
 	.btn {
 		align-self: center;
-		margin: 0;
+		margin: 0 0 0 10rpx;
 		padding: 0 28rpx;
 		height: 56rpx;
 		font-size: 26rpx;

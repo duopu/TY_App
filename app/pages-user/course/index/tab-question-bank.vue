@@ -9,6 +9,14 @@
 		</my-scroll-view>
 		<!-- 我的题库 -->
 		<scroll-view scroll-y="true" class="course-exam-content">
+			<!-- 我的题库 -->
+			<view class="flex-center-between my-bank" @click="bindQuestionInfo()">
+				<view class="flex-center">
+					<image class="arrow-right"  src="../../../static/images/icons/icon-back.svg" mode="aspectFill"></image>
+					<view class="title text-bold">我的题库</view>
+				</view>
+				<view class="flex-1">{{ questionBankInfo.title }}</view>
+			</view>
 			<!-- 列表 -->
 			<view class="flex bank-lists">
 				<view class="bank-item flex-column-center" @click="route('exam0')">
@@ -36,14 +44,7 @@
 					<text>我的收藏</text>
 				</view>
 			</view>
-			<!-- 我的题库 -->
-			<view class="flex-center-between my-bank">
-				<view class="title text-bold">我的题库</view>
-				<view class="flex-center" @click="bindQuestionInfo()">
-					<view class="flex-1">{{ questionBankInfo.title }}</view>
-					<image class="arrow-right" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill" />
-				</view>
-			</view>
+			
 			<!-- 广告位 -->
 			<image class="advertise-image" src="../../../static/images/login/advert.png" mode="widthFix" />
 		</scroll-view>
@@ -55,7 +56,7 @@ export default {
 	name: 'tab-question-bank',
 	data() {
 		return {
-			questionBankInfo: undefined,
+			questionBankInfo: {},
 			detail: {} //题库详情
 		};
 	},
