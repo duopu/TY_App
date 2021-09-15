@@ -16,25 +16,25 @@
 		</view>
 		<!-- 菜单 -->
 		<view class="flex-center tabs-lists">
-			<view class="flex-1 flex-center-center">
+			<view class="flex-1 flex-center-center" @click="jump('baozhengjin')">
 				<image class="tabs-image" src="../../../static/images/icons/icon-money.svg" mode="aspectFill"></image>
 				<text class="text-bold">保证金</text>
 			</view>
-			<view class="flex-1 flex-center-center">
+			<view class="flex-1 flex-center-center" @click="jump('quanyi')">
 				<image class="tabs-image" src="../../../static/images/icons/icon-gift.svg" mode="aspectFill"></image>
-				<text class="text-bold">保证金</text>
+				<text class="text-bold">权益中心</text>
 			</view>
 		</view>
 		<!-- 列表 -->
 		<view class="lists">
-			<view class="lists-item">
+			<view class="lists-item" @click="jump('account')">
 				<view class="flex-center">
 					<image class="item-image" src="" mode="aspectFill"></image>
 					<text>账号与安全</text>			
 				</view>
 				<image src="../../../static/images/icons/icon-arrow-right.svg" class="icon-arrow" mode="aspectFill"></image>
 			</view>
-			<view class="lists-item">
+			<view class="lists-item" @click="jump('setting')">
 				<view class="flex-center">
 					<image class="item-image" src="" mode="aspectFill"></image>
 					<text>新消息通知设置</text>			
@@ -43,11 +43,11 @@
 			</view>
 		</view>
 		<view class="lists">
-			<view class="lists-item">
+			<view class="lists-item" @click="jump('help')">
 				<text>帮助与反馈</text>	
 				<image src="../../../static/images/icons/icon-arrow-right.svg" class="icon-arrow" mode="aspectFill"></image>
 			</view>
-			<view class="lists-item">
+			<view class="lists-item" @click="jump('about')">
 				<text>关于腾云课堂</text>	
 				<image src="../../../static/images/icons/icon-arrow-right.svg" class="icon-arrow" mode="aspectFill"></image>
 			</view>
@@ -59,7 +59,7 @@
 
 <script>
 	import { mapState } from 'vuex';
-	
+
 	export default {
 		name:"myIndex",
 		data() {
@@ -75,6 +75,40 @@
 		methods: {
 			logout(){
 				this.$tool.logout();
+			},
+			jump(type){
+				switch (type) {
+					case 'quanyi':
+						uni.navigateTo({
+							url:'/pages-business/my/benefit/benefit'
+						});
+						break;
+					case 'baozhengjin-ticket':
+						uni.navigateTo({
+							url:`/pages-business/my/money/money`
+						});
+						break;
+					case 'account':
+						uni.navigateTo({
+							url:'/pages-business/my/account/account'
+						});
+						break;
+					case 'setting':
+						uni.navigateTo({
+							url:'/pages-business/my/setting/setting'
+						});
+						break;
+					case 'help':
+						uni.navigateTo({
+							url:'/pages/help/help'
+						});
+						break;
+					case 'about':
+						uni.navigateTo({
+							url:'/pages/about/about'
+						});
+						break;
+				}
 			}
 		}
 	}
