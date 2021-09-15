@@ -24,25 +24,27 @@
 export default {
 	name: 'order-logistic-popup',
 	props: {
-		orderNum: {
-			type: String,
-			default: undefined
+		data: {
+			type: Object,
+			default: {
+				address: undefined,
+				isCheck: 0,
+				mobile: undefined,
+				name: undefined,
+				orderNum: undefined,
+				logisticsData: []
+			}
 		}
 	},
 	data() {
 		return {
-			logisticsVO: {
-				logisticsData:[]
-			}
+			logisticsVO: this.data
 		};
 	},
 	watch: {
-		orderNum(newV, oldV){
-			this.queryLogistics(newV);
+		data(newV, oldV){
+			this.logisticsVO = newV;
 		}
-	},
-	created(){
-		this.queryLogistics(this.orderNum);
 	},
 	methods: {
 		// 打开弹窗
@@ -52,21 +54,6 @@ export default {
 		// 关闭弹窗
 		close() {
 			this.$refs.popup.close();
-		},
-		
-		/**
-		 * 查询物流信息
-		 * @param {Object} orderNum 订单编号
-		 */
-		queryLogistics(orderNum){
-			if(!orderNum){
-				return
-			}
-			this.$http
-				.get('/order/logistics', {orderNum:orderNum}, true)
-				.then(res => {
-					this.logisticsVO = res;
-				});
 		}
 	}
 };

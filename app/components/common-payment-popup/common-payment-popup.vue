@@ -4,13 +4,13 @@
 		<view class="popup-main">
 			<view class="popup-title flex-center-between">
 				<view class="title">支付方式</view>
-				<image @click="close()" class="icon-close" src="../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
+				<image @click="closePay" class="icon-close" src="../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
 			</view>
 			<view class="popup-content">
-				<view class="flex-center-center row" @click="selectPay(0)">
+				<view class="flex-center-center row" @click="selectPay(2)">
 					<image class="image" src="../../static/images/login/wx.png" mode="aspectFill"></image>
 					<text class="text flex-1">微信支付</text>
-					<view class="radio" :class="{ on: payIndex === 0 }"></view>
+					<view class="radio" :class="{ on: payIndex === 2 }"></view>
 				</view>
 				<view class="flex-center-center row" @click="selectPay(1)">
 					<image class="image" src="../../static/images/login/zfb.png" mode="aspectFill"></image>
@@ -33,9 +33,10 @@
 <script>
 export default {
 	name: 'common-payment-popup',
+	emits: ['change', 'cancel'],
 	data() {
 		return {
-			payIndex: -1
+			payIndex: undefined //支付类型  1支付宝  2微信
 		};
 	},
 	methods: {
@@ -51,6 +52,20 @@ export default {
 		selectPay(value) {
 			if (this.payIndex === value) return;
 			this.payIndex = value;
+			this.$emit('change',value);
+		},
+		// 关闭支付弹窗
+		closePay(){
+			uni.showModal({
+			    title: '提示',
+			    content: '是否取消支付',
+			    success: (res) => {
+			        if (res.confirm) {
+						this.$emit('cancel');
+			            this.close();
+			        } 
+			    }
+			});
 		}
 	}
 };

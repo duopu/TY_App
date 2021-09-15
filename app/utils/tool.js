@@ -78,6 +78,9 @@ const login = (user)=>{
 
 const logout = ()=>{
 	getApp().globalData.user = {};
+	
+	// 清楚用户的默认地址信息
+	// store.commit('setDefaultAddress',{});
 	uni.removeStorage({
 		key:config.storageKeys.loginUserKey,
 	})
@@ -102,6 +105,51 @@ uni.getSystemInfo({
     }
 });
 
+/**
+ * 订单支付
+ * @param {String} orderNum 订单编号 
+ * @param {int} payType 支付类型  1支付宝  2微信 
+ */
+const orderPay = (orderNum, payType)=>{
+	
+	return new Promise((resolve, reject) => {
+		
+		if(payType === 1){
+			// TODO: 这里何佳文接口返回的字段不符合支付宝要求，待商议
+			request.get('/order/aliPayForApp',{orderNum: orderNum},true).then(res => {
+				uni.requestPayment({
+				    provider: 'alipay',
+				    orderInfo: res, 
+				    success: function (res) {
+				        console.log('success:' + JSON.stringify(res));
+						resolve(res);
+				    },
+				    fail: function (err) {
+				        console.log('fail:' + JSON.stringify(err));
+						reject(err);
+				    }
+				});
+			})
+		}else if(payType === 2){
+			// TODO: 这里何佳文接口返回的字段不符合微信要求，待商议
+			request.get('/order/wechatPayForApp',{orderNum: orderNum},true).then(res => {
+				uni.requestPayment({
+				    provider: "wxpay", 
+				    orderInfo: res,
+				    success: function (res) {
+						console.log('success:' + JSON.stringify(res));
+						resolve(res);
+					},
+				    fail: function (e) {
+						console.log('fail:' + JSON.stringify(err));
+						reject(err);
+					}
+				})
+			})
+		}
+	})
+}
+
 export default {
 	imTool,
 	systemInfo,
@@ -110,5 +158,6 @@ export default {
 	logout,
 	login,
 	saveUserStorage,
-	toMessageList
+	toMessageList,
+	orderPay
 }

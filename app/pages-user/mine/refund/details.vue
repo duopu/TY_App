@@ -6,7 +6,7 @@
 			<!-- 申请退款中 -->
 			<block v-if="orderVO.orderState === 5 || orderVO.orderState === 11">
 				<view class="state text-bold flex-center">
-					<image class="image-state" src="../../../static/images/gou.png" mode="aspectFill"></image>
+					<image class="image-state" src="../../../static/images/icons/icon-refund-time.svg" mode="aspectFill"></image>
 					<text>商家处理中</text>
 				</view>
 				<view class="desc">您已成功发起退款申请，请耐心等待商家处理</view>
@@ -15,17 +15,17 @@
 			<!-- 商家允许退款待填写发货信息 -->
 			<block v-else-if="orderVO.orderState === 12">
 				<view class="state text-bold flex-center">
-					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
+					<image class="image-state" src="../../../static/images/icons/icon-refund-gou.svg" mode="aspectFill"></image>
 					<text>商家已同意退款，请寄回退货商品</text>
+					<view class="tips">7天0小时后自动关闭退款申请</view>
 				</view>
 				<view class="desc">请按商家提供的地址退货，并及时填写运单信息</view>
-				<view class="desc">7天0小时后自动关闭退款申请</view>
 			</block>
 			
 			<!-- 用户已填写发货单待商家退款 -->
 			<block v-if="orderVO.orderState === 14">
 				<view class="state text-bold flex-center">
-					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
+					<image class="image-state" src="../../../static/images/icons/icon-refund-time.svg" mode="aspectFill"></image>
 					<text>已寄回退货商品，等待商家确认</text>
 				</view>
 				<view class="desc">商家确认后，退款将原路返回至支付账户</view>
@@ -34,7 +34,7 @@
 			<!-- 拒绝退款 -->
 			<block v-if="orderVO.orderState === 7 || orderVO.orderState === 13">
 				<view class="state text-bold flex-center">
-					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
+					<image class="image-state" src="../../../static/images/icons/icon-refund-stop.svg" mode="aspectFill"></image>
 					<text>商家已拒绝退款</text>
 				</view>
 				<view class="desc">请与商家协商后，修改退款申请，并重新提交</view>
@@ -43,7 +43,7 @@
 			<!-- 退款中 -->
 			<block v-if="orderVO.orderState === 6 || orderVO.orderState === 15">
 				<view class="state text-bold flex-center">
-					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
+					<image class="image-state" src="../../../static/images/icons/icon-refund-time.svg" mode="aspectFill"></image>
 					<text v-if="orderVO.entityGoodsId">商家已收到货，等待退款到账</text>
 					<text v-else>商家已同意退款，等待退款到账</text>
 				</view>
@@ -54,7 +54,7 @@
 			<!-- 退款失败 -->
 			<block v-if="orderVO.orderState === 8 || orderVO.orderState === 16">
 				<view class="state text-bold flex-center">
-					<image class="image-state" src="../../../static/images/icons/icon-goods-state.svg" mode="aspectFill"></image>
+					<image class="image-state" src="../../../static/images/icons/icon-refund-stop.svg" mode="aspectFill"></image>
 					<text>退款失败</text>
 				</view>
 				<view class="desc">请及时联系商家</view>
@@ -63,7 +63,7 @@
 			<!-- 退款完成 -->
 			<block v-if="orderVO.orderState === 9">
 				<view class="state text-bold flex-center">
-					<image class="image-state" src="../../../static/images/gou.png" mode="aspectFill"></image>
+					<image class="image-state" src="../../../static/images/icons/icon-refund-gou.svg" mode="aspectFill"></image>
 					<text v-if="orderVO.entityGoodsId">商家已收到货，退款成功</text>
 					<text v-else>退款成功</text>
 				</view>
@@ -124,7 +124,7 @@
 				<!-- 图片展示 -->
 				<uni-file-picker class="image-lists"
 				mode="grid" 
-				:image-styles="{width:84, height:84}" 
+				:image-styles="{width:100, height:100}" 
 				:readonly="true" 
 				:value="refundImgs">
 				</uni-file-picker>	

@@ -34,7 +34,7 @@
 				</view>
 			</view>
 			<!-- 店铺信息 -->
-			<view class="lists-item">
+			<view class="lists-item" @click="jump('store')">
 				<image src="" mode="aspectFill" class="item-image"></image>
 				<view class="flex-column flex-1">
 					<view class="name text-bold">店铺信息</view>
@@ -123,6 +123,10 @@ export default {
 			if(type == 'trade'){
 				uni.navigateTo({
 					url:`/pages-business/message/trade/trade`
+				})
+			}else{
+				uni.navigateTo({
+					url:`/pages-business/message/store/store`
 				})
 			}
 		},

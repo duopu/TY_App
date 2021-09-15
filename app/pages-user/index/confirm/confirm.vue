@@ -3,10 +3,10 @@
 	<view class="order-confirm">
 		<scroll-view class="order-confirm-content" scroll-y="true">
 			<!-- 收获地址 -->
-			<view class="flex-center address" @click="jumpChooseAddress">
+			<view v-if="orderVO.needAddress" class="flex-center address" @click="jumpChooseAddress">
 				<image src="../../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
-				<!-- 显示收货地址 -->
-				<view class="flex-column flex-1" v-if="orderVO.needAddress">
+				<!-- 显示当前收货地址 -->
+				<view class="flex-column flex-1" v-if="defaultAddress && defaultAddress.id">
 					<view class="name">{{ defaultAddress.name }} {{ defaultAddress.phone }}</view>
 					<view class="desc">
 						{{ defaultAddress.provinceName }} {{ defaultAddress.cityName }} {{ defaultAddress.areaName }} {{ defaultAddress.streetName }} {{ defaultAddress.address }}
@@ -84,7 +84,9 @@
 			<button class="btn" @click="submitOrder">提交订单</button>
 		</view>
 		<!-- 直选支付方式 弹窗 -->
-		<common-payment-popup ref="paymentPopup"></common-payment-popup>
+		<common-payment-popup ref="paymentPopup" 
+		@change="paymentChange" 
+		@cancel="cancelPay"></common-payment-popup>
 		<!-- 金币抵扣弹窗 -->
 		<confirm-dicount-popup
 			v-if="orderVO.goldCoin && orderVO.goldCoin > 0"
@@ -146,7 +148,8 @@ export default {
 				name: undefined,
 				platFormCouponId: undefined,
 				storeGoodsList: []
-			}
+			},
+			payOrderNum: undefined //订单编号
 		};
 	},
 	computed: mapState({
@@ -188,6 +191,29 @@ export default {
 				this.initOrderVO(res);
 			});
 		},
+		
+		/**
+		 * 支付类型选中回调
+		 * @param {Object} payType  支付类型  1支付宝 2微信
+		 */
+		paymentChange(payType){
+			this.$tool.orderPay(this.payOrderNum, payType).then(res => {
+				uni.redirectTo({
+					url: `/pages-user/mine/order/order`
+				});
+			}).catch(err => {
+				uni.redirectTo({
+					url: `/pages-user/mine/order/order`
+				});
+			})
+		},
+		
+		// 关闭了支付弹窗
+		cancelPay(){
+			uni.redirectTo({
+				url: `/pages-user/mine/order/order`
+			});
+		},
 
 		/**
 		 * 提交订单
@@ -202,10 +228,12 @@ export default {
 				return;
 			}
 			this.$http.post('/order/submit', this.refreshOrderDetailParams, true).then(res => {
-				if (this.orderVO.payAmount === 0) {
-					//TODO: 不需要显示支付弹窗，直接跳转到我的订单页面
-				} else {
-					// TODO: 如果支付过程中关闭弹窗或者取消交易，也跳转到我的订单页面
+				if (this.orderVO.payAmount === 0) { //如果支付金额是0元，直接跳转到我的订单列表页
+					uni.redirectTo({
+						url: `/pages-user/mine/order/order`
+					});
+				} else { //弹出支付弹窗
+					this.payOrderNum = res.payOrderNum;
 					this.openPopup('paymentPopup');
 				}
 			});

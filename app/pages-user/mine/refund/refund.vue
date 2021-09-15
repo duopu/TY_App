@@ -47,7 +47,7 @@
 			<uni-file-picker class="image-lists" 
 			limit="3" 
 			mode="grid" 
-			:image-styles="{width:84, height:84}" 
+			:image-styles="{width:100, height:100}" 
 			:value="refundImgs"
 			@select="selectImg" 
 			@delete="deleteImg">

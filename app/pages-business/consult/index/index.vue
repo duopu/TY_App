@@ -43,7 +43,7 @@ export default {
 			})
 		},
 		addConsult(){
-			//
+			// 发布文章
 			uni.navigateTo({
 				url:`/pages-business/consult/publish-article/publish-article`
 			})
