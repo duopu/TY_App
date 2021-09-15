@@ -5,24 +5,24 @@
 			<view class="flex-center">
 				<image class="avatar-image" :src="storeInfo.avatar" mode="aspectFill"></image>
 				<view>
-					<view class="name text-bold">{{storeInfo.storeName}}</view> 
+					<view class="name text-bold">{{storeInfo.storeName}}</view>
 <!--					<view class="flex-center account">关联其他账号 ></view>-->
 				</view>
 			</view>
-			<view class="state-lists" :class="{on:showState}" @click="changeState">
-				<view v-show="showState || (!showState && userStatus === 1)" @click="userStatus = 1"  class="state-lists-item">
-					<image class="image" src="../../../static/images/my-state-zx.png" mode="aspectFill"></image>
-					<text>在线</text>
-				</view>
-				<view v-show="showState || (!showState && userStatus === 2)" @click="userStatus = 2" class="state-lists-item border-top-none">
-					<image class="image" src="../../../static/images/my-state-ml.png" mode="aspectFill"></image>
-					<text>忙碌</text>
-				</view>
-				<view v-show="showState || (!showState && userStatus === 3)" @click="userStatus = 3" class="state-lists-item border-top-none">
-					<image class="image" src="../../../static/images/my-state-lx.png" mode="aspectFill"></image>
-					<text>离线</text>
-				</view>
-			</view>
+<!--			<view class="state-lists" :class="{on:showState}" @click="changeState">-->
+<!--				<view v-show="showState || (!showState && userStatus === 1)" @click="userStatus = 1"  class="state-lists-item">-->
+<!--					<image class="image" src="../../../static/images/my-state-zx.png" mode="aspectFill"></image>-->
+<!--					<text>在线</text>-->
+<!--				</view>-->
+<!--				<view v-show="showState || (!showState && userStatus === 2)" @click="userStatus = 2" class="state-lists-item border-top-none">-->
+<!--					<image class="image" src="../../../static/images/my-state-ml.png" mode="aspectFill"></image>-->
+<!--					<text>忙碌</text>-->
+<!--				</view>-->
+<!--				<view v-show="showState || (!showState && userStatus === 3)" @click="userStatus = 3" class="state-lists-item border-top-none">-->
+<!--					<image class="image" src="../../../static/images/my-state-lx.png" mode="aspectFill"></image>-->
+<!--					<text>离线</text>-->
+<!--				</view>-->
+<!--			</view>-->
 		</view>
 		<!-- 公告 -->
 		<view class="block-box notice flex-center-between">
@@ -62,7 +62,7 @@
 		<!-- 优惠券 -->
 		<view class="flex-center-between index-title">
 			<text class="text">优惠卷</text>
-			<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
+      <image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right-black.svg" mode="aspectFill"></image>
 		</view>
 		<view class="lists block-box">
 			<view class="flex-center-between lists-row" v-for="(item, index) in ticketsData.oldTicketsData" @click="jump('ticket',index)" :key="index">
@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'; 
+import { mapState } from 'vuex';
 
 export default {
 	name: 'businessIndex',
@@ -166,7 +166,7 @@ export default {
 						icon: '../../static/images/icons/icon-live.svg',
 						label: '直播',
 						key: 'live'
-					} 
+					}
 				]
 			}
 		};
@@ -180,14 +180,14 @@ export default {
 		this.queryOrderNumber();
 		// 获取商品统计信息
 		this.queryGoodsNumber();
-		
+
 		// 测试推流 丁乐
 		// setTimeout(()=>{
 		// 	uni.navigateTo({
 		// 		url:'/pages-business/index/live/live-broadcast?pushUrl=rtmp://push.sinfinite.cn/live/10?txSecret=c6454257db0e9be54726b64a0c7154c4&txTime=6146C2C6&courseId=3&liveName=让人&liveIntro=好👌？我'
 		// 	})
 		// },1000)
-		
+
 		// 更新店铺信息
 		this.$store.dispatch('queryStoreInfo')
 	},
@@ -197,9 +197,9 @@ export default {
 		])
 	},
 	methods: {
-		changeState(value) {
-			this.showState = !this.showState
-		},
+		// changeState(value) {
+		// 	this.showState = !this.showState
+		// },
 		queryNoticeList(){
 			this.$http.get('/announcement/queryPage',{page: 1, size: 3},false).then(res => {
 				console.log(res);
@@ -252,7 +252,7 @@ export default {
 		},
 		// 获取商品列表统计信息
 		queryGoodsNumber(){
-			this.$http.get('/goods/statistic').then(res => { 
+			this.$http.get('/goods/statistic').then(res => {
 				if(!res) return;
 				let goodsStateData = [...this.goodsStateData];
 				goodsStateData.forEach(item =>  {
@@ -261,8 +261,8 @@ export default {
 				this.goodsStateData = goodsStateData;
 			})
 		}
-		
-	} 
+
+	}
 };
 </script>
 

@@ -42,7 +42,7 @@
 		
 		<!-- 待收货 -->
 		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 2">
-			<button v-if="item.examState === 1" class="btn btn-border black">电子凭证</button>
+			<button v-if="item.examState === 1" class="btn btn-border black" @click="queryExam">电子凭证</button>
 			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
 			<button v-if="item.deliveryState !== -1" class="btn btn-border black" @click.stop="queryLogistics">查看物流</button>
 			<button class="btn btn-block" @click="receivedOrder">确认收货</button>
@@ -190,6 +190,12 @@ export default {
 			uni.navigateTo({
 			    url: `/pages-user/mine/refund/details?orderNum=${this.storeGoodsVO.orderNum}`
 			});
+		},
+		//电子凭证
+		queryExam(){
+			// uni.navigateTo({
+			//     url: `/pages-user/mine/refund/details?orderNum=${this.storeGoodsVO.orderNum}`
+			// });
 		}
 	}
 };

@@ -3,10 +3,10 @@
 	<view class="message flex-column">
 		<!-- 头部 -->
 		<view class="message-top flex-center-between">
-			<view class="state flex-center">
-				<image mode="aspectFill" src="../../../static/images/my-state-zx.png" class="icon-state"></image>
-				<text>在线</text>
-			</view>
+<!--			<view class="state flex-center">-->
+<!--				<image mode="aspectFill" src="../../../static/images/my-state-zx.png" class="icon-state"></image>-->
+<!--				<text>在线</text>-->
+<!--			</view>-->
 			<text class="title text-bold">消息</text>
 			<view class="right-text">
 				<image @click="()=>showPop=!showPop" class="icon-more-dot" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
@@ -17,9 +17,9 @@
 		</view>
 		<!-- 列表 -->
 		<scroll-view scroll-y="true" class="message-content">
-			<view class="account"> 
+			<view class="account">
 				当前登录账号：
-				<text class="color-yellow text-bold">管理员1</text>
+				<text class="color-yellow text-bold">{{user.userName}}</text>
 			</view>
 			<!-- 交易信息 -->
 			<view class="lists-item" @click="jump('trade')">
@@ -45,9 +45,9 @@
 					<view class="number">15</view>
 				</view>
 			</view>
-			<!-- 用户消息列表 --> 
+			<!-- 用户消息列表 -->
 			<view class="lists-item" v-for="(item,index) in groupList" :key="index" @click="navImMessage(item)">
-				<image :src="item.avatar" mode="aspectFill" class="item-image"></image> 
+				<image :src="item.avatar" mode="aspectFill" class="item-image"></image>
 				<view class="flex-column flex-1">
 					<view class="name text-bold">{{item.nickName || '-'}}</view>
 					<view class="desc">{{item.message}}</view>
@@ -62,8 +62,8 @@
 </template>
 
 <script>
-	import { mapState } from 'vuex'; 
-	
+	import { mapState } from 'vuex';
+
 export default {
 	name: 'messageIndex',
 	components: {
@@ -73,6 +73,7 @@ export default {
 			showPop:false,
 			dotsData: ['全部标为已读', '删除全部会话', '聊天设置', '新消息通知设置'],
 			insideData:[],
+			user:{},
 		};
 	},
 	computed:{
@@ -88,12 +89,12 @@ export default {
 				}
 				return group
 			})
-			console.log('消息列表',newGroup);
 			return newGroup;
 		},
 	},
 	mounted(){
 		this.queryGroupList()
+		this.user = getApp().globalData.user;
 	},
 	methods: {
 		// 查询群组列表
@@ -104,8 +105,17 @@ export default {
 		},
 		// 跳转聊天界面
 		navImMessage(item){
+			console.log('跳转聊天界面',item);
+			getApp().globalData.messageParam = {
+				groupId:item.groupId,
+				userPortrait:item.avatar,
+				userIM:item.imNum,
+				userName:item.nickName,
+				storeName:item.storeName,
+				storePortrait:item.storeAvatar
+			}
 			uni.navigateTo({
-				url:`/pages/im-message/im-message?groupId=${item.groupId}&userPortrait=${item.avatar}&userIM=${item.imNum}&storeName=${item.storeName}&storePortrait=${item.storeAvatar}`
+				url:`/pages/im-message/im-message`
 			})
 		},
 		// 跳转页面 便利方法
@@ -117,6 +127,6 @@ export default {
 			}
 		},
 	}
-}; 
+};
 </script>
 <style lang="less" src="./style.less"></style>
