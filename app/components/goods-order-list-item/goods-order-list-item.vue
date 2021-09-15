@@ -23,54 +23,21 @@
 			</view>
 		</view>	
 
-
-		<!-- 待付款 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 0 || storeGoodsVO.orderState === 22">
-			<button class="btn btn-border grey" @click.stop="cancelOrder">取消订单</button>
-			<button class="btn btn-block" @click.stop="payOrder">支付订单</button>
-			
-			<!-- 测试使用，以后删除掉！！！ -->
-			<!-- <button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
-			<button class="btn btn-block" @click.stop="evaluateOrder">去评价</button>
-			<button class="btn btn-border black" @click.stop="queryLogistics">查看物流</button> -->
-		</view>
-		
-		<!-- 待发货 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 1">
-			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
-		</view>
-		
-		<!-- 待收货 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 2">
-			<button v-if="item.examState === 1" class="btn btn-border black" @click="queryExam">电子凭证</button>
-			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
-			<button v-if="item.deliveryState !== -1" class="btn btn-border black" @click.stop="queryLogistics">查看物流</button>
-			<button class="btn btn-block" @click="receivedOrder">确认收货</button>
-		</view>
-		
-		<!-- 待评价 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 3">
-			<button v-if="item.examState === 1" class="btn btn-border black">电子凭证</button>
-			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
-			<button class="btn btn-block" @click.stop="evaluateOrder">去评价</button>
-		</view>
-
-		<!-- 已完成 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 4">
-			<button v-if="item.examState === 1" class="btn btn-border black">电子凭证</button>
-			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
-			<button class="btn btn-border grey" @click.stop="deletOrder">删除订单</button>
-		</view>
-		
-		<!-- 退款 -->
-		<view class="flex-center bottom" 
-		v-if="storeGoodsVO.orderState === 5 || storeGoodsVO.orderState === 6 || storeGoodsVO.orderState === 7 || storeGoodsVO.orderState === 8 || storeGoodsVO.orderState === 9 || storeGoodsVO.orderState === 11 || storeGoodsVO.orderState === 12 || storeGoodsVO.orderState === 13 || storeGoodsVO.orderState === 14 || storeGoodsVO.orderState === 15 || storeGoodsVO.orderState === 16">
-			<button class="btn btn-border black" @click.stop="refundDetail">退款详情</button>
+		<!-- 底部操作按钮 -->
+		<view class="flex-center bottom">
+			<button v-if="storeGoodsVO.orderState === 0" class="btn btn-border grey" @click.stop="cancelOrder">取消订单</button>
+			<button v-if="storeGoodsVO.orderState === 0 || storeGoodsVO.orderState === 22" class="btn btn-block" @click.stop="payOrder">支付订单</button>
+			<button v-if="storeGoodsVO.orderState === 1 || storeGoodsVO.orderState === 2 || storeGoodsVO.orderState === 3 || storeGoodsVO.orderState === 4 || storeGoodsVO.orderState === 7 || storeGoodsVO.orderState === 8 || storeGoodsVO.orderState === 13 || storeGoodsVO.orderState === 16 || storeGoodsVO.orderState === 21 || storeGoodsVO.orderState === 22" class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+			<button v-if="storeGoodsVO.orderState === 5 || storeGoodsVO.orderState === 6 || storeGoodsVO.orderState === 7 || storeGoodsVO.orderState === 8 || storeGoodsVO.orderState === 9 || storeGoodsVO.orderState === 11 || storeGoodsVO.orderState === 12 || storeGoodsVO.orderState === 13 || storeGoodsVO.orderState === 14 || storeGoodsVO.orderState === 15 || storeGoodsVO.orderState === 16" class="btn btn-border black" @click.stop="refundDetail">退款详情</button>
+			<button v-if="storeGoodsVO.examCheck === 1 && storeGoodsVO.orderState !== -1 && storeGoodsVO.orderState !== 0" class="btn btn-border black" @click="queryExam">电子凭证</button>
+			<button v-if="storeGoodsVO.entityGoodsId && (storeGoodsVO.orderState === 2 || storeGoodsVO.orderState === 3 || storeGoodsVO.orderState === 4)" class="btn btn-border black" @click.stop="queryLogistics">查看物流</button>
+			<button v-if="storeGoodsVO.orderState === 2" class="btn btn-block" @click="receivedOrder">确认收货</button>
+			<button v-if="storeGoodsVO.orderState === 3" class="btn btn-block" @click.stop="evaluateOrder">去评价</button>
+			<button v-if="storeGoodsVO.orderState === 4 || storeGoodsVO.orderState === 10" class="btn btn-border grey" @click.stop="deletOrder">删除订单</button>
 		</view>
 		
 		<!-- 底部的插槽 -->
 		<slot name="bottom"></slot>
-		
 		
 	</view>
 </template>
@@ -78,7 +45,7 @@
 <script>
 export default {
 	name: 'goods-order-list-item',
-	emits: ['goodsClick','cancelOrder', 'payOrder', 'queryLogistics', 'deletOrder', 'applyRefund', 'evaluateOrder', 'receivedOrder'],
+	emits: ['goodsClick', 'queryLogistics', 'queryExam'],
 	props: {
 		type: {
 			type: Number,
@@ -108,8 +75,7 @@ export default {
 		showStateName() {
 			switch (this.storeGoodsVO.orderState) {
 
-				// 订单状态 -1:已取消 0:待支付 1:已支付 2:已发货 3:已完成 4:已评价 5:申请退款中 6:退款中 7:退款完成
-				// 8.未支付拼团定金 9.已支付拼团定金 10.已完成拼团并退款 11.拼团失败并退款中
+				// 订单状态 -1:已取消 0:待支付 1:已支付 2:已发货 3:已收货 4:已评价 5:申请退款中(未发货) 6:退款中 7:拒绝退款 8：退款失败 9：退款完成 10:已完成（不能再做任何操作） 11: 退货退款申请中 12:商家允许退款待填写发货信息 13:商家拒绝退款 14:用户已填写发货单待商家退款 15:退货退款中 16:退货退款失败21：已支付拼团定金 22:拼团成功待支付尾款 23:已完成拼团并退款 24:拼团失败并退款中
 
 				case -1:
 					return '已取消';
@@ -129,19 +95,19 @@ export default {
 				case 10:
 					return '已完成';
 					break;
-				case 5,11:
+				case 5: case 11:
 					return '申请退款中';
 					break;
-				case 6,12,14,15:
+				case 6: case 12: case 14: case 15:
 					return '退款中';
 					break;
-				case 7,13:
+				case 7: case 13:
 					return '拒绝退款';
 					break;
 				case 9:
 					return '退款完成';
 					break;
-				case 8,16:
+				case 8: case 16:
 					return '退款失败';
 					break;
 
@@ -159,31 +125,68 @@ export default {
 		},
 		// 取消订单
 		cancelOrder(){
-			this.$emit("cancelOrder");
+			uni.showModal({
+			    title: '提示',
+			    content: '是否取消订单',
+			    success: (res) => {
+			        if (res.confirm) {
+					   this.$http
+					   	.post('/order/cancel', {orderNum:this.storeGoodsVO.orderNum}, true)
+					   	.then(res => {
+					   		this.$store.commit('setOrderChange');
+					   	});
+			        }
+			    }
+			});
 		},
+			
 		// 支付订单
 		payOrder(){
-			this.$emit("payOrder");
+			//TODO: 这里需要掉支付接口
+			// this.$store.commit('setOrderChange');
 		},
 		// 删除订单
 		deletOrder(){
-			this.$emit("deletOrder");
+			uni.showModal({
+			    title: '提示',
+			    content: '是否确定删除订单',
+			    success: (res) => {
+			        if (res.confirm) {
+			            this.$http.post('/order/delete', {orderNum:this.storeGoodsVO.orderNum}, true).then(res => {
+			            	this.$store.commit('setOrderChange');
+			            });
+			        }
+			    }
+			});
 		},
 		// 申请退款
 		applyRefund(){
-			this.$emit("applyRefund");
+			uni.navigateTo({
+				url: `/pages-user/mine/refund/refund?orderNum=${this.storeGoodsVO.orderNum}`
+			});
 		},
 		// 查看物流
 		queryLogistics(){
-			this.$emit("queryLogistics");
+			this.$http
+				.get('/order/logistics', {orderNum:this.storeGoodsVO.orderNum}, true)
+				.then(res => {
+					this.$emit('queryLogistics', res);
+				});
 		},
 		//去评价
 		evaluateOrder(){
-			this.$emit("evaluateOrder");
+			let that = this;
+			uni.navigateTo({
+				url: `/pages-user/mine/evaluate/evaluate?goodsVO=${encodeURIComponent(JSON.stringify(this.storeGoodsVO))}`
+			});
 		},
 		//确认收货
 		receivedOrder(){
-			this.$emit("receivedOrder");
+			this.$http
+				.post('/order/received', {orderNum:this.storeGoodsVO.orderNum, goodsId:this.storeGoodsVO.goodsId}, true)
+				.then(res => {
+					this.$store.commit('setOrderChange');
+				});
 		},
 		//退款详情
 		refundDetail(){
@@ -193,9 +196,11 @@ export default {
 		},
 		//电子凭证
 		queryExam(){
-			// uni.navigateTo({
-			//     url: `/pages-user/mine/refund/details?orderNum=${this.storeGoodsVO.orderNum}`
-			// });
+			this.$http
+				.get('/goods/queryExam', {goodsId:this.storeGoodsVO.goodsId}, true)
+				.then(res => {
+					this.$emit('queryExam', res);
+				});
 		}
 	}
 };

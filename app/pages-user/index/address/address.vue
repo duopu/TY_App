@@ -54,7 +54,6 @@ export default {
 				.then(res => {
 					if(res){
 						let addressList = [];
-						console.log("this.store == ",this.defaultAddress);
 						for(var i=0; i<res.length; i++){
 							if(res[i].isDefault === 1){
 								if(!this.defaultAddress){
@@ -69,6 +68,9 @@ export default {
 							}
 						}
 						this.otherAddressList = addressList;
+					}else {
+						// 这里如果用户的地址是空的，记得把默认地址给清空掉
+						this.$store.commit('setDefaultAddress',{});
 					}
 				});
 		},
