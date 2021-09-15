@@ -171,6 +171,11 @@ export default {
 			}
 		}
 	},
+	watch:{
+		'$store.state.orderChange': function(){
+			this.queryOrderDetail();
+		}
+	},
 	onLoad(option) {
 		this.orderNum = option.orderNum;
 		this.queryOrderDetail();
