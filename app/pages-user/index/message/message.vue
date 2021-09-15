@@ -106,8 +106,17 @@ export default {
 		},
 		// 跳转聊天界面
 		navImMessage(item){
+			getApp().globalData.messageParam = {
+				groupId:item.groupId,
+				userPortrait:item.avatar,
+				userIM:item.imNum,
+				userName:item.nickName,
+				storeName:item.storeName,
+				storePortrait:item.storeAvatar
+			}
+			console.log('跳转聊天界面',item);
 			uni.navigateTo({
-				url:`/pages/im-message/im-message?groupId=${item.groupId}&userPortrait=${item.avatar}&userIM=${item.imNum}&storeName=${item.storeName}&storePortrait=${item.storeAvatar}`
+				url:`/pages/im-message/im-message`
 			})
 		},
 		// 查询公告列表

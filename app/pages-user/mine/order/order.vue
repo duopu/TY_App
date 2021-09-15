@@ -32,6 +32,20 @@
 			</swiper-item>
 		</swiper>
 		
+		<!-- 取消订单提示弹窗 -->
+		<uni-popup ref="cancelOrderConfimPop" type="dialog">
+		    <uni-popup-dialog content="是否确认取消订单？" 
+			:duration="2000" 
+			@confirm="()=>{$refs.cancelOrderPop.open()}"></uni-popup-dialog>
+		</uni-popup>
+		
+		<!-- 删除订单提示弹窗 -->
+		<uni-popup ref="deleteOrderConfimPop" type="dialog">
+		    <uni-popup-dialog content="是否确认删除订单？" 
+			:duration="2000" 
+			@confirm="deleteOrderConfim()"></uni-popup-dialog>
+		</uni-popup>
+		
 		<!-- 取消订单原因弹窗 -->
 		<uni-popup ref="cancelOrderPop" type="dialog">
 		    <uni-popup-dialog mode="input" 
@@ -61,6 +75,11 @@ export default {
 			currentOrderNum:undefined //当前选中的订单编号
 		};
 	},
+	watch:{
+		'$store.state.orderChange': function(){
+			this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
+		}
+	},
 	methods: {
 		// 返回
 		goBack(){
@@ -75,79 +94,10 @@ export default {
 			this.searchInput = value;
 			this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
 		},
-		
 		// 水平轮播切换回调
 		swiperChange(e){
 			this.tabsIndex = e.detail.current
 		},
-		
-		
-		/**
-		 * 订单点击
-		 * @param {Object} orderNum 订单编号
-		 */
-		goodsClick(orderNum){
-			uni.navigateTo({
-				url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
-			});	
-		},
-		
-		/**
-		 * 取消订单点击
-		 * @param {Object} orderNum 订单编号
-		 */
-		cancelOrder(orderNum){
-			this.orderNum = orderNum;
-			this.$refs.cancelOrderPop.open();
-		},
-		
-		/**
-		 * 取消订单原因弹窗确定按钮点击
-		 * @param {Object} value 输入框内容
-		 */
-		cancelOrderConfirm(value){
-			this.cancelMsg = value;
-			this.$http
-				.post('/order/cancel', {cancelMsg:this.cancelMsg, orderNum:this.orderNum}, true)
-				.then(res => {
-					this.$store.commit('setOrderChange');
-					this.cancelMsg = undefined;
-					this.$refs.cancelOrderPop.close();
-					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
-				});
-		},
-		
-		/**
-		 * 支付订单
-		 * @param {Object} orderVO 订单对象
-		 */
-		payOrder(orderVO){
-			//TODO: 这里需要掉支付接口
-		},
-		
-		/**
-		 * 删除订单
-		 * @param {Object} orderNum 订单编号
-		 */
-		deletOrder(orderNum){
-			this.$http
-				.post('/order/cancel', {cancelMsg:this.cancelMsg, orderNum:this.orderNum}, true)
-				.then(res => {
-					this.$refs.cancelOrderPop.close();
-					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
-				});
-		},
-		
-		/**
-		 * 申请退款按钮点击
-		 * @param {Object} goodsVO 当前商品对象
-		 */
-		applyRefund(goodsVO){
-			uni.navigateTo({
-				url: `/pages-user/mine/refund/refund?orderNum=${goodsVO.orderNum}`
-			});
-		},
-		
 		
 		/**
 		 * 查询订单列表
@@ -187,6 +137,78 @@ export default {
 			// 这里因为接口返回的跟组件中orderItemList的命名不一样
 			item.orderItemList = item.orderItemVOList;
 			return item;
+		},
+		
+		/**
+		 * 订单点击
+		 * @param {Object} orderNum 订单编号
+		 */
+		goodsClick(orderNum){
+			uni.navigateTo({
+				url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+			});	
+		},
+		
+		
+		/**
+		 * 取消订单点击
+		 * @param {Object} orderNum 订单编号
+		 */
+		cancelOrder(orderNum){
+			this.orderNum = orderNum;
+			this.$refs.cancelOrderConfimPop.open();
+		},
+		
+		/**
+		 * 取消订单原因弹窗确定按钮点击
+		 * @param {Object} value 输入框内容
+		 */
+		cancelOrderConfirm(value){
+			this.cancelMsg = value;
+			this.$http
+				.post('/order/cancel', {cancelMsg:this.cancelMsg, orderNum:this.orderNum}, true)
+				.then(res => {
+					this.$store.commit('setOrderChange');
+					this.cancelMsg = undefined;
+					this.$refs.cancelOrderPop.close();
+					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
+				});
+		},
+		
+		/**
+		 * 支付订单
+		 * @param {Object} orderVO 订单对象
+		 */
+		payOrder(orderVO){
+			//TODO: 这里需要掉支付接口
+		},
+		
+		/**
+		 * 删除订单
+		 * @param {Object} orderNum 订单编号
+		 */
+		deletOrder(orderNum){
+			this.orderNum = orderNum;
+			this.$refs.deleteOrderConfimPop.open();
+		},
+		
+		// 确认删除订单
+		deleteOrderConfim(){
+			this.$http
+				.post('/order/cancel', {cancelMsg:this.cancelMsg, orderNum:this.orderNum}, true)
+				.then(res => {
+					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
+				});
+		},
+		
+		/**
+		 * 申请退款按钮点击
+		 * @param {Object} goodsVO 当前商品对象
+		 */
+		applyRefund(goodsVO){
+			uni.navigateTo({
+				url: `/pages-user/mine/refund/refund?orderNum=${goodsVO.orderNum}`
+			});
 		},
 		
 		/**

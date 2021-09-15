@@ -73,38 +73,29 @@
 				title: '',
 				// 消息列表 
 				messageList: [],
-				messageScrollTop:0,
+				messageScrollTop: 0,
 				bottomPaddingBottom: '0rpx'
 			};
 		},
-	watch:{
-		messageList(){
-			this.$nextTick(()=>{
-				this.messageScrollTop = this.messageList.length * 200
-			})
-		}
-	},
-		computed: {},
-		onLoad(option) {
-			this.groupId = option.groupId;
-			this.userInfo = {
-				// 用户名称
-				userName: option.userName,
-				// 用户头像
-				userPortrait: option.userPortrait,
-				// 商家名称
-				storeName: option.storeName,
-				// 商家头像
-				storePortrait: option.storePortrait,
-				// 用户im账号
-				userIM: option.userIM
+		watch: {
+			messageList() {
+				this.$nextTick(() => {
+					this.messageScrollTop = this.messageList.length * 200
+				})
 			}
-			
+		},
+		computed: {},
+		onLoad() {
+			const messageParam = getApp().globalData.messageParam
+			console.log('消息页面', messageParam);
+			this.groupId = messageParam.groupId;
+			this.userInfo = messageParam
+
 			// 监听群消息
-			uni.$on('AdvancedMsgListen',this.getNewMessage)
+			uni.$on('AdvancedMsgListen', this.getNewMessage)
 		},
 		onUnload() {
-			uni.$off('AdvancedMsgListen',this.getNewMessage)
+			uni.$off('AdvancedMsgListen', this.getNewMessage)
 		},
 		onReady() {
 			uni.setNavigationBarTitle({
@@ -152,10 +143,10 @@
 				})
 			},
 			// 收到新消息
-			getNewMessage(message){
-				if(message.type !== "onRecvNewMessage")  return;
+			getNewMessage(message) {
+				if (message.type !== "onRecvNewMessage") return;
 				let msg = message.msg
-				if(msg.groupId == this.groupId){
+				if (msg.groupId == this.groupId) {
 					this.messageList.push(msg)
 				}
 			},
@@ -281,7 +272,7 @@
 						console.log('save success');
 						this.$tool.showSuccess('保存成功')
 					},
-					fail:() => {
+					fail: () => {
 						this.$tool.showToast('保存失败')
 					}
 				});

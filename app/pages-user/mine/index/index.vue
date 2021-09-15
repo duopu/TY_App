@@ -159,7 +159,7 @@
 		onPullDownRefresh() {
 			this.queryMineInfo()
 		},
-		onLoad() {
+		onShow() {
 			this.queryMineInfo()
 		},
 		methods: {

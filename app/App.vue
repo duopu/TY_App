@@ -4,7 +4,10 @@
 	export default {
 		// 全局数据对象
 		globalData: {
-			user: {}
+			// 用户信息
+			user: {},
+			// im 消息
+			messageParam:{}
 		},
 		onLaunch: function() {
 
