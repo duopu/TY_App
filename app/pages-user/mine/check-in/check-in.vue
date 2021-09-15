@@ -26,8 +26,8 @@
 		</view>
 		<!-- 入驻button -->
 		<view class="flex-center-between bottom-btn">
-			<navigator url="../check-in-person/check-in-person" class="btn-block red text-bold">个人入驻</navigator>
-			<navigator url="../check-in-merchant/check-in-merchant" class="btn-block blue text-bold">企业入驻</navigator>
+			<navigator url="../check-in-person/check-in-person" class="btn-block red text-bold" @click="toPerson">个人入驻</navigator>
+			<navigator url="../check-in-merchant/check-in-merchant" class="btn-block blue text-bold" @click="toJigou">企业入驻</navigator>
 		</view>
 	</view>
 </template>
@@ -60,7 +60,20 @@ export default {
 			]
 		};
 	},
-	methods: {}
+	methods: {
+		// 个人入驻
+		toPerson(){
+			uni.navigateTo({
+				url:'/pages-user/mine/check-in-person/check-in-person'
+			})
+		},
+		// 机构入驻
+		toJigou(){
+			uni.navigateTo({
+				url:'/pages-user/mine/check-in-merchant/check-in-merchant'
+			})
+		}
+	}
 };
 </script>
 

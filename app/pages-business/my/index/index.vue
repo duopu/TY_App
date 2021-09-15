@@ -4,10 +4,10 @@
 		<!-- 头部 -->
 		<view class="flex-center-between my-top">
 			<view class="flex-center">
-				<image class="avatar-image" src="../../../static/images/other/demo.png" mode="aspectFill"></image>
+				<image class="avatar-image" :src="storeInfo.avatar" mode="aspectFill"></image>
 				<view>
-					<view class="name text-bold">忙碌的管理员</view>
-					<view class="flex-center account">关联其他账号 ></view>
+					<view class="name text-bold">{{storeInfo.storeName}}</view>
+					<!-- <view class="flex-center account">关联其他账号 ></view> -->
 				</view>
 			</view>
 			<view class="state-lists">
@@ -58,12 +58,19 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex';
+	
 	export default {
 		name:"myIndex",
 		data() {
 			return {
 				
 			}
+		},
+		computed:{
+			...mapState([
+				'storeInfo' // 兴趣点列表
+			])
 		},
 		methods: {
 			logout(){

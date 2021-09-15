@@ -1,4 +1,6 @@
 const txIm = uni.requireNativePlugin('TX-TencentIM-Plus');
+import dayjs from 'dayjs';
+
 if (txIm) {
 	let isSuccess = txIm.initSDK({
 		sdkAppID: 1400563151,
@@ -8,25 +10,26 @@ if (txIm) {
 	})
 
 	// 设置基本消息（文本消息和自定义消息）的事件监听器
+	txIm.removeSimpleMsgListener();
 	txIm.addSimpleMsgListener(result => {
+		console.log('基本消息监听', result);
 		uni.$emit('SimpleMsgListen', result)
 	})
 
 	// 设置高级消息接口监听
+	txIm.removeAdvancedMsgListener()
 	txIm.addAdvancedMsgListener(result => {
+		console.log('高级消息接口监听', result);
 		uni.$emit('AdvancedMsgListen', result)
 	})
 
-	// 设置群消息监听
-	txIm.setGroupListener(result => {
-		uni.$emit('GroupListen', result)
-	})
-	
 	// 设置会话监听器
-	txIm.setConversationListener(result=>{
+	txIm.removeConversationListener()
+	txIm.setConversationListener(result => {
+		console.log('会话监听器', result);
 		uni.$emit('ConversationListen', result)
 	})
-	
+
 }
 
 // im登录
@@ -36,6 +39,7 @@ const login = (userId, userSig) => {
 			userId,
 			userSig
 		}, result => {
+			console.log('IM  登录', result);
 			if (result.code == 0) {
 				resolve();
 			} else {
@@ -90,13 +94,11 @@ const sendGroupTextMessage = (textMsg, groupId, loading = true) => {
 // 获取群组历史消息
 const getGroupHistoryMessageList = (groupId, msgId = '', loading = true) => {
 	return new Promise((resolve, reject) => {
-		loadingStart(loading)
 		txIm.getGroupHistoryMessageList({
 			groupId,
-			count: 20,
+			count: 1000,
 			msgId
 		}, result => {
-			loadingEnd(loading, result);
 			if (result.code == 0) {
 				resolve(result.msgs)
 			} else {
@@ -200,6 +202,63 @@ const downloadSound = (msgId) => {
 	})
 }
 
+// 加入群聊
+const joinGroup = (groupId) => {
+	return new Promise((resolve, reject) => {
+		txIm.joinGroup({
+			groupId
+		}, result => {
+			console.log('加入群聊', result);
+			if (result.code == 0) {
+				resolve(result)
+			} else {
+				reject(result.errMsg);
+			}
+		})
+	})
+}
+
+// 获取会话列表
+const getGroupConversationMap = () => {
+	return new Promise((resolve, reject) => {
+		txIm.getConversationList({
+			nextSeq: 0,
+			count: 1000
+		}, result => {
+			if(result.code == 0){
+				const map = {}
+				result.conversationList.forEach(c=>{
+					if(c.type == 2){
+						map[c.groupId] = c;
+					}
+				})
+				resolve(map)
+			}else{
+				reject('获取会话失败')
+			}
+		})
+	})
+}
+
+// 获取会话信息
+const getInfoFromConversation = (cov)=>{
+	const info = {}
+	info.unreadCount = cov.unreadCount || 0;
+	const lastMessage = cov.lastMessage
+	if(lastMessage){
+		if(lastMessage.elemType == 1){ // 文字消息
+			info.message = lastMessage.textElem.msg;
+		}else if(lastMessage.elemType == 3){
+			info.message = '[图片]'
+		}else if(lastMessage.elemType == 4){
+			info.message = '[语音]'
+		}
+		
+		info.time = dayjs(lastMessage.time * 1000).format('YYYY-MM-DD HH:mm') 
+	}
+	return info
+}
+
 export default {
 	login,
 	sendGroupTextMessage,
@@ -208,4 +267,7 @@ export default {
 	sendImageMessage,
 	downloadImage,
 	downloadSound,
+	joinGroup,
+	getGroupConversationMap,
+	getInfoFromConversation,
 }

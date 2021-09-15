@@ -33,6 +33,7 @@
 </template>
 
 <script>
+	
 	export default {
 		name: 'classify-category-popup',
 		emits: ['submitSuccess'],
@@ -42,8 +43,7 @@
 				default () {
 					return {
 						hotCategoryVOList: [], //热门分类
-						interestCategoryVOList: [], //我的兴趣分类
-						categoryVOList: [] //分类
+						categoryVOList: [] ,//分类
 					}
 				}
 			}
@@ -51,8 +51,8 @@
 		data() {
 			return {
 				hotCategoryVOList: this.data.hotCategoryVOList.concat([]),
-				interestCategoryVOList: this.data.interestCategoryVOList.concat([]),
-				categoryVOList: this.data.categoryVOList.concat([])
+				categoryVOList: this.data.categoryVOList.concat([]),
+				interestList:[...this.$store.state.interestList],
 			};
 		},
 		watch: {
@@ -60,7 +60,6 @@
 				handler(newV, oldV) {
 					// do something, 可使用this
 					this.hotCategoryVOList = newV.hotCategoryVOList.concat([]);
-					this.interestCategoryVOList = newV.interestCategoryVOList.concat([]);
 					this.categoryVOList = newV.categoryVOList.concat([]);
 				},
 				deep: true
@@ -81,7 +80,7 @@
 			 * @return {boolean} 选中或者没选中
 			 */
 			isItemSelect(categoryId) {
-				var v = this.interestCategoryVOList.find(item => item.categoryId == categoryId)
+				var v = this.interestList.find(item => item.categoryId == categoryId)
 				return v ? true : false
 			},
 
@@ -90,23 +89,23 @@
 			 */
 			itemClick(item) {
 				if (this.isItemSelect(item.categoryId)) {
-					var deletIndex = this.interestCategoryVOList.findIndex(value => value.categoryId === item.categoryId)
-					this.interestCategoryVOList.splice(deletIndex, 1);
+					var deletIndex = this.interestList.findIndex(value => value.categoryId === item.categoryId)
+					this.interestList.splice(deletIndex, 1);
 				} else {
-					this.interestCategoryVOList.push(item);
+					this.interestList.push(item);
 				}
 			},
 
 			// 提交
 			submit() {
-				let categoryIds = this.interestCategoryVOList.map(item => {
+				let categoryIds = this.interestList.map(item => {
 					return item.categoryId
 				})
 				// 保存感兴趣的类型
 				this.$http.post('/category/interested', {
 					categoryId: categoryIds
 				}, true).then(res => {
-					this.$emit('submitSuccess');
+					this.$store.dispatch('queryInterestList')
 					this.close();
 				})
 			}

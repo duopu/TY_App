@@ -7,19 +7,15 @@
 			user: {}
 		},
 		onLaunch: function() {
-			// setRemInit();
-			console.log('App Launch');
 
 			// 从本地恢复登录信息;
 			uni.getStorage({
 				key: config.storageKeys.loginUserKey,
 				success: res => {
 					const user = res.data;
+					console.log('从本地恢复登录信息',user);
 					if (user.token) {
 						this.$tool.login(user);
-						// uni.reLaunch({
-						// 	url: '/pages/login/login'
-						// });
 					} else {
 						// 本地无用户信息，去登录页
 						uni.reLaunch({
@@ -34,9 +30,23 @@
 					});
 				}
 			});
+			
+			
+			// 监听会话变化
+			uni.$on('ConversationListen',(data)=>{
+				console.log('监听会话变化 22',data);
+				if(data.type == 'onConversationChanged'){
+					this.$store.commit('onConversationChanged',data.conversationList)
+				}
+			})
+			
+			setTimeout(()=>{
+				this.$store.dispatch('getGroupConversationMap')
+			},2000)
+			
 
 		
-		// 定时刷新token
+			// 定时刷新token
 			this.$http.refreshToken();
 			const timer = setInterval(() => {
 				this.$http.refreshToken();

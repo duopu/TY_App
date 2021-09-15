@@ -7,7 +7,7 @@
 			  :key="index" 
 			  :data="item"
         :state="0"
-        @btnClick="btnClick"
+        @clickItem="clickItem"
         />
         
 		</template>
@@ -34,12 +34,12 @@ export default {
 		/**课程行点击
 		 * @param {Object} goodsId  课程ID
 		 */
-		btnClick(data){
-      const { courseId } = data || {}
-			console.log(courseId);
-			// uni.navigateTo({
-			// 	url: `/pages-user/index/consult/details?articleId=${articleId}`
-			// });
+		clickItem(data){
+      const { courseId,type } = data || {}
+      const url = type === 3 ? `/pages-user/index/live/live?courseId=${courseId}` : `/pages-user/course/live-room/live-room?courseId=${courseId}`
+			uni.navigateTo({
+				url
+			});
 		},
 	}
 };

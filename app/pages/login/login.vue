@@ -14,7 +14,7 @@
     <view class="form-wrapper">
       <!-- 手机号/验证码登录 -->
       <view v-if="loginMethod === 0">
-        <input class="input" placeholder-class="input-placeholder" type="text" v-model="phone" placeholder="请输入手机号"/>
+        <input class="input" placeholder-class="input-placeholder" type="number" v-model="phone" placeholder="请输入手机号"/>
         <view class="helper">未注册手机号验证后自动注册</view>
         <view class="login-btn" @click="onGetCode">获取验证码</view>
         <view class="huo">或</view>
@@ -22,7 +22,7 @@
       </view>
       <!-- 密码登录 -->
       <view v-else>
-        <input class="input" placeholder-class="input-placeholder" type="text" v-model="phone" placeholder="请输入手机号或用户名"/>
+        <input class="input" placeholder-class="input-placeholder" type="number" v-model="phone" placeholder="请输入手机号或用户名"/>
         <view class="flex-center-between input-with-icon">
           <input class="input" placeholder-class="input-placeholder" :type="eye == 1 ? 'password' : 'text'" v-model="pwd" placeholder="请输入密码"/>
           <image class="icon" v-if="eye == 1" @click="toggleEye" src="../../static/images/login/eye-close.png"

@@ -47,8 +47,8 @@ const login = (user)=>{
 		// im 登录
 		saveUserStorage({...user,...res});
 		imTool.login(res.imNum,res.sig)
+		console.log('IM 准备登录',{...user,...res});
 	}
-	
 	if(user.roleStatus == 'user'){
 		
 		// 从本地读取用户搜索历史信息
@@ -59,14 +59,15 @@ const login = (user)=>{
 		// 获取IM 信息
 		request.get('/im/getUserSig',{},true).then(imTodo)
 		
+		
 		// 跳转用户首页页面 
 		uni.reLaunch({
 			url: '/pages-user/index/index/index'
-		});
+		}); 
 	}else{
 
 		// 获取商家IM 信息
-		request.get('/im/getStoreImSig',{},true).then(imTodo)
+		request.get('/im/getStoreImSig',{imNum:user.imNum},true).then(imTodo)
 		
 		// 跳转商家首页页面
 		uni.reLaunch({
@@ -82,6 +83,13 @@ const logout = ()=>{
 	})
 	uni.reLaunch({
 		url:'/pages/login/login'
+	})
+}
+
+// 跳转消息列表
+const toMessageList = ()=>{
+	uni.navigateTo({
+		url:'/pages-user/index/message/message'
 	})
 }
 
@@ -101,5 +109,6 @@ export default {
 	showSuccess,
 	logout,
 	login,
-	saveUserStorage
+	saveUserStorage,
+	toMessageList
 }

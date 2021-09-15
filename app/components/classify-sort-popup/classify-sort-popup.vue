@@ -22,7 +22,7 @@ export default {
 			show: false,
 			currentIndex: 0,
 			data: [
-				{name:'综合',value:1}, 
+				{name:'综合排序',value:1}, 
 				{name:"销量降序",value:2},
 				{name:"销量升序",value:3},
 				{name:"价格降序",value:4},

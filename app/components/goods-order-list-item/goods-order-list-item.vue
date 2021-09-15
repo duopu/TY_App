@@ -25,13 +25,14 @@
 
 
 		<!-- 待付款 -->
-		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 0">
+		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 0 || storeGoodsVO.orderState === 22">
 			<button class="btn btn-border grey" @click.stop="cancelOrder">取消订单</button>
 			<button class="btn btn-block" @click.stop="payOrder">支付订单</button>
 			
 			<!-- 测试使用，以后删除掉！！！ -->
-			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+			<!-- <button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
 			<button class="btn btn-block" @click.stop="evaluateOrder">去评价</button>
+			<button class="btn btn-border black" @click.stop="queryLogistics">查看物流</button> -->
 		</view>
 		
 		<!-- 待发货 -->
@@ -43,7 +44,7 @@
 		<view class="flex-center bottom" v-if="storeGoodsVO.orderState === 2">
 			<button v-if="item.examState === 1" class="btn btn-border black">电子凭证</button>
 			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
-			<button v-if="item.deliveryState !== -1" class="btn btn-border black" @click.stop="queryLogistics(item)">查看物流</button>
+			<button v-if="item.deliveryState !== -1" class="btn btn-border black" @click.stop="queryLogistics">查看物流</button>
 			<button class="btn btn-block" @click="receivedOrder">确认收货</button>
 		</view>
 		
@@ -60,14 +61,24 @@
 			<button class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
 			<button class="btn btn-border grey" @click.stop="deletOrder">删除订单</button>
 		</view>
-
+		
+		<!-- 退款 -->
+		<view class="flex-center bottom" 
+		v-if="storeGoodsVO.orderState === 5 || storeGoodsVO.orderState === 6 || storeGoodsVO.orderState === 7 || storeGoodsVO.orderState === 8 || storeGoodsVO.orderState === 9 || storeGoodsVO.orderState === 11 || storeGoodsVO.orderState === 12 || storeGoodsVO.orderState === 13 || storeGoodsVO.orderState === 14 || storeGoodsVO.orderState === 15 || storeGoodsVO.orderState === 16">
+			<button class="btn btn-border black" @click.stop="refundDetail">退款详情</button>
+		</view>
+		
+		<!-- 底部的插槽 -->
+		<slot name="bottom"></slot>
+		
+		
 	</view>
 </template>
 
 <script>
 export default {
 	name: 'goods-order-list-item',
-	emits: ['goodsClick','cancelOrder', 'queryLogistics', 'payOrder', 'deletOrder', 'applyRefund', 'evaluateOrder', 'receivedOrder'],
+	emits: ['goodsClick','cancelOrder', 'payOrder', 'queryLogistics', 'deletOrder', 'applyRefund', 'evaluateOrder', 'receivedOrder'],
 	props: {
 		type: {
 			type: Number,
@@ -115,17 +126,23 @@ export default {
 				case 3:
 					return '待评价';
 					break;
-				case 4:
+				case 10:
 					return '已完成';
 					break;
-				case 5:
+				case 5,11:
 					return '申请退款中';
 					break;
-				case 6:
+				case 6,12,14,15:
 					return '退款中';
 					break;
-				case 7:
+				case 7,13:
+					return '拒绝退款';
+					break;
+				case 9:
 					return '退款完成';
+					break;
+				case 8,16:
+					return '退款失败';
 					break;
 
 			}
@@ -138,7 +155,7 @@ export default {
 
 		// 商品点击
 		goodsClick(){
-			this.$emit("goodsClick");
+			this.$emit('goodsClick');
 		},
 		// 取消订单
 		cancelOrder(){
@@ -148,10 +165,6 @@ export default {
 		payOrder(){
 			this.$emit("payOrder");
 		},
-		//查看物流
-		queryLogistics(){
-			this.$emit("queryLogistics");
-		},
 		// 删除订单
 		deletOrder(){
 			this.$emit("deletOrder");
@@ -160,6 +173,10 @@ export default {
 		applyRefund(){
 			this.$emit("applyRefund");
 		},
+		// 查看物流
+		queryLogistics(){
+			this.$emit("queryLogistics");
+		},
 		//去评价
 		evaluateOrder(){
 			this.$emit("evaluateOrder");
@@ -167,6 +184,12 @@ export default {
 		//确认收货
 		receivedOrder(){
 			this.$emit("receivedOrder");
+		},
+		//退款详情
+		refundDetail(){
+			uni.navigateTo({
+			    url: `/pages-user/mine/refund/details?orderNum=${this.storeGoodsVO.orderNum}`
+			});
 		}
 	}
 };

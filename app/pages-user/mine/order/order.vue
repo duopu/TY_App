@@ -42,6 +42,9 @@
 			@confirm="cancelOrderConfirm"></uni-popup-dialog>
 		</uni-popup>
 		
+		<!-- 物流 弹窗 -->
+		<order-logistic-popup ref="logisticPopup" 
+		:orderNum="currentOrderNum"></order-logistic-popup>
 		
 	</view>
 </template>
@@ -54,7 +57,8 @@ export default {
 			tabsIndex: 0,
 			searchInput:undefined,
 			cancelMsg:undefined, //取消订单原因
-			orderNum:undefined //订单ID
+			orderNum:undefined, //订单ID
+			currentOrderNum:undefined //当前选中的订单编号
 		};
 	},
 	methods: {
@@ -77,6 +81,17 @@ export default {
 			this.tabsIndex = e.detail.current
 		},
 		
+		
+		/**
+		 * 订单点击
+		 * @param {Object} orderNum 订单编号
+		 */
+		goodsClick(orderNum){
+			uni.navigateTo({
+				url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+			});	
+		},
+		
 		/**
 		 * 取消订单点击
 		 * @param {Object} orderNum 订单编号
@@ -95,6 +110,7 @@ export default {
 			this.$http
 				.post('/order/cancel', {cancelMsg:this.cancelMsg, orderNum:this.orderNum}, true)
 				.then(res => {
+					this.$store.commit('setOrderChange');
 					this.cancelMsg = undefined;
 					this.$refs.cancelOrderPop.close();
 					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
@@ -117,7 +133,6 @@ export default {
 			this.$http
 				.post('/order/cancel', {cancelMsg:this.cancelMsg, orderNum:this.orderNum}, true)
 				.then(res => {
-					this.cancelMsg = undefined;
 					this.$refs.cancelOrderPop.close();
 					this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
 				});
@@ -129,7 +144,7 @@ export default {
 		 */
 		applyRefund(goodsVO){
 			uni.navigateTo({
-				url: `/pages-user/mine/refund/refund?goodsVO=${encodeURIComponent(JSON.stringify(goodsVO))}`
+				url: `/pages-user/mine/refund/refund?orderNum=${goodsVO.orderNum}`
 			});
 		},
 		
@@ -175,16 +190,6 @@ export default {
 		},
 		
 		/**
-		 * 商品点击
-		 * @param {Object} orderNum 订单编号
-		 */
-		goodsClick(orderNum){
-			uni.navigateTo({
-				url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
-			});
-		},
-		
-		/**
 		 * 商品评价
 		 * @param {Object} goodsVO 当前商品对象
 		 */
@@ -205,7 +210,8 @@ export default {
 		 * @param {Object} goodsVO 当前商品对象
 		 */
 		queryLogistics(goodsVO){
-			
+			this.currentOrderNum = goodsVO.orderNum;
+			this.$refs.logisticPopup.open();
 		},
 		
 		/**

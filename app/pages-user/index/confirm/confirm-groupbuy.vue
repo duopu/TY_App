@@ -65,7 +65,13 @@ import { mapState } from 'vuex'; //引入mapState
 export default {
 	data() {
 		return {
-			isAgree: true //是否同意协议
+			isAgree: true, //是否同意协议
+			params:{ //提交订单参数对象
+				groupBuyId: this.$store.state.groupBuyGoodsVO.groupBuyId,
+				address: undefined,
+				mobile: undefined,
+				name: undefined
+			}
 		};
 	},
 	computed: mapState({
@@ -75,11 +81,14 @@ export default {
 		groupBuyGoodsVO: state => state.groupBuyGoodsVO
 	}),
 	watch:{
-		defaultAddress(newV, oldV){
-			let {provinceName,cityName,areaName,streetName,address} = newV;
-			this.refreshOrderDetailParams.address = `${provinceName}${cityName}${areaName}${streetName}${address}`;
-			this.refreshOrderDetailParams.name = newV.name;
-			this.refreshOrderDetailParams.mobile = newV.phone;
+		defaultAddress: {
+			handler: function(newV, oldV){
+				let {provinceName,cityName,areaName,streetName,address,phone,name} = newV;
+				this.params.address = `${provinceName}${cityName}${areaName}${streetName}${address}`;
+				this.params.name = name;
+				this.params.mobile = phone;
+			},
+			immediate: true
 		}
 	},
 	onLoad(option) {
@@ -106,26 +115,14 @@ export default {
 				this.$tool.showToast("请先勾选服务协议");
 				return
 			}
-			
-			let params = {
-				 groupBuyId: this.groupBuyGoodsVO.groupBuyId,
-				 address: undefined,
-				 mobile: undefined,
-				 name: undefined,
-			}
-			
+
 			if(this.groupBuyGoodsVO.entityGoodsFlag === 1 && !this.defaultAddress.id){
 				this.$tool.showToast("请填写收货地址");
 				return
-			}else {
-				let {provinceName,cityName,areaName,streetName,address,phone,name} = this.defaultAddress;
-				params.address = `${provinceName}${cityName}${areaName}${streetName}${address}`;
-				params.mobile = phone;
-				params.name = name;
 			}
 			
 			this.$http
-				.post('/groupBuy/create', params, true)
+				.post('/groupBuy/create', this.params, true)
 				.then(res => {
 					this.$store.commit('setOrderChange');
 					// TODO: 如果支付过程中关闭弹窗或者取消交易，也跳转到我的订单页面

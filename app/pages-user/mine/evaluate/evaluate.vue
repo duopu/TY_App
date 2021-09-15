@@ -99,6 +99,7 @@ export default {
 		};
 	},
 	onLoad(option){
+    console.log(1,option.goodsVO);
 		this.goodsVO = JSON.parse(decodeURIComponent(option.goodsVO));
 		this.evaluateVO.goodsId = this.goodsVO.goodsId;
 		this.evaluateVO.orderNum = this.goodsVO.orderNum;
@@ -143,6 +144,8 @@ export default {
 				file: e.tempFiles[0].file,
 				path: e.tempFilePaths[0]
 			}
+			
+			console.log('图片选择回调',formData);
 			this.$http
 				.upload(formData, true)
 				.then(res => {

@@ -3,7 +3,7 @@
 	<uni-popup ref="popup">
 		<view class="popup-main">
 			<view class="title">申请说明</view>
-			<view class="text" v-if="state === 0">请在商品详情页中选择申请分销，待商家审核通过后即可进行分销。</view>
+			<view class="text" v-if="state === 2">请在商品详情页中选择申请分销，待商家审核通过后即可进行分销。</view>
 			<view class="text" v-if="state === 1">请在店铺首页中选择申请分销，待商家审核通过后即可进行分销。</view>
 		</view>
 	</uni-popup>
@@ -16,7 +16,7 @@ export default {
 		return {};
 	},
 	props:{
-		state:{
+		state:{ // 1店铺  2商品
 			type:Number,
 			default:0
 		}

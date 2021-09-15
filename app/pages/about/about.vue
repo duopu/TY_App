@@ -1,9 +1,9 @@
 <!-- 关于腾讯云课堂 -->
 <template>
 	<view class="about">
-		<image class="image-about" mode="widthFix" src="../../../static/images/other/good_banner.png"></image>
+		<image class="image-about" mode="widthFix" :src="info.image"></image>
 		<view class="title text-bold">我们是腾讯云课堂</view>
-		<view class="text">我是介绍文案我是我是介绍文案我是介绍文案 介绍文案我是介绍文案我是介绍文案我是介绍文案 我是介绍文案我是介我是介绍文案我是介绍文案</view>
+		<view class="text">{{info.description}}</view>
 		<view class="text">欢迎与我们合作联系。</view>
 	</view>
 </template>
@@ -11,7 +11,19 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			info:{}
+		};
+	},
+	onLoad() {
+		this.queryUsInfo()
+	},
+	methods:{
+		queryUsInfo(){
+			this.$http.get('/tencent/queryDetail',{},true).then(res=>{
+				this.info = res;
+			})
+		}
 	}
 };
 </script>
