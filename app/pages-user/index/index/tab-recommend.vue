@@ -1,6 +1,6 @@
 <!-- 首页 -->
 <template>
-	<scroll-view scroll-y="true" class="main-content" :scroll-top="scrollTop" @scroll="onScroll">
+	<scroll-view scroll-y="true" class="main-content" :scroll-top="scrollTop">
 		<!-- 轮播图 -->
 		<view class="swiper">
 			<swiper class="swiper" :indicator-dots="true" :autoplay="true" interval="4000" duration="500">
@@ -199,10 +199,6 @@ export default {
 		}
 	},
 	methods: {
-		// 滚动事件
-		onScroll(event) {
-			this.scrollTop = event.detail.scrollTop;
-		},
 		// 查询轮播图
 		queryBannerList() {
 			this.$http.get('navigate/queryBannerList').then(res => {
@@ -211,18 +207,19 @@ export default {
 		},
 		// 菜单按钮点击事件
 		menuClick(item) {
+			
 			if (item.path == 'fl') {
 				uni.switchTab({
 					url: '/pages-user/classify/index/index'
 				});
 			} else if (item.path == 'dkzb') {
-				this.scrollTop = 410;
+				this.scrollTop = 410 + Math.random();
 			} else if (item.path == 'kstk') {
-				this.scrollTop = 600;
+				this.scrollTop = 600 + Math.random();
 			} else if (item.path == 'gxzh') {
-				this.scrollTop = 783;
+				this.scrollTop = 783 + Math.random();
 			} else if (item.path == 'jpkc') {
-				this.scrollTop = 1026;
+				this.scrollTop = 1026 + Math.random();
 			}
 		},
 		// 跳转大咖直播页面
