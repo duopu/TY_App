@@ -27,8 +27,8 @@
 		<view class="flex-center bottom">
 			<button v-if="storeGoodsVO.orderState === 0" class="btn btn-border grey" @click.stop="cancelOrder">取消订单</button>
 			<button v-if="storeGoodsVO.orderState === 0 || storeGoodsVO.orderState === 22" class="btn btn-block" @click.stop="payOrder">支付订单</button>
-			<button v-if="storeGoodsVO.orderState === 1 || storeGoodsVO.orderState === 2 || storeGoodsVO.orderState === 3 || storeGoodsVO.orderState === 4 || storeGoodsVO.orderState === 7 || storeGoodsVO.orderState === 8 || storeGoodsVO.orderState === 13 || storeGoodsVO.orderState === 16 || storeGoodsVO.orderState === 21 || storeGoodsVO.orderState === 22" class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
-			<button v-if="storeGoodsVO.orderState === 5 || storeGoodsVO.orderState === 6 || storeGoodsVO.orderState === 7 || storeGoodsVO.orderState === 8 || storeGoodsVO.orderState === 9 || storeGoodsVO.orderState === 11 || storeGoodsVO.orderState === 12 || storeGoodsVO.orderState === 13 || storeGoodsVO.orderState === 14 || storeGoodsVO.orderState === 15 || storeGoodsVO.orderState === 16" class="btn btn-border black" @click.stop="refundDetail">退款详情</button>
+			<button v-if="storeGoodsVO.orderState === 1 || storeGoodsVO.orderState === 2 || storeGoodsVO.orderState === 3 || storeGoodsVO.orderState === 4 || storeGoodsVO.orderState === 8 storeGoodsVO.orderState === 16 || storeGoodsVO.orderState === 21 || storeGoodsVO.orderState === 22" class="btn btn-border grey" @click.stop="applyRefund">申请退款</button>
+			<button v-if="storeGoodsVO.orderState === 5 || storeGoodsVO.orderState === 6 || storeGoodsVO.orderState === 7 || storeGoodsVO.orderState === 8 || storeGoodsVO.orderState === 9 || storeGoodsVO.orderState === 11 || storeGoodsVO.orderState === 12 || storeGoodsVO.orderState === 13 || storeGoodsVO.orderState === 14 || storeGoodsVO.orderState === 15 || storeGoodsVO.orderState === 16 || storeGoodsVO.orderState === 23 || storeGoodsVO.orderState === 24" class="btn btn-border black" @click.stop="refundDetail">退款详情</button>
 			<button v-if="storeGoodsVO.examCheck === 1 && storeGoodsVO.orderState !== -1 && storeGoodsVO.orderState !== 0" class="btn btn-border black" @click="queryExam">电子凭证</button>
 			<button v-if="storeGoodsVO.entityGoodsId && (storeGoodsVO.orderState === 2 || storeGoodsVO.orderState === 3 || storeGoodsVO.orderState === 4)" class="btn btn-border black" @click.stop="queryLogistics">查看物流</button>
 			<button v-if="storeGoodsVO.orderState === 2" class="btn btn-block" @click="receivedOrder">确认收货</button>
@@ -98,7 +98,7 @@ export default {
 				case 5: case 11:
 					return '申请退款中';
 					break;
-				case 6: case 12: case 14: case 15:
+				case 6: case 12: case 14: case 15: case 23: case 24:
 					return '退款中';
 					break;
 				case 7: case 13:
@@ -128,6 +128,8 @@ export default {
 			uni.showModal({
 			    title: '提示',
 			    content: '是否取消订单',
+				confirmText: '确定',
+				cancelText: '取消',
 			    success: (res) => {
 			        if (res.confirm) {
 					   this.$http
@@ -150,6 +152,8 @@ export default {
 			uni.showModal({
 			    title: '提示',
 			    content: '是否确定删除订单',
+				confirmText: '确定',
+				cancelText: '取消',
 			    success: (res) => {
 			        if (res.confirm) {
 			            this.$http.post('/order/delete', {orderNum:this.storeGoodsVO.orderNum}, true).then(res => {

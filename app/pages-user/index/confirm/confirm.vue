@@ -40,6 +40,10 @@
 						src="../../../static/images/icons/icon-arrow-right.svg"
 					></image>
 				</view>
+				<view v-if="item.storeDiscountAmount > 0" class="row flex-center-between">
+					<text class="label">商家折扣</text>
+					<text class="flex-1 color-red">-¥{{ item.storeDiscountAmount }}</text>
+				</view>
 				<view class="row flex-center-between">
 					<text class="flex-1 color-red">小计: ¥{{ item.payAmount }}</text>
 				</view>
@@ -56,6 +60,10 @@
 						mode="aspectFill"
 						src="../../../static/images/icons/icon-arrow-right.svg"
 					></image>
+				</view>
+				<view v-if="orderVO.platformDiscountAmount > 0" class="row flex-center-between">
+					<text class="label">平台折扣</text>
+					<text class="flex-1 color-red">-¥{{ orderVO.platformDiscountAmount }}</text>
 				</view>
 				<view v-if="orderVO.goldCoin && orderVO.goldCoin > 0" class="row flex-center-between" @click="openPopup('dicountPopup')">
 					<text class="label">金币抵扣</text>

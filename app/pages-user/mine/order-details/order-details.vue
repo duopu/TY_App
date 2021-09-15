@@ -94,19 +94,27 @@
 				<text class="flex-1">¥{{ orderVO.orderAmount }}</text>
 			</view>
 			<!-- 只有实体商品才会有运费 -->
-			<view v-if="orderVO.attributesId" class="row flex-center-between">
+			<view v-if="orderVO.entityGoodsId" class="row flex-center-between">
 				<text class="label">运费</text>
 				<text class="flex-1 color-9">¥{{ orderVO.freightAmount || 0 }}</text>
 			</view>
-			<view class="row flex-center-between">
+			<view v-if="orderVO.platformCouponAmount > 0" class="row flex-center-between">
 				<text class="label">平台优惠</text>
+				<text class="flex-1 color-9">-¥{{ orderVO.platformCouponAmount }}</text>
+			</view>
+			<view v-if="orderVO.platformDiscountAmount > 0" class="row flex-center-between">
+				<text class="label">平台折扣</text>
 				<text class="flex-1 color-9">-¥{{ orderVO.platformDiscountAmount }}</text>
 			</view>
-			<view class="row flex-center-between">
+			<view v-if="orderVO.storeCouponAmount > 0" class="row flex-center-between">
 				<text class="label">商家优惠</text>
+				<text class="flex-1 color-9">-¥{{ orderVO.storeCouponAmount }}</text>
+			</view>
+			<view v-if="orderVO.storeDiscountAmount > 0" class="row flex-center-between">
+				<text class="label">商家折扣</text>
 				<text class="flex-1 color-9">-¥{{ orderVO.storeDiscountAmount }}</text>
 			</view>
-			<view class="row flex-center-between">
+			<view v-if="orderVO.goldDeductionAmount > 0" class="row flex-center-between">
 				<text class="label">金币抵扣</text>
 				<text class="flex-1 color-9">-¥{{ orderVO.goldDeductionAmount }}</text>
 			</view>
@@ -177,7 +185,7 @@ export default {
 				case 5: case 11:
 					return '申请退款中';
 					break;
-				case 6: case 12: case 14: case 15:
+				case 6: case 12: case 14: case 15: case 23: case 24:
 					return '退款中';
 					break;
 				case 7: case 13:

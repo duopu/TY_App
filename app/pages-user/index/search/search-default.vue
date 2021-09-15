@@ -20,7 +20,7 @@
 			<view class="item"
 			v-for="(item,index) in topList"
 			:key="`top-list-${index}`"
-			@click="tagClick(item,0)">{{item.name}}</view>
+			@click="tagClick(item.name,0)">{{item.name}}</view>
 		</view>
 		<!--热门课程/热搜机构/优秀教师 -->
 		<scroll-view scroll-x="true" class="hot-lists">

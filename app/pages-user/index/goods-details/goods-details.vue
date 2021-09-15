@@ -297,8 +297,6 @@ export default {
 	},
 	onLoad(option) {
 		this.goodsId = option.goodsId;
-		this.getTabsTopAndHeight();
-		this.getGoodsBottomHeight();
 		this.getGoodsResource();
 		this.getGoodsInfo();
 		this.getComment();
@@ -482,6 +480,10 @@ export default {
 					this.priceArry = [res.price];
 					this.selectGoodsVO = { ...res.goodsAttributesVOList[0], goodsNum: 1 };
 				}
+				
+				//等接口查完之后，再去计算tabs和底部操作栏的高度
+				this.getTabsTopAndHeight();
+				this.getGoodsBottomHeight();
 				//动态设置swiper的高度
 				this.setSwiperHeight();
 			});
