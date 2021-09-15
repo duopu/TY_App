@@ -3,8 +3,8 @@
 	<view class="live-room">
 		<!-- 视频 -->
 		<view class="live-room-top">
-      <image v-if="detail.type === 3" :src="detail.img[0]" class="live-img"  />
-			<video v-else class="video" :src="videoUrl" controls :autoplay="true" ></video>
+      <video v-if="videoUrl"  class="video" :src="videoUrl" controls :autoplay="true" />
+      <image v-else :src="detail.img[0]" class="live-img"  />
 			<view class="flex-center-between text-bold process">
 				<text class="title text-bold">{{detail.courseName}}</text>
 				<text v-if="!isLocal" class="color-red">{{detail.learnRate || 0}}%</text>
@@ -14,29 +14,35 @@
 		<!-- 目录 -->
 		<scroll-view class="live-room-category" scroll-y="true">
 			<!-- 列表 -->
-			<view v-if="detail.userCourseClassList && detail.userCourseClassList.length>0" class="lists-item" :class="index === current && 'on'" @click="collapseItem(index)" v-for="(item, index) in detail.userCourseClassList" :key="index">
-				<view class="row flex-center-between">
+			<view  class="lists-item" v-for="(item, index) in detail.userCourseClassList" :key="index">
+				<view class="row flex-center-between" @click="firstCheck(item)">
 					<text class="text-bold title">{{(index + 1)}}、{{item.courseClassName}}</text>
 					<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill" />
 				</view>
-				<view class="collapse-content">
-					<view v-if="item.nodes" class="flex collapse-item" v-for="(subItem, subIndex) in item.nodes" :key="subIndex" @click.stop="periodClick(subItem)">
-						<image class="icon-video" src="../../../static/images/icons/icon-video.svg" mode="aspectFill" />
-						<view class="flex-column flex-1">
-							<view class="flex-center">
-								<text>{{subItem.courseClassName}}</text>
-								<text v-if="!isLocal" class="tag">上次学到</text>
-							</view>
-							<view class="flex-center desc">
-								<text>{{subItem.learnTime || filterDate}}分钟</text>
-                <block v-if="!isLocal">
-								  <text class="m-left-40">已学习</text>
-								  <text class="color-red">{{ subItem.learnTime | filterProgress(subItem.classTime)}}%</text>
-                </block>
-							</view>
-						</view>
-					</view>
-				</view>
+        <block v-if="item.checked" v-for="(subItem, subIndex) in item.nodes" :key="subIndex">
+          <view class="row flex-center-between" @click="secondCheck(subItem)" style="margin-left:10rpx">
+            <text class="text-bold title">{{(index+1) + '-' + (subIndex + 1)}}、{{item.courseClassName}}</text>
+            <image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill" />
+          </view>
+          <view v-if="subItem.checked" class="collapse-content" style="margin-left:20rpx" >
+            <view v-if="item.nodes" class="flex collapse-item" v-for="(flag, ind) in subItem.liveRecordList" :key="ind" @click.stop="periodClick(flag)">
+              <image class="icon-video" src="../../../static/images/icons/icon-video.svg" mode="aspectFill" />
+              <view class="flex-column flex-1">
+                <view class="flex-center">
+                  <text>{{flag.liveName}}</text>
+                  <text class="tag">上次学到</text>
+                </view>
+                <view class="flex-center desc">
+                  <text>{{flag.learnTime || filterDate}}分钟</text>
+                  <block>
+                    <text class="m-left-40">已学习</text>
+                    <text class="color-red">{{ flag.learnTime | filterProgress(flag.classTime)}}%</text>
+                  </block>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
 			</view>
 		</scroll-view>
 		<!-- 底部 -->
@@ -105,40 +111,53 @@ export default {
     }else{
       this.queryDetail()
     }
-    // uni.setStorageSync('courseList',[])
   },
 	methods: {
 
-		// 展开目录
-		collapseItem(index) {
-      this.current = index;
-		},
-
     // 课时点击
     periodClick(item){
-      this.id = item.id
-       // 直播课跳转
-      if(this.detail.type == 3){
-        uni.navigateTo({
-						url:`/pages-user/index/live/room?courseId=${this.courseId}&courseClassId=${item.courseClassId}`
-				})
-        return;
-      }
-      this.videoUrl = item.url
+      this.id = item.liveId;
+      this.videoUrl = item.liveVideoUrl
+    },
+
+    //树状结构 第一层点击 
+    firstCheck(data){
+      this.detail.userCourseClassList.map(item=>{
+        if(item.id === data.id){
+          item.checked = !item.checked
+        }
+      })
+    },
+
+    //树状结构 第二层点击 
+    secondCheck(data){
+       this.detail.userCourseClassList.map(item=>{
+        (item.nodes || []).map(flag=>{
+          if(flag.id === data.id){
+            flag.checked = !flag.checked
+          }
+        })
+      })
     },
 
     //下载课程 
     down(){
       let that = this;
-      const courseSyncList = this.courseSyncList
+      if(!this.videoUrl){
+        this.$tool.showToast('请选择您要缓存的课时')
+        return;
+      }
+      const courseSyncList = this.courseSyncList;
       let isSync = false;
       courseSyncList.map(item=>{
         (item.userCourseClassList || []).map(subItem=>{
-          isSync = (subItem.nodes || []).filter(flag=>flag.id == this.id).length> 0;
-          if(isSync){
-            this.$tool.showToast('您已经缓存过了')
-            return;
-          }
+         (subItem.nodes || []).map(sub=>{
+           isSync = (sub.liveRecordList || []).filter(flag=>flag.liveId == this.id).length> 0;
+            if(isSync){
+              this.$tool.showToast('您已经缓存过了')
+              return;
+            }
+         })
         })
       })
       uni.showLoading({
@@ -180,11 +199,14 @@ export default {
       const classList = userCourseClassList;
       classList.map(item=>{
         (item.nodes || []).map(flag=>{
-          if(flag.id === this.id ){
-            flag.url = file
-          }else{
-            flag.url = ''
-          }
+          (flag.liveRecordList || []).map(sub=>{
+            if(sub.liveId === this.id ){
+              flag.url = file
+            }else{
+              flag.url = ''
+            }
+          })
+          
         })
       })
       courseSyncList.push({
@@ -240,9 +262,15 @@ export default {
         courseId:this.courseId
       }
       const data = await this.$http.get('/userCourse/queryDetail',params,true)
-      if(data.userCourseClassList[0] && data.userCourseClassList[0].nodes[0]){
-        this.videoUrl = data.userCourseClassList[0].nodes[0].url
-        this.id = data.userCourseClassList[0].nodes[0].id
+      if(data.userCourseClassList){
+        (data.userCourseClassList || []).map(item=>{
+          item.checked = false;
+          if(item.nodes){
+            (item.nodes || []).map(flag=>{
+              flag.checked = false;
+            })
+          }
+        })
       }
       this.detail = data;
     },

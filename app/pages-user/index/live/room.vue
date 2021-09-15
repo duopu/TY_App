@@ -69,13 +69,16 @@ export default {
 
 		};
 	},
-	onLoad() {
+	onLoad(option) {
+    const { livePullUrl } = option || {}
 		// 监听群消息
 		uni.$on('AdvancedMsgListen',this.getNewMessage)
 		// 加入群聊
 		this.$tool.imTool.joinGroup(this.groupId);
 		// 获取群历史
 		this.getGroupHistoryMessageList();
+    // 获取拉流地址
+    this.livePullUrl = livePullUrl
 	},
 	onUnload() { 
 		uni.$off('AdvancedMsgListen',this.getNewMessage)
