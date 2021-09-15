@@ -9,11 +9,11 @@
 <!--					<view class="flex-center account">关联其他账号 ></view>-->
 				</view>
 			</view>
-			<view class="state-lists" :class="{on:showState}" @click="changeState">
+			<!-- <view class="state-lists" :class="{on:showState}" @click="changeState">
 				<view v-show="showState || (!showState && userStatus === 1)" @click="userStatus = 1"  class="state-lists-item">在线</view>
 				<view v-show="showState || (!showState && userStatus === 2)" @click="userStatus = 2" class="state-lists-item">忙碌</view>
 				<view v-show="showState || (!showState && userStatus === 3)" @click="userStatus = 3" class="state-lists-item">离线</view>
-			</view>
+			</view> -->
 		</view>
 		<!-- 公告 -->
 		<view class="block-box notice">
@@ -187,9 +187,9 @@ export default {
 		])
 	},
 	methods: {
-		changeState(value) {
-			this.showState = !this.showState
-		},
+		// changeState(value) {
+		// 	this.showState = !this.showState
+		// },
 		queryNoticeList(){
 			this.$http.get('/announcement/queryPage',{page: 1, size: 3},false).then(res => {
 				console.log(res);

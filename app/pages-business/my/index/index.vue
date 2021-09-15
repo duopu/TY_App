@@ -22,7 +22,7 @@
 			</view>
 			<view class="flex-1 flex-center-center">
 				<image class="tabs-image" src="../../../static/images/icons/icon-gift.svg" mode="aspectFill"></image>
-				<text class="text-bold">保证金</text>
+				<text class="text-bold">权益中心</text>
 			</view>
 		</view>
 		<!-- 列表 -->
