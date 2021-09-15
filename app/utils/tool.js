@@ -79,8 +79,8 @@ const login = (user)=>{
 const logout = ()=>{
 	getApp().globalData.user = {};
 	
-	// 清楚用户的默认地址信息
-	// store.commit('setDefaultAddress',{});
+	// 清除用户的默认地址信息
+	store.commit('setDefaultAddress',{});
 	uni.removeStorage({
 		key:config.storageKeys.loginUserKey,
 	})
