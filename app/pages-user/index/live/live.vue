@@ -3,7 +3,7 @@
 	<view class="page-wrapper live">
 		<!-- 商家信息 -->
 		<view class="flex-center-between live-profile">
-			<text class="text-bold">{{detail.courseName}}</text>
+			<text class="text-bold">{{detail.courseName}}22</text>
 			<view class="flex-center">
 				<image class="image-name" :src="detail.avatar" mode="aspectFill" />
 				<text class="font-24">{{detail.storeName}}</text>
