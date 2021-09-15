@@ -2,13 +2,18 @@
 <template>
 	<view class="order-confirm">
 		<scroll-view class="order-confirm-content" scroll-y="true">
-			<!-- 收获地址  只有实体商品才需要填写收货地址 -->
+			<!-- 收获地址 -->
 			<view v-if="orderVO.needAddress" class="flex-center address" @click="jumpChooseAddress">
 				<image src="../../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
-				<view class="flex-column flex-1">
-					<view class="name">{{defaultAddress.name}} {{defaultAddress.phone}}</view>
-					<view class="desc">{{defaultAddress.provinceName}} {{defaultAddress.cityName}} {{defaultAddress.areaName}} {{defaultAddress.streetName}} {{defaultAddress.address}}</view>
+				<!-- 显示当前收货地址 -->
+				<view class="flex-column flex-1" v-if="defaultAddress && defaultAddress.id">
+					<view class="name">{{ defaultAddress.name }} {{ defaultAddress.phone }}</view>
+					<view class="desc">
+						{{ defaultAddress.provinceName }} {{ defaultAddress.cityName }} {{ defaultAddress.areaName }} {{ defaultAddress.streetName }} {{ defaultAddress.address }}
+					</view>
 				</view>
+				<!-- 没有收货地址 -->
+				<view class="flex-1 text-bold label" v-else>添加收货地址</view>
 				<image class="icons" src="../../../static/images/icons/icon-light-arrow.png" mode="aspectFill"></image>
 			</view>
 

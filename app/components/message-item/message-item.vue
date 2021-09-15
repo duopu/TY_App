@@ -51,11 +51,11 @@
 				if (user.roleStatus == 'user') {
 					// 当前是用户
 					isMineMessage = this.message.sender == user.imNum
-					portraitUrl = isMineMessage ? this.userInfo.userPortrait : this.userInfo.storePortrait
+					portraitUrl = isMineMessage ? this.message.userAvatar : this.userInfo.storePortrait
 				} else {
 					// 当前是商家
 					isMineMessage = this.message.sender !== this.userInfo.userIM
-					portraitUrl = isMineMessage ? this.userInfo.storePortrait : this.userInfo.userPortrait
+					portraitUrl = isMineMessage ? this.userInfo.storePortrait : this.message.userAvatar
 				}
 				return {
 					isMineMessage,

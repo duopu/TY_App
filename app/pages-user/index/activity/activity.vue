@@ -143,14 +143,14 @@ export default {
 				.get('/groupBuy/queryPageByLogin', this.groupBuyParams, true)
 				.then(res => {
 					if(this.groupBuyParams.page == 1){
-						this.triggered = false;
+						this.triggered = false; 
 						this._freshing = false;
 						this.groupBuyList = res.content;
 					}else {
 						this.groupBuyList = this.groupBuyList.concat(res.content);
 					}
 					if(res.totalSize <= this.groupBuyParams.page * this.groupBuyParams.size){
-						this.groupBuyParams.status = "noMore"
+						this.groupBuyParams.status = "noMore" 
 					}else{
 						this.groupBuyParams.status = "more"
 					}

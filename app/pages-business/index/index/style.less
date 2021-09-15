@@ -1,14 +1,8 @@
 .index {
-	padding: 0 20rpx;
 	flex: 1;
 	height: 100%;
 	background-color: #f4f5f9;
 	box-sizing: border-box;
-	//padding-top: var(--status-bar-height);
-	background-image: url(../../../static/images/my/business-my-bg.png);
-	background-repeat: no-repeat;
-	background-attachment: scroll;
-	background-size: 100%;
 	overflow: hidden;
 	.icon-arrow {
 		width: 32rpx;
@@ -28,7 +22,7 @@
 		border-radius: 50%;
 	}
 	&-title {
-		margin: 24rpx 16rpx 8rpx 12rpx;
+		margin: 24rpx 36rpx 8rpx 24rpx;
 		.text {
 			font-size: 32rpx;
 			font-weight: 600;
@@ -36,7 +30,11 @@
 		}
 	}
 	&-top {
-		padding-top: calc(var(--status-bar-height) + 40rpx);
+		height: 320rpx;
+		padding: calc(var(--status-bar-height) + 10rpx) 20rpx 20rpx;
+		background-image: url(../../../static/images/my/business-my-bg.png);
+		background-repeat: no-repeat;
+		background-size: 100%;
 		.avatar-image {
 			margin-right: 16rpx;
 			width: 104rpx;
@@ -69,25 +67,39 @@
 				background-color: rgba(#ffffff, 0.32);
 				border-radius: 2rpx;
 				box-sizing: border-box;
+				&.border-top-none{
+					border-top: 0;
+				}
 			}
 			&.on {
 				overflow: initial;
 			}
+			.image{
+				margin-right: 8rpx;
+				width: 16rpx;
+				height: 16rpx;
+			}
 		}
 	}
 	.block-box {
+		margin: 0 20rpx;
 		background-color: #ffffff;
 		box-shadow: 0 2rpx 8rpx rgba(72, 17, 17, 0.08);
 		border-radius: 8rpx;
 	}
 	.notice {
-		margin-top: 60rpx;
+		margin-top: -80rpx;
 		padding: 0 24rpx;
 		font-size: 24rpx;
 		color: #bcbcbc;
 		::v-deep uni-swiper {
 			height: 82rpx;
 			line-height: 82rpx;
+		}
+		.icon-notice{
+			margin-right: 8rpx;
+			width: 48rpx;
+			height: 48rpx;
 		}
 	}
 	.order-lists {

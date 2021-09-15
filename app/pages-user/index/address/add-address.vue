@@ -35,8 +35,7 @@
 		<!-- 底部 -->
 		<view class="address-bottom"><button class="btn btn-block" @click="saveAddress">保存</button></view>
 		
-		
-		<my-city-picker ref="myCityPicker" :data="[form.provinceCode, form.cityCode, form.areaCode, form.streetCode]" @submit="citySubmit"></my-city-picker>
+		<my-city-picker ref="myCityPicker" :data="pickerData" @submit="citySubmit"></my-city-picker>
 		
 	</view>
 </template>
@@ -59,7 +58,8 @@ export default {
 				provinceName:undefined,
 				address:undefined,
 				isDefault:1,
-			}
+			},
+			pickerData:[] //城市选择器数据
 		};
 	},
 	computed:{
@@ -73,11 +73,13 @@ export default {
 		}
 	},
 	onLoad(option) {
-		let that = this;
 		const eventChannel = this.getOpenerEventChannel();	 
 		// 获取上个页面传过来的配送地址对象
-		eventChannel.on('addressVO', function(data) {
-			that.form = data;
+		eventChannel.on('addressVO', (data) => {
+			this.form = data;
+			if(data.provinceCode && data.cityCode && data.areaCode && data.streetCode){
+				this.pickerData = [data.provinceCode, data.cityCode, data.areaCode, data.streetCode]
+			}
 		}) 
 	},
 	methods:{  

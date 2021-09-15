@@ -7,23 +7,32 @@
 			<text class="text-bold">{{ showStateName }}</text>
 		</view>
 		<!-- 商品 -->
-		<goods-order-list-item :storeGoodsVO="orderVO">
+		<goods-order-list-item :storeGoodsVO="orderVO" 
+		@queryLogistics="queryLogistics"
+		@queryExam="queryExam">
 			<template v-slot:bottom>
 				<view class="box">
 					<!-- 组团商品 -->
 					<block v-if="orderVO.orderType === 2">
 						<!-- 只有实体商品才会有运费 -->
-						<view v-if="orderVO.attributesId" class="row flex-center-between">
+						<view v-if="orderVO.entityGoodsId" class="row flex-center-between">
 							<text class="label">运费</text>
 							<text class="flex-1 color-9">¥{{ orderVO.freightAmount || 0 }}</text>
 						</view>
 						<view class="row flex-center-between">
-							<text class="label">拼团定金（已支付）</text>
+							<text v-if="orderVO.orderState === 0 || orderVO.orderState === -1" class="label">拼团定金（待支付）</text>
+							<text v-else class="label">拼团定金（已支付）</text>
 							<text class="flex-1 color-9">¥{{ orderVO.joinAmount || 0 }}</text>
 						</view>
 						<view class="row flex-center-between">
-							<text class="label">尾款（待支付）</text>
-							<text class="flex-1 color-9">¥{{ orderVO.finalPayment }}</text>
+							<block v-if="orderVO.orderState === 0 || orderVO.orderState === -1 || orderVO.orderState === 21">
+								<text class="label">尾款（待支付）</text>
+								<text class="flex-1 color-9">¥{{orderVO.goodsPrice - orderVO.maxPrice}} - ¥{{orderVO.goodsPrice - orderVO.minPrice}}</text>
+							</block>
+							<block v-else>
+								<text class="label">尾款（已支付）</text>
+								<text class="flex-1 color-9">¥{{ orderVO.finalPayment }}</text>
+							</block>
 						</view>
 						<view class="column flex-column">
 							<text class="remark">{{groupBuyGoodsVO.endTime}}开始支付尾款，尾款金额由成团人数决定</text>
@@ -59,7 +68,7 @@
 			</template>
 		</goods-order-list-item>
 		<!-- 地址 -->
-		<view class="flex-center address" @click="jumpChooseAddress">
+		<view v-if="orderVO.entityGoodsId" class="flex-center address" @click="jumpChooseAddress">
 			<image src="../../../static/images/icons/icon-location.svg" class="icons" mode="aspectFill"></image>
 			<view class="flex-column flex-1">
 				<view class="name">{{ orderVO.name }} {{ orderVO.mobile }}</view>
@@ -85,19 +94,27 @@
 				<text class="flex-1">¥{{ orderVO.orderAmount }}</text>
 			</view>
 			<!-- 只有实体商品才会有运费 -->
-			<view v-if="orderVO.attributesId" class="row flex-center-between">
+			<view v-if="orderVO.entityGoodsId" class="row flex-center-between">
 				<text class="label">运费</text>
 				<text class="flex-1 color-9">¥{{ orderVO.freightAmount || 0 }}</text>
 			</view>
-			<view class="row flex-center-between">
+			<view v-if="orderVO.platformCouponAmount > 0" class="row flex-center-between">
 				<text class="label">平台优惠</text>
+				<text class="flex-1 color-9">-¥{{ orderVO.platformCouponAmount }}</text>
+			</view>
+			<view v-if="orderVO.platformDiscountAmount > 0" class="row flex-center-between">
+				<text class="label">平台折扣</text>
 				<text class="flex-1 color-9">-¥{{ orderVO.platformDiscountAmount }}</text>
 			</view>
-			<view class="row flex-center-between">
+			<view v-if="orderVO.storeCouponAmount > 0" class="row flex-center-between">
 				<text class="label">商家优惠</text>
+				<text class="flex-1 color-9">-¥{{ orderVO.storeCouponAmount }}</text>
+			</view>
+			<view v-if="orderVO.storeDiscountAmount > 0" class="row flex-center-between">
+				<text class="label">商家折扣</text>
 				<text class="flex-1 color-9">-¥{{ orderVO.storeDiscountAmount }}</text>
 			</view>
-			<view class="row flex-center-between">
+			<view v-if="orderVO.goldDeductionAmount > 0" class="row flex-center-between">
 				<text class="label">金币抵扣</text>
 				<text class="flex-1 color-9">-¥{{ orderVO.goldDeductionAmount }}</text>
 			</view>
@@ -106,8 +123,14 @@
 				<text class="flex-1">¥{{ orderVO.payAmount }}</text>
 			</view>
 		</view>
+		
 		<!-- 物流 弹窗 -->
-		<order-logistic-popup ref="logisticPopup"></order-logistic-popup>
+		<order-logistic-popup ref="logisticPopup" 
+		:data="logisticsVO"></order-logistic-popup>
+		
+		<!-- 电子凭证 弹窗 -->
+		<order-exam-certificate ref="examPop" 
+		:data="examVO"></order-exam-certificate>
 		
 		<!-- 弹窗 拼团规则-->
 		<goods-group-popup v-if="orderVO.orderType === 2" 
@@ -130,6 +153,8 @@ export default {
 		return {
 			orderNum: undefined, //订单编号
 			orderVO: {}, //订单对象
+			logisticsVO: {}, //物流对象
+			examVO: {}, //电子凭证对象
 			groupBuyGoodsVO: {}, //组团优惠活动详情对象
 			unremittinglyVO: {} //坚持不懈活动详情对象
 		};
@@ -138,9 +163,7 @@ export default {
 		// 显示当前订单状态
 		showStateName() {
 			switch (this.orderVO.orderState) {
-				// 订单状态 -1:已取消 0:待支付 1:已支付 2:已发货 3:已完成 4:已评价 5:申请退款中 6:退款中 7:退款完成
-				// 8.未支付拼团定金 9.已支付拼团定金 10.已完成拼团并退款 11.拼团失败并退款中
-
+				// 订单状态 -1:已取消 0:待支付 1:已支付 2:已发货 3:已收货 4:已评价 5:申请退款中(未发货) 6:退款中 7:拒绝退款 8：退款失败 9：退款完成 10:已完成（不能再做任何操作） 11: 退货退款申请中 12:商家允许退款待填写发货信息 13:商家拒绝退款 14:用户已填写发货单待商家退款 15:退货退款中 16:退货退款失败21：已支付拼团定金 22:拼团成功待支付尾款 23:已完成拼团并退款 24:拼团失败并退款中
 				case -1:
 					return '已取消';
 					break;
@@ -156,19 +179,30 @@ export default {
 				case 3:
 					return '待评价';
 					break;
-				case 4:
+				case 10:
 					return '已完成';
 					break;
-				case 5:
+				case 5: case 11:
 					return '申请退款中';
 					break;
-				case 6:
+				case 6: case 12: case 14: case 15: case 23: case 24:
 					return '退款中';
 					break;
-				case 7:
+				case 7: case 13:
+					return '拒绝退款';
+					break;
+				case 9:
 					return '退款完成';
 					break;
+				case 8: case 16:
+					return '退款失败';
+					break;
 			}
+		}
+	},
+	watch:{
+		'$store.state.orderChange': function(){
+			this.queryOrderDetail();
 		}
 	},
 	onLoad(option) {
@@ -204,10 +238,26 @@ export default {
 					this.unremittinglyVO = res;
 				});	
 		},
-		
 		// 打开弹窗
 		openPopup(value) {
 			this.$refs[value].open();
+		},
+		/**
+		 * 查询物流
+		 * @param {Object} logisticsVO 物流对象
+		 */
+		queryLogistics(logisticsVO){
+			this.logisticsVO = logisticsVO;
+			this.$refs.logisticPopup.open();
+		},
+		
+		/**
+		 * 电子凭证点击
+		 * @param {Object} data 电子凭证对象
+		 */
+		queryExam(data){
+			this.examVO = data;
+			this.$refs.examPop.open();
 		}
 	}
 };

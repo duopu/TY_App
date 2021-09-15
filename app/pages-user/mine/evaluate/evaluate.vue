@@ -99,7 +99,6 @@ export default {
 		};
 	},
 	onLoad(option){
-    console.log(1,option.goodsVO);
 		this.goodsVO = JSON.parse(decodeURIComponent(option.goodsVO));
 		this.evaluateVO.goodsId = this.goodsVO.goodsId;
 		this.evaluateVO.orderNum = this.goodsVO.orderNum;
@@ -144,8 +143,6 @@ export default {
 				file: e.tempFiles[0].file,
 				path: e.tempFilePaths[0]
 			}
-			
-			console.log('图片选择回调',formData);
 			this.$http
 				.upload(formData, true)
 				.then(res => {
@@ -172,17 +169,17 @@ export default {
 				return
 			}
 			
-			if(this.evaluateVO.courseScore === 0){
+			if(this.checkGoodsRexourceVO.courseCheck === 2 && this.evaluateVO.courseScore === 0){
 				this.$tool.showToast("请给课程打分");
 				return
 			}
 			
-			if(this.evaluateVO.questionScore === 0){
+			if(this.checkGoodsRexourceVO.questionCheck === 2 && this.evaluateVO.questionScore === 0){
 				this.$tool.showToast("请给题库打分");
 				return
 			}
 			
-			if(this.evaluateVO.examScore === 0){
+			if(this.checkGoodsRexourceVO.examCheck === 2 && this.evaluateVO.examScore === 0){
 				this.$tool.showToast("请给考试打分");
 				return
 			}
@@ -194,8 +191,7 @@ export default {
 			this.$http
 				.post('/order/evaluate', this.evaluateVO, true)
 				.then(res => {
-					const eventChannel = this.getOpenerEventChannel();
-					eventChannel.emit('onRefresh'); //通知上个页面刷新
+					this.$store.commit('setOrderChange');
 					uni.navigateBack(); //返回到上个页面
 				});
 		}

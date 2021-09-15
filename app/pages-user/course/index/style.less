@@ -1,140 +1,147 @@
-@color-red: #ff6f5b;
-@color-yellow: #ffb55b;
+@color-red: #FF6F5B;
+@color-yellow: #FFB55B;
 .page-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  box-sizing: border-box;
-  background-color: #ffffff;
-  overflow: hidden;
-  .color-yellow {
-    color: @color-yellow;
-  }
-  .color-red {
-    color: @color-red;
-  }
-  .color-6 {
-    color: #666666;
-  }
-  .font-24 {
-    font-size: 24rpx;
-  }
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	box-sizing: border-box;
+	background-color: #FFFFFF;
+	overflow: hidden;
+	.color-yellow {
+		color: @color-yellow;
+	}
+	.color-red {
+		color: @color-red;
+	}
+	.color-6 {
+		color: #666666;
+	}
+	.font-24 {
+		font-size: 24rpx;
+	}
 }
 // 自定义菜单项
 .custom-tabs {
-  flex-shrink: 0;
-  display: flex;
-  &-item {
-    flex: 1;
-  }
+	flex-shrink: 0;
+	display: flex;
+	&-item {
+		flex: 1;
+	}
 }
 // 头部
 .top {
-  padding: 60rpx 0 60rpx;
-  flex-shrink: 0;
-  justify-content: center;
-  border-radius: 0 0 32rpx 32rpx;
-  box-shadow: 0rpx 6rpx 56rpx rgba(156, 154, 156, 0.16);
-  &-item {
-    flex: 1;
-    flex-direction: column;
-    text-align: center;
-    .number {
-      margin-right: 8rpx;
-      font-size: 60rpx;
-      font-family: ONEAN-Bold, ONEAN;
-      font-weight: bold;
-    }
-    .desc {
-      margin-top: 20rpx;
-    }
-  }
-  .line {
-    width: 2rpx;
-    height: 16rpx;
-    background: #ffb55b;
-    border-radius: 1rpx;
-  }
+	padding: 60rpx 0 60rpx;
+	flex-shrink: 0;
+	justify-content: center;
+	border-radius: 0 0 32rpx 32rpx;
+	box-shadow: 0rpx 6rpx 56rpx rgba(156, 154, 156, 0.16);
+	&-item {
+		flex: 1;
+		flex-direction: column;
+		text-align: center;
+		.number {
+			margin-right: 8rpx;
+			font-size: 60rpx;
+			font-family: ONEAN-Bold, ONEAN;
+			font-weight: bold;
+		}
+		.desc {
+			margin-top: 20rpx;
+		}
+	}
+	.line {
+		width: 2rpx;
+		height: 16rpx;
+		background: #ffb55b;
+		border-radius: 1rpx;
+	}
 }
 //列表
-.content,
-.bank-content {
-  padding: 0 20rpx;
-  flex: 1;
-  height: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
+.content,.bank-content{
+	padding: 0 20rpx;
+	flex: 1;
+	height: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
 }
 // 我的题库
-.bank-content {
-  display: flex;
-  flex-direction: column;
+.bank-content{
+	display: flex;
+	flex-direction: column;
 }
 //列表
 .course-lists {
-  padding: 0 20rpx;
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
+	padding: 0 20rpx;
+	flex: 1;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
 }
-.course-exam-content {
-  flex: 1;
-  height: 100%;
-  overflow: hidden;
-  .bank-lists {
-    margin-bottom: 60rpx;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .bank-item-middle {
-    margin: 60rpx 10rpx;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 300rpx;
-    height: 300rpx;
-    color: #ffffff;
-    font-size: 28rpx;
-    background-color: #fc7474;
-    border-radius: 50%;
-    box-sizing: border-box;
-    .font-24 {
-      margin-top: 20rpx;
-    }
-  }
-  .bank-item {
-    margin-top: 60rpx;
-    flex-basis: 25%;
-    justify-self: center;
-    .image {
-      margin-bottom: 16rpx;
-      width: 80rpx;
-      height: 80rpx;
-    }
-  }
-  .my-bank {
-    margin-bottom: 20rpx;
-    padding: 32rpx 24rpx;
-    background: #f8f8f8;
-    border-radius: 16rpx;
-    .title {
-      font-size: 28rpx;
-    }
-    .flex-1 {
-      text-align: right;
-    }
-    .arrow-right {
-      margin-left: 8rpx;
-      width: 48rpx;
-      height: 48rpx;
-    }
-  }
-  .advertise-image {
-    display: block;
-    width: 100%;
-    border-radius: 20rpx;
-  }
+.course-exam-content{
+	flex: 1;
+	height: 100%;
+	overflow: hidden;
+	.bank-lists{
+		margin-bottom: 60rpx;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.bank-item-middle{
+		margin: 30rpx 10rpx;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 230rpx;
+		height: 230rpx;
+		color: #FFFFFF;
+		font-size: 28rpx;
+		border-radius: 50%;
+		box-sizing: border-box;
+		background-position: center;
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		.font-24{
+			margin-top: 20rpx;
+		}
+		&.red{
+			background-image: url(../../../static/images/course-bank-red.png);
+		}
+		&.blue{
+			background-image: url(../../../static/images/course-bank-blue.png);
+		}
+	}
+	.bank-item{
+		margin-top: 60rpx;
+		flex-basis: 25%;
+		justify-self: center;
+		.image{
+			margin-bottom: 16rpx;
+			width: 80rpx;
+			height: 80rpx;
+		}
+	}
+	.my-bank{
+		margin-top: 20rpx;
+		padding: 32rpx 24rpx;
+		background: #F8F8F8;
+		border-radius: 16rpx;
+		.title{
+			font-size: 28rpx;
+		}
+		.flex-1{
+			text-align: right;
+		}
+		.arrow-right{
+			margin-left:8rpx;
+			width: 48rpx;
+			height: 48rpx;
+		}
+	}
+	.advertise-image{
+		display: block;
+		width: 100%;
+		border-radius: 20rpx;
+	}
 }

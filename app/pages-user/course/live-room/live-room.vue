@@ -55,7 +55,7 @@
 				<image class="icon" src="../../../static/images/icons/icon-color-kf.svg" mode="aspectFill" />
 				<text>联系客服</text>
 			</view>
-			<view v-if="detail.isEval" class="item flex-column-center"  @click="eval">
+			<view v-if="detail.isEval" class="item flex-column-center" @click="eval">
 				<image class="icon" src="../../../static/images/icons/icon-colorful-evaluate.svg" mode="aspectFill" />
 				<text>写评价</text>
 			</view>
@@ -64,35 +64,29 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
-export default {
-	data() {
-		return {
-      courseId:'', // 课程id
-      // 课程详情
-      detail:{
-        courseName:'',
-        userCourseClassList:[],
-        storeId:'',
-        avatar:'',
-        storeName:'',
-        isEval:true,
-        type:undefined,
-      },
-      current:0,
-      videoUrl:'',
-      id:'', //课时id
-      isLocal:false,
-      courseSyncList : uni.getStorageSync('courseList') || []
-		};
-	},
-  filters:{
-
-    // 时间转分钟
-    filterDate(v){
-      if(!v) return 0;
-      return dayjs(v).minute()
-    },
+	import dayjs from 'dayjs';
+	export default {
+		data() {
+			return {
+				courseId: '', // 课程id
+				// 课程详情
+				detail: {
+					courseName: '',
+					userCourseClassList: [],
+					storeId: '',
+					avatar: '',
+					storeName: '',
+					isEval: true,
+					type: undefined,
+				},
+				current: 0,
+				videoUrl: '',
+				id: '', //课时id
+				isLocal: false,
+				courseSyncList: uni.getStorageSync('courseList') || []
+			};
+		},
+		filters: {
 
     // 课时学习进度
     filterProgress(v1,v2){
@@ -219,37 +213,38 @@ export default {
       uni.setStorageSync('courseList',courseSyncList)
     },
 
-    /**
-     * ios下文件名中文处理
-     * @param {String} filename
-     */
-    fileNameEscape(filename) {
-      const reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
-      if (uni.getSystemInfoSync().platform == "ios" && reg.test(filename)) {
-        return escape(filename);
-      }
-      return filename;
+    // 跳转客服页面
+    toCustomerService() {
+      const {
+        storeId,
+        storeName,
+        avatar
+      } = this.detail || {}
+      this.$http.get('/im/getIMGroupId', {
+        storeId
+      }, true).then(res => {
+        const groupId = res.groupId;
+        const user = getApp().globalData.user || {};
+        getApp().globalData.messageParam = {
+          groupId:groupId,
+          userPortrait:user.portrait,
+          userIM:user.imNum,
+          userName:user.nickName,
+          storeName:storeName,
+          storePortrait:avatar
+        }
+
+        uni.navigateTo({
+          url:'/pages/im-message/im-message'
+        })
+      })
     },
 
-    // 跳转客服页面
-		toCustomerService(){
-      const { storeId,storeName,avatar} = this.detail || {}
-			this.$http.get('/im/getIMGroupId',{storeId},true).then(res=>{
-				const groupId = res.groupId;
-				const user = getApp().globalData.user || {};
-        const { userName,portrait,imNum } = user
-				const url = `/pages/im-message/im-message?groupId=${groupId}&userName=${userName}&userPortrait=${portrait || ''}&userIM=${imNum}&storeName=${storeName}&storePortrait=${avatar || ''}`
-				uni.navigateTo({
-					url
-				})
-			})
-		},
-
     // 写评价
-    eval(){
+    eval() {
       const params = {
         ...this.detail,
-        goodsId:this.detail.courseId,
+        goodsId: this.detail.courseId,
       }
       uni.navigateTo({
         url: `/pages-user/mine/evaluate/evaluate?goodsVO=${encodeURIComponent(JSON.stringify(params))}`,
@@ -262,27 +257,27 @@ export default {
         courseId:this.courseId
       }
       const data = await this.$http.get('/userCourse/queryDetail',params,true)
-      if(data.userCourseClassList){
-        (data.userCourseClassList || []).map(item=>{
-          item.checked = false;
-          if(item.nodes){
-            (item.nodes || []).map(flag=>{
-              flag.checked = false;
-            })
-          }
-        })
-      }
-      this.detail = data;
-    },
+        if(data.userCourseClassList){
+          (data.userCourseClassList || []).map(item=>{
+            item.checked = false;
+            if(item.nodes){
+              (item.nodes || []).map(flag=>{
+                flag.checked = false;
+              })
+            }
+          })
+        }
+        this.detail = data;
+      },
 
-    // 本地缓存数据-设置详情
-    setDetail(){
-      const courseList = uni.getStorageSync('courseList')
-      const detail = courseList.filter(item=>item.courseId == this.courseId)[0]
-      this.detail = detail
-    }
-	}
-};
+			// 本地缓存数据-设置详情
+			setDetail() {
+				const courseList = uni.getStorageSync('courseList')
+				const detail = courseList.filter(item => item.courseId == this.courseId)[0]
+				this.detail = detail
+			}
+		}
+	};
 </script>
 
 <style lang="less" src="./style.less"></style>

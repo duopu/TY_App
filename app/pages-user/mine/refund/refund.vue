@@ -30,7 +30,7 @@
 			</view>
 			<view class="discount-row flex-center-between">
 				<text class="label">退款原因*</text>
-				<picker mode="selector" class="flex-1" :range="reasonList" range-key="reason" @change="bindPickerChange">
+				<picker mode="selector" class="flex-1" :range="reasonList" range-key="reason" :value="reasonIndex" @change="bindPickerChange">
 					<view :class="{'color-9':reasonIndex === undefined}">{{reasonIndex !== undefined ? reasonList[reasonIndex].reason : '请选择'}}</view>
 				</picker>
 				<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-light-arrow.png"></image>
@@ -41,14 +41,14 @@
 				<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-light-arrow.png"></image>
 			</view>
 			<view class="discount-row">
-				<text class="label">补充描述*</text>
-				<textarea class="textarea" placeholder="请详细描述退款原因及要求" placeholder-class="input-placeholder" v-model="refundParams.refundAddMsg"/>
+				<text class="label">补充描述</text>
+				<textarea class="textarea" placeholder="请详细描述退款原因及要求" placeholder-class="input-placeholder" :auto-height="true" v-model="refundParams.refundAddMsg"/>
 			</view>
 			<uni-file-picker class="image-lists" 
 			limit="3" 
 			mode="grid" 
-			:image-styles="{width:84, height:84}" 
-			:value="orderVO.refundImg || []"
+			:image-styles="{width:100, height:100}" 
+			:value="refundImgs"
 			@select="selectImg" 
 			@delete="deleteImg">
 				<view class="flex-center-center image-item">
@@ -91,7 +91,8 @@ export default {
 				refundMsg: undefined,
 				refundAddMsg: undefined
 			},
-			refundUploadImgs:[] //退款原因图片上传数组
+			refundUploadImgs:[], //退款原因图片上传数组
+			refundImgs:[] //编辑时退款照片数组
 		};
 	},
 	onLoad(option){
@@ -110,6 +111,21 @@ export default {
 				this.refundParams.refundMsg = res.refundMsg;
 				this.refundParams.refundAddMsg = res.refundAddMsg;
 				this.refundParams.refundImg = res.refundImg;
+				this.refundImgs = res.refundImg.map((value)=>{
+					let name = this.formatterImgName(value);
+					let extname = this.formatterImgType(name);
+					return {
+						name: name,
+						extname: extname,
+						url: value
+					}
+				});
+				this.refundUploadImgs = res.refundImg.map((value)=>{
+					return {
+						tempFilePath: value, 
+						serviceFilePath: value, 
+					}
+				});
 				if(res.refundMsg && res.refundAddMsg.length > 0){
 					for(var i=0; i<this.reasonList.length; i++){
 						if(this.reasonList[i].reason === res.refundMsg){
@@ -183,12 +199,6 @@ export default {
 				return;
 			}
 			
-			if(!(this.refundParams.refundAddMsg && this.refundParams.refundAddMsg.length > 0)){
-				this.$tool.showToast("请填写补充描述");
-				return;
-			}
-			
-			
 			// if(this.refundParams.refundAmount <= 0){
 			// 	this.$tool.showToast("退款金额不能为0");
 			// 	return;
@@ -205,17 +215,38 @@ export default {
 				return value.serviceFilePath
 			})
 			
-			// uni.redirectTo({
-			//     url: `/pages-user/mine/refund/details?orderNum=${this.orderNum}`
-			// });
 
 			this.$http.post('/order/applyRefund', this.refundParams, true).then(res => {
-				
+				this.$store.commit('setOrderChange');
 				uni.redirectTo({
 				    url: `/pages-user/mine/refund/details?orderNum=${this.orderNum}`
 				});
-				
 			});
+		},
+		
+		/**
+		 * 通过url获取图片名
+		 * @param {Object} path  图片在服务器上的url地址
+		 */
+		formatterImgName(path){
+			let filename;
+			if (path.indexOf("/") > 0) //如果包含有"/"号 从最后一个"/"号+1的位置开始截取字符串
+			{
+				filename = path.substring(path.lastIndexOf("/") + 1, path.length);
+			} else {
+				filename = path;
+			}
+			return filename;	
+		},
+		
+		/**
+		 * 根据图片名获取图片类型
+		 * @param {Object} name 图片名
+		 */
+		formatterImgType(name){
+			var index= name.lastIndexOf(".");
+			var ext = name.substr(index+1);
+			return ext;
 		}
 	}
 };

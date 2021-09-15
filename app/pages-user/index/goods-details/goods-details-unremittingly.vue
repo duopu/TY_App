@@ -255,8 +255,6 @@ export default {
 	onLoad(option) {
 		this.goodsId = this.unremittinglyVO.goodsId;
 		this.unremittinglyId = this.unremittinglyVO.unremittinglyId;
-		this.getTabsTopAndHeight();
-		this.getGoodsBottomHeight();
 		this.getGoodsResource();
 		this.getGoodsInfo();
 		this.getComment();
@@ -340,7 +338,15 @@ export default {
 			this.$http.get('/im/getIMGroupId',{storeId:this.goodsInfo.storeId},true).then(res=>{
 				const groupId = res.groupId;
 				const user = getApp().globalData.user;
-				const url = `/pages/im-message/im-message?groupId=${groupId}&userName=${user.userName}&userPortrait=${user.portrait || ''}&userIM=${user.imNum}&storeName=${this.goodsInfo.storeName}&storePortrait=${this.goodsInfo.portrait || ''}`
+				getApp().globalData.messageParam = {
+					groupId:groupId,
+					userIM:user.imNum,
+					userName:user.userName,
+					storeName:this.goodsInfo.storeName,
+					storePortrait:this.goodsInfo.portrait 
+				}
+				
+				const url = `/pages/im-message/im-message`
 				uni.navigateTo({
 					url
 				})
@@ -415,6 +421,9 @@ export default {
 					this.priceArry = [res.price];
 					this.selectGoodsVO = { ...res.goodsAttributesVOList[0], goodsNum: 1 };
 				}
+				//等接口查完之后，再去计算tabs和底部操作栏的高度
+				this.getTabsTopAndHeight();
+				this.getGoodsBottomHeight();
 				//动态设置swiper的高度
 				this.setSwiperHeight();
 			});

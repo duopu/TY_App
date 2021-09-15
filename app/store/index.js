@@ -18,6 +18,7 @@ const store = new Vuex.Store({
 		orderChange: 0, //记录订单发生变化（比如当用户生成订单或者订单状态发生改变时，通过监听该值的变化来实现一些页面的被动刷新效果，例如：当用户在组团优惠列表页下了一个订单，等订单完成的时候列表页需要主动刷新）
 		interestList:[],  // 用户兴趣点， 类型 categoryId: number ，img: string ,interestName: string
 		groupConversationMap:{},// 会话map，key：群组id  value：会话对象
+		storeInfo:{}, // 店铺信息  给商家端使用
     },
 	
 	mutations:{
@@ -136,6 +137,10 @@ const store = new Vuex.Store({
 			list.forEach(cov=>{
 				state.groupConversationMap[cov.groupId] = cov
 			})
+		},
+		// 设置店铺信息 
+		setStoreInfo(state,info){
+			state.storeInfo = info;
 		}
 	},
 	
@@ -167,7 +172,7 @@ const store = new Vuex.Store({
 								break;
 							}
 						}
-					}
+					} 
 				});
 		},
 		// 查询兴趣点
@@ -181,6 +186,13 @@ const store = new Vuex.Store({
 			imtool.getGroupConversationMap().then(map=>{
 				console.log('获取群组会话列表',map);
 				commit('setGroupConversationMap',map)
+			})
+		},
+		// 获取店铺信息
+		queryStoreInfo({commit}){
+			const user = getApp().globalData.user;
+			request.get('/store/queryInfoByLogin',{storeId:user.storeId}).then(res=>{
+				commit('setStoreInfo',res)
 			})
 		}
 	}

@@ -3,10 +3,10 @@
 	<view class="account">
 		<view class="flex-center-between row">
 			<text class="label">手机号</text>
-			<text class="text">18874698846</text>
+			<text class="text">{{phone}}</text>
 			<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
-		<view class="flex-center-between row">
+		<view class="flex-center-between row" @click="jump('resetPassword')">
 			<text class="label">密码修改</text>
 			<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
@@ -27,8 +27,15 @@
 	export default {
 		data() {
 			return {
-				
+				phone: getApp().globalData.user.phone
 			};
+		},
+		onLoad(){
+		},
+		methods:{
+			jump(type){
+
+			}
 		}
 	}
 </script>
