@@ -72,7 +72,7 @@
 		</view>
 		
 		<!-- 运单 -->
-		<view class="box" v-if="orderVO.orderState !== 11 && orderVO.orderState !== 5">
+		<view class="box" v-if="orderVO.orderState !== 11 && orderVO.orderState !== 5 || orderVO.refundDeliveryNum !== null">
 			<view class="discount-row">
 				<text class="label">退货地址：{{storeAddressVO.receiver}} {{storeAddressVO.receiverPhone}}</text>
 			</view>
@@ -131,10 +131,15 @@
 			</view>
 		</view>
 		<view class="bottom">
-			<button class="btn" @click="cancelRefund">撤销退款申请</button>
-			<button class="btn" @click="editRefund">修改退款申请</button>
-			<button class="btn" @click="returnSales">提交运单信息</button>
+			<button v-if="orderVO.orderState === 5 || orderVO.orderState === 11 || orderVO.orderState === 7 || orderVO.orderState === 13" class="btn" @click="openPop('cancelRefundPop')">撤销退款申请</button>
+			<button v-if="orderVO.orderState === 7 || orderVO.orderState === 13" class="btn" @click="editRefund">修改退款申请</button>
+			<button v-if="orderVO.orderState === 12" class="btn" @click="returnSales">提交运单信息</button>
 		</view>
+		
+		<!-- 撤销退款提示弹窗 -->
+		<uni-popup ref="cancelRefundPop" type="dialog">
+		    <uni-popup-dialog content="是否确认撤销退款申请？" :duration="2000" @confirm="cancelRefund"></uni-popup-dialog>
+		</uni-popup>
 		
 	</scroll-view>
 </template>
@@ -153,7 +158,6 @@ export default {
 	onLoad(option) {
 		this.orderNum = option.orderNum;
 		this.queryOrderDetail();
-		this.queryStoreAddress();
 	},
 	methods: {
 		// 查询订单详情
@@ -169,7 +173,12 @@ export default {
 						extname: extname,
 						url: value
 					}
-				})
+				});
+				
+				// 只有需要显示运单的几种状态时，才可以查询商家收货地址
+				if( res.orderState !== 11 && res.orderState !== 5 || res.refundDeliveryNum !== null){
+					this.queryStoreAddress();
+				}
 			});
 		},
 		
@@ -183,24 +192,34 @@ export default {
 		// 取消退款
 		cancelRefund(){
 			this.$http.post('/order/cancelRefund', { orderNum: this.orderNum }, true).then(res => {
-				//TODO: 不知道后续是啥操作
+				this.$store.commit('setOrderChange');
+				uni.navigateBack();
 			});
 		},
 		// 修改退款信息
 		editRefund(){
 			uni.redirectTo({
-				url: `/pages-user/mine/refund/refund?goodsVO=${encodeURIComponent(JSON.stringify(this.orderVO))}`
+				url: `/pages-user/mine/refund/refund?orderNum=${this.orderNum}`
 			});
 		},
 		// 提交运单信息
 		returnSales(){
-			if(this.deliveryNum === undefined || this.deliveryNum.length === 0){
+			if(!(this.deliveryNum && this.deliveryNum.length > 0)){
 				this.$tool.showToast("请输入运单号");
 				return
 			}
 			this.$http.post('/order/returnSales', { orderNum: this.orderNum,  deliveryNum: this.deliveryNum}, true).then(res => {
-				//TODO: 不知道后续是啥操作
+				this.$store.commit('setOrderChange');
+				this.queryOrderDetail();
 			});
+		},
+		
+		/**
+		 * 打开弹窗
+		 * @param {Object} popName 弹窗名
+		 */
+		openPop(popName){
+			this.$refs[popName].open();
 		},
 		
 		/**
