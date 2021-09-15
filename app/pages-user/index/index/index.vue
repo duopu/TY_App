@@ -54,7 +54,9 @@
 			})
 		},
 		onShow() {
-			this.$store.dispatch('queryInterestList');
+			setTimeout(()=>{
+				this.$store.dispatch('queryInterestList');
+			},1000)
 		},
 		created() {},
 

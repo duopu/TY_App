@@ -9,7 +9,7 @@
 					<text class="unit">￥</text>
 					<view>{{data.price}}</view>
 				</view>
-        <view v-if="from" class="flex price text-bold">
+				<view v-if="from" class="flex price text-bold">
 					<text class="unit">￥</text>
 					<view>{{data.discountPrice}}</view>
 				</view>
@@ -21,34 +21,34 @@
 
 <script>
 	export default {
-		name:"course-lists-item",
+		name: "course-lists-item",
 		emits: ['itemClick'],
-		props:{
+		props: {
 			data: {
-				type:Object,
-				default:()=>({
-					goodsName:'幼儿美术基础(免费特级/少儿美术/儿童绘画/随到随学)',
+				type: Object,
+				default: () => ({
+					goodsName: '幼儿美术基础(免费特级/少儿美术/儿童绘画/随到随学)',
 					thumbnail: '../../../static/images/other/demo.png',
-					price:0,
-					sales:0
+					price: 0,
+					sales: 0
 				})
 			},
-      /*
-       @params:String
-        benefit 会员权益跳转过来的页面
-      */ 
-      from:{
-        type:String,
-        default:'', 
-      }
+			/*
+			 @params:String
+			  benefit 会员权益跳转过来的页面
+			*/
+			from: {
+				type: String,
+				default: '',
+			}
 		},
 		data() {
 			return {
-				
+
 			};
 		},
-		methods:{
-			itemClick(){
+		methods: {
+			itemClick() {
 				this.$emit("itemClick")
 			}
 		}
