@@ -121,7 +121,8 @@ export default {
 				source,
 				page:1,
 				size:1000,
-				searchText:this.searchText
+				searchText:this.searchText,
+				storeId:this.storeId
 			}
 			if(this.t_tabIndex !== 0 ){
 				param = {...param,...this.filterParam}
