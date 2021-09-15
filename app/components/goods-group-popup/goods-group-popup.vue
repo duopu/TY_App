@@ -78,6 +78,21 @@ export default {
 		// 客服按钮点击
 		customerClick(){
 			//TODO: 这里需要跳转到IM界面
+			this.$http.get('/im/getIMGroupId',{storeId:this.detail.storeId},true).then(res=>{
+				const groupId = res.groupId;
+				const user = getApp().globalData.user;
+				getApp().globalData.messageParam = {
+					groupId:groupId,
+					userIM:user.imNum,
+					userName:user.userName,
+					storeName:this.detail.storeName,
+					storePortrait:this.detail.avatar 
+				}
+				
+				uni.navigateTo({
+					url:'/pages/im-message/im-message'
+				})
+			})
 		}
 	}
 };
