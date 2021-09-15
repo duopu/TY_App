@@ -60,6 +60,7 @@
 							file: e.tempFiles[0],
 							path: e.tempFilePaths[0]
 						}
+						console.log('上传图片',e);
 						// 上传图片
 						this.$http.upload(formData).then(res => {
 							this.mineInfo.avatar = res;

@@ -131,7 +131,7 @@ export default {
 			uni.uploadFile({
 				url: config.baseUrl + '/image/upload', 
 				filePath: data.path,
-				name: 'code',
+				name: 'file',
 				formData: {
 					file:data.file
 				},

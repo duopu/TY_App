@@ -66,8 +66,8 @@
 			onStatechange(e) {
 				console.log("onStatechange:" ,e);
 			},
-			onNetstatus() {
-				console.log("onStatechange:" ,e);
+			onNetstatus(e) {
+				console.log("onNetstatus:" ,e);
 			},
 			// 开始直播
 			startLive() {
