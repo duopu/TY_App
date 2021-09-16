@@ -141,7 +141,7 @@
 					:class="{ on: index === jpkcIndex }" class="classify-tabs-item">{{ item.interestName }}</view>
 				<view class="color-9 border-item" @click="gotoChangeInterestList">修改兴趣</view>
 			</view>
-			<course-lists-item :data="clsssData" v-if="clsssData" @itemClick="gotoGoodsDetail(clsssData)">
+			<course-lists-item :data="clsssData" v-if="clsssData">
 			</course-lists-item>
 		</view>
 	</scroll-view>
@@ -273,12 +273,6 @@
 				// uni.switchTab({
 				// 	url: '/pages-user/classify/index/index'
 				// })
-			},
-			// 跳转商品详情
-			gotoGoodsDetail(goods) {
-				uni.navigateTo({
-					url: `/pages-user/index/goods-details/goods-details?goodsId=${goods.goodsId}`
-				});
 			},
 			// 跳转修改兴趣点
 			gotoChangeInterestList() {

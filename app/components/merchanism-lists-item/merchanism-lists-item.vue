@@ -1,6 +1,6 @@
 <!-- 店铺列表项 -->
 <template>
-	<view class="group-lists-item">
+	<view class="group-lists-item" @click="jumpStoreDetail">
 		<image class="item-image" :src="storeInfo.avatar" mode="aspectFill"></image>
 		<view class="item-right flex-column-between">
 			<view class="flex-column">
@@ -34,7 +34,8 @@ export default {
 				storeDesc: '', //店铺描述
 				avatar: '', //店铺头像
 				score: 0, //店铺评分
-				type: 1  //店铺类型
+				type: 1,  //店铺类型
+				id: undefined //店铺ID
 			}
 		}
 	},
@@ -46,6 +47,15 @@ export default {
 	watch:{
 		data(newV, oldV){
 			this.storeInfo = newV;
+		}
+	},
+	methods: {
+		// 跳转到店铺详情
+		jumpStoreDetail(){
+			const storeId = this.storeInfo.id;
+			uni.navigateTo({
+				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
+			})
 		}
 	}
 };

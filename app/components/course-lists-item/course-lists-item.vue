@@ -22,16 +22,17 @@
 <script>
 	export default {
 		name: "course-lists-item",
-		emits: ['itemClick'],
 		props: {
 			data: {
 				type: Object,
-				default: () => ({
-					goodsName: '幼儿美术基础(免费特级/少儿美术/儿童绘画/随到随学)',
-					thumbnail: '../../../static/images/other/demo.png',
+				default: {
+					goodsName: undefined,
+					thumbnail: undefined,
 					price: 0,
-					sales: 0
-				})
+					discountPrice: 0, //会议权益跳转过来需要用到的折扣字段
+					sales: 0,
+					goodsId: undefined
+				}
 			},
 			/*
 			 @params:String
@@ -48,8 +49,13 @@
 			};
 		},
 		methods: {
+			
+			// 跳转到商品详情页
 			itemClick() {
-				this.$emit("itemClick")
+				const goodsId = this.data.goodsId;
+				uni.navigateTo({
+					url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
+				});
 			}
 		}
 	}

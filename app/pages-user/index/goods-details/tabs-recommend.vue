@@ -7,8 +7,7 @@
 			<template v-slot:list="slotProps">
 				<course-lists-item v-for="(item, index) in slotProps.list"
 				:key="`goods-recommend-${index}`" 
-				:data="item" 
-				@itemClick="courseClick(item)"></course-lists-item>
+				:data="item"></course-lists-item>
 			</template>
 		</my-scroll-view>
 	</view>
@@ -74,16 +73,6 @@ export default {
 			}).catch( err => {
 				callback(null);
 			})
-		},
-		
-		/**
-		 * 课程点击
-		 * @param {Object} item
-		 */
-		courseClick(item){
-			uni.navigateTo({
-				url: `/pages-user/index/goods-details/goods-details?goodsId=${item.goodsId}`,
-			});
 		}
 	}
 };

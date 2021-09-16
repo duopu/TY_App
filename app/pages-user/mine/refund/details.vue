@@ -132,8 +132,8 @@
 		</view>
 		<!-- 底部操作按钮 -->
 		<view class="bottom">
+			<button v-if="orderVO.orderState === 7 || orderVO.orderState === 13" class="edit" @click="editRefund">修改退款申请</button>
 			<button v-if="orderVO.orderState === 5 || orderVO.orderState === 11 || orderVO.orderState === 7 || orderVO.orderState === 13" class="btn" @click="openPop('cancelRefundPop')">撤销退款申请</button>
-			<button v-if="orderVO.orderState === 7 || orderVO.orderState === 13" class="btn" @click="editRefund">修改退款申请</button>
 			<button v-if="orderVO.orderState === 12" class="btn" @click="returnSales">提交运单信息</button>
 		</view>
 		

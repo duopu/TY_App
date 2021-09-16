@@ -42,7 +42,7 @@
 			<filter-tab v-show="t_tabIndex!==0" @filterParam="onFilterParam"></filter-tab>
 			
 			<block v-for="(item, index) in goodsList" :key="index" @itemClick="goodsItemClick(item)">
-				<course-lists-item :data="item" @itemClick="goodsClick(item)"></course-lists-item>
+				<course-lists-item :data="item"></course-lists-item>
 			</block>
 			
 		</scroll-view>
@@ -129,11 +129,6 @@ export default {
 			}
 			this.$http.get('/category/goods/queryPage',param,true).then(res=>{
 				this.goodsList = res.content;
-			})
-		},
-		goodsClick(item){
-			uni.navigateTo({
-				url:`/pages-user/index/goods-details/goods-details?goodsId=${item.goodsId}`
 			})
 		},
 		//  返回上一级
