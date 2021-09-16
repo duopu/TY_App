@@ -4,18 +4,18 @@
 		<!-- 列表 -->
 		<my-scroll-view v-if="!questionBankInfo" class="course-lists" @loadData="onLoadData">
 			<template v-slot:list="slotProps">
-				<course-video-item :state="1" v-for="(item, index) in slotProps.list" :key="index" :data="item" @clickItem="itemClick" @btnClick="bindQuestionInfo" />
+				<course-video-item :state="1" v-for="(item, index) in slotProps.list" :key="index" :data="item" @clickItem="bindQuestionInfo" />
 			</template>
 		</my-scroll-view>
 		<!-- 我的题库 -->
-		<scroll-view scroll-y="true" class="course-exam-content">
+		<scroll-view v-else scroll-y="true" class="course-exam-content">
 			<!-- 我的题库 -->
 			<view class="flex-center-between my-bank" @click="bindQuestionInfo()">
 				<view class="flex-center">
-					<image class="arrow-right"  src="../../../static/images/icons/icon-back.svg" mode="aspectFill"></image>
+					<image class="arrow-right"  src="../../../static/images/icons/icon-back.svg" mode="aspectFill" />
 					<view class="title text-bold">我的题库</view>
 				</view>
-				<view class="flex-1">{{ questionBankInfo.title }}</view>
+				<view class="flex-1" v-if="questionBankInfo && questionBankInfo.title">{{ questionBankInfo.title }}</view>
 			</view>
 			<!-- 列表 -->
 			<view class="flex bank-lists">
@@ -73,16 +73,7 @@ export default {
 				});
 		},
 
-		/**题库行点击
-		 * @param {Object} questionBankId  题库ID
-		 */
-		itemClick(questionBankId) {
-			// uni.navigateTo({
-			// 	url: `/pages-user/index/consult/details?articleId=${articleId}`
-			// });
-		},
-
-		// 开始做题点击事件
+    // 做题行点击 && 返回
 		bindQuestionInfo(data) {
 			this.questionBankInfo = data || undefined;
 			if (data) {
