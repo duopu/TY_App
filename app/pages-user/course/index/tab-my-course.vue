@@ -2,57 +2,59 @@
 <template>
 	<my-scroll-view class="course-lists" @loadData="onLoadData">
 		<template v-slot:list="slotProps">
-			<course-video-item 
-        v-for="(item, index) in slotProps.list"
-			  :key="index" 
-			  :data="item"
-        :state="0"
-        @clickItem="clickItem"
-        />
-        
+			<course-video-item v-for="(item, index) in slotProps.list" :key="index" :data="item" :state="0"
+				@clickItem="clickItem" />
+
 		</template>
 	</my-scroll-view>
 </template>
 
 <script>
-export default {
-	name:'tab-my-course',
-	data() {
-		return {
-			
-		};
-	},
-	methods:{
-		onLoadData(page,size, callback){
-			this.$http.get('/userCourse/queryList',{ page, size },true).then(res=>{
-				callback(res);
-			}).catch( err => {
-				callback(null);
-			})
+	export default {
+		name: 'tab-my-course',
+		data() {
+			return {
+
+			};
 		},
-		
-		/**课程行点击
-		 * @param {Object} goodsId  课程ID
-		 */
-		clickItem(data){
-      const { courseId,type } = data || {}
-      const url = type === 3 ? `/pages-user/index/live/live?courseId=${courseId}` : `/pages-user/course/live-room/live-room?courseId=${courseId}`
-			uni.navigateTo({
-				url
-			});
-		},
-	}
-};
+		methods: {
+			onLoadData(page, size, callback) {
+				this.$http.get('/userCourse/queryList', {
+					page,
+					size
+				}, true).then(res => {
+					callback(res);
+				}).catch(err => {
+					callback(null);
+				})
+			},
+
+			/**课程行点击
+			 * @param {Object} goodsId  课程ID
+			 */
+			clickItem(data) {
+				const {
+					courseId,
+					type
+				} = data || {}
+				const url = type === 3 ? `/pages-user/index/live/live?courseId=${courseId}` :
+					`/pages-user/course/live-room/live-room?courseId=${courseId}`
+				uni.navigateTo({
+					url
+				});
+			},
+		}
+	};
 </script>
 
 <style lang="less" scoped>
-//列表
-.course-lists {
-	padding: 0 20rpx;
-	flex: 1;
-	width: 100%;
-	height: 100%;
-	box-sizing: border-box;
-	overflow: hidden;
-}
+	//列表
+	.course-lists {
+		padding: 0 20rpx;
+		flex: 1;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		overflow: hidden;
+	}
 </style>

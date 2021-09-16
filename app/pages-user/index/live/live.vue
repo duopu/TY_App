@@ -1,4 +1,4 @@
-<!-- 大咖直播 -->
+<!-- 直播课程 -->
 <template>
 	<view class="page-wrapper live">
 		<!-- 商家信息 -->
@@ -92,6 +92,7 @@ export default {
   methods:{
 
     periodClick(item){
+		console.log('跳直播页面',item);
       const { livePullUrl } = item || {}
       uni.navigateTo({
           url:`/pages-user/index/live/room?livePullUrl=${livePullUrl}`

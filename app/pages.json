@@ -349,7 +349,7 @@
                 }, {
                     "path": "course/live-room/live-room",
                     "style": {
-                        "navigationBarTitleText": "",
+                        "navigationBarTitleText": "课程详情",
                         "enablePullDownRefresh": false
                     }
 
