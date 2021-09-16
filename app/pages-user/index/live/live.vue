@@ -21,39 +21,34 @@
 					<text class="text-bold title">{{(index + 1)}}、{{item.courseClassName}}</text>
 					<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill" />
 				</view>
-				<block v-if="item.checked" v-for="(subItem, subIndex) in item.nodes" :key="subIndex">
-					<view class="row flex-center-between" @click="secondCheck(subItem)" style="margin-left:10rpx">
-						<text
-							class="text-bold title">{{(index+1) + '-' + (subIndex + 1)}}、{{item.courseClassName}}</text>
-						<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg"
-							mode="aspectFill" />
-					</view>
-					<view v-if="subItem.checked" class="collapse-content" style="margin-left:20rpx">
-						<view v-if="item.nodes" class="flex collapse-item" v-for="(flag, ind) in subItem.liveRecordList"
-							:key="ind" @click.stop="periodClick(flag)">
-							<image class="icon-video" src="../../../static/images/icons/icon-video.svg"
-								mode="aspectFill" />
-							<view class="flex-column flex-1">
-								<view class="flex-center">
-									<!-- 直播状态 0:未开始 1:直播中 2:已结束 -->
-									<text>{{flag.liveName}}</text>
-									<text v-if="flag.liveState===0" class="tag">未开始</text>
-									<text v-if="flag.liveState===1" class="tag">直播中</text>
-									<text v-if="flag.liveState===2" class="tag">上次学到</text>
-								</view>
-								<view class="flex-center desc">
-									<text v-if="flag.liveState===0">直播时间:{{flag.createTime}}</text>
-									<text v-if="flag.liveState===2">{{flag.learnTime || filterDate}}分钟</text>
-									<block v-if="flag.liveState===2">
-										<text class="m-left-40">已学习</text>
-										<text
-											class="color-red">{{ flag.learnTime | filterProgress(flag.classTime)}}%</text>
-									</block>
-								</view>
-							</view>
-						</view>
-					</view>
-				</block>
+        <block v-if="item.checked" v-for="(subItem, subIndex) in item.nodes" :key="subIndex">
+          <view class="row flex-center-between" @click="secondCheck(subItem)" style="margin-left:10rpx">
+            <text class="text-bold title">{{(index+1) + '-' + (subIndex + 1)}}、{{item.courseClassName}}</text>
+            <image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill" />
+          </view>
+          <view v-if="subItem.checked" class="collapse-content" style="margin-left:20rpx" >
+            <view v-if="item.nodes" class="flex collapse-item" v-for="(flag, ind) in subItem.liveRecordList" :key="ind" @click.stop="periodClick(flag)">
+              <image class="icon-video" src="../../../static/images/icons/icon-video.svg" mode="aspectFill" />
+              <view class="flex-column flex-1">
+                <view class="flex-center">
+                  <!-- 直播状态 0:未开始 1:直播中 2:已结束 -->
+                  <text>{{flag.liveName}}</text>
+                  <text v-if="flag.liveState===0" class="tag">未开始</text>
+                  <text v-if="flag.liveState===1" class="tag">直播中</text>
+                  <text v-if="flag.liveState===2" class="tag">上次学到</text>
+                </view>
+                <view class="flex-center desc">
+                  <text v-if="flag.liveState===0" >直播时间:{{flag.createTime}}</text>
+                  <text v-if="flag.liveState===2">{{flag.learnDuration || filterDate}}分钟</text>
+                  <block v-if="flag.liveState===2">
+                    <text class="m-left-40">已学习</text>
+                    <text class="color-red">{{ flag.learnDuration | filterProgress(flag.classDuration)}}%</text>
+                  </block>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
 			</view>
 		</scroll-view>
 
