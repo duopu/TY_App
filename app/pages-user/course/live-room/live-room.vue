@@ -19,35 +19,27 @@
 					<text class="text-bold title">{{(index + 1)}}、{{item.courseClassName}}</text>
 					<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill" />
 				</view>
-				<block v-if="item.checked" v-for="(subItem, subIndex) in item.nodes" :key="subIndex">
-					<view class="row flex-center-between" @click="secondCheck(subItem)" style="margin-left:10rpx">
-						<text
-							class="text-bold title">{{(index+1) + '-' + (subIndex + 1)}}、{{subItem.courseClassName}}</text>
-						<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg"
-							mode="aspectFill" />
-					</view>
-					<view v-if="subItem.checked" class="collapse-content" style="margin-left:20rpx">
-						<view v-if="item.nodes" class="flex collapse-item" v-for="(flag, ind) in subItem.liveRecordList"
-							:key="ind" @click.stop="periodClick(flag)">
-							<image class="icon-video" src="../../../static/images/icons/icon-video.svg"
-								mode="aspectFill" />
-							<view class="flex-column flex-1">
-								<view class="flex-center">
-									<text>{{flag.liveName}}</text>
-									<text class="tag">上次学到</text>
-								</view>
-								<view class="flex-center desc">
-									<text>{{flag.learnDuration || filterDate}}分钟</text>
-									<block>
-										<text class="m-left-40">已学习</text>
-										<text
-											class="color-red">{{ flag.learnDuration | filterProgress(flag.classDuration)}}%</text>
-									</block>
-								</view>
-							</view>
-						</view>
-					</view>
-				</block>
+        <!-- 章节 -->
+        <view  v-if="item.checked" v-for="(subItem, subIndex) in item.nodes" :key="subIndex" class="collapse-content" style="margin-left:20rpx" @click.stop="periodClick(subItem)">
+          <view class="flex collapse-item">
+            <image class="icon-video" src="../../../static/images/icons/icon-video.svg" mode="aspectFill" />
+            <view class="flex-column flex-1">
+              <view class="flex-center">
+                <text>{{subItem.courseClassName}}</text>
+                <text class="tag">上次学到</text>
+              </view>
+              <view class="flex-center desc">
+                <text>{{subItem.learnDuration | filterDate}}分钟</text>
+                <block>
+                  <text class="m-left-40">已学习</text>
+                  <text
+                    class="color-red">{{ subItem.learnDuration | filterProgress(subItem.classDuration)}}%</text>
+                </block>
+              </view>
+            </view>
+          </view>
+        </view>
+				
 			</view>
 		</scroll-view>
 		<!-- 底部 -->
@@ -93,6 +85,13 @@
 		},
 		filters: {
 
+	    // 时间转分钟
+			filterDate(v) {
+        console.log(111,v)
+				if (!v) return 0;
+				return dayjs(v).minute()
+			},
+
 			// 课时学习进度
 			filterProgress(v1, v2) {
 				if (!v1 || !v2) {
@@ -118,8 +117,8 @@
 
 			// 课时点击
 			periodClick(item) {
-				this.id = item.liveId;
-				this.videoUrl = item.liveVideoUrl
+				this.id = item.id;
+				this.videoUrl = item.url
 			},
 
 			//树状结构 第一层点击 
@@ -128,17 +127,6 @@
 					if (item.id === data.id) {
 						item.checked = !item.checked
 					}
-				})
-			},
-
-			//树状结构 第二层点击 
-			secondCheck(data) {
-				this.detail.userCourseClassList.map(item => {
-					(item.nodes || []).map(flag => {
-						if (flag.id === data.id) {
-							flag.checked = !flag.checked
-						}
-					})
 				})
 			},
 
@@ -153,14 +141,11 @@
 				let isSync = false;
 				courseSyncList.map(item => {
 					(item.userCourseClassList || []).map(subItem => {
-						(subItem.nodes || []).map(sub => {
-							isSync = (sub.liveRecordList || []).filter(flag => flag.liveId == this
-								.id).length > 0;
-							if (isSync) {
-								this.$tool.showToast('您已经缓存过了')
-								return;
-							}
-						})
+						isSync = (subItem.nodes).filter(flag => flag.id == this.id).length > 0;
+            if (isSync) {
+              this.$tool.showToast('您已经缓存过了')
+              return;
+            }
 					})
 				})
 				uni.showLoading({
@@ -208,14 +193,11 @@
 				const classList = userCourseClassList;
 				classList.map(item => {
 					(item.nodes || []).map(flag => {
-						(flag.liveRecordList || []).map(sub => {
-							if (sub.liveId === this.id) {
-								flag.url = file
-							} else {
-								flag.url = ''
-							}
-						})
-
+						if (flag.id === this.id) {
+              flag.url = file
+            } else {
+              flag.url = ''
+            }
 					})
 				})
 				courseSyncList.push({
@@ -275,11 +257,6 @@
 				if (data.userCourseClassList) {
 					(data.userCourseClassList || []).map(item => {
 						item.checked = false;
-						if (item.nodes) {
-							(item.nodes || []).map(flag => {
-								flag.checked = false;
-							})
-						}
 					})
 				}
 				this.detail = data;
