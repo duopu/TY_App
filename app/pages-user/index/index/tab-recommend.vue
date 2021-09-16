@@ -261,7 +261,9 @@
 			},
 			// 跳转大咖直播页面
 			gotoLiveList() {
-				
+				uni.navigateTo({
+					url:'/pages-user/index/live/payback'
+				})
 			},
 			// 跳转分类页面
 			gotoClassCategory() {
@@ -273,6 +275,12 @@
 			gotoChangeInterestList() {
 				uni.switchTab({
 					url: '/pages-user/classify/index/index'
+				});
+			},
+			// 跳转商品详情
+			gotoGoodsDetail(liveData){
+				uni.navigateTo({
+					url: `/pages-user/index/goods-details/goods-details?goodsId=${liveData.goodsId}`
 				});
 			},
 			// 查询直播

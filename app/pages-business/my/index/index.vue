@@ -7,15 +7,14 @@
 				<image class="avatar-image" :src="storeInfo.avatar" mode="aspectFill"></image>
 				<view>
 					<view class="name text-bold">{{ storeInfo.storeName }}</view>
-					<!-- <view class="flex-center account">关联其他账号 ></view> -->
 				</view>
 			</view>
-			<view class="state-lists">
+			<!-- <view class="state-lists">
 				<view class="state-lists-item flex-center-center">
 					<image class="image" src="../../../static/images/my-state-zx.png" mode="aspectFill"></image>
 					<text>在线</text>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<!-- 菜单 -->
 		<view class="flex-center tabs-lists">
