@@ -4,7 +4,7 @@
 			<template v-slot:list="slotProps">
 				<view class="store-lists-item flex-center-center" v-for="(item, index) in slotProps.list" :key="`store-${index}`" @click="jumpStoreInfo(item.storeId)">
 					<!-- 选中效果 -->
-					<view class="radio" :class="{ on: index === 0 }" @click.stop="chooseStores(item.id)"></view>
+					<view class="radio" :class="{ on: idList.includes(item.id) }" @click.stop="chooseStores(item.id)"></view>
 					<image class="avatar-image" :src="item.avatar" mode="aspectFill"></image>
 					<view class="flex-column flex-1">
 						<view class="name">{{item.storeName}}</view>
@@ -107,10 +107,10 @@ export default {
 		 * 跳转到店铺详情
 		 * @param {Object} storeId 店铺ID
 		 */
-		jumpStoreInfo(goodsId){
-			// uni.navigateTo({
-			// 	url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
-			// });
+		jumpStoreInfo(storeId){
+			uni.navigateTo({
+				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
+			})
 		}
 	}
 }

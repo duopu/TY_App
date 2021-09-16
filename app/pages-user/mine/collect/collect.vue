@@ -14,7 +14,7 @@
 			</swiper-item>
 			<!-- 足迹 -->
 			<swiper-item>
-				<tabs-history>这里是足迹</tabs-history>
+				<tabs-history></tabs-history>
 			</swiper-item>
 		</swiper>
 	</view>
