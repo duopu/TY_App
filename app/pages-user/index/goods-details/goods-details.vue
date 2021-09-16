@@ -542,8 +542,6 @@ export default {
 		 * 商品属性提交回调
 		 */
 		goodsAttributesSubmit({goodsAttributes,count}){
-			console.log("商品属性 == ",goodsAttributes);
-			console.log("商品数量 == ",count);
 			this.selectGoodsVO = {...goodsAttributes,goodsNum:count};
 			if(this.goodsClassifyPopType === 1){ //加入购物车
 				this.$http

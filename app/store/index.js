@@ -16,9 +16,10 @@ const store = new Vuex.Store({
 		groupBuyGoodsVO: {}, //用户下订单时选择的组团优惠商品
 		unremittinglyVO: {}, //用户当前选中的坚持不懈活动对象
 		orderChange: 0, //记录订单发生变化（比如当用户生成订单或者订单状态发生改变时，通过监听该值的变化来实现一些页面的被动刷新效果，例如：当用户在组团优惠列表页下了一个订单，等订单完成的时候列表页需要主动刷新）
-		interestList:[],  // 用户兴趣点， 类型 categoryId: number ，img: string ,interestName: string
-		groupConversationMap:{},// 会话map，key：群组id  value：会话对象
-		storeInfo:{}, // 店铺信息  给商家端使用
+		interestList: [],  // 用户兴趣点， 类型 categoryId: number ，img: string ,interestName: string
+		groupConversationMap: {},// 会话map，key：群组id  value：会话对象
+		storeInfo: {}, // 店铺信息  给商家端使用
+		inviterId: undefined //邀请人ID
     },
 	
 	mutations:{
@@ -141,6 +142,15 @@ const store = new Vuex.Store({
 		// 设置店铺信息 
 		setStoreInfo(state,info){
 			state.storeInfo = info;
+		},
+		
+		/**
+		 * 设置邀请人ID
+		 * @param {Object} state
+		 * @param {Object} inviterId 邀请人ID
+		 */
+		setInviterId(state, inviterId){
+			state.inviterId = inviterId;
 		}
 	},
 	

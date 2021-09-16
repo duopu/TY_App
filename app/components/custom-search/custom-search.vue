@@ -41,11 +41,7 @@ export default {
 		},
 		// 搜索
 		onSearch(){
-			if(this.searchInput.length > 0){
-				this.$emit('search',this.searchInput);
-			}else {
-				this.$tool.showToast("请输入关键字");
-			}
+			this.$emit('search',this.searchInput);
 		}
 	}
 };

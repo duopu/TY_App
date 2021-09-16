@@ -37,6 +37,10 @@ export default {
 		},
 		// 获取搜索内容
 		getSearchInput(value) {
+			if(value == null || value.length === 0){
+				this.$tool.showToast("请输入关键字");
+				return
+			}
 			this.searchInput = value;
 			// 保存搜索记录
 			this.$store.commit('addHistorySearch',value);

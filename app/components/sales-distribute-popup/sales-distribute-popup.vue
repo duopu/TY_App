@@ -40,7 +40,7 @@
 					<view class="table-row" v-for="(item,index) in dataList" :key="`sales-distribute-{index}`">
 						<view class="cell">
 							<view class="flex-center">
-								<image class="avatar-image" :src="item.avatar" mode="aspectFill"></image>
+								<image class="avatar-image" :src="item.userAvatar" mode="aspectFill"></image>
 								<text>{{item.userName}}</text>
 							</view>
 						</view>
@@ -121,7 +121,7 @@ export default {
 		 * @param {Object} callback
 		 */
 		getDataList(){
-			if(this.state === 1){
+			if(this.state === 1){ //平台分销推广记录
 				if(!this.detail.id){
 					return;
 				}
@@ -144,12 +144,12 @@ export default {
 							this.page -= 1;
 						}
 					});
-			}else{
+			}else{ //商品分销推广记录
 				if(!this.detail.id){
 					return;
 				}
 				this.$http
-					.get('/distribution/queryGoodsPage', {page:this.page, size: this.pageSize}, true)
+					.get('/distribution/queryGoodsRecordPage', {page:this.page, size: this.pageSize}, true)
 					.then(res => {
 						if(this.page == 1){
 							this.dataList = res.content;
