@@ -53,7 +53,7 @@
 			</scroll-view>
 			<!-- 复制链接 -->
 			<view v-show="isShowCopyBtn" class="popup-bottom">
-				<button class="btn">复制链接</button>
+				<button class="btn" @click="copyUrlClick">复制链接</button>
 			</view>
 		</view>
 		
@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import config from '../../utils/config.js';
 export default {
 	name: 'sales-distribute-popup',
 	props: {
@@ -75,7 +76,8 @@ export default {
 				content: undefined,
 				extensionCount: 0,
 				title: undefined,
-				id: undefined
+				id: undefined,
+				type: undefined //只有平台分销才有该字段
 			}
 		},
 		showCopy: { //是否显示复制链接按钮
@@ -187,6 +189,68 @@ export default {
 				this.page += 1;
 				this.getDataList();
 			}
+		},
+		
+		// 复制链接点击
+		copyUrlClick(){
+			// #ifndef H5
+			
+				if(this.state === 2){ //商品分销
+					const linkType = 4; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
+					const goodsId = item.goodsId;
+					const userId = getApp().globalData.user.userId;
+					let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}&userId=${userId}`;
+					let shareMsg = `推荐一款超值的商品给你：${url}`;
+					// 复制链接到系统剪贴板中
+					uni.setClipboardData({
+					    data: shareMsg,
+					    success: () => {
+							uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+							this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
+					    }
+					});
+				}else if(this.state === 1 && this.detail.type === 1){ //平台分销 - 邀请好友注册
+					const linkType = 1; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
+					const userId = getApp().globalData.user.userId;
+					let url = `${config.copyUrl}?linkType=${linkType}&userId=${userId}`;
+					let shareMsg = `推荐一款超好用的App给你，一起打卡学习吧：${url}`;
+					// 复制链接到系统剪贴板中
+					uni.setClipboardData({
+					    data: shareMsg,
+					    success: () => {
+							uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+							this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
+					    }
+					});
+				}else if(this.state === 1 && this.detail.type === 2){ ////平台分销 - 邀请好友参加组团优惠
+					const linkType = 2; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
+					const userId = getApp().globalData.user.userId;
+					let url = `${config.copyUrl}?linkType=${linkType}&userId=${userId}`;
+					let shareMsg = `推荐一个超划算的活动给你：${url}`;
+					// 复制链接到系统剪贴板中
+					uni.setClipboardData({
+					    data: shareMsg,
+					    success: () => {
+							uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+							this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
+					    }
+					});
+				}else if(this.state === 1 && this.detail.type === 3){ ////平台分销 - 邀请好友参加坚持不懈
+					const linkType = 3; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
+					const userId = getApp().globalData.user.userId;
+					let url = `${config.copyUrl}?linkType=${linkType}&userId=${userId}`;
+					let shareMsg = `推荐一个超划算的活动给你：${url}`;
+					// 复制链接到系统剪贴板中
+					uni.setClipboardData({
+					    data: shareMsg,
+					    success: () => {
+							uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+							this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
+					    }
+					});
+				}
+				
+			// #endif
 		}
 	}
 };

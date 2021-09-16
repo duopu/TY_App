@@ -175,8 +175,8 @@ const getUrlQuery = (url) => {
 	   let paramName = a[0];
 	   let paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
 	   // 如果调用对象时要求大小写区分，可删除这两行代码
-	   paramName = paramName.toLowerCase();
-	   if (typeof paramValue === 'string') paramValue = paramValue.toLowerCase();
+	   // paramName = paramName.toLowerCase();
+	   // if (typeof paramValue === 'string') paramValue = paramValue.toLowerCase();
 	   // 如果paramName以方括号结束, e.g. colors[] or colors[2]
 	   if (paramName.match(/\[(\d+)?\]$/)) {
 	     // 如果paramName不存在，则创建key

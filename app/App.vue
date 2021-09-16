@@ -60,25 +60,52 @@
 		// 在非H5环境下，读取剪贴板中的信息实现复制链接功能
 		// #ifndef H5
 			uni.getClipboardData({
-			    success: function (res) {
+			    success: (res) => {
 			        console.log(res.data);
 					let copyLink = res.data;
-					if(!copyLink.search('https://tengyunjiaoyu.com.cn')){ 
+					if(!copyLink.search(config.copyUrl)){ 
 						return
 					}
-					
 					// 这里直接让剪贴板的内容复制为空字符串，避免重复复制链接的功能
-					uni.setClipboardData({data: ''});
+					uni.setClipboardData({
+						data: '',
+						success: () => {
+							uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+						},
+					});
 					
 					let params = this.$tool.getUrlQuery(copyLink);
+					const linkType = params.linkType;
 					console.log("params == ",params);
-					if(params.linkType == 5) { //店铺分享
-						const userId = params.userId;
+					
+					if(linkType == 5) { //店铺分销
 						const storeId = params.storeId;
+						uni.navigateTo({
+							url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
+						})
+					}else if(linkType == 4) { //商品分销
+						const goodsId = params.goodsId;
+						const userId = params.userId;
 						this.$store.commit('setInviterId',userId);
 						uni.navigateTo({
-							url:`/pages-user/index/store-details/store-details?storeId=${this.goodsInfo.storeId}`
+							url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
+						});
+					}else if(linkType == 3) { //邀请好久参加坚持不懈
+						uni.switchTab({
+							url: '/pages-user/index/index/index'
 						})
+						// 打开首页->活动->坚持不懈
+						uni.$emit('activity-open',1)
+					}else if(linkType == 2) { //邀请好久参加组团优惠
+						uni.switchTab({
+							url: '/pages-user/index/index/index'
+						})
+						// 打开首页->活动->组团优惠
+						uni.$emit('activity-open',0)
+					}else if(linkType == 1) { //邀请好友注册
+						const userId = params.userId;
+						this.$store.commit('setInviterId',userId);
+						// TODO: 这里跳转到注册填写邀请码页面
 					}
 			    }
 			});

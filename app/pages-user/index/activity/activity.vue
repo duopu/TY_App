@@ -120,8 +120,8 @@ export default {
 		this.queryUnremittingly();
 		this.queryDistributionGoods();
 		this.queryDistributionStore();
-		uni.$on('kcfx-open',()=>{
-			this.tabsIndex = 2;
+		uni.$on('activity-open',(index)=>{
+			this.tabsIndex = index;
 		})
 	},
 	methods: {

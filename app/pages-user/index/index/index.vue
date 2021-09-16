@@ -49,7 +49,7 @@
 			};
 		},
 		onLoad() {
-			uni.$on('kcfx-open', () => {
+			uni.$on('activity-open', () => {
 				this.tabIndex = 1;
 			})
 		},

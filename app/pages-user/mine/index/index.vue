@@ -212,7 +212,7 @@
 						url: '/pages-user/index/index/index'
 					})
 					// 打开首页，活动,分销大使
-					uni.$emit('kcfx-open')
+					uni.$emit('activity-open',2)
 				} else {
 					uni.navigateTo({
 						url: item.page

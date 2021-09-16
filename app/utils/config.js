@@ -17,4 +17,7 @@ export default {
 		// 历史搜索
 		historySearchKey:'storageHistorySearchKey'
 	},
+	
+	// 复制链接的固定头部地址
+	copyUrl: 'https://tengyunjiaoyu.com.cn/app'
 }

@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import config from '../../../utils/config.js';
 export default {
 	emits: ['tabChange'],
 	props: {
@@ -195,8 +196,7 @@ export default {
 			// #ifndef H5
 				const linkType = 5; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
 				const storeId = item.storeId;
-				const userId = getApp().globalData.user.id
-				let url = `https://tengyunjiaoyu.com.cn/app?linkType=${linkType}&storeId=${storeId}&userId=${getApp().globalData.user.id}`
+				let url = `${config.copyUrl}?linkType=${linkType}&storeId=${storeId}`
 				let shareMsg = `推荐一家超赞的店铺给你：${url}`;
 				// 复制链接到系统剪贴板中
 				uni.setClipboardData({
