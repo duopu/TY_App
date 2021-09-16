@@ -38,9 +38,8 @@
 		},
 		methods: {
 			itemClick(){
-				this.$store.commit('setTeacherVO',this.data);
 				uni.navigateTo({
-					url: `/pages-user/index/teacher/teacher`
+					url: `/pages-user/index/teacher/teacher?teacherId=${this.data.teacherId}`
 				});
 			}
 		}

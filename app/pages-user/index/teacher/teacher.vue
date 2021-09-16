@@ -14,21 +14,26 @@
 </template>
 
 <script>
-	import { mapState } from 'vuex'; //引入mapState
 	export default {
 		data() {
 			return {
-				
+				teacherId: undefined,
+				teacherVO: {}
 			}
 		},
-		computed: mapState({
-			teacherVO: state => state.teacherVO
-		}),
-		onLoad() {
-			
+		onLoad(option) {
+			this.teacherId = option.teacherId;
+			this.queryTeacherInfo();
 		},
 		methods: {
-			
+			// 查询老师详情
+			queryTeacherInfo(){
+				this.$http
+					.get('/teacher/queryInfo', {teacherId:this.teacherId}, true)
+					.then(res => {
+						this.teacherVO = res;
+					});
+			}
 		}
 	}
 </script>

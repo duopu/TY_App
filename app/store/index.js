@@ -19,8 +19,7 @@ const store = new Vuex.Store({
 		interestList: [],  // 用户兴趣点， 类型 categoryId: number ，img: string ,interestName: string
 		groupConversationMap: {},// 会话map，key：群组id  value：会话对象
 		storeInfo: {}, // 店铺信息  给商家端使用
-		inviterId: undefined, //邀请人ID
-		teacherVO: {} //当前搜索的老师对象
+		inviterId: undefined //邀请人ID
     },
 	
 	mutations:{
@@ -152,15 +151,6 @@ const store = new Vuex.Store({
 		 */
 		setInviterId(state, inviterId){
 			state.inviterId = inviterId;
-		},
-		
-		/**
-		 * 设置当前搜索到的老师对象
-		 * @param {Object} state
-		 * @param {Object} teacherVO
-		 */
-		setTeacherVO(state, teacherVO){
-			state.teacherVO = teacherVO;
 		}
 	},
 	

@@ -17,7 +17,7 @@
 				<view class="state text-bold flex-center">
 					<image class="image-state" src="../../../static/images/icons/icon-refund-gou.svg" mode="aspectFill"></image>
 					<text>商家已同意退款，请寄回退货商品</text>
-					<view class="tips">7天0小时后自动关闭退款申请</view>
+					<view class="tips">{{timeRemaining}}后自动关闭退款申请</view>
 				</view>
 				<view class="desc">请按商家提供的地址退货，并及时填写运单信息</view>
 			</block>
@@ -155,6 +155,17 @@ export default {
 			storeAddressVO: {}, //商家收货地址
 			refundImgs:[] //退款照片数组
 		};
+	},
+	computed: {
+		// 剩余自动退款的时间
+		timeRemaining(){
+			const surplusHour = this.orderVO.surplusHour;
+			if(surplusHour && surplusHour >= 0){
+				const day = surplusHour / 24;
+				const hour = surplusHour % 24;
+				return `${day}天￥{hour}小时`
+			}
+		}
 	},
 	onLoad(option) {
 		this.orderNum = option.orderNum;
