@@ -60,7 +60,7 @@ export default {
 	},
 	computed: {
 		...mapState([
-			'groupConversationMap' // 兴趣点列表
+			'groupConversationMap' // 群组map
 		]),
 		groupList(){
 			const newGroup = this.insideData.map(group=>{
@@ -89,9 +89,6 @@ export default {
 				}
 			]
 		}
-	},
-	onLoad() {
-		
 	},
 	onShow() {
 		this.queryGroupList();

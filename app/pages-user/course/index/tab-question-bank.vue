@@ -56,7 +56,7 @@ export default {
 	name: 'tab-question-bank',
 	data() {
 		return {
-			questionBankInfo: {},
+			questionBankInfo: undefined,
 			detail: {} //题库详情
 		};
 	},

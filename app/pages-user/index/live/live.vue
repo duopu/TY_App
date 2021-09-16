@@ -1,4 +1,4 @@
-<!-- 大咖直播 -->
+<!-- 直播课程 -->
 <template>
 	<view class="page-wrapper live">
 		<!-- 商家信息 -->
@@ -12,7 +12,7 @@
 		<view class="live-advertise" v-if="detail.img && detail.img.length>1">
 			<image class="image-advertise" :src="detail.img[0]" mode="aspectFill" />
 		</view>
-		
+
     	<!-- 目录 -->
 		<scroll-view class="live-room-category" scroll-y="true">
 			<!-- 列表 -->
@@ -92,13 +92,12 @@ export default {
   methods:{
 
     periodClick(item){
-      const { livePullUrl } = item || {}
       uni.navigateTo({
-          url:`/pages-user/index/live/room?livePullUrl=${livePullUrl}`
+          url:`/pages-user/index/live/room?liveId=${item.liveId}`
       })
     },
 
-    //树状结构 第一层点击 
+    //树状结构 第一层点击
     firstCheck(data){
       this.detail.userCourseClassList.map(item=>{
         if(item.id === data.id){
@@ -107,7 +106,7 @@ export default {
       })
     },
 
-    //树状结构 第二层点击 
+    //树状结构 第二层点击
     secondCheck(data){
        this.detail.userCourseClassList.map(item=>{
         (item.nodes || []).map(flag=>{
