@@ -22,7 +22,7 @@
 				<block v-if="item.checked" v-for="(subItem, subIndex) in item.nodes" :key="subIndex">
 					<view class="row flex-center-between" @click="secondCheck(subItem)" style="margin-left:10rpx">
 						<text
-							class="text-bold title">{{(index+1) + '-' + (subIndex + 1)}}、{{item.courseClassName}}</text>
+							class="text-bold title">{{(index+1) + '-' + (subIndex + 1)}}、{{subItem.courseClassName}}</text>
 						<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg"
 							mode="aspectFill" />
 					</view>
