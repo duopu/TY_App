@@ -13,10 +13,10 @@
 			<image class="image-advertise" :src="detail.img[0]" mode="aspectFill" />
 		</view>
 
-    	<!-- 目录 -->
+		<!-- 目录 -->
 		<scroll-view class="live-room-category" scroll-y="true">
 			<!-- 列表 -->
-			<view  class="lists-item" v-for="(item, index) in detail.userCourseClassList" :key="index">
+			<view class="lists-item" v-for="(item, index) in detail.userCourseClassList" :key="index">
 				<view class="row flex-center-between" @click="firstCheck(item)">
 					<text class="text-bold title">{{(index + 1)}}、{{item.courseClassName}}</text>
 					<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill" />
@@ -56,88 +56,91 @@
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-      courseId:'',
-      current:0,
-      detail:{
-        img:[],
-        userCourseClassList:[]
-      },
-      id:'', //课时id
-    };
-	},
-  filters:{
+	export default {
+		data() {
+			return {
+				courseId: '',
+				current: 0,
+				detail: {
+					img: [],
+					userCourseClassList: []
+				},
+				id: '', //课时id
+			};
+		},
+		filters: {
 
-    // 时间转分钟
-    filterDate(v){
-      if(!v) return 0;
-      return dayjs(v).minute()
-    },
+			// 时间转分钟
+			filterDate(v) {
+				if (!v) return 0;
+				return dayjs(v).minute()
+			},
 
-    // 课时学习进度
-    filterProgress(v1,v2){
-      if(!v1 || !v2){
-        return 0
-      }
-      return parseInt(v1/v2 * 100)
-    },
-  },
-  onLoad(option){
-    const { courseId,from } = option || {}
-    this.courseId = courseId
-    this.queryDetail();
-  },
-  methods:{
+			// 课时学习进度
+			filterProgress(v1, v2) {
+				if (!v1 || !v2) {
+					return 0
+				}
+				return parseInt(v1 / v2 * 100)
+			},
+		},
+		onLoad(option) {
+			const {
+				courseId,
+				from
+			} = option || {}
+			this.courseId = courseId
+			this.queryDetail();
+		},
+		methods: {
 
-    periodClick(item){
-      uni.navigateTo({
-          url:`/pages-user/index/live/room?liveId=${item.liveId}`
-      })
-    },
+			periodClick(item) {
+				uni.navigateTo({
+					url: `/pages-user/index/live/room?liveId=${item.liveId}`
+				})
+			},
 
-    //树状结构 第一层点击
-    firstCheck(data){
-      this.detail.userCourseClassList.map(item=>{
-        if(item.id === data.id){
-          item.checked = !item.checked
-        }
-      })
-    },
+			//树状结构 第一层点击
+			firstCheck(data) {
+				this.detail.userCourseClassList.map(item => {
+					if (item.id === data.id) {
+						item.checked = !item.checked
+					}
+				})
+			},
 
-    //树状结构 第二层点击
-    secondCheck(data){
-       this.detail.userCourseClassList.map(item=>{
-        (item.nodes || []).map(flag=>{
-          if(flag.id === data.id){
-            flag.checked = !flag.checked
-          }
-        })
-      })
-    },
+			//树状结构 第二层点击
+			secondCheck(data) {
+				this.detail.userCourseClassList.map(item => {
+					(item.nodes || []).map(flag => {
+						if (flag.id === data.id) {
+							flag.checked = !flag.checked
+						}
+					})
+				})
+			},
 
-     // 查询课程详情
-    async queryDetail(){
-      const params = {
-        courseId:this.courseId
-      }
-      const data = await this.$http.get('/userCourse/queryDetail',params,true)
-      if(data.userCourseClassList){
-        (data.userCourseClassList || []).map(item=>{
-          item.checked = false;
-          if(item.nodes){
-            (item.nodes || []).map(flag=>{
-              flag.checked = false;
-            })
-          }
-        })
-      }
-      this.detail = data;
-    },
+			// 查询课程详情
+			async queryDetail() {
+				const params = {
+					courseId: this.courseId
+				}
+				const data = await this.$http.get('/userCourse/queryDetail', params, true)
+				if (data.userCourseClassList) {
+					(data.userCourseClassList || []).map(item => {
+						item.checked = false;
+						if (item.nodes) {
+							(item.nodes || []).map(flag => {
+								flag.checked = false;
+							})
+						}
+					})
+				}
+				this.detail = data;
+			},
 
-  }
-};
+		}
+	};
 </script>
 
 <style lang="less" src="./style.less"></style>
