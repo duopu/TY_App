@@ -6,7 +6,7 @@
 			<view class="right flex-column-between">
 				<view class="name">{{data.goodsName}}</view>
 				<view class="flex-center-between">
-					<view class="">售价:¥{{data.price}}</view>
+					<view class="">售价:¥{{data.entityGoodsCheck === 2 ? data.maxPrice : data.price}}</view>
 					<view class="flex-center">
 						预计佣金:
 						<view class="price">
@@ -32,8 +32,8 @@
 			</view>
 		</view>
 		<view class="item-bottom flex-center-end">
-			<button class="btn btn-border grey" @click="cancel">取消分销</button>
-			<button class="btn btn-border black" @click="apply">重新申请</button>
+			<button v-if="data.reviewStatus === 1" class="btn btn-border grey" @click="cancel">取消分销</button>
+			<button v-else-if="data.reviewStatus === 2" class="btn btn-border black" @click="apply">重新申请</button>
 			<button class=" btn btn-block" @click="openDetail">查看详情</button>
 		</view>
 	</view>
@@ -60,10 +60,26 @@ export default {
 		},
 		// 取消分销
 		cancel(){
-			this.$emit('cancel')
+			
+			uni.showModal({
+			    title: '提示',
+			    content: '是否取消分销',
+				confirmText: '确定',
+				cancelText: '取消',
+			    success: (res) => {
+			        if (res.confirm) {
+					   //TODO: 接口缺少
+			        }
+			    }
+			});
 		},
+		// 重新申请
 		apply(){
-			this.$emit('apply')
+			this.$http
+				.post('/distribution/goodsApply', {goodsId:this.data.goodsId, storeId:this.data.storeId}, true)
+				.then(res => {
+					this.$store.commit('setOrderChange');
+				});	
 		}
 	}
 };

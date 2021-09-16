@@ -73,7 +73,8 @@ export default {
 				groupBuyId: this.$store.state.groupBuyGoodsVO.groupBuyId,
 				address: undefined,
 				mobile: undefined,
-				name: undefined
+				name: undefined,
+				userId: undefined,
 			}
 		};
 	},
@@ -81,7 +82,9 @@ export default {
 		// 选中的收货地址
 		defaultAddress: state => state.defaultAddress,
 		// 下单时确定的组团优惠商品
-		groupBuyGoodsVO: state => state.groupBuyGoodsVO
+		groupBuyGoodsVO: state => state.groupBuyGoodsVO,
+		// 邀请人ID
+		inviterId: state => state.inviterId
 	}),
 	watch:{
 		defaultAddress: {
@@ -123,6 +126,9 @@ export default {
 				this.$tool.showToast("请填写收货地址");
 				return
 			}
+			
+			// 设置邀请人ID
+			this.params.userId = this.inviterId;
 			
 			this.$http
 				.post('/groupBuy/create', this.params, true)

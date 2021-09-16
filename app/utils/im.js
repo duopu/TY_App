@@ -225,15 +225,15 @@ const getGroupConversationMap = () => {
 			nextSeq: 0,
 			count: 1000
 		}, result => {
-			if(result.code == 0){
+			if (result.code == 0) {
 				const map = {}
-				result.conversationList.forEach(c=>{
-					if(c.type == 2){
+				result.conversationList.forEach(c => {
+					if (c.type == 2) {
 						map[c.groupId] = c;
 					}
 				})
 				resolve(map)
-			}else{
+			} else {
 				reject('获取会话失败')
 			}
 		})
@@ -241,22 +241,38 @@ const getGroupConversationMap = () => {
 }
 
 // 获取会话信息
-const getInfoFromConversation = (cov)=>{
+const getInfoFromConversation = (cov) => {
 	const info = {}
 	info.unreadCount = cov.unreadCount || 0;
 	const lastMessage = cov.lastMessage
-	if(lastMessage){
-		if(lastMessage.elemType == 1){ // 文字消息
+	if (lastMessage) {
+		if (lastMessage.elemType == 1) { // 文字消息
 			info.message = lastMessage.textElem.msg;
-		}else if(lastMessage.elemType == 3){
+		} else if (lastMessage.elemType == 3) {
 			info.message = '[图片]'
-		}else if(lastMessage.elemType == 4){
+		} else if (lastMessage.elemType == 4) {
 			info.message = '[语音]'
 		}
-		
-		info.time = dayjs(lastMessage.time * 1000).format('YYYY-MM-DD HH:mm') 
+
+		info.time = dayjs(lastMessage.time * 1000).format('YYYY-MM-DD HH:mm')
 	}
 	return info
+}
+
+// 获取指定群在线人数
+const getGroupOnlineMemberCount = (groupId) => {
+	return new Promise((resolve, reject) => {
+		txIm.getGroupOnlineMemberCount({
+			groupId
+		}, result => {
+			console.log('获取指定群在线人数',result);
+			if (result.code == 0) {
+				resolve(result)
+			} else {
+				reject()
+			}
+		})
+	})
 }
 
 export default {
@@ -270,4 +286,5 @@ export default {
 	joinGroup,
 	getGroupConversationMap,
 	getInfoFromConversation,
+	getGroupOnlineMemberCount,
 }

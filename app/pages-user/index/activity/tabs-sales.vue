@@ -19,9 +19,7 @@
 					<sales-goods-lists-item v-for="(item, index) in goodsList" 
 					:key="`distribution-goods-${index}`"
 					:data="item"
-					@openDetail="showGoodsDetail(item)" 
-					@cancel="cancelGoodsApply(item)" 
-					@apply="goodsApply(item)">
+					@openDetail="showGoodsDetail(item)">
 					</sales-goods-lists-item>
 					<uni-load-more :status="goodsState" 
 					:icon-size="16" 
@@ -49,7 +47,7 @@
 							分销折扣：
 							<text class="discount">{{item.discount}}折</text>
 						</view>
-						<button class="btn">复制链接</button>
+						<button class="btn" @click="copyStoreLink(item)">复制链接</button>
 					</view>
 					<uni-load-more :status="storeState"
 					:icon-size="16" 
@@ -186,22 +184,27 @@ export default {
 					this.openPopup('goodsDistributePopup');
 				});	
 		},
-		
 		/**
-		 * 商品取消分销
-		 * @param {Object} item 商品分销对象
+		 * 店铺分销复制链接点击
+		 * @param {Object} item 店铺分销对象
 		 */
-		cancelGoodsApply(item){
-		},
-		
-		/**
-		 * 商品重新申请分销
-		 * @param {Object} item 商品分销对象
-		 */
-		goodsApply(item){
-			
+		copyStoreLink(item){
+			// #ifndef H5
+				const linkType = 5; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
+				const storeId = item.storeId;
+				const userId = getApp().globalData.user.id
+				let url = `https://tengyunjiaoyu.com.cn/app?linkType=${linkType}&storeId=${storeId}&userId=${getApp().globalData.user.id}`
+				let shareMsg = `推荐一家超赞的店铺给你：${url}`;
+				// 复制链接到系统剪贴板中
+				uni.setClipboardData({
+				    data: shareMsg,
+				    success: () => {
+						uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+						this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
+				    }
+				});
+			// #endif
 		}
-		
 		
 	}
 };

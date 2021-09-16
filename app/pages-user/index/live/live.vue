@@ -92,10 +92,8 @@ export default {
   methods:{
 
     periodClick(item){
-		console.log('跳直播页面',item);
-      const { livePullUrl } = item || {}
       uni.navigateTo({
-          url:`/pages-user/index/live/room?livePullUrl=${livePullUrl}`
+          url:`/pages-user/index/live/room?liveId=${item.liveId}`
       })
     },
 
