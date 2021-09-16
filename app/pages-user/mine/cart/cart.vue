@@ -112,7 +112,7 @@ export default {
 		discountMoney(){
 			let price = 0;
 			// 优惠金额 = 订单原始金额 - 支付金额
-			if(this.orderVO.orderAmount && this.orderVO.payAmount){
+			if(this.orderVO.orderAmount != null && this.orderVO.payAmount != null){
 				price = this.orderVO.orderAmount - this.orderVO.payAmount;
 			}
 			return price

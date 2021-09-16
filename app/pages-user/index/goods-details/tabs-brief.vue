@@ -23,7 +23,8 @@ export default {
 				storeDesc: this.goodsInfo.storeDesc,
 				avatar: this.goodsInfo.avatar,
 				score: this.goodsInfo.compositeScore,
-				type: this.goodsInfo.type
+				type: this.goodsInfo.type,
+				id: this.goodsInfo.storeId
 			},
 			content:this.goodsInfo.content || "" //产品内
 		};
@@ -35,7 +36,8 @@ export default {
 				storeDesc: newV.storeDesc,
 				avatar: newV.avatar,
 				score: newV.compositeScore,
-				type: newV.type
+				type: newV.type,
+				id: newV.storeId
 			};
 			this.content = newV.content || "";
 		}

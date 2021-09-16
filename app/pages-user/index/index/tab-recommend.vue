@@ -52,7 +52,7 @@
 					@click="() => (dakaIndex = index)" :key="index" :class="{ on: index === dakaIndex }">
 					{{ item.interestName }}
 				</view>
-				<view class="color-9 border-item" @click="gotoChangeInterestList">修改兴趣</view>
+				<view class="color-9 border-item" @click="gotoClassCategory">修改兴趣</view>
 			</view>
 			<view class="broadcast-item flex-center-between" v-if="liveData">
 				<view class="broadcast-item-left">
@@ -139,9 +139,9 @@
 			<view class="classify-tabs flex-center">
 				<view v-for="(item, index) in interestList" @click="() => (jpkcIndex = index)" :key="index"
 					:class="{ on: index === jpkcIndex }" class="classify-tabs-item">{{ item.interestName }}</view>
-				<view class="color-9 border-item" @click="gotoChangeInterestList">修改兴趣</view>
+				<view class="color-9 border-item" @click="gotoClassCategory">修改兴趣</view>
 			</view>
-			<course-lists-item :data="clsssData" v-if="clsssData" @itemClick="gotoGoodsDetail(clsssData)">
+			<course-lists-item :data="clsssData" v-if="clsssData">
 			</course-lists-item>
 		</view>
 	</scroll-view>
@@ -261,24 +261,13 @@
 			},
 			// 跳转大咖直播页面
 			gotoLiveList() {
-				const interest = this.interestList[this.dakaIndex];
-				if (interest) {
-					uni.navigateTo({
-						url: `/pages-user/index/live/live?courseId=${interest.categoryId}`
-					});
-				}
+				
 			},
 			// 跳转分类页面
 			gotoClassCategory() {
-				// uni.switchTab({
-				// 	url: '/pages-user/classify/index/index'
-				// })
-			},
-			// 跳转商品详情
-			gotoGoodsDetail(goods) {
-				uni.navigateTo({
-					url: `/pages-user/index/goods-details/goods-details?goodsId=${goods.goodsId}`
-				});
+				uni.switchTab({
+					url: '/pages-user/classify/index/index'
+				})
 			},
 			// 跳转修改兴趣点
 			gotoChangeInterestList() {

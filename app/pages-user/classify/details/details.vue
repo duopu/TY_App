@@ -22,7 +22,7 @@
 		</view>
 		<my-scroll-view ref="list" class="classify-details-lists" :pageSize="queryParams.size" @loadData="onLoadData">
 			<template v-slot:list="slotProps">
-				<course-lists-item v-for="(item, index) in slotProps.list" :key="index" :data="item" @itemClick="goodsItemClick(item)"></course-lists-item>
+				<course-lists-item v-for="(item, index) in slotProps.list" :key="index" :data="item"></course-lists-item>
 			</template>
 		</my-scroll-view>
 		<!-- 综合排序 -->
@@ -124,16 +124,6 @@ export default {
 				.catch(err => {
 					callback(null);
 				});
-		},
-
-		/**
-		 * 商品行点击
-		 * @param {Object} item
-		 */
-		goodsItemClick(item) {
-			uni.navigateTo({
-				url: `/pages-user/index/goods-details/goods-details?goodsId=${item.goodsId}`
-			});
 		}
 	}
 };
