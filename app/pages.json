@@ -97,7 +97,12 @@
                         "navigationStyle": "custom",
                         "enablePullDownRefresh": false
                     }
-
+                }, {
+                    "path": "index/teacher/teacher",
+                    "style": {
+                        "navigationBarTitleText": "老师详情",
+                        "enablePullDownRefresh": false
+                    }
                 }, {
                     "path": "classify/details/details",
                     "style": {

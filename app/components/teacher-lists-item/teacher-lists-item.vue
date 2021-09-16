@@ -1,5 +1,5 @@
 <template>
-	<view class="teacher-lists-item">
+	<view class="teacher-lists-item" @click="itemClick">
 		<image class="item-image" :src="data.avatar" mode="aspectFill"></image>
 		<view class="item-right flex-column-between">
 			<view class="flex-column">
@@ -21,10 +21,13 @@
 			data:{
 				type:Object,
 				default:{
-					name:'',
-					desc:'',
-					avatar:'../../static/images/other/girl.png',
-					count:0
+					name: undefined,
+					desc: undefined,
+					avatar: undefined,
+					count: 0,
+					teacherGoodsList: [],
+					gender: 1,
+					teacherId: undefined
 				}
 			}
 		},
@@ -32,6 +35,14 @@
 			return {
 				
 			};
+		},
+		methods: {
+			itemClick(){
+				this.$store.commit('setTeacherVO',this.data);
+				uni.navigateTo({
+					url: `/pages-user/index/teacher/teacher`
+				});
+			}
 		}
 	}
 </script>

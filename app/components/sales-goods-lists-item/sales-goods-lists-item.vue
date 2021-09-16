@@ -1,5 +1,6 @@
 <!-- 活动-分销大使-商品分销 -->
 <template>
+	<!-- data.status === 2 的时候，代表的是已取消的分销商品 -->
 	<view class="sales-goods-lists-item">
 		<view class="item-top">
 			<image class="goods-image" :src="data.thumbnail" mode="aspectFill"></image>
@@ -32,8 +33,9 @@
 			</view>
 		</view>
 		<view class="item-bottom flex-center-end">
-			<button v-if="data.reviewStatus === 1" class="btn btn-border grey" @click="cancel">取消分销</button>
-			<button v-else-if="data.reviewStatus === 2" class="btn btn-border black" @click="apply">重新申请</button>
+			<!-- 这里只有状态是正常的商品分销，才显示下面的按钮 -->
+			<button v-if="data.status === 1 && data.reviewStatus === 1" class="btn btn-border grey" @click="cancel">取消分销</button>
+			<button v-if="data.status === 1 && data.reviewStatus === 2" class="btn btn-border black" @click="apply">重新申请</button>
 			<button class=" btn btn-block" @click="openDetail">查看详情</button>
 		</view>
 	</view>
@@ -60,7 +62,6 @@ export default {
 		},
 		// 取消分销
 		cancel(){
-			
 			uni.showModal({
 			    title: '提示',
 			    content: '是否取消分销',
@@ -68,15 +69,20 @@ export default {
 				cancelText: '取消',
 			    success: (res) => {
 			        if (res.confirm) {
-					   //TODO: 接口缺少
+					   this.apply();
 			        }
 			    }
 			});
 		},
 		// 重新申请
 		apply(){
+			// this.$http
+			// 	.post('/distribution/goodsApply', {goodsId:this.data.goodsId, storeId:this.data.storeId}, true)
+			// 	.then(res => {
+			// 		this.$store.commit('setOrderChange');
+			// 	});	
 			this.$http
-				.post('/distribution/goodsApply', {goodsId:this.data.goodsId, storeId:this.data.storeId}, true)
+				.post('/distribution/operation', {id:this.data.id}, true)
 				.then(res => {
 					this.$store.commit('setOrderChange');
 				});	

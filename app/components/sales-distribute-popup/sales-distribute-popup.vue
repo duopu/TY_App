@@ -52,7 +52,7 @@
 				<uni-load-more :status="loadStatus" :icon-size="16" :content-text="contentText" />
 			</scroll-view>
 			<!-- 复制链接 -->
-			<view class="popup-bottom">
+			<view v-show="isShowCopyBtn" class="popup-bottom">
 				<button class="btn">复制链接</button>
 			</view>
 		</view>
@@ -77,6 +77,10 @@ export default {
 				title: undefined,
 				id: undefined
 			}
+		},
+		showCopy: { //是否显示复制链接按钮
+			type: Boolean,
+			default: true
 		}
 	},
 	watch: {
@@ -88,6 +92,9 @@ export default {
 				this.getDataList();
 			},
 			deep: true
+		},
+		showCopy(newV, oldV){
+			this.isShowCopyBtn = newV;
 		}
 	},
 	data() {
@@ -101,7 +108,8 @@ export default {
 				contentrefresh: '加载中',
 				contentnomore: '没有更多'
 			},
-			dataList: []
+			dataList: [],
+			isShowCopyBtn: this.showCopy
 		};
 	},
 	methods: {

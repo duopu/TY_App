@@ -70,7 +70,7 @@
 		<!-- 平台分销弹窗 -->
 		<sales-distribute-popup :state="1" ref="plantformDistributePopup" :data="plantformDistributionDetail"></sales-distribute-popup>
 		<!-- 商品分销弹窗 -->
-		<sales-distribute-popup :state="2" ref="goodsDistributePopup" :data="goodsDistributionDetail"></sales-distribute-popup>
+		<sales-distribute-popup :state="2" ref="goodsDistributePopup" :data="goodsDistributionDetail" :showCopy="showGoodsCopy"></sales-distribute-popup>
 	</view>
 </template>
 
@@ -124,7 +124,8 @@ export default {
 				contentdown: '上拉加载更多',
 				contentrefresh: '加载中',
 				contentnomore: '没有更多'
-			}
+			},
+			showGoodsCopy: true
 		};
 	},
 	created() {
@@ -171,6 +172,8 @@ export default {
 		 * @param {Object} item  商品分销对象
 		 */
 		showGoodsDetail(item){
+			// 只有分销商品状态是正常的，才显示复制链接按钮
+			this.showGoodsCopy = item.status === 1;
 			this.$http
 				.get('/distribution/queryGoodsDetail', {id:item.id}, true)
 				.then(res => {
