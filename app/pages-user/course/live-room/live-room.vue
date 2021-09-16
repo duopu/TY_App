@@ -37,11 +37,11 @@
 									<text class="tag">上次学到</text>
 								</view>
 								<view class="flex-center desc">
-									<text>{{flag.learnTime || filterDate}}分钟</text>
+									<text>{{flag.learnDuration || filterDate}}分钟</text>
 									<block>
 										<text class="m-left-40">已学习</text>
 										<text
-											class="color-red">{{ flag.learnTime | filterProgress(flag.classTime)}}%</text>
+											class="color-red">{{ flag.learnDuration | filterProgress(flag.classDuration)}}%</text>
 									</block>
 								</view>
 							</view>

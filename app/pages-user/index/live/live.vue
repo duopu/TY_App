@@ -39,10 +39,10 @@
                 </view>
                 <view class="flex-center desc">
                   <text v-if="flag.liveState===0" >直播时间:{{flag.createTime}}</text>
-                  <text v-if="flag.liveState===2">{{flag.learnTime || filterDate}}分钟</text>
+                  <text v-if="flag.liveState===2">{{flag.learnDuration || filterDate}}分钟</text>
                   <block v-if="flag.liveState===2">
                     <text class="m-left-40">已学习</text>
-                    <text class="color-red">{{ flag.learnTime | filterProgress(flag.classTime)}}%</text>
+                    <text class="color-red">{{ flag.learnDuration | filterProgress(flag.classDuration)}}%</text>
                   </block>
                 </view>
               </view>
