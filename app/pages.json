@@ -390,11 +390,20 @@
                 }
                 ,{
                     "path" : "index/message/sys-msg-detail",
-                    "style" :                                                                                    
+                    "style" :
 					{
 						"navigationBarTitleText": "系统消息",
 						"enablePullDownRefresh": false
 					}
+                }
+                ,{
+                    "path" : "index/live/payback",
+                    "style" :
+                {
+                    "navigationBarTitleText": "大咖直播",
+                    "enablePullDownRefresh": false
+                }
+
                 }
             ]
         },
