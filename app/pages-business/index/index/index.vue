@@ -6,23 +6,8 @@
 				<image class="avatar-image" :src="storeInfo.avatar" mode="aspectFill"></image>
 				<view>
 					<view class="name text-bold">{{ storeInfo.storeName }}</view>
-					<!--					<view class="flex-center account">关联其他账号 ></view>-->
 				</view>
 			</view>
-			<!--			<view class="state-lists" :class="{on:showState}" @click="changeState">-->
-			<!--				<view v-show="showState || (!showState && userStatus === 1)" @click="userStatus = 1"  class="state-lists-item">-->
-			<!--					<image class="image" src="../../../static/images/my-state-zx.png" mode="aspectFill"></image>-->
-			<!--					<text>在线</text>-->
-			<!--				</view>-->
-			<!--				<view v-show="showState || (!showState && userStatus === 2)" @click="userStatus = 2" class="state-lists-item border-top-none">-->
-			<!--					<image class="image" src="../../../static/images/my-state-ml.png" mode="aspectFill"></image>-->
-			<!--					<text>忙碌</text>-->
-			<!--				</view>-->
-			<!--				<view v-show="showState || (!showState && userStatus === 3)" @click="userStatus = 3" class="state-lists-item border-top-none">-->
-			<!--					<image class="image" src="../../../static/images/my-state-lx.png" mode="aspectFill"></image>-->
-			<!--					<text>离线</text>-->
-			<!--				</view>-->
-			<!--			</view>-->
 		</view>
 		<!-- 公告 -->
 		<view class="block-box notice flex-center-between">

@@ -7,7 +7,7 @@
 				<view class="flex-center">
 					<image class="avatar-image" :src="liveInfo.storeAvatar" mode="aspectFill"></image>
 					<text>{{liveInfo.storeName}}</text>
-					<button class="btn-border yellow">关注</button>
+					<button class="btn-border yellow" @click="onCollect">{{liveInfo.storeCollectionCheck == 1 ? '未收藏' : '已收藏'}}</button>
 					<image class="icon-user" src="../../../static/images/icons/icon-user.svg" mode="aspectFill"></image>
 					<text>{{userCount}}</text>
 				</view>
@@ -123,7 +123,7 @@
 					liveId: this.liveId
 				}, true).then(res => {
 					this.liveInfo = res;
-					this.groupId = res.groupId;
+					this.groupId = res.imGroupId;
 					this.livePullUrl = res.liveState == 2 ? res.liveVideoUrl : res.livePullUrl;
 				})
 			},
@@ -131,6 +131,12 @@
 			getLiveRoomUserCount(){
 				this.$tool.imTool.getGroupOnlineMemberCount(this.groupId).then(res=>{
 					
+				})
+			},
+			// 店铺收藏 
+			onCollect(){
+				this.$http.post('/store/collect',{storeId:this.liveInfo.storeId},true).then(res=>{
+					this.queryLiveDetail();
 				})
 			},
 			// 加载历史消息
