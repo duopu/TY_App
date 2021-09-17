@@ -33,7 +33,7 @@
 				<view class="flex-center row"
 				v-for="(item, index) in courseVOList"
 				:key="`course-list-${index}`"
-				@click="tagClick(item.courseName,0)">
+				@click="jumpGoodsInfo(item.goodsId)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
 					<text class="text-ellipsis text">{{item.courseName}}</text>
 				</view>
@@ -47,7 +47,7 @@
 				<view class="flex-center row"
 				v-for="(item, index) in storeVOList"
 				:key="`store-list-${index}`"
-				@click="tagClick(item.storeName || item.companyName,1)">
+				@click="jumpStoreInfo(item.storeId)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
 					<text class="text-ellipsis text">{{item.storeName || item.companyName}}</text>
 				</view>
@@ -61,7 +61,7 @@
 				<view class="flex-center row"
 				v-for="(item, index) in teacherVOList"
 				:key="`teacher-list-${index}`"
-				@click="tagClick(item.name,2)">
+				@click="jumpTeacherInfo(item.teacherId)">
 					<text class="serial-number text-bold" :class="{ on: index < 3 }">{{ index + 1 }}</text>
 					<text class="text-ellipsis text">{{item.name}}</text>
 				</view>
@@ -128,6 +128,36 @@ export default {
 		 */
 		deleteHistroySearch(){
 			this.$store.commit("deleteHistorySearch");
+		},
+		
+		/**
+		 * 跳转到商品详情页
+		 * @param {Object} goodsId 商品ID
+		 */
+		jumpGoodsInfo(goodsId){
+			uni.navigateTo({
+				url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
+			});
+		},
+		
+		/**
+		 * 跳转到店铺详情页
+		 * @param {Object} storeId 店铺ID
+		 */
+		jumpStoreInfo(storeId){
+			uni.navigateTo({
+				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
+			})
+		},
+		
+		/**
+		 * 跳转到老师详情页
+		 * @param {Object} teacherId 老师ID
+		 */
+		jumpTeacherInfo(teacherId){
+			uni.navigateTo({
+				url: `/pages-user/index/teacher/teacher?teacherId=${teacherId}`
+			});
 		}
 	}
 };
