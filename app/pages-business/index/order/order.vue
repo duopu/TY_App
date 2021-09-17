@@ -34,8 +34,8 @@ export default {
 		};
 	},
 	onLoad(options){
-		this.tabsIndex = options.type;
-		// this.queryOrderList();
+		console.info(options.type);
+		this.tabsIndex = Number(options.type);
 	},
 	methods: {
 		//获取当前 tabs Index
@@ -44,11 +44,15 @@ export default {
 			this.$refs.myScrollView.onRefresh();
 		},
 		onLoadData(pageNum = 1, pageSize, callback){
+			console.error(this.tabsIndex);
 			this.$http.get('/order/queryPage',{page: pageNum,orderState: this.tabsIndex,size: pageSize},true).then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);
 			})
+		},
+		seeOrderInfo(id){
+			console.log(id);
 		}
 	}
 };

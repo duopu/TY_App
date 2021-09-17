@@ -196,7 +196,7 @@ export default {
 		},
 		onJump(index) {
 			uni.navigateTo({
-				url: `/pages-business/index/order/order`
+				url: `/pages-business/index/order/order?type=`+index
 			});
 		},
 		jump(name, type) {

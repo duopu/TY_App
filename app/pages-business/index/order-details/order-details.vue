@@ -6,22 +6,22 @@
 			<view class="flex-center-between top">
 				<view class="flex-center">
 					<image class="icon-store" src="../../../static/images/icons/icon-store.svg" mode="aspectFill"></image>
-					<text>xx商家</text>
+					<text>{{orderInfo.storeName}}</text>
 				</view>
 				<image class="icon-dy" src="../../../static/images/icons/icon-dy.svg" mode="aspectFill"></image>
 			</view>
-			<view class="flex-center content" v-for="(item,index) in orderInfo.orderItemList">
-				<image class="avatar-image" :src="item.thumbnail" mode="aspectFill"></image>
+			<view class="flex-center content" >
+				<image class="avatar-image" :src="orderInfo.thumbnail" mode="aspectFill"></image>
 				<view class="flex-column content-column">
-					<text class="name">{{item.name}}</text>
+					<text class="name">{{orderInfo.goodsName}}</text>
 					<view class="flex-center-between">
-						<view class="tag-item">型号一</view>
+						<view class="tag-item">{{ orderInfo.attributesName }}</view>
 						<view class="flex-baseline">
 							<view class="price color-yellow text-bold">
 								<text class="unit">¥</text>
-								500
+								{{ orderInfo.goodsPrice }}
 							</view>
-							<text class="number">× {{item.goodsNum}}</text>
+							<text class="number">× {{orderInfo.goodsNum}}</text>
 						</view>
 					</view>
 				</view>
@@ -66,7 +66,7 @@
 			</view>
 		</view>
 		<!-- 待发货 -->
-		<button v-if="false" class="btn">发货</button>
+		<button v-if="orderInfo.orderState == 1" @click="publishGoods" class="btn">发货</button>
 		<!-- 待收货 -->
 		<button class="btn">物流详情</button>
 	</scroll-view>
@@ -80,6 +80,22 @@ export default {
 				orderItemList: []
 			}
 		};
+	},
+	onLoad(option){
+		this.orderId = option.orderId;
+		this.queryInfo();
+	},
+	methods: {
+		queryInfo(){
+			this.$http.get('/order/queryDetail',{orderNum: this.orderId}).then(res => {
+				this.orderInfo = res;
+			})
+		},
+		publishGoods(){
+			this.$http.get('/order/queryDetail',{orderNum: this.orderId}).then(res => {
+				this.orderInfo = res;
+			})
+		}
 	}
 };
 </script>

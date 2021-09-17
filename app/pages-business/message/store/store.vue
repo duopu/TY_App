@@ -22,7 +22,7 @@ export default {
 	},
 	methods:{
 		queryMessage(){
-			this.$http.get('/message/queryListByStoreId',null,true).then(res => {
+			this.$http.get('/message/queryListByStoreId',{messageType: 2},true).then(res => {
 				this.dataList = res;
 			})
 		}
