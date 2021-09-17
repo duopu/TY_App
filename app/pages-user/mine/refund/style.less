@@ -142,15 +142,34 @@
 }
 // 图片
 .image-lists {
-	margin-top: 30rpx;
 	.image-item {
 		width: 200rpx;
 		height: 200rpx;
 		background-color: #f8f8f8;
 	}
 	.icon-carme {
-		width: 32rpx;
-		height: 32rpx;
+		width: 64rpx;
+		height: 64rpx;
+	}
+}
+::v-deep .uni-file-picker {
+	.uni-progress-bar{
+		background-color: transparent !important;
+	}
+	.icon-del-box{
+		right: 0rpx;
+		top: 0rpx;
+		width: 52rpx;
+		height: 52rpx;
+		background-image: url(../../../static/images/image-lists-close.png);
+		background-repeat: no-repeat;
+		background-size: 52rpx 52rpx;
+		background-color: transparent;
+		transform: none;
+		.icon-del{
+			display: none;
+			
+		}
 	}
 }
 .box{
