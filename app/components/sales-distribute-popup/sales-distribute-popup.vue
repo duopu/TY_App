@@ -26,7 +26,7 @@
 					</view>
 					<view class="record-item flex-column">
 						<text class="number">{{detail.commission}}</text>
-						<text class="text">反佣金币</text>
+						<text class="text">返佣金币</text>
 					</view>
 				</view>
 				<!-- 表格 -->
@@ -77,6 +77,7 @@ export default {
 				extensionCount: 0,
 				title: undefined,
 				id: undefined,
+				userId: undefined, //只有商品分销才有该字段
 				type: undefined //只有平台分销才有该字段
 			}
 		},
@@ -194,11 +195,10 @@ export default {
 		// 复制链接点击
 		copyUrlClick(){
 			// #ifndef H5
-			
 				if(this.state === 2){ //商品分销
 					const linkType = 4; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
 					const goodsId = item.goodsId;
-					const userId = getApp().globalData.user.userId;
+					const userId = item.userId;
 					let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}&userId=${userId}`;
 					let shareMsg = `推荐一款超值的商品给你：${url}`;
 					// 复制链接到系统剪贴板中

@@ -59,7 +59,7 @@
 		</view>
 		
 		<!-- 直选支付方式 弹窗 -->
-		<common-payment-popup ref="paymentPopup" ></common-payment-popup>
+		<common-payment-popup ref="paymentPopup" :payOrderNum="payOrderNum"></common-payment-popup>
 		
 		<!-- 坚持不懈活动详情 弹窗 -->
 		<sales-activity-popup ref="salesActivityPopup" 
@@ -87,7 +87,8 @@ export default {
 				address: undefined,
 				mobile: undefined,
 				name: undefined
-			}
+			},
+			payOrderNum: undefined //订单编号
 		};
 	},
 	computed: mapState({
@@ -162,11 +163,13 @@ export default {
 				return
 			}
 			
+			// 邀请人ID
+			this.params.distributorId = this.inviterId;
+			
 			this.$http
 				.post('/unremittingly/create', this.params, true)
 				.then(res => {
-					this.$store.commit('setOrderChange');
-					// TODO: 如果支付过程中关闭弹窗或者取消交易，也跳转到我的订单页面
+					this.payOrderNum = res.payOrderNum;
 					this.openPopup('paymentPopup');
 				});
 		},

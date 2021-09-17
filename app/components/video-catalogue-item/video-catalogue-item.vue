@@ -1,10 +1,10 @@
 <!-- 视频目录 -->
 <template>
 	<view class="catalogue-item">
-		<view class="flex-center-between" :class="{'root-item':isFolder,'sub-item':!isFolder}" @click="toggle()">
+		<view class="flex-center-between" :class="{'root-item':isFolder}" @click="toggle()">
 			<text class="serial-number">{{index}}</text>
 			<text class="text flex-1 text-ellipsis">{{model.courseClassName}}</text>
-			<view class="flex-center" @tap.stop="goWatchVideo($event)">
+			<view class="flex-center" @click.stop="goWatchVideo($event)">
 				<image src="../../static/images/icons/icon-video.svg" class="image-video" mode="aspectFill"></image>
 				<text class="color-yellow">试看</text>
 			</view>
@@ -85,10 +85,9 @@ export default {
 		
 		/**
 		 * 试看
-		 * @param {Object} e
 		 */
-		goWatchVideo(e){
-			e.preventDefault();
+		goWatchVideo(){
+			//TODO: 这里需要去跳转到试看页面 model.url
 			console.log("去试看");
 		}
 	}

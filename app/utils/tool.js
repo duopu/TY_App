@@ -81,6 +81,8 @@ const logout = ()=>{
 	
 	// 清除用户的默认地址信息
 	store.commit('setDefaultAddress',{});
+	// 清楚邀请人ID
+	store.commit('setInviterId',undefined);
 	uni.removeStorage({
 		key:config.storageKeys.loginUserKey,
 	})
@@ -123,10 +125,18 @@ const orderPay = (orderNum, payType)=>{
 				    success: function (res) {
 				        console.log('success:' + JSON.stringify(res));
 						resolve(res);
+						// 跳转到订单详情页
+						uni.redirectTo({
+							url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+						});
 				    },
 				    fail: function (err) {
 				        console.log('fail:' + JSON.stringify(err));
 						reject(err);
+						// 跳转到订单详情页
+						uni.redirectTo({
+							url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+						});
 				    }
 				});
 			})
@@ -139,10 +149,18 @@ const orderPay = (orderNum, payType)=>{
 				    success: function (res) {
 						console.log('success:' + JSON.stringify(res));
 						resolve(res);
+						// 跳转到订单详情页
+						uni.redirectTo({
+							url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+						});
 					},
 				    fail: function (e) {
 						console.log('fail:' + JSON.stringify(err));
 						reject(err);
+						// 跳转到订单详情页
+						uni.redirectTo({
+							url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+						});
 					}
 				})
 			})

@@ -57,7 +57,7 @@
 		</view>
 		
 		<!-- 直选支付方式 弹窗 -->
-		<common-payment-popup ref="paymentPopup" ></common-payment-popup>
+		<common-payment-popup ref="paymentPopup" :payOrderNum="payOrderNum"></common-payment-popup>
 		<!-- 弹窗 拼团规则-->
 		<goods-group-popup ref="groupPopup" :data="groupBuyGoodsVO" :showBottom="false"></goods-group-popup>
 	</view>
@@ -69,13 +69,14 @@ export default {
 	data() {
 		return {
 			isAgree: true, //是否同意协议
-			params:{ //提交订单参数对象
+			params: { //提交订单参数对象
 				groupBuyId: this.$store.state.groupBuyGoodsVO.groupBuyId,
 				address: undefined,
 				mobile: undefined,
 				name: undefined,
 				userId: undefined,
-			}
+			},
+			payOrderNum: undefined //订单编号
 		};
 	},
 	computed: mapState({
@@ -133,8 +134,7 @@ export default {
 			this.$http
 				.post('/groupBuy/create', this.params, true)
 				.then(res => {
-					this.$store.commit('setOrderChange');
-					// TODO: 如果支付过程中关闭弹窗或者取消交易，也跳转到我的订单页面
+					this.payOrderNum = res.payOrderNum;
 					this.openPopup('paymentPopup');
 				});
 		},

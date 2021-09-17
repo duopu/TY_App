@@ -90,13 +90,17 @@
 						uni.navigateTo({
 							url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
 						});
-					}else if(linkType == 3) { //邀请好久参加坚持不懈
+					}else if(linkType == 3) { //邀请好友参加坚持不懈
+						const userId = params.userId;
+						this.$store.commit('setInviterId',userId);
 						uni.switchTab({
 							url: '/pages-user/index/index/index'
 						})
 						// 打开首页->活动->坚持不懈
 						uni.$emit('activity-open',1)
 					}else if(linkType == 2) { //邀请好久参加组团优惠
+						const userId = params.userId;
+						this.$store.commit('setInviterId',userId);
 						uni.switchTab({
 							url: '/pages-user/index/index/index'
 						})

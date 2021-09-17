@@ -33,11 +33,22 @@
 <script>
 export default {
 	name: 'common-payment-popup',
-	emits: ['change', 'cancel'],
+	props: {
+		payOrderNum: { //订单编号
+			type: String,
+			default: undefined
+		}
+	},
 	data() {
 		return {
-			payIndex: undefined //支付类型  1支付宝  2微信
+			payIndex: undefined, //支付类型  1支付宝  2微信
+			orderNum: this.payOrderNum
 		};
+	},
+	watch: {
+		payOrderNum(newV, oldV){
+			this.orderNum = newV;
+		}
 	},
 	methods: {
 		// 打开弹窗
@@ -52,7 +63,12 @@ export default {
 		selectPay(value) {
 			if (this.payIndex === value) return;
 			this.payIndex = value;
-			this.$emit('change',value);
+			this.close();
+			this.$tool.orderPay(this.orderNum, value).then(res => {
+				this.$store.commit('setOrderChange');
+			}).catch(err => {
+				this.$store.commit('setOrderChange');
+			})
 		},
 		// 关闭支付弹窗
 		closePay(){
@@ -61,8 +77,12 @@ export default {
 			    content: '是否取消支付',
 			    success: (res) => {
 			        if (res.confirm) {
-						this.$emit('cancel');
 			            this.close();
+						this.$store.commit('setOrderChange');
+						// 跳转到订单详情页
+						uni.redirectTo({
+							url: `/pages-user/mine/order-details/order-details?orderNum=${this.orderNum}`
+						});
 			        } 
 			    }
 			});

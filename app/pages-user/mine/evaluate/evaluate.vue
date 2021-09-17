@@ -36,7 +36,7 @@
 					<rate :readonly="false" @change="(num)=>{rateChange(1, num)}"></rate>
 				</view>
 				<textarea class="input" placeholder-class="input-placeholder" placeholder="写下您的评价" v-model="evaluateVO.goodsEvaluation" :maxlength="200"/>
-				<uni-file-picker  limit="9" mode="grid" :image-styles="{width:84, height:84}" @select="selectGoodsImg" @delete="deleteGoodsImg">
+				<uni-file-picker  limit="9" mode="grid" :image-styles="{width:98, height:98}" @select="selectGoodsImg" @delete="deleteGoodsImg">
 					<view class="flex-center-center image-item">
 						<image class="icon-carme" src="../../../static/images/icons/icon-carme.svg" mode="aspectFill"></image>
 					</view>

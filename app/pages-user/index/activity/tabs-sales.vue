@@ -183,7 +183,8 @@ export default {
 						content: res.content,
 						extensionCount: res.personNum,
 						title: res.title,
-						id: res.id
+						id: res.id,
+						userId: res.userId
 					};
 					this.openPopup('goodsDistributePopup');
 				});	

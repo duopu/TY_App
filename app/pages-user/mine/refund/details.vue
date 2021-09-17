@@ -124,7 +124,7 @@
 				<!-- 图片展示 -->
 				<uni-file-picker class="image-lists"
 				mode="grid" 
-				:image-styles="{width:100, height:100}" 
+				:image-styles="{width:98, height:98}" 
 				:readonly="true" 
 				:value="refundImgs">
 				</uni-file-picker>	
