@@ -38,7 +38,7 @@
 				<block v-if="storeList.length > 0">
 					<view class="flex-center-between marchant-item" 
 					v-for="(item, index) in storeList" 
-					:key="`distribution-store-${index}`">
+					:key="`distribution-store-${index}`" @click="jumpStoreInfo(item.storeId)">
 						<view class="flex-center">
 							<image class="avatar-image" :src="item.avatar" mode="aspectFill"></image>
 							<text>{{item.storeName}}</text>
@@ -47,7 +47,7 @@
 							分销折扣：
 							<text class="discount">{{item.discount}}折</text>
 						</view>
-						<button class="btn" @click="copyStoreLink(item)">复制链接</button>
+						<button class="btn" @click.stop="copyStoreLink(item)">复制链接</button>
 					</view>
 					<uni-load-more :status="storeState"
 					:icon-size="16" 
@@ -207,6 +207,16 @@ export default {
 				    }
 				});
 			// #endif
+		},
+		
+		/**
+		 * 跳转到店铺详情页
+		 * @param {Object} storeId
+		 */
+		jumpStoreInfo(storeId){
+			uni.navigateTo({
+				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
+			})
 		}
 		
 	}
