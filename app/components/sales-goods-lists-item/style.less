@@ -8,11 +8,31 @@
 		display: flex;
 		align-items: stretch;
 	}
-	.goods-image {
+	.goods-image-box {
+		position: relative;
 		margin-right: 24rpx;
 		width: 240rpx;
 		height: 160rpx;
 		border-radius: 20rpx;
+		overflow: hidden;
+		.cancel{
+			justify-content: center;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background-color: rgba(0,0,0,.5);
+			z-index: 1;
+			.cancel-image{
+				width: 120rpx;
+				height: 120rpx;
+			}
+		}
+		.goods-image{
+			width: 240rpx;
+			height: 160rpx;
+		}
 	}
 	.right {
 		flex: 1;
