@@ -23,7 +23,7 @@
 				<text class="color-6">{{detail.groupBuyNum}}</text>
 			</view>
 			<view class="row price">
-				最低折扣：¥{{detail.minPrice}}
+				最低折扣：¥{{detail.minPrice}} - ¥{{detail.maxPrice}}
 			</view>
 			<view v-if="showBottom" class="flex-center-between popup-bottom">
 				<view class="flex-column-center" @click="customerClick">

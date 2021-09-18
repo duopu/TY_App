@@ -87,6 +87,7 @@
 						const goodsId = params.goodsId;
 						const userId = params.userId;
 						this.$store.commit('setInviterId',userId);
+						this.$store.commit('setinviterGoodsId',goodsId);
 						uni.navigateTo({
 							url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
 						});

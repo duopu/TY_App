@@ -21,7 +21,8 @@
 						:storeGoodsVO="storeGoodsVOInit(subItem)" 
 						@goodsClick="goodsClick(subItem.orderNum)"
 						@queryLogistics="queryLogistics"
-						@queryExam="queryExam"></goods-order-list-item>
+						@queryExam="queryExam" 
+						@payOrder="payOrder(subItem)"></goods-order-list-item>
 					</template>
 				</my-scroll-view>
 			</swiper-item>
@@ -35,6 +36,11 @@
 		<order-exam-certificate ref="examPop" 
 		:data="examVO"></order-exam-certificate>
 		
+		<!-- 支付方式 弹窗 -->
+		<common-payment-popup ref="paymentPopup" 
+		:data="payOrderVO" 
+		@cancelPay="cancelPay"></common-payment-popup>
+		
 	</view>
 </template>
 
@@ -47,7 +53,8 @@ export default {
 			searchInput: undefined,
 			orderNum: undefined, //订单ID
 			logisticsVO: {}, //物流对象
-			examVO: {} //电子凭证对象
+			examVO: {}, //电子凭证对象
+			payOrderVO: {} //订单支付对象
 		};
 	},
 	watch:{
@@ -141,6 +148,23 @@ export default {
 		queryExam(data){
 			this.examVO = data;
 			this.$refs.examPop.open();
+		},
+		
+		/**
+		 * 支付订单
+		 * @param {Object} item 订单对象
+		 */
+		payOrder(item){
+			this.payOrderVO = {
+				orderNum: item.orderNum,
+				payOrderNum: item.orderTotalNum
+			}
+			this.$refs.paymentPopup.open();
+		},
+		
+		// 取消支付
+		cancelPay(){
+			this.$refs.paymentPopup.close();
 		}
 	}
 };

@@ -56,8 +56,8 @@
 			<button class="btn" @click="submitOrder">提交订单</button>
 		</view>
 		
-		<!-- 直选支付方式 弹窗 -->
-		<common-payment-popup ref="paymentPopup" :payOrderNum="payOrderNum"></common-payment-popup>
+		<!-- 支付方式 弹窗 -->
+		<common-payment-popup ref="paymentPopup" :data="submitOrderVO"></common-payment-popup>
 		<!-- 弹窗 拼团规则-->
 		<goods-group-popup ref="groupPopup" :data="groupBuyGoodsVO" :showBottom="false"></goods-group-popup>
 	</view>
@@ -76,7 +76,7 @@ export default {
 				name: undefined,
 				userId: undefined,
 			},
-			payOrderNum: undefined //订单编号
+			submitOrderVO: {} //提交订单后返回的对象
 		};
 	},
 	computed: mapState({
@@ -134,8 +134,18 @@ export default {
 			this.$http
 				.post('/groupBuy/create', this.params, true)
 				.then(res => {
-					this.payOrderNum = res.payOrderNum;
-					this.openPopup('paymentPopup');
+					this.submitOrderVO = res;
+					
+					// 这里要把邀请人清空掉
+					this.$store.commit('setInviterId', undefined);
+					
+					if (res.orderPayAmount === 0) { //如果支付金额是0元，直接跳转到我的订单详情页
+						uni.redirectTo({
+							url: `/pages-user/mine/order-details/order-details?orderNum=${res.orderNum}`
+						});
+					} else { //弹出支付弹窗
+						this.openPopup('paymentPopup');
+					}
 				});
 		},
 		

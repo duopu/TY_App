@@ -9,7 +9,8 @@
 		<!-- 商品 -->
 		<goods-order-list-item :storeGoodsVO="orderVO" 
 		@queryLogistics="queryLogistics"
-		@queryExam="queryExam">
+		@queryExam="queryExam" 
+		@payOrder="payOrder">
 			<template v-slot:bottom>
 				<view class="box">
 					<!-- 组团商品 -->
@@ -86,8 +87,8 @@
 				<view class="flex-1 text-left">{{ orderVO.createTime }}</view>
 			</view>
 		</view>
-		<!-- 普通商品  优惠信息 -->
-		<view v-if="orderVO.orderType === 1" class="box">
+		<!-- 普通商品/商品分销  优惠信息 -->
+		<view v-if="orderVO.orderType === 1 || orderVO.orderType === 4" class="box">
 			<view class="title text-bold">优惠信息</view>
 			<view class="row flex-center-between">
 				<text class="label">商品原价</text>
@@ -144,6 +145,12 @@
 		:showBottom="false" 
 		:data="unremittinglyVO"></sales-activity-popup>
 		
+		
+		<!-- 支付方式 弹窗 -->
+		<common-payment-popup ref="paymentPopup" 
+		:data="payOrderVO" 
+		@cancelPay="cancelPay"></common-payment-popup>
+		
 	</scroll-view>
 </template>
 
@@ -156,7 +163,8 @@ export default {
 			logisticsVO: {}, //物流对象
 			examVO: {}, //电子凭证对象
 			groupBuyGoodsVO: {}, //组团优惠活动详情对象
-			unremittinglyVO: {} //坚持不懈活动详情对象
+			unremittinglyVO: {}, //坚持不懈活动详情对象
+			payOrderVO: {} //订单支付对象
 		};
 	},
 	computed: {
@@ -258,6 +266,20 @@ export default {
 		queryExam(data){
 			this.examVO = data;
 			this.$refs.examPop.open();
+		},
+		
+		// 支付订单
+		payOrder(){
+			this.payOrderVO = {
+				orderNum: this.orderVO.orderNum,
+				payOrderNum: this.orderVO.orderTotalNum
+			}
+			this.$refs.paymentPopup.open();
+		},
+		
+		// 取消支付
+		cancelPay(){
+			this.$refs.paymentPopup.close();
 		}
 	}
 };

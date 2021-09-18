@@ -173,6 +173,8 @@ export default {
 					
 					this.carList = res || [];
 					
+					this.getOrderDetail();
+					
 				});
 		},
 		
@@ -236,11 +238,13 @@ export default {
 			
 			this.goodsList = goodsList;
 			
-			this.$http
-				.post('/order/getDetail', {goodsList:goodsList}, true)
-				.then(res => {
-					this.orderVO = res;
-				});
+			if(goodsList.length > 0){
+				this.$http
+					.post('/order/getDetail', {goodsList:goodsList}, true)
+					.then(res => {
+						this.orderVO = res;
+					});
+			}
 		},
 		
 		/**
@@ -318,7 +322,6 @@ export default {
 				.post('/shopping/cart/modify', {goodsNum:value,shoppingCartId: shoppingCartId}, true)
 				.then(res => {
 					this.queryShoppintCar();
-					this.getOrderDetail();
 				});
 		},
 		

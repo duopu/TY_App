@@ -33,7 +33,7 @@
 			<button v-if="storeGoodsVO.entityGoodsId && (storeGoodsVO.orderState === 2 || storeGoodsVO.orderState === 3 || storeGoodsVO.orderState === 4)" class="btn btn-border black" @click.stop="queryLogistics">查看物流</button>
 			<button v-if="storeGoodsVO.orderState === 2" class="btn btn-block" @click="receivedOrder">确认收货</button>
 			<button v-if="storeGoodsVO.orderState === 3" class="btn btn-block" @click.stop="evaluateOrder">去评价</button>
-			<button v-if="storeGoodsVO.orderState === 4 || storeGoodsVO.orderState === 10" class="btn btn-border grey" @click.stop="deletOrder">删除订单</button>
+			<button v-if="storeGoodsVO.orderState === -1 || storeGoodsVO.orderState === 4 || storeGoodsVO.orderState === 10" class="btn btn-border grey" @click.stop="deletOrder">删除订单</button>
 		</view>
 		
 		<!-- 底部的插槽 -->
@@ -45,7 +45,7 @@
 <script>
 export default {
 	name: 'goods-order-list-item',
-	emits: ['goodsClick', 'queryLogistics', 'queryExam'],
+	emits: ['goodsClick', 'queryLogistics', 'queryExam', 'payOrder'],
 	props: {
 		type: {
 			type: Number,
@@ -80,7 +80,7 @@ export default {
 				case -1:
 					return '已取消';
 					break;
-				case 0:
+				case 0: case 21: case 22:
 					return '待付款';
 					break;
 				case 1:
@@ -92,13 +92,10 @@ export default {
 				case 3:
 					return '待评价';
 					break;
-				case 10:
+				case 4: case 10:
 					return '已完成';
 					break;
-				case 5: case 11:
-					return '申请退款中';
-					break;
-				case 6: case 12: case 14: case 15: case 23: case 24:
+				case 5: case 11: case 6: case 12: case 14: case 15: case 23: case 24:
 					return '退款中';
 					break;
 				case 7: case 13:
@@ -144,8 +141,7 @@ export default {
 			
 		// 支付订单
 		payOrder(){
-			//TODO: 这里需要掉支付接口
-			// this.$store.commit('setOrderChange');
+			this.$emit('payOrder');
 		},
 		// 删除订单
 		deletOrder(){

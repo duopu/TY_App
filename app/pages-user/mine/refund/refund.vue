@@ -102,22 +102,38 @@ export default {
 				this.refundParams.refundMsg = res.refundMsg;
 				this.refundParams.refundAddMsg = res.refundAddMsg;
 				this.refundParams.refundImg = res.refundImg;
-				this.refundImgs = res.refundImg.map(value => {
-					let name = this.formatterImgName(value);
+				
+				this.refundImgs = [];
+				this.refundUploadImgs = [];
+				for(var i=0; i< res.refundImg || []; i++){
+					let name = this.formatterImgName(res.refundImg[i]);
 					let extname = this.formatterImgType(name);
-					return {
+					this.refundImgs.push({
 						name: name,
 						extname: extname,
-						url: value
-					};
-				});
-				this.refundUploadImgs = res.refundImg.map(value => {
-					return {
-						tempFilePath: value,
-						serviceFilePath: value
-					};
-				});
-				if (res.refundMsg && res.refundAddMsg.length > 0) {
+						url: res.refundImg[i]
+					});
+					this.refundUploadImgs.push({
+						tempFilePath: res.refundImg[i],
+						serviceFilePath: res.refundImg[i]
+					});
+				}
+				// this.refundImgs = res.refundImg && res.refundImg.map(value => {
+				// 	let name = this.formatterImgName(value);
+				// 	let extname = this.formatterImgType(name);
+				// 	return {
+				// 		name: name,
+				// 		extname: extname,
+				// 		url: value
+				// 	};
+				// });
+				// this.refundUploadImgs = res.refundImg && res.refundImg.map(value => {
+				// 	return {
+				// 		tempFilePath: value,
+				// 		serviceFilePath: value
+				// 	};
+				// });
+				if (res.refundMsg && res.refundMsg.length > 0) {
 					for (var i = 0; i < this.reasonList.length; i++) {
 						if (this.reasonList[i].reason === res.refundMsg) {
 							this.reasonIndex = i;
@@ -187,10 +203,10 @@ export default {
 				return;
 			}
 
-			// if(this.refundParams.refundAmount <= 0){
-			// 	this.$tool.showToast("退款金额不能为0");
-			// 	return;
-			// }
+			if(this.refundParams.refundAmount < 0){
+				this.$tool.showToast("退款金额不能小于0");
+				return;
+			}
 
 			let orginRefundAmount = this.orderVO.refundAmount || this.orderVO.payAmount;
 			if (this.refundParams.refundAmount > orginRefundAmount) {

@@ -81,8 +81,10 @@ const logout = ()=>{
 	
 	// 清除用户的默认地址信息
 	store.commit('setDefaultAddress',{});
-	// 清楚邀请人ID
-	store.commit('setInviterId',undefined);
+	// 这里要把邀请人、邀请人分销商品全部清空掉
+	this.$store.commit('setInviterId', undefined);
+	this.$store.commit('setinviterGoodsId', undefined);
+	
 	uni.removeStorage({
 		key:config.storageKeys.loginUserKey,
 	})
@@ -109,16 +111,17 @@ uni.getSystemInfo({
 
 /**
  * 订单支付
+ * @param {String} payOrderNum 支付单号 
  * @param {String} orderNum 订单编号 
  * @param {int} payType 支付类型  1支付宝  2微信 
  */
-const orderPay = (orderNum, payType)=>{
+const orderPay = (payOrderNum, orderNum, payType)=>{
 	
 	return new Promise((resolve, reject) => {
 		
 		if(payType === 1){
 			// TODO: 这里何佳文接口返回的字段不符合支付宝要求，待商议
-			request.get('/order/aliPayForApp',{orderNum: orderNum},true).then(res => {
+			request.get('/order/aliPayForApp',{orderNum: payOrderNum},true).then(res => {
 				uni.requestPayment({
 				    provider: 'alipay',
 				    orderInfo: res, 
@@ -142,7 +145,7 @@ const orderPay = (orderNum, payType)=>{
 			})
 		}else if(payType === 2){
 			// TODO: 这里何佳文接口返回的字段不符合微信要求，待商议
-			request.get('/order/wechatPayForApp',{orderNum: orderNum},true).then(res => {
+			request.get('/order/wechatPayForApp',{orderNum: payOrderNum},true).then(res => {
 				uni.requestPayment({
 				    provider: "wxpay", 
 				    orderInfo: res,

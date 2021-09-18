@@ -33,21 +33,29 @@
 <script>
 export default {
 	name: 'common-payment-popup',
+	emits: ['cancelPay'],
 	props: {
-		payOrderNum: { //订单编号
-			type: String,
-			default: undefined
+		data: { 
+			type: Object,
+			default: {
+				orderNum: undefined, //订单编号
+				orderPayAmount: 0 ,//订单需支付金额
+				payOrderNum: undefined //支付单号
+			}
 		}
 	},
 	data() {
 		return {
 			payIndex: undefined, //支付类型  1支付宝  2微信
-			orderNum: this.payOrderNum
+			submitOrderVO: this.data //提交订单接口返回的对象
 		};
 	},
 	watch: {
-		payOrderNum(newV, oldV){
-			this.orderNum = newV;
+		data: {
+			handler(newV, oldV){
+				this.submitOrderVO = newV;
+			},
+			deep: true
 		}
 	},
 	methods: {
@@ -64,7 +72,7 @@ export default {
 			if (this.payIndex === value) return;
 			this.payIndex = value;
 			this.close();
-			this.$tool.orderPay(this.orderNum, value).then(res => {
+			this.$tool.orderPay(this.submitOrderVO.payOrderNum, this.submitOrderVO.orderNum, value).then(res => {
 				this.$store.commit('setOrderChange');
 			}).catch(err => {
 				this.$store.commit('setOrderChange');
@@ -77,11 +85,18 @@ export default {
 			    content: '是否取消支付',
 			    success: (res) => {
 			        if (res.confirm) {
-			            this.close();
+			            
+						// 这里判断如果父组件监听了取消支付的事件，则不再走后续流程，适合订单列表、订单详情页来监听
+						if(this.$listeners['cancelPay']){
+							this.$emit('cancelPay')
+							return
+						}
+						
+						this.close();
 						this.$store.commit('setOrderChange');
 						// 跳转到订单详情页
 						uni.redirectTo({
-							url: `/pages-user/mine/order-details/order-details?orderNum=${this.orderNum}`
+							url: `/pages-user/mine/order-details/order-details?orderNum=${this.submitOrderVO.orderNum}`
 						});
 			        } 
 			    }

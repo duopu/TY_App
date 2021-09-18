@@ -282,7 +282,11 @@ export default {
 				price = storeFreightConfigVO.freightAmount;
 			}
 			return price;
-		}
+		},
+		// 邀请人ID
+		inviterId: state => state.inviterId,
+		// 邀请人分销商品ID
+		inviterGoodsId: state => state.inviterGoodsId
 	}),
 	watch: {
 		'$store.state.goodsDetailsHeightChange': {
@@ -301,6 +305,11 @@ export default {
 		this.getGoodsInfo();
 		this.getComment();
 		this.getCouponInfo();
+	},
+	onUnload(){
+		// 这里要把邀请人、邀请人分销商品全部清空掉
+		this.$store.commit('setInviterId', undefined);
+		this.$store.commit('setinviterGoodsId', undefined);
 	},
 	methods: {
 		// 获取当前 tab index
@@ -544,17 +553,24 @@ export default {
 		goodsAttributesSubmit({goodsAttributes,count}){
 			this.selectGoodsVO = {...goodsAttributes,goodsNum:count};
 			if(this.goodsClassifyPopType === 1){ //加入购物车
+				let addCarParams = {
+					goodsId: this.goodsInfo.goodsId,
+					attributesId: goodsAttributes.attributesId, 
+					goodsNum: count,
+					distributorId: this.inviterGoodsId == this.goodsInfo.goodsId ? this.inviterId : undefined  //这里要判断如果当前是商品是通过分销口令打开的，就设置邀请人ID
+				}
 				this.$http
-					.post('/shopping/cart/add', {goodsId:this.goodsInfo.goodsId, attributesId:goodsAttributes.attributesId}, true)
+					.post('/shopping/cart/add', addCarParams, true)
 					.then(res => {
 						this.$tool.showSuccess("添加成功，在购物车等亲~");
 					});
 			}else{ //立即购买
 			
 				let storeGoodList = [{
-					attributesId:goodsAttributes.attributesId,
+					attributesId: goodsAttributes.attributesId,
 					goodsId: this.goodsInfo.goodsId,
-					goodsNum: count,		 
+					goodsNum: count,	
+					distributorId: this.inviterGoodsId == this.goodsInfo.goodsId ? this.inviterId : undefined  //这里要判断如果当前是商品是通过分销口令打开的，就设置邀请人ID
 				}];
 				// 设置下单时要购买的商品
 				this.$store.commit('setStoreGoodsList',storeGoodList)

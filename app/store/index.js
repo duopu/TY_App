@@ -19,7 +19,8 @@ const store = new Vuex.Store({
 		interestList: [],  // 用户兴趣点， 类型 categoryId: number ，img: string ,interestName: string
 		groupConversationMap: {},// 会话map，key：群组id  value：会话对象
 		storeInfo: {}, // 店铺信息  给商家端使用
-		inviterId: undefined //邀请人ID
+		inviterId: undefined ,//邀请人ID
+		inviterGoodsId: undefined //邀请人分销的商品ID
     },
 	
 	mutations:{
@@ -151,6 +152,15 @@ const store = new Vuex.Store({
 		 */
 		setInviterId(state, inviterId){
 			state.inviterId = inviterId;
+		},
+		
+		/**
+		 * 设置邀请人分销的商品ID
+		 * @param {Object} state
+		 * @param {Object} inviterGoodsId 邀请人分销的商品ID
+		 */
+		setinviterGoodsId(state, inviterGoodsId){
+			state.inviterGoodsId = inviterGoodsId;
 		}
 	},
 	
