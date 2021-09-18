@@ -82,8 +82,8 @@ const logout = ()=>{
 	// 清除用户的默认地址信息
 	store.commit('setDefaultAddress',{});
 	// 这里要把邀请人、邀请人分销商品全部清空掉
-	this.$store.commit('setInviterId', undefined);
-	this.$store.commit('setinviterGoodsId', undefined);
+	store.commit('setInviterId', undefined);
+	store.commit('setinviterGoodsId', undefined);
 	
 	uni.removeStorage({
 		key:config.storageKeys.loginUserKey,
