@@ -67,14 +67,14 @@
         "nativePlugins" : {
             "TX-TencentIM-Plus" : {
                 "__plugin_info__" : {
-                    "name" : "腾讯im增强版sdk qq群：933785472 - [试用版，仅用于自定义调试基座]",
+                    "name" : "腾讯im增强版sdk qq群：933785472",
                     "description" : "腾讯im插件助力轻松接入im的功能",
                     "platforms" : "Android,iOS",
                     "url" : "https://ext.dcloud.net.cn/plugin?id=5405",
-                    "android_package_name" : "",
-                    "ios_bundle_id" : "",
+                    "android_package_name" : "com.ihomefnt.tyjy",
+                    "ios_bundle_id" : "com.ihomefnt.tyjy",
                     "isCloud" : true,
-                    "bought" : 0,
+                    "bought" : 1,
                     "pid" : "5405",
                     "parameters" : {}
                 }
