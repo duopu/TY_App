@@ -19,7 +19,7 @@
 		</view>
 		<!-- 最新资讯 -->
 		<view class="flex consult">
-			<image class="image-left flex-1" src="../../../static/images/other/good_banner.png" mode="aspectFill">
+			<image class="image-left flex-1" @click="gotoConsult/" src="../../../static/images/other/good_banner.png" mode="aspectFill">
 			</image>
 			<view class="flex-1 flex-column">
 				<image class="image-right" src="../../../static/images/other/good_banner.png" mode="aspectFill"></image>
@@ -306,6 +306,12 @@
 						this.clsssData = null;
 					}
 				});
+			},
+			// 跳转资讯页面
+			gotoConsult(){
+				uni.navigateTo({
+					url:'/pages-user/index/consult/consult'
+				})
 			}
 		}
 	};
