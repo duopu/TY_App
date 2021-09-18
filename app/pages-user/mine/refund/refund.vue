@@ -103,9 +103,10 @@ export default {
 				this.refundParams.refundAddMsg = res.refundAddMsg;
 				this.refundParams.refundImg = res.refundImg;
 				
+				// 这里设置回显的图片数组
 				this.refundImgs = [];
 				this.refundUploadImgs = [];
-				for(var i=0; i< res.refundImg || []; i++){
+				for(var i=0; i< (res.refundImg || []).length; i++){
 					let name = this.formatterImgName(res.refundImg[i]);
 					let extname = this.formatterImgType(name);
 					this.refundImgs.push({
@@ -118,21 +119,8 @@ export default {
 						serviceFilePath: res.refundImg[i]
 					});
 				}
-				// this.refundImgs = res.refundImg && res.refundImg.map(value => {
-				// 	let name = this.formatterImgName(value);
-				// 	let extname = this.formatterImgType(name);
-				// 	return {
-				// 		name: name,
-				// 		extname: extname,
-				// 		url: value
-				// 	};
-				// });
-				// this.refundUploadImgs = res.refundImg && res.refundImg.map(value => {
-				// 	return {
-				// 		tempFilePath: value,
-				// 		serviceFilePath: value
-				// 	};
-				// });
+				
+				// 这里设置回显的退款原因
 				if (res.refundMsg && res.refundMsg.length > 0) {
 					for (var i = 0; i < this.reasonList.length; i++) {
 						if (this.reasonList[i].reason === res.refundMsg) {
