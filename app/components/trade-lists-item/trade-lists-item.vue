@@ -6,8 +6,8 @@
 			<!-- 商家 -->
 			<view class="flex-center" v-if="role === 0">
 				<image class="avatar-image" src="../../static/images/other/girl.png"></image>
-				<text class="text-bold">{{dataItem.name}}</text>
-				<text class="color-9">{{dataItem.address}}</text>
+				<text class="text-bold">{{dataItem.orderDetailVO.name}}</text>
+				<text class="color-9">{{dataItem.orderDetailVO.address}}</text>
 			</view>
 			<!-- 用户消息 -->
 			<view class="text-bold merchant-name" v-else-if="role === 1">商家名称</view>
@@ -16,25 +16,25 @@
 		</view>
 		<!-- 主体 -->
 		<view class="item-content flex">
-			<image class="goods-image" mode="aspectFill" :src="dataItem.thumbnail"></image>
+			<image class="goods-image" mode="aspectFill" :src="dataItem.orderDetailVO.thumbnail"></image>
 			<view class="flex-1 flex-column-between">
-				<view class="text-bold">{{dataItem.goodsName}}</view>
+				<view class="text-bold">{{dataItem.orderDetailVO.goodsName}}</view>
 				<view class="flex-center-between">
-					<view class="tag">{{dataItem.attributesName}}</view>
-					<view class="color-9 number">×{{dataItem.goodsNum}}</view>
+					<view class="tag">{{dataItem.orderDetailVO.attributesName}}</view>
+					<view class="color-9 number">×{{dataItem.orderDetailVO.goodsNum}}</view>
 				</view>
 			</view>
 		</view>
 		<!-- 底部 -->
 		<view class="item-bottom flex-center">
 			<!-- 时间 - 商家状态显示 -->
-			<view class="color-9" v-if="role === 0">{{dataItem.createTime}}</view>
+			<view class="color-9" v-if="role === 0">{{dataItem.orderDetailVO.createTime}}</view>
 			<!-- 金钱 -->
 			<view class="flex-center pay-block">
 				<text>{{ role === 0 ? '已支付：' : '实付款:' }}</text>
 				<view class="text-bold flex-center price">
 					<view class="unit">¥</view>
-					<view>{{dataItem.payAmount}}</view>
+					<view>{{dataItem.orderDetailVO.payAmount}}</view>
 				</view>
 			</view>
 		</view>
@@ -63,7 +63,7 @@ export default {
 		};
 	},
 	created(){
-		// console.info(this.dataItem);
+		console.info(this.dataItem);
 	}
 };
 </script>

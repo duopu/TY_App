@@ -65,10 +65,30 @@
 				</view>
 			</view>
 		</view>
+		<view class="logistics-box" v-if="showModal">
+			<view class="content">
+				<view class="form-item">
+					<text class="label">物流公司</text>
+					<picker class="picker" @change="bindPickerChange" range-key="deliveryName" :range="list">
+						<view class="uni-input">{{ index> -1 ? list[index].deliveryName : '请选择'}}</view>
+					</picker>
+				</view>
+				<view class="form-item">
+					<text class="label">物流单号</text>
+					<input type="text" @input="(event) => this.deliveryNum = event.detail.value"  class="border input" placeholder-class="input-placeholder" placeholder="请输入" />
+				</view>
+
+				<view class="logistics-btn">
+					<view class="btn-item" @click="publishGoods">确定</view>
+					<view class="btn-item" @click="showModal = false">取消</view>
+				</view>
+			</view>
+		</view>
 		<!-- 待发货 -->
-		<button v-if="orderInfo.orderState == 1" @click="publishGoods" class="btn">发货</button>
+		<button v-if="orderInfo.orderState == 1" @click="showModal = true" class="btn">发货</button>
 		<!-- 待收货 -->
 		<button class="btn">物流详情</button>
+
 	</scroll-view>
 </template>
 
@@ -77,13 +97,17 @@ export default {
 	data() {
 		return {
 			orderInfo: {
-				orderItemList: []
-			}
+				orderItemList: [],
+			},
+			index: -1,
+			list: [],
+			showModal: true
 		};
 	},
 	onLoad(option){
 		this.orderId = option.orderId;
 		this.queryInfo();
+		this.queryExpress();
 	},
 	methods: {
 		queryInfo(){
@@ -92,10 +116,31 @@ export default {
 			})
 		},
 		publishGoods(){
-			this.$http.get('/order/queryDetail',{orderNum: this.orderId}).then(res => {
-				this.orderInfo = res;
+			let params = {
+				...this.list[this.index],
+				deliveryNum: this.deliveryNum,
+				orderNum: this.orderId
+			};
+			this.$http.get('/order/delivery', params).then(res => {
+				// this.orderInfo = res;
+				uni.showToast({
+					title: '发货成功'
+				});
+				this.queryInfo();
+			}).catch(err => {
+
 			})
-		}
+		},
+		queryExpress(){
+			this.$http.get('/order/queryExpress',{orderNum: this.orderId}).then(res => {
+				this.list = res;
+			})
+		},
+		bindPickerChange(event){
+			console.info(event.detail);
+			this.index = event.detail.value;
+		},
+		logistics(){}
 	}
 };
 </script>
