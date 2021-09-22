@@ -334,9 +334,10 @@ export default {
 	
 			// 设置下单时要购买的商品
 			this.$store.commit('setStoreGoodsList',this.goodsList);
-						
+					
+			// 跳转到下单页面（会额外携带参数告诉是从购物车下的订单）	
 			uni.navigateTo({
-				url: `/pages-user/index/confirm/confirm`
+				url: `/pages-user/index/confirm/confirm?pageFrom=car`
 			});
 		}
 		

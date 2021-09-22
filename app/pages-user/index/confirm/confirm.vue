@@ -152,6 +152,7 @@ export default {
 				address: undefined,
 				useGoldCoin: 0,
 				mobile: undefined,
+				shoppingCartBuy: 0,
 				name: undefined,
 				platFormCouponId: undefined,
 				storeGoodsList: []
@@ -171,7 +172,12 @@ export default {
 			this.refreshOrderDetailParams.mobile = phone;
 		}
 	},
-	onLoad() {
+	onLoad(option) {
+		let pageFrom = option.pageFrom;
+		// 如果是购物车页面下的订单，shoppingCartBuy赋值为1
+		if(pageFrom === 'car'){
+			this.refreshOrderDetailParams.shoppingCartBuy = 1;
+		}
 		this.getOrderDetail();
 	},
 	methods: {
@@ -275,6 +281,7 @@ export default {
 				useGoldCoin: data.useGoldCoin,
 				mobile: this.defaultAddress.phone,
 				name: this.defaultAddress.name,
+				shoppingCartBuy: this.refreshOrderDetailParams.shoppingCartBuy,
 				platFormCouponId: data.platformCouponId,
 				storeGoodsList: storeGoodsList
 			};

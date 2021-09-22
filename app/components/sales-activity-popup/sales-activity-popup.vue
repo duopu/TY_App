@@ -23,7 +23,13 @@
 				<text>{{unremittinglyVO.goodsName}}</text>
 			</view>
 			<view v-if="showBottom" class="row no-border flex-center-between">
-				<input v-if="unremittinglyVO.unremittinglyNumberFlag === 1" class="input" type="text" placeholder="请输入活动号" placeholder-class="input-placeholder" v-model="unremittinglyVO.unremittinglyNumber">
+				<input v-if="unremittinglyVO.unremittinglyNumberFlag === 1" 
+				class="input" 
+				type="number" 
+				placeholder="请输入活动号" 
+				placeholder-class="input-placeholder" 
+				:maxlength="20" 
+				v-model="unremittinglyNumber">
 				<button class="btn-block" @click="submit">立即参加</button>
 			</view>
 		</view>
@@ -58,7 +64,8 @@ export default {
 	},
 	data() {
 		return {
-			unremittinglyVO:this.data
+			unremittinglyVO:this.data,
+			unremittinglyNumber: undefined //活动号
 		};
 	},
 	watch: {
@@ -76,9 +83,16 @@ export default {
 			this.$refs.popup.close();
 		},
 		submit(){
-			if(this.unremittinglyVO.unremittinglyNumberFlag === 1 && (this.unremittinglyVO.unremittinglyNumber === undefined || this.unremittinglyVO.unremittinglyNumber.length === 0)){
-				this.$tool.showToast("请输入活动号");
-				return
+			if(this.unremittinglyVO.unremittinglyNumberFlag === 1 ){
+				if(!(this.unremittinglyNumber && this.unremittinglyNumber.length > 0)){
+					this.$tool.showToast("请输入活动号");
+					return
+				}
+				
+				if(this.unremittinglyNumber != this.unremittinglyVO.unremittinglyNumber){
+					this.$tool.showToast("活动号不正确");
+					return
+				}
 			}
 			this.$emit('submit',this.unremittinglyVO);
 		}

@@ -101,6 +101,10 @@ export default {
 	onLoad(option) {
 		
 	},
+	onUnload(){
+		// 这里要把邀请人清空掉
+		this.$store.commit('setInviterId', undefined);
+	},
 	methods: {
 		// 打开 支付方式弹窗
 		openPopup(value) {
