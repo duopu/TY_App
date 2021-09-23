@@ -72,7 +72,7 @@ export default {
 			if (this.payIndex === value) return;
 			this.payIndex = value;
 			this.close();
-			this.$tool.orderPay(this.submitOrderVO.payOrderNum, this.submitOrderVO.orderNum, value).then(res => {
+			this.$tool.orderPay(this.submitOrderVO.payOrderNum, value).then(res => {
 				this.$store.commit('setOrderChange');
 			}).catch(err => {
 				this.$store.commit('setOrderChange');
@@ -94,9 +94,9 @@ export default {
 						
 						this.close();
 						this.$store.commit('setOrderChange');
-						// 跳转到订单详情页
+						// 跳转到订单列表页
 						uni.redirectTo({
-							url: `/pages-user/mine/order-details/order-details?orderNum=${this.submitOrderVO.orderNum}`
+							url: `/pages-user/mine/order/order`
 						});
 			        } 
 			    }

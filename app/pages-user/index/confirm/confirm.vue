@@ -225,9 +225,9 @@ export default {
 				this.$store.commit('setInviterId', undefined);
 				this.$store.commit('setinviterGoodsId', undefined);
 				
-				if (res.orderPayAmount === 0) { //如果支付金额是0元，直接跳转到我的订单详情页
+				if (res.orderPayAmount === 0) { //如果支付金额是0元，直接跳转到订单列表页
 					uni.redirectTo({
-						url: `/pages-user/mine/order-details/order-details?orderNum=${res.orderNum}`
+						url: `/pages-user/mine/order/order`
 					});
 				} else { //弹出支付弹窗
 					this.openPopup('paymentPopup');
