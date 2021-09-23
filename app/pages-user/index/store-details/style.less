@@ -6,7 +6,7 @@
 	overflow: hidden;
 	.store-top {
 		flex-shrink: 0;
-		padding: 20rpx;
+		padding:calc(var(--status-bar-height) + 20rpx) 20rpx 20rpx;
 		z-index: 101;
 		background-color: #FFFFFF;
 		.icon-back {
@@ -57,6 +57,9 @@
 		margin-top: 24rpx;
 		color: #666;
 	}
+}
+::v-deep .course-lists-item{
+	margin: auto 20rpx;
 }
 // 内容
 .store-content {

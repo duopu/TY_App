@@ -22,15 +22,15 @@
 				<text class="label text-bold">活动奖品：</text>
 				<text>{{unremittinglyVO.goodsName}}</text>
 			</view>
-			<view v-if="showBottom" class="row no-border flex-center-between">
+			<view v-if="showBottom" class="row no-border flex-center-center">
 				<input v-if="unremittinglyVO.unremittinglyNumberFlag === 1" 
-				class="input" 
+				class="input flex-1" 
 				type="number" 
 				placeholder="请输入活动号" 
 				placeholder-class="input-placeholder" 
 				:maxlength="20" 
 				v-model="unremittinglyNumber">
-				<button class="btn-block" @click="submit">立即参加</button>
+				<button class="btn-block" :class="{large:unremittinglyVO.unremittinglyNumberFlag !== 1}" @click="submit">立即参加</button>
 			</view>
 		</view>
 	</uni-popup>

@@ -2,10 +2,10 @@
 <template>
 	<scroll-view scroll-y="true" class="main-content" :scroll-top="scrollTop">
 		<!-- 轮播图 -->
-		<view class="swiper">
+		<view class="swiper-content">
 			<swiper class="swiper" :indicator-dots="true" :autoplay="true" interval="4000" duration="500">
 				<swiper-item v-for="item in bannerList">
-					<image class="swiper-img" :src="item.image" mode=""></image>
+					<image class="swiper-img" :src="item.image" mode="aspectFill"></image>
 				</swiper-item>
 			</swiper>
 		</view>

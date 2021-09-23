@@ -1,6 +1,6 @@
 <!-- 商品 拼团 -->
 <template>
-	<uni-popup ref="popup" :safeArea="false" type="bottom">
+	<uni-popup class="custom-popup" ref="popup" :safeArea="false" type="bottom">
 		<view class="popup-main">
 			<view class="title text-bold">
 				拼团详情

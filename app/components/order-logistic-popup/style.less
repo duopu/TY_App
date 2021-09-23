@@ -1,7 +1,10 @@
 .popup-main {
-	padding: 0 20rpx 40rpx;
+	height: 60vh;
+	padding: 0 20rpx 20rpx;
 	background-color: #ffffff;
 	border-radius: 32rpx 32rpx 0 0;
+	box-sizing: border-box;
+	overflow: hidden;
 	.icon {
 		width: 40rpx;
 		height: 40rpx;
@@ -20,7 +23,8 @@
 		text-align: center;
 	}
 	.lists {
-		margin: 70rpx 45rpx 70rpx 50rpx;
+		height: 100%;
+		overflow: hidden;
 		.circle {
 			flex-shrink: 0;
 			margin-right: 40rpx;
@@ -28,34 +32,36 @@
 			height: 16rpx;
 			border: 2rpx solid #e5e5e5;
 			border-radius: 50%;
-			background-color: #FFFFFF;
+			background-color: #ffffff;
 			z-index: 2;
 			box-sizing: border-box;
 		}
 		.item {
+			margin: 0 20rpx 0 40rpx;
 			position: relative;
 			font-size: 28rpx;
 			padding-bottom: 70rpx;
 			color: #999999;
-			&:last-child{
+			word-break: break-word;
+			&:last-child {
 				padding-bottom: 0;
-				&::before{
+				&::before {
 					content: none;
 				}
 			}
-			&::before{
+			&::before {
 				content: '';
 				position: absolute;
 				left: 9rpx;
 				bottom: -10rpx;
 				height: 100%;
 				width: 2rpx;
-				background-color: #E5E5E5;
+				background-color: #e5e5e5;
 				z-index: 1;
 			}
-			&.on{
+			&.on {
 				color: #222222;
-				.circle{
+				.circle {
 					margin-left: -6rpx;
 					margin-right: 34rpx;
 					width: 28rpx;
@@ -65,12 +71,24 @@
 					background-size: 100% 100%;
 					border: 0;
 				}
-				.time{
-					color: #FF705B;
+				.time {
+					color: #ff705b;
 				}
 			}
-			.time{
+			.time {
 				margin-left: 20rpx;
+				flex-shrink: 0;
+				align-self: flex-start;
+				font-size: 24rpx;
+			}
+			.text {
+				text-overflow: -o-ellipsis-lastline;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				line-clamp: 2;
+				-webkit-box-orient: vertical;
 			}
 		}
 	}
@@ -79,7 +97,6 @@
 		font-size: 28rpx;
 		padding: 12rpx 0;
 		.btn {
-			margin-left: 24rpx;
 			flex: 1;
 			height: 80rpx;
 			font-size: 28rpx;

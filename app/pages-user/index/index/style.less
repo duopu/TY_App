@@ -69,6 +69,7 @@
 		height: 40rpx;
 	}
 }
+
 //内容
 .main-content {
 	flex: 1;
@@ -101,8 +102,22 @@
 		}
 	}
 	// banner switch
-	.swiper {
+	.swiper-content {
 		margin: auto 20rpx;
+		.swiper-img{
+			width: 100%;
+		}
+		::v-deep .uni-swiper-dots{
+			.uni-swiper-dot{
+				width: 30rpx;
+				height: 6rpx;
+				background-color: rgba(#FFFFFF,.6);
+				border-radius:30%;
+				&.uni-swiper-dot-active{
+					background-color: #FFFFFF;
+				}
+			}
+		}
 	}
 	// 菜单
 	.menus {
