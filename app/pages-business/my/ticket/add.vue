@@ -38,13 +38,13 @@
 					<text class="desc">张</text>
 				</view>
 				<view class="row">
-					<view class="radio-flex">
+					<view class="flex">
 						<view class="radio flex-center">
 							<text class="radio-circle" @click="timeRadio = 1" v-bind:class="timeRadio === 1 ? 'on' : ''"></text>
 						</view>
 						<view>
 							<view class="label">领券开始日期~领券结束日期</view>
-							<view class="flex-center m-top-8 time">
+							<view class="flex-center m-top-8 flex-1">
 								<picker mode="date" class="border" @change="fromChange" data-key="effectStartDate">
 									<view>{{ ticketFormData.effectStartDate }}</view>
 								</picker>
