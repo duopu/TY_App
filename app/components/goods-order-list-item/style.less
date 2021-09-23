@@ -63,11 +63,49 @@
 	// 底部
 	.bottom{
 		margin-top: 32rpx;
-		justify-content: flex-end;
-		flex-wrap: wrap;
+		padding-top: 20rpx;
 		border-top:1rpx solid #DFE0E6;
+		.dots{
+			position: relative;
+			z-index: 2;
+			.icon-dots{
+				width: 48rpx;
+				height: 48rpx;
+			}
+			&.on .dots-list{
+				height: auto;
+				overflow: auto;
+				z-index: 2;
+				opacity: 1;
+			}
+			.dots-list{
+				height: 0;
+				position: absolute;
+				width: 160rpx;
+				background-color: #FFFFFF;
+				box-shadow: 0rpx 0rpx 8rpx 0rpx rgba(0, 0, 0, 0.1);
+				border-radius: 0rpx 40rpx 40rpx 40rpx;
+				opacity: 0;
+				z-index: -1;
+				transition: all .1s ease;
+				.btn-text{
+					margin: 0;
+					padding: 28rpx;
+					height: auto;
+					font-size: 26rpx;
+					color: #999999;
+					line-height: 1.1;
+					letter-spacing: 1rpx;
+					white-space: nowrap;
+					background-color: transparent;
+					& + .btn-text{
+						border-top: 1rpx solid #DFE0E6;
+					}
+				}
+			}
+		}
 		.btn{
-			margin: 20rpx 0 0 16rpx;
+			margin: 0 0 0 16rpx;
 			padding: 0 28rpx;
 			min-width: 160rpx;
 			height: 56rpx;
