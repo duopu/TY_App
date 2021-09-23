@@ -112,10 +112,9 @@ uni.getSystemInfo({
 /**
  * 订单支付
  * @param {String} payOrderNum 支付单号 
- * @param {String} orderNum 订单编号 
  * @param {int} payType 支付类型  1支付宝  2微信 
  */
-const orderPay = (payOrderNum, orderNum, payType)=>{
+const orderPay = (payOrderNum, payType)=>{
 	
 	return new Promise((resolve, reject) => {
 		
@@ -128,17 +127,17 @@ const orderPay = (payOrderNum, orderNum, payType)=>{
 				    success: function (res) {
 				        console.log('success:' + JSON.stringify(res));
 						resolve(res);
-						// 跳转到订单详情页
+						// 跳转到订单列表页
 						uni.redirectTo({
-							url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+							url: `/pages-user/mine/order/order`
 						});
 				    },
 				    fail: function (err) {
 				        console.log('fail:' + JSON.stringify(err));
 						reject(err);
-						// 跳转到订单详情页
+						// 跳转到订单列表页
 						uni.redirectTo({
-							url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+							url: `/pages-user/mine/order/order`
 						});
 				    }
 				});
@@ -152,17 +151,17 @@ const orderPay = (payOrderNum, orderNum, payType)=>{
 				    success: function (res) {
 						console.log('success:' + JSON.stringify(res));
 						resolve(res);
-						// 跳转到订单详情页
+						// 跳转到订单列表页
 						uni.redirectTo({
-							url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+							url: `/pages-user/mine/order/order`
 						});
 					},
 				    fail: function (e) {
 						console.log('fail:' + JSON.stringify(err));
 						reject(err);
-						// 跳转到订单详情页
+						// 跳转到订单列表页
 						uni.redirectTo({
-							url: `/pages-user/mine/order-details/order-details?orderNum=${orderNum}`
+							url: `/pages-user/mine/order/order`
 						});
 					}
 				})
