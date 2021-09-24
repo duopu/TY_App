@@ -27,73 +27,25 @@
 
 		<!-- 底部操作按钮 -->
 		<view class="flex-center-between bottom">
-			<view class="dots" @click="clickDots">
+			
+			<!-- 更多按钮 -->
+			<view v-if="moreOptionBtns.length > 0" class="dots" @click="openMore">
 				<image class="icon-dots" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 				<view class="dots-list">
-					<button class="btn-text">申请退款</button>
-					<button class="btn-text">申请退款</button>
+					<button v-for="(value,index) in moreOptionBtns" 
+					class="btn-text" 
+					:key="`more-btn-${index}`" 
+					@click.stop="handleFunctionCall(value.method)">{{value.name}}</button>
 				</view>
-			</view>
-			<!-- 按钮 -->
+			</view>	
+			
+			
+			<!-- 操作按钮，最多展示3个，超过3个后其余的放入更多中展示 -->
 			<view class="flex-center-end">
-				<button v-if="storeGoodsVO.orderState === 0" class="btn btn-border grey" @click.stop="cancelOrder">取消订单</button>
-				<button v-if="storeGoodsVO.orderState === 0 || storeGoodsVO.orderState === 22" class="btn btn-block" @click.stop="payOrder">支付订单</button>
-				<button
-					v-if="
-						storeGoodsVO.orderState === 1 ||
-							storeGoodsVO.orderState === 2 ||
-							storeGoodsVO.orderState === 3 ||
-							storeGoodsVO.orderState === 4 ||
-							storeGoodsVO.orderState === 8 ||
-							storeGoodsVO.orderState === 16 ||
-							storeGoodsVO.orderState === 21 ||
-							storeGoodsVO.orderState === 22
-					"
-					class="btn btn-border grey"
-					@click.stop="applyRefund"
-				>
-					申请退款
-				</button>
-				<button
-					v-if="
-						storeGoodsVO.orderState === 5 ||
-							storeGoodsVO.orderState === 6 ||
-							storeGoodsVO.orderState === 7 ||
-							storeGoodsVO.orderState === 8 ||
-							storeGoodsVO.orderState === 9 ||
-							storeGoodsVO.orderState === 11 ||
-							storeGoodsVO.orderState === 12 ||
-							storeGoodsVO.orderState === 13 ||
-							storeGoodsVO.orderState === 14 ||
-							storeGoodsVO.orderState === 15 ||
-							storeGoodsVO.orderState === 16 ||
-							storeGoodsVO.orderState === 23 ||
-							storeGoodsVO.orderState === 24
-					"
-					class="btn btn-border black"
-					@click.stop="refundDetail"
-				>
-					退款详情
-				</button>
-				<button v-if="storeGoodsVO.examCheck === 1 && storeGoodsVO.orderState !== -1 && storeGoodsVO.orderState !== 0" class="btn btn-border black" @click="queryExam">
-					电子凭证
-				</button>
-				<button
-					v-if="storeGoodsVO.entityGoodsId && (storeGoodsVO.orderState === 2 || storeGoodsVO.orderState === 3 || storeGoodsVO.orderState === 4)"
-					class="btn btn-border black"
-					@click.stop="queryLogistics"
-				>
-					查看物流
-				</button>
-				<button v-if="storeGoodsVO.orderState === 2" class="btn btn-block" @click="receivedOrder">确认收货</button>
-				<button v-if="storeGoodsVO.orderState === 3" class="btn btn-block" @click.stop="evaluateOrder">去评价</button>
-				<button
-					v-if="storeGoodsVO.orderState === -1 || storeGoodsVO.orderState === 4 || storeGoodsVO.orderState === 10"
-					class="btn btn-border grey"
-					@click.stop="deletOrder"
-				>
-					删除订单
-				</button>
+				<button v-for="(value,index) in bottomOptionBtns" 
+				:class="value.class" 
+				:key="`bottom-btn-${index}`" 
+				@click.stop="handleFunctionCall(value.method)">{{value.name}}</button>
 			</view>
 		</view>
 
@@ -136,7 +88,6 @@ export default {
 		showStateName() {
 			switch (this.storeGoodsVO.orderState) {
 				// 订单状态 -1:已取消 0:待支付 1:已支付 2:已发货 3:已收货 4:已评价 5:申请退款中(未发货) 6:退款中 7:拒绝退款 8：退款失败 9：退款完成 10:已完成（不能再做任何操作） 11: 退货退款申请中 12:商家允许退款待填写发货信息 13:商家拒绝退款 14:用户已填写发货单待商家退款 15:退货退款中 16:退货退款失败21：已支付拼团定金 22:拼团成功待支付尾款 23:已完成拼团并退款 24:拼团失败并退款中
-
 				case -1:
 					return '已取消';
 					break;
@@ -183,9 +134,89 @@ export default {
 		}
 	},
 	data() {
-		return {};
+		return {
+			optionBtns: [  //所有操作按钮配置  
+				{name:'取消订单',method:'cancelOrder',class:['btn','btn-border','grey']},
+				{name:'支付订单',method:'payOrder',class:['btn','btn-block']},
+				{name:'申请退款',method:'applyRefund',class:['btn','btn-border','black']},
+				{name:'退款详情',method:'refundDetail',class:['btn','btn-border','grey']},
+				{name:'电子凭证',method:'queryExam',class:['btn','btn-border','grey']},
+				{name:'查看物流',method:'queryLogistics',class:['btn','btn-border','black']},
+				{name:'确认收货',method:'receivedOrder',class:['btn','btn-block']},
+				{name:'去评价',method:'evaluateOrder',class:['btn','btn-block']},
+				{name:'删除订单',method:'deletOrder',class:['btn','btn-border','grey']}
+			],
+			
+			bottomOptionBtns: [], //底部操作按钮
+			moreOptionBtns: [] //更多操作按钮
+		};
+	},
+	created() {
+		this.initOptionBtns();
 	},
 	methods: {
+		
+		/**
+		 * 初始化底部操作按钮
+		 */
+		initOptionBtns(){
+			this.optionBtns.forEach(value => {
+				const isShow = this.isOptionBtnShow(value.name);
+				if(isShow){
+					if(this.bottomOptionBtns.length < 3){ //这里底部操作按钮最多展示3个，超出三个后其余全部放入更多操作按钮中
+						this.bottomOptionBtns.push(value);
+					}else {
+						this.moreOptionBtns.push(value);
+					}
+				}
+			})
+		},
+		
+		/**
+		 * 根据订单状态判断当前按钮是否展示
+		 * @param {Object} optionBtnName 按钮名称
+		 */
+		isOptionBtnShow(optionBtnName){
+			const {orderState, examCheck, entityGoodsId} = this.storeGoodsVO;
+			switch (optionBtnName) {
+				case '取消订单':
+					return orderState === 0;
+					break;
+				case '支付订单':
+					return orderState === 0 || orderState === 22;
+					break;
+				case '申请退款':
+					return orderState === 1 || orderState === 2 || orderState === 3 || orderState === 4 || orderState === 8 || orderState === 16 || orderState === 21 || orderState === 22;
+					break;
+				case '退款详情':
+					return orderState === 5 || orderState === 6 || orderState === 7 || orderState === 8 || orderState === 9 || orderState === 11 || orderState === 12 || orderState === 13 || orderState === 14 || orderState === 15 || orderState === 16 || orderState === 23 || orderState === 24;
+					break;
+				case '电子凭证':
+					return examCheck === 1 && orderState !== -1 && orderState !== 0;
+					break;
+				case '查看物流':
+					return entityGoodsId && (orderState === 2 || orderState === 3 || orderState === 4);
+					break;
+				case '确认收货':
+					return orderState === 2;
+					break;
+				case '去评价':
+					return orderState === 3;
+					break;
+				case '删除订单':
+					return orderState === -1 || orderState === 4 || orderState === 10;
+					break;
+			}
+		},
+		
+		/**
+		 * 执行函数
+		 * @param {Object} functionName 函数名
+		 */
+		handleFunctionCall(functionName) {
+		    this[functionName]();
+		},
+		
 		// 商品点击
 		goodsClick() {
 			this.$emit('goodsClick');
@@ -264,8 +295,8 @@ export default {
 				this.$emit('queryExam', res);
 			});
 		},
-		// 显示更多按钮
-		clickDots(){
+		// 更多按钮点击
+		openMore(){
 			event.currentTarget.classList.toggle('on');
 		}
 	}
