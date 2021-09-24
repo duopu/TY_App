@@ -1,26 +1,47 @@
-@color-yellow: #FFB55B;
+@color-yellow: #ffb55b;
 .store {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+}
+// 层级关系
+.z-index {
+	position: relative;
+	background-color: #ffffff;
+	z-index: 101;
+}
+// 固定顶部
+.sticky-top {
+	flex-shrink: 0;
+
 	.store-top {
-		flex-shrink: 0;
-		padding:calc(var(--status-bar-height) + 20rpx) 20rpx 20rpx;
-		z-index: 101;
-		background-color: #FFFFFF;
+		padding: calc(var(--status-bar-height) + 20rpx) 20rpx 20rpx;
+		.z-index;
 		.icon-back {
-			width: 48rpx;
-			height: 48rpx;
+			padding: 0;
+			width: 52rpx;
+			height: 52rpx;
+			opacity: 0;
+		}
+	}
+	&.hidden-store {
+		.store-message-item {
+			padding: 0 20rpx;
+			height: 0;
+			opacity: 0;
 		}
 	}
 }
 //店铺
 .store-message-item {
-	margin: 20rpx;
+	padding: 20rpx;
 	font-size: 28rpx;
 	align-items: stretch;
-	z-index: 101;
+	opacity: 1;
+	box-sizing: border-box;
+	transition: all 0.2s ease;
+	.z-index;
 	.avatar-image {
 		margin-right: 24rpx;
 		width: 160rpx;
@@ -58,8 +79,10 @@
 		color: #666;
 	}
 }
-::v-deep .course-lists-item{
-	margin: auto 20rpx;
+// tab
+.custom-tabs {
+	margin: 0;
+	.z-index;
 }
 // 内容
 .store-content {
@@ -68,20 +91,20 @@
 	flex: 1;
 	height: 100%;
 	overflow: hidden;
-	.custom-tabs {
-		margin: 0;
-		z-index: 101;
-	}
 	.store-scroll {
 		flex: 1;
 		height: 100%;
 		overflow: hidden;
 		box-sizing: border-box;
 	}
-	.m-top-20{
+	.m-top-20 {
 		margin-top: 20rpx;
 	}
+	::v-deep .course-lists-item {
+		margin: auto 20rpx;
+	}
 }
+
 // 推荐标题
 .recommend {
 	padding: 20rpx;
@@ -184,17 +207,16 @@
 	height: 100%;
 	&-top {
 		padding: calc(var(--status-bar-height) + 8rpx) 20rpx 8rpx;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 		z-index: 100;
 		.icon-arrow {
 			flex-shrink: 0;
 			margin-right: 24rpx;
 			width: 48rpx;
 			height: 48rpx;
-			
 		}
 	}
-	&-lists{
+	&-lists {
 		padding: 0 20rpx;
 		flex: 1;
 		width: 100%;
@@ -204,14 +226,30 @@
 	}
 }
 // 筛选
-.filter{
+.filter {
 	flex-shrink: 0;
 	padding: 18rpx 0;
 	text-align: center;
-	background-color: #FFFFFF;
-	z-index: 100;
-	.icon{
-		width: 32rpx;
-		height: 32rpx;
+	.z-index;
+	.arrow-image {
+		margin-left: 10rpx;
+		width: 42rpx;
+		height: 42rpx;
+		background-image: url(../../../static/images/icons/icon-collapse-arrow.svg);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		background-position: center;
+		transition: transform 0.3s ease;
+	}
+	.filter-item.on {
+		.arrow-image {
+			transform: rotate(180deg);
+		}
+	}
+}
+// 弹窗
+.popup-top-height {
+	::v-deep .popup-content {
+		padding-top: calc(var(--status-bar-height) + 280rpx);
 	}
 }

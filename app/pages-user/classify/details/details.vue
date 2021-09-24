@@ -7,17 +7,17 @@
 			<custom-search placeholder="搜索" @search="getSearchInput"></custom-search>
 		</view>
 		<view class="flex-center filter">
-			<view class="filter-item flex-center-center flex-1" @click="openSortPopup()">
+			<view class="filter-item flex-center-center flex-1" :class="filterSelect('sortPopup')" @click="openPopup('sortPopup')">
 				<text>{{ sortItem.name }}</text>
-				<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill"></image>
+				<text class="arrow-image"></text>
 			</view>
-			<view class="filter-item flex-center-center flex-1" @click="opencloudPopup()">
+			<view class="filter-item flex-center-center flex-1" :class="filterSelect('cloudPopup')" @click="openPopup('cloudPopup')">
 				<text>{{ categoryItem.categoryName }}</text>
-				<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill"></image>
+				<text class="arrow-image"></text>
 			</view>
-			<view class="filter-item flex-center-center flex-1" @click="openFilterPopup()">
+			<view class="filter-item flex-center-center flex-1" :class="filterSelect('filterPopup')" @click="openPopup('filterPopup')">
 				<text>筛选</text>
-				<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill"></image>
+				<text class="arrow-image"></text>
 			</view>
 		</view>
 		<my-scroll-view ref="list" class="classify-details-lists" :pageSize="queryParams.size" @loadData="onLoadData">
@@ -26,11 +26,11 @@
 			</template>
 		</my-scroll-view>
 		<!-- 综合排序 -->
-		<classify-sort-popup :current-index="sortIndex" ref="sortPopup" @select="getSortIndex"></classify-sort-popup>
+		<classify-sort-popup :current-index="sortIndex" ref="sortPopup" @select="getSortIndex" @change="(value)=>changePopup('sortPopup',value)"></classify-sort-popup>
 		<!-- 分类 -->
-		<classify-cloud-popup ref="cloudPopup" :category="categoryItem" @select="getCategory"></classify-cloud-popup>
+		<classify-cloud-popup ref="cloudPopup" :category="categoryItem" @select="getCategory" @change="(value)=>changePopup('cloudPopup',value)"></classify-cloud-popup>
 		<!-- 筛选 -->
-		<classify-filter-popup ref="filterPopup" @submit="filterSubmit"></classify-filter-popup>
+		<classify-filter-popup ref="filterPopup" @submit="filterSubmit" @change="(value)=>changePopup('filterPopup',value)"></classify-filter-popup>
 	</view>
 </template>
 
@@ -52,7 +52,19 @@ export default {
 				type: undefined
 			},
 			sortItem: { name: '综合排序', value: 1 },
-			categoryItem: { categoryName: '全部', categoryId: undefined }
+			categoryItem: { categoryName: '全部', categoryId: undefined },
+			// 弹窗
+			popupRefInfos: {
+				sortPopup: {
+					show: false
+				},
+				cloudPopup: {
+					show: false
+				},
+				filterPopup: {
+					show: false
+				}
+			}
 		};
 	},
 	onLoad(option) {
@@ -71,21 +83,23 @@ export default {
 			this.queryParams.searchText = value;
 			this.$refs.list.onRefresh();
 		},
-		// 打开综合排序弹窗
-		openSortPopup() {
-			this.$refs.cloudPopup.close();
-			this.$refs.sortPopup.toggle();
+		// 打开弹窗(关闭其他弹窗)
+		openPopup(refName) {
+			for (let i in this.popupRefInfos) {
+				if (i === refName) {
+					this.$refs[i].toggle();
+				} else if (this.popupRefInfos[i].show) {
+					this.$refs[i].close();
+				}
+			}
 		},
-		//云计算
-		opencloudPopup() {
-			this.$refs.sortPopup.close();
-			this.$refs.cloudPopup.toggle();
+		// 弹窗 显示或关闭状态
+		changePopup(refName,show){
+			this.popupRefInfos[refName].show = show; 
 		},
-		//筛选
-		openFilterPopup() {
-			this.$refs.sortPopup.close();
-			this.$refs.cloudPopup.close();
-			this.$refs.filterPopup.toggle();
+		// 弹窗 选中class
+		filterSelect(refName){
+			return this.popupRefInfos[refName].show ? 'on':''
 		},
 		// 排序选中回调
 		getSortIndex(item) {

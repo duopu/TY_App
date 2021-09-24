@@ -45,6 +45,7 @@ export default {
 		// 获取当前弹窗状态
 		onChangePopup(e) {
 			this.show = e.show;
+			this.$emit('change',this.show)
 		},
 		//选择排序方式
 		onSelectIndex(item, index) {

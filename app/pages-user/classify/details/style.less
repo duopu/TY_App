@@ -29,8 +29,19 @@
 	text-align: center;
 	background-color: #ffffff;
 	z-index: 100;
-	.icon {
-		width: 32rpx;
-		height: 32rpx;
+	.arrow-image{
+		margin-left: 10rpx;
+		width: 42rpx;
+		height: 42rpx;
+		background-image: url(../../../static/images/icons/icon-collapse-arrow.svg);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		background-position: center;
+		transition: transform .3s ease;
+	}
+	.filter-item.on{
+		.arrow-image{
+			transform: rotate(180deg);
+		}
 	}
 }
