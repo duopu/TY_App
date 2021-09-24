@@ -19,14 +19,26 @@
 		</view>
 		<!-- 最新资讯 -->
 		<view class="flex consult">
-			<image class="image-left flex-1" @click="gotoConsult" src="../../../static/images/other/good_banner.png" mode="aspectFill">
-			</image>
-			<view class="flex-1 flex-column">
-				<image class="image-right" src="../../../static/images/other/good_banner.png" mode="aspectFill"></image>
+			<view class="image-left flex-column">
+				<view class="image-left-top flex" @click="gotoConsult">
+					<view class="flex-column-center time-box">
+						<text class="text-bold text">09</text>
+						<text class="line"></text>
+						<text class="text-bold text">22</text>
+					</view>
+					<view class="flex-column">
+						<image class="image-text" src="../../../static/images/index/index-consult-title.png" mode="widthFix"></image>
+						<text class="desc">新鲜资讯随心看</text>
+					</view>
+				</view>
+				<view class="consult-text text-ellipsis">人工智能体系课，从入门到实…</view>
+			</view>
+			<view class="flex-column">
+				<image class="image-right" src="../../../static/images/index/index-active-03.png" mode="aspectFill"></image>
 				<view class="flex-center">
-					<image class="flex-1 image-right-small" src="../../../static/images/other/advertise.png"
+					<image class="flex-1 image-right-small" src="../../../static/images/index/index-active-01.png"
 						mode="aspectFill"></image>
-					<image class="flex-1 image-right-small" src="../../../static/images/other/advertise.png"
+					<image class="flex-1 image-right-small" src="../../../static/images/index/index-active-02.png"
 						mode="aspectFill"></image>
 				</view>
 			</view>
