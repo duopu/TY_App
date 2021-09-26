@@ -10,7 +10,7 @@
 			font-size: 30rpx;
 			font-weight: bold;
 		}
-		.desc{
+		.desc {
 			font-size: 24rpx;
 			color: #666666;
 		}
@@ -61,50 +61,12 @@
 		}
 	}
 	// 底部
-	.bottom{
+	.bottom {
 		margin-top: 32rpx;
 		padding-top: 20rpx;
-		border-top:1rpx solid #DFE0E6;
-		.dots{
-			position: relative;
-			z-index: 2;
-			.icon-dots{
-				width: 48rpx;
-				height: 48rpx;
-			}
-			&.on .dots-list{
-				height: auto;
-				overflow: auto;
-				z-index: 2;
-				opacity: 1;
-			}
-			.dots-list{
-				height: 0;
-				position: absolute;
-				width: 160rpx;
-				background-color: #FFFFFF;
-				box-shadow: 0rpx 0rpx 8rpx 0rpx rgba(0, 0, 0, 0.1);
-				border-radius: 0rpx 40rpx 40rpx 40rpx;
-				opacity: 0;
-				z-index: -1;
-				transition: all .1s ease;
-				.btn-text{
-					margin: 0;
-					padding: 28rpx;
-					height: auto;
-					font-size: 26rpx;
-					color: #999999;
-					line-height: 1.1;
-					letter-spacing: 1rpx;
-					white-space: nowrap;
-					background-color: transparent;
-					& + .btn-text{
-						border-top: 1rpx solid #DFE0E6;
-					}
-				}
-			}
-		}
-		.btn{
+		border-top: 1rpx solid #dfe0e6;
+
+		.btn {
 			margin: 0 0 0 16rpx;
 			padding: 0 28rpx;
 			min-width: 160rpx;
@@ -114,19 +76,59 @@
 			border-radius: 40rpx;
 			box-sizing: border-box;
 			background-color: transparent;
-			&.btn-border{
-				&.grey{
+			&.btn-border {
+				&.grey {
 					color: #666666;
-					border:1rpx solid #666666;
+					border: 1rpx solid #666666;
 				}
-				&.black{
+				&.black {
 					color: #222222;
-					border:1rpx solid #222222;
+					border: 1rpx solid #222222;
 				}
 			}
-			&.btn-block{
-				color: #FFFFFF;
-				background: #FF705B;
+			&.btn-block {
+				color: #ffffff;
+				background: #ff705b;
+			}
+		}
+	}
+}
+::v-deep .dots {
+	position: relative;
+	.icon-dots {
+		position: relative;
+		width: 48rpx;
+		height: 48rpx;
+		z-index: 3;
+	}
+	&.on .dots-list {
+		height: auto;
+		overflow: auto;
+		z-index: 3;
+		opacity: 1;
+	}
+	.dots-list {
+		height: 0;
+		position: absolute;
+		width: 160rpx;
+		background-color: #ffffff;
+		box-shadow: 0rpx 0rpx 8rpx 0rpx rgba(0, 0, 0, 0.1);
+		border-radius: 0rpx 40rpx 40rpx 40rpx;
+		opacity: 0;
+		z-index: -1;
+		transition: all 0.1s ease;
+		.btn-text {
+			margin: 0;
+			padding: 28rpx;
+			height: auto;
+			font-size: 26rpx;
+			color: #999999;
+			line-height: 1.1;
+			letter-spacing: 1rpx;
+			white-space: nowrap;
+			background-color: transparent;
+			& + .btn-text {
+				border-top: 1rpx solid #dfe0e6;
 			}
 		}
 	}

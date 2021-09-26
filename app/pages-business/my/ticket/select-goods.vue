@@ -7,7 +7,7 @@
 			<view class="navbar flex-center-between">
 				<image class="icon-back" src="../../../static/images/login/back.png" mode="aspectFill"></image>
 				<text class="title text-bold">选择商品</text>
-				<text class="btn-text">创建</text>
+				<text class="btn-text" @click="selectCallBack">创建</text>
 			</view>
 			<!-- 搜索区域 -->
 			<view class="flex-center search ">
@@ -16,9 +16,9 @@
 			</view>
 			<!-- 筛选内容 -->
 			<view class="flex-center-between filter">
-				<view class="select-all flex-center-center">
+				<view class="select-all flex-center-center" @click="this.isSelectedAll = true">
 					<!-- 选中 on -->
-					<text class="radio on"></text>
+					<text v-bind:class="isSelectedAll ? 'radio on' : 'radio'"></text>
 					<text class="text">全选</text>
 					<text class="line"></text>
 				</view>
@@ -36,17 +36,17 @@
 		<!-- 内容区 -->
 		<scroll-view scroll-y="true" class="list">
 			<!-- 列表项 -->
-			<view class="item flex-center" v-for="(item, index) in ['', '', '', '', '']" :key="index">
-				<view class="radio"></view>
+			<view class="item flex-center" v-for="(item, index) in goodList" :key="index" @click="selectGoods(index)">
+				<view v-bind:class="(item.isSelected || isSelectedAll) ? 'radio on' : 'radio'"></view>
 				<view class="flex-1 goods-item">
 					<image src="../../../static/images/other/demo.png" mode="aspectFill" class="avatar-image"></image>
 					<view class="flex-1 flex-column-between">
-						<view class="text-bold name">5天英语全能挑战名称可能很长 可能是两行</view>
+						<view class="text-bold name">{{item.goodsName}}</view>
 						<view class="flex-center-between">
-							<text class="number">124512</text>
+							<text class="number">{{item.goodsId	}} {{item.isSelected ? ' t': 'f'}}</text>
 							<view class="price text-bold">
 								<text class="unit">￥</text>
-								500
+								{{item.price}}
 							</view>
 						</view>
 					</view>
@@ -59,8 +59,8 @@
 			<text>0/10</text>
 			<view class="flex-1 flex-center-end">
 				<!-- 灰色-grey -->
-				<button class="btn text-bold ">上一页</button>
-				<button class="btn text-bold">下一页</button>
+				<button class="btn text-bold " @click="next(0)">上一页</button>
+				<button class="btn text-bold" @click="next(1)">下一页</button>
 			</view>
 		</view>
 		<!-- 弹窗 包含资源 -->
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+
 export default {
 	data() {
 		return {
@@ -84,8 +85,16 @@ export default {
 					refName: 'classifyPopup',
 					show: false
 				}
-			]
+			],
+			goodList: [],
+			selectedList: [],
+			isSelectedAll: false,
+			total: 0,
+			page: 1
 		};
+	},
+	onLoad(){
+		this.queryGoodList()
 	},
 	methods: {
 		// 打开弹窗
@@ -96,6 +105,16 @@ export default {
 				
 			});
 		},
+		// 查询已上架商品列表
+		queryGoodList(params){
+			let paramsObj = {
+				page: this.page,size: 10, status: 1,
+				...params
+			}
+			this.$http.get('/goods/queryPageByStoreId',params,true).then(res =>{
+				this.goodList = res.content;
+			})
+		},
 		// 弹窗 资料
 		changeResource(show) {
 			this.dialogNameList[0].show = show;
@@ -103,6 +122,26 @@ export default {
 		// 弹窗 分类
 		changeClassify(show) {
 			this.dialogNameList[1].show = show;
+		},
+		selectGoods(index){
+			let data = this.goodList;
+			data[index].isSelected = !data[index].isSelected;
+
+			this.goodList = [...data];
+		},
+		next(type){
+			if(type){
+				++this.page;
+			}else{
+				--this.page;
+			}
+			this.queryGoodList();
+		},
+		selectCallBack(){
+			let selectedList = this.goodList.filter(item => item.isSelected);
+			console.log(selectedList);
+			uni.$emit('selectCallBack',selectedList);
+			uni.navigateBack();
 		}
 	}
 };

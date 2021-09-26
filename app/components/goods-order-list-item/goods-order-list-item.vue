@@ -27,25 +27,21 @@
 
 		<!-- 底部操作按钮 -->
 		<view class="flex-center-between bottom">
-			
 			<!-- 更多按钮 -->
-			<view v-if="moreOptionBtns.length > 0" class="dots" @click="openMore">
+			<view v-if="moreOptionBtns.length > 0" class="dots" @click="openMoreBtn">
 				<image class="icon-dots" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 				<view class="dots-list">
-					<button v-for="(value,index) in moreOptionBtns" 
-					class="btn-text" 
-					:key="`more-btn-${index}`" 
-					@click.stop="handleFunctionCall(value.method)">{{value.name}}</button>
+					<button v-for="(value, index) in moreOptionBtns" class="btn-text" :key="`more-btn-${index}`" @click.stop="handleFunctionCall(value.method)">
+						{{ value.name }}
+					</button>
 				</view>
-			</view>	
-			
-			
+			</view>
+
 			<!-- 操作按钮，最多展示3个，超过3个后其余的放入更多中展示 -->
-			<view class="flex-center-end">
-				<button v-for="(value,index) in bottomOptionBtns" 
-				:class="value.class" 
-				:key="`bottom-btn-${index}`" 
-				@click.stop="handleFunctionCall(value.method)">{{value.name}}</button>
+			<view class="flex-center-end flex-1">
+				<button v-for="(value, index) in bottomOptionBtns" :class="value.class" :key="`bottom-btn-${index}`" @click.stop="handleFunctionCall(value.method)">
+					{{ value.name }}
+				</button>
 			</view>
 		</view>
 
@@ -67,7 +63,7 @@ export default {
 			//商品
 			type: Object,
 			required: true,
-			default: {
+			default: () => ({
 				attributesId: undefined,
 				attributesName: undefined,
 				goodsPrice: 0,
@@ -80,7 +76,7 @@ export default {
 				storeId: undefined,
 				storeName: undefined,
 				orderState: undefined
-			}
+			})
 		}
 	},
 	computed: {
@@ -135,49 +131,54 @@ export default {
 	},
 	data() {
 		return {
-			optionBtns: [  //所有操作按钮配置  
-				{name:'取消订单',method:'cancelOrder',class:['btn','btn-border','grey']},
-				{name:'支付订单',method:'payOrder',class:['btn','btn-block']},
-				{name:'申请退款',method:'applyRefund',class:['btn','btn-border','black']},
-				{name:'退款详情',method:'refundDetail',class:['btn','btn-border','grey']},
-				{name:'电子凭证',method:'queryExam',class:['btn','btn-border','grey']},
-				{name:'查看物流',method:'queryLogistics',class:['btn','btn-border','black']},
-				{name:'确认收货',method:'receivedOrder',class:['btn','btn-block']},
-				{name:'去评价',method:'evaluateOrder',class:['btn','btn-block']},
-				{name:'删除订单',method:'deletOrder',class:['btn','btn-border','grey']}
+			optionBtns: [
+				//所有操作按钮配置
+				{ name: '取消订单', method: 'cancelOrder', class: ['btn', 'btn-border', 'grey'] },
+				{ name: '支付订单', method: 'payOrder', class: ['btn', 'btn-block'] },
+				{ name: '申请退款', method: 'applyRefund', class: ['btn', 'btn-border', 'black'] },
+				{ name: '退款详情', method: 'refundDetail', class: ['btn', 'btn-border', 'grey'] },
+				{ name: '电子凭证', method: 'queryExam', class: ['btn', 'btn-border', 'grey'] },
+				{ name: '查看物流', method: 'queryLogistics', class: ['btn', 'btn-border', 'black'] },
+				{ name: '确认收货', method: 'receivedOrder', class: ['btn', 'btn-block'] },
+				{ name: '去评价', method: 'evaluateOrder', class: ['btn', 'btn-block'] },
+				{ name: '删除订单', method: 'deletOrder', class: ['btn', 'btn-border', 'grey'] }
 			],
-			
+
 			bottomOptionBtns: [], //底部操作按钮
-			moreOptionBtns: [] //更多操作按钮
+			moreOptionBtns: [], //更多操作按钮
+			isMask: false // 蒙层
 		};
 	},
 	created() {
 		this.initOptionBtns();
 	},
-	methods: {
+	destroyed() {
 		
+	},
+	methods: {
 		/**
 		 * 初始化底部操作按钮
 		 */
-		initOptionBtns(){
+		initOptionBtns() {
 			this.optionBtns.forEach(value => {
 				const isShow = this.isOptionBtnShow(value.name);
-				if(isShow){
-					if(this.bottomOptionBtns.length < 3){ //这里底部操作按钮最多展示3个，超出三个后其余全部放入更多操作按钮中
+				if (isShow) {
+					if (this.bottomOptionBtns.length < 3) {
+						//这里底部操作按钮最多展示3个，超出三个后其余全部放入更多操作按钮中
 						this.bottomOptionBtns.push(value);
-					}else {
+					} else {
 						this.moreOptionBtns.push(value);
 					}
 				}
-			})
+			});
 		},
-		
+
 		/**
 		 * 根据订单状态判断当前按钮是否展示
 		 * @param {Object} optionBtnName 按钮名称
 		 */
-		isOptionBtnShow(optionBtnName){
-			const {orderState, examCheck, entityGoodsId} = this.storeGoodsVO;
+		isOptionBtnShow(optionBtnName) {
+			const { orderState, examCheck, entityGoodsId } = this.storeGoodsVO;
 			switch (optionBtnName) {
 				case '取消订单':
 					return orderState === 0;
@@ -186,10 +187,33 @@ export default {
 					return orderState === 0 || orderState === 22;
 					break;
 				case '申请退款':
-					return orderState === 1 || orderState === 2 || orderState === 3 || orderState === 4 || orderState === 8 || orderState === 16 || orderState === 21 || orderState === 22;
+					return (
+						orderState === 1 ||
+						orderState === 2 ||
+						orderState === 3 ||
+						orderState === 4 ||
+						orderState === 8 ||
+						orderState === 16 ||
+						orderState === 21 ||
+						orderState === 22
+					);
 					break;
 				case '退款详情':
-					return orderState === 5 || orderState === 6 || orderState === 7 || orderState === 8 || orderState === 9 || orderState === 11 || orderState === 12 || orderState === 13 || orderState === 14 || orderState === 15 || orderState === 16 || orderState === 23 || orderState === 24;
+					return (
+						orderState === 5 ||
+						orderState === 6 ||
+						orderState === 7 ||
+						orderState === 8 ||
+						orderState === 9 ||
+						orderState === 11 ||
+						orderState === 12 ||
+						orderState === 13 ||
+						orderState === 14 ||
+						orderState === 15 ||
+						orderState === 16 ||
+						orderState === 23 ||
+						orderState === 24
+					);
 					break;
 				case '电子凭证':
 					return examCheck === 1 && orderState !== -1 && orderState !== 0;
@@ -208,15 +232,15 @@ export default {
 					break;
 			}
 		},
-		
+
 		/**
 		 * 执行函数
 		 * @param {Object} functionName 函数名
 		 */
 		handleFunctionCall(functionName) {
-		    this[functionName]();
+			this[functionName]();
 		},
-		
+
 		// 商品点击
 		goodsClick() {
 			this.$emit('goodsClick');
@@ -295,9 +319,39 @@ export default {
 				this.$emit('queryExam', res);
 			});
 		},
+		// 动态添加蒙层节点
+		addMaskElement(parentElement) {
+			let _temNode = document.createElement('div');
+			_temNode.setAttribute('class', 'mask');
+			_temNode.style.position = 'fixed';
+			_temNode.style.top = 0;
+			_temNode.style.left = 0;
+			_temNode.style.right = 0;
+			_temNode.style.bottom = 0;
+			_temNode.style.backgroundColor = 'rgba(0,0,0,0)';
+			_temNode.style.zIndex = 2;
+			_temNode.style.transition = 'all .2s ease';
+			_temNode.addEventListener(
+				'touchstart',
+				event => {
+					event.preventDefault();
+					event.stopPropagation();
+					parentElement.classList.toggle('on');
+					parentElement.removeChild(_temNode);
+				},
+				true
+			);
+			parentElement.appendChild(_temNode);
+		},
 		// 更多按钮点击
-		openMore(){
-			event.currentTarget.classList.toggle('on');
+		openMoreBtn() {
+			// 获取当前元素
+			const _eventNode = event.currentTarget;
+			if (_eventNode.classList.toggle('on')) {
+				this.addMaskElement(_eventNode);
+			}else if(_eventNode.children[2]){
+				_eventNode.removeChild(_eventNode.children[2]);
+			}
 		}
 	}
 };
