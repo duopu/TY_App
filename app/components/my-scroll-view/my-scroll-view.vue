@@ -8,8 +8,11 @@
 	    <!-- 列表内容插槽， 可返回当前列表数据源 -->
 		<slot name="list" :list="dataList"></slot>
 		
+		<!-- 列表为空 -->
+		<my-empty class="no-data" :show="dataList.length === 0"></my-empty>
+		
 		<!-- 加载更多 -->
-		<uni-load-more v-if="pageEnable"
+		<uni-load-more v-if="pageEnable && dataList.length > 0"
 		:status="status" 
 		:icon-size="16" 
 		:content-text="contentText"></uni-load-more>
@@ -131,5 +134,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+	.no-data {
+		height: 100%;
+	}
 </style>

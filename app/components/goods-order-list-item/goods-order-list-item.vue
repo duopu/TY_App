@@ -143,10 +143,10 @@ export default {
 				{ name: '去评价', method: 'evaluateOrder', class: ['btn', 'btn-block'] },
 				{ name: '删除订单', method: 'deletOrder', class: ['btn', 'btn-border', 'grey'] }
 			],
-
 			bottomOptionBtns: [], //底部操作按钮
 			moreOptionBtns: [], //更多操作按钮
-			isMask: false // 蒙层
+			isMask: false ,// 蒙层
+			moreBtn: null //更多按钮对象
 		};
 	},
 	created() {
@@ -238,6 +238,8 @@ export default {
 		 * @param {Object} functionName 函数名
 		 */
 		handleFunctionCall(functionName) {
+			// 这里还要记得先关闭弹窗
+			this.moreBtn && this.showOrHidenMoreOptions(this.moreBtn);
 			this[functionName]();
 		},
 
@@ -347,10 +349,19 @@ export default {
 		openMoreBtn() {
 			// 获取当前元素
 			const _eventNode = event.currentTarget;
-			if (_eventNode.classList.toggle('on')) {
-				this.addMaskElement(_eventNode);
-			}else if(_eventNode.children[2]){
-				_eventNode.removeChild(_eventNode.children[2]);
+			this.moreBtn = _eventNode;
+			this.showOrHidenMoreOptions(_eventNode)
+		},
+		
+		/**
+		 * 展示或者关闭更多
+		 * @param {Object} element 元素对象
+		 */
+		showOrHidenMoreOptions(element){
+			if (element.classList.toggle('on')) {
+				this.addMaskElement(element);
+			}else if(element.children[2]){
+				element.removeChild(element.children[2]);
 			}
 		}
 	}
