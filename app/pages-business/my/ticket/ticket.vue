@@ -25,7 +25,7 @@
 					<view class="right flex-center-center"><image src="../../../static/images/icons/icon-copy.svg" class="icon-copy" mode="aspectFill"></image></view>
 				</view>
 				<view class="action" v-if="actionIndex == index">
-					<view class="flex-center-between record-row">
+					<view class="flex-center-between record-row" @click="jumpHistory(item.couponId)">
 						<text class="text">领取使用记录</text>
 						<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 					</view>
@@ -103,6 +103,11 @@ export default {
 		onChange(data) {
 			this.tabsIndex = data;
 			this.queryTicket();
+		},
+		jumpHistory(id){
+			uni.navigateTo({
+				url: `/pages-business/my/ticket/history?couponId=${id}`
+			});
 		}
 	}
 };
