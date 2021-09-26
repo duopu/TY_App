@@ -90,20 +90,10 @@
 					</view>
 				</view>
 
-				<view class="row flex-center" v-if="applyIndex === 1">
+				<view class="row flex-center" v-if="applyIndex === 1" @click="jump(1)">
 					<text class="label stick-width">选择商品:</text>
 					<view class="input border flex-center-between">
-<!--						<picker mode="selector" class="flex-1"  :value="goodList" range-key="name" :range="applyRange">-->
-<!--							<view class="uni-input">{{applyRange[applyIndex].name}}</view>-->
-<!--						</picker>-->
-						<ld-select :multiple="true"
-											 :list="goodList"
-											 label-key="goodsName"
-											 value-key="goodsId"
-											 clearable
-											 @change="selectedChange"
-											 v-model="selectedGoods"
-											></ld-select>
+						{{ selectedGoods.map(item => item.goodsName).join(',') }}
 						<image class="icon-down" src="../../../static/images/icons/icon-down-arrow.svg" mode="aspectFill"></image>
 					</view>
 				</view>
@@ -149,6 +139,11 @@ export default {
 	onLoad(){
 		console.log(32222);
 		this.queryGoodList();
+		uni.$on('selectCallBack',(data)=>{
+			console.log('拿到了');
+			console.log(data);
+			this.selectedGoods = data;
+		})
 	},
 	methods: {
 		// 查询优惠劵类型
@@ -196,6 +191,7 @@ export default {
 				effectType: this.timeRadio,
 				promoteType	: this.timeRadio,
 				goodsType: this.applyRange[this.applyIndex].key,
+				goodsIdList: [],
 				type: 2
 			};
 
@@ -225,6 +221,11 @@ export default {
 		selectedChange(data){
 			console.log(data);
 			this.selectedGoods = data;
+		},
+		jump(type){
+			uni.navigateTo({
+				url: '/pages-business/my/ticket/select-goods'
+			});
 		}
 	},
 };
