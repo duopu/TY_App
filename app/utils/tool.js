@@ -121,9 +121,10 @@ const orderPay = (payOrderNum, payType)=>{
 		if(payType === 1){
 			// TODO: 这里何佳文接口返回的字段不符合支付宝要求，待商议
 			request.post('/order/aliPayForApp',{orderNum: payOrderNum},true).then(res => {
+				console.log('支付宝输入的支付参数',res.payContent);
 				uni.requestPayment({
 				    provider: 'alipay',
-				    orderInfo: res, 
+				    orderInfo: res.payContent, 
 				    success: function (res) {
 				        console.log('success:' + JSON.stringify(res));
 						resolve(res);
@@ -163,7 +164,7 @@ const orderPay = (payOrderNum, payType)=>{
 							url: `/pages-user/mine/order/order`
 						});
 					},
-				    fail: function (e) {
+				    fail: function (err) {
 						console.log('fail:' + JSON.stringify(err));
 						reject(err);
 						// 跳转到订单列表页
