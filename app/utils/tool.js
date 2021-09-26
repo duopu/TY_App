@@ -143,7 +143,6 @@ const orderPay = (payOrderNum, payType)=>{
 				});
 			})
 		}else if(payType === 2){
-			// TODO: 这里何佳文接口返回的字段不符合微信要求，待商议
 			request.post('/order/wechatPayForApp',{orderNum: payOrderNum},true).then(res => {
 				uni.requestPayment({
 				    provider: "wxpay", 
