@@ -1,6 +1,6 @@
 <template>
 	<view v-show="show" class="no-data">
-		<image class="icon" :src="img" mode="aspectFill"></image>
+		<image class="image" :src="img" mode="aspectFill"></image>
 		<text class="text">{{text}}</text>
 	</view>
 </template>
@@ -18,7 +18,7 @@
 				default: '暂无数据'
 			},
 			img: {
-				default: require('../../static/images/icons/icon-dots.svg')
+				default: require('../../static/images/no-list-message.png')
 			}
 		},
 		data() {
@@ -37,20 +37,21 @@
 <style lang="scss" scoped>
 .no-data {
 	width: 100%;
+	height: 80%;
 	min-height: 400rpx;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	
-	.icon {
-		width: 100rpx;
-		height: 100rpx;
+
+	.image {
+		width: 376rpx;
+		height: 276rpx;
 	}
-	
+
 	.text {
 		margin-top: 40rpx;
-		size: 32rpx;
+		font-size: 32rpx;
 		color: #999999;
 	}
 }
