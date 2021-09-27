@@ -151,7 +151,7 @@ const orderPay = (payOrderNum, payType)=>{
 						package: res.pkg,
 						partnerid: res.partnerId,
 						prepayid: res.prepayId,
-						timestamp: res.timeStamp,
+						timestamp: parseInt(res.timeStamp),
 						sign: res.paySign
 					}
 				console.log('微信支付参数', param);
