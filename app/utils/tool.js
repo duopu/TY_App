@@ -145,9 +145,7 @@ const orderPay = (payOrderNum, payType)=>{
 			})
 		}else if(payType === 2){
 			request.post('/order/wechatPayForApp',{orderNum: payOrderNum},true).then(res => {
-				uni.requestPayment({
-				    provider: "wxpay", 
-				    orderInfo: {
+				const param = {
 						appid: res.appId,
 						noncestr: res.nonceStr,
 						package: res.pkg,
@@ -155,9 +153,13 @@ const orderPay = (payOrderNum, payType)=>{
 						prepayid: res.prepayId,
 						timestamp: res.timeStamp,
 						sign: res.paySign
-					},
+					}
+				console.log('微信支付参数', param);
+				uni.requestPayment({
+				    provider: "wxpay", 
+				    orderInfo: param,
 				    success: function (res) {
-						console.log('success:' + JSON.stringify(res));
+						console.log('微信支付成功:' + JSON.stringify(res));
 						resolve(res);
 						// 跳转到订单列表页
 						uni.redirectTo({
@@ -165,7 +167,7 @@ const orderPay = (payOrderNum, payType)=>{
 						});
 					},
 				    fail: function (err) {
-						console.log('fail:' + JSON.stringify(err));
+						console.log('微信支付失败:' + JSON.stringify(err));
 						reject(err);
 						// 跳转到订单列表页
 						uni.redirectTo({
