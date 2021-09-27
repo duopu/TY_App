@@ -98,7 +98,7 @@
 
 <style lang="less">
 	.live-broadcast {
-		flex-direction: 1;
+		flex-direction: row;
 
 		.livePusher {
 			flex: 1;

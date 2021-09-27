@@ -7,7 +7,7 @@
 			// 用户信息
 			user: {},
 			// im 消息
-			messageParam:{}
+			messageParam: {}
 		},
 		onLaunch: function() {
 
@@ -16,7 +16,7 @@
 				key: config.storageKeys.loginUserKey,
 				success: res => {
 					const user = res.data;
-					console.log('从本地恢复登录信息2',user);
+					console.log('从本地恢复登录信息2', user);
 					if (user.token) {
 						this.$tool.login(user);
 					} else {
@@ -36,34 +36,34 @@
 
 
 			// 监听会话变化
-			uni.$on('ConversationListen',(data)=>{
-				console.log('监听会话变化 22',data);
-				if(data.type == 'onConversationChanged'){
-					this.$store.commit('onConversationChanged',data.conversationList)
+			uni.$on('ConversationListen', (data) => {
+				console.log('监听会话变化 22', data);
+				if (data.type == 'onConversationChanged') {
+					this.$store.commit('onConversationChanged', data.conversationList)
 				}
 			})
 
-			setTimeout(()=>{
+			setTimeout(() => {
 				this.$store.dispatch('getGroupConversationMap')
-			},2000)
+			}, 2000)
 
 
-		// 定时刷新token
-		this.$http.refreshToken();
-		const timer = setInterval(() => {
+			// 定时刷新token
 			this.$http.refreshToken();
-		}, 60 * 60 * 1000);
-	},
-	onShow: function() {
-		console.log('App Show');
-		
-		// 在非H5环境下，读取剪贴板中的信息实现复制链接功能
-		// #ifndef H5
+			const timer = setInterval(() => {
+				this.$http.refreshToken();
+			}, 60 * 60 * 1000);
+		},
+		onShow: function() {
+			console.log('App Show');
+
+			// 在非H5环境下，读取剪贴板中的信息实现复制链接功能
+			// #ifndef H5
 			uni.getClipboardData({
-			    success: (res) => {
-			        console.log(res.data);
+				success: (res) => {
+					console.log(res.data);
 					let copyLink = res.data;
-					if(!copyLink.search(config.copyUrl)){ 
+					if (!copyLink.search(config.copyUrl)) {
 						return
 					}
 					// 这里直接让剪贴板的内容复制为空字符串，避免重复复制链接的功能
@@ -73,92 +73,92 @@
 							uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
 						},
 					});
-					
+
 					let params = this.$tool.getUrlQuery(copyLink);
 					const linkType = params.linkType;
-					console.log("params == ",params);
-					
-					if(linkType == 5) { //店铺分销
+					console.log("params == ", params);
+
+					if (linkType == 5) { //店铺分销
 						const storeId = params.storeId;
 						uni.navigateTo({
-							url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
+							url: `/pages-user/index/store-details/store-details?storeId=${storeId}`
 						})
-					}else if(linkType == 4) { //商品分销
+					} else if (linkType == 4) { //商品分销
 						const goodsId = params.goodsId;
 						const userId = params.userId;
-						this.$store.commit('setInviterId',userId);
-						this.$store.commit('setinviterGoodsId',goodsId);
+						this.$store.commit('setInviterId', userId);
+						this.$store.commit('setinviterGoodsId', goodsId);
 						uni.navigateTo({
 							url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
 						});
-					}else if(linkType == 3) { //邀请好友参加坚持不懈
+					} else if (linkType == 3) { //邀请好友参加坚持不懈
 						const userId = params.userId;
-						this.$store.commit('setInviterId',userId);
+						this.$store.commit('setInviterId', userId);
 						uni.switchTab({
 							url: '/pages-user/index/index/index'
 						})
 						// 打开首页->活动->坚持不懈
-						uni.$emit('activity-open',1)
-					}else if(linkType == 2) { //邀请好久参加组团优惠
+						uni.$emit('activity-open', 1)
+					} else if (linkType == 2) { //邀请好久参加组团优惠
 						const userId = params.userId;
-						this.$store.commit('setInviterId',userId);
+						this.$store.commit('setInviterId', userId);
 						uni.switchTab({
 							url: '/pages-user/index/index/index'
 						})
 						// 打开首页->活动->组团优惠
-						uni.$emit('activity-open',0)
-					}else if(linkType == 1) { //邀请好友注册
+						uni.$emit('activity-open', 0)
+					} else if (linkType == 1) { //邀请好友注册
 						const userId = params.userId;
-						this.$store.commit('setInviterId',userId);
+						this.$store.commit('setInviterId', userId);
 						// TODO: 这里跳转到注册填写邀请码页面
 					}
-			    }
+				}
 			});
-		// #endif
-		
-	},
-	onHide: function() {
-		console.log('App Hide');
-	},
-	onResize() {
-		window.reload();
-	}
-};
+			// #endif
+
+		},
+		onHide: function() {
+			console.log('App Hide');
+		},
+		onResize() {
+			window.reload();
+		}
+	};
 </script>
 
 <style lang="less">
-@import './less/common.less';
-@import './less/font-face.less';
+	/* #ifndef APP-PLUS-NVUE */
+	@import './less/common.less';
+	@import './less/font-face.less';
 
-/* #ifndef APP-PLUS-NVUE */
-
-page {
-	--safe-area-inset-top: 0;
-	--safe-area-inset-right: 0;
-	--safe-area-inset-bottom: 0;
-	--safe-area-inset-left: 0;
-	font-size: 26rpx;
-	color: #222222;
-	height: 100%;
-	box-sizing: border-box;
-}
-
-@supports (top: constant(safe-area-inset-top)) {
 	page {
-		--safe-area-inset-top: constant(safe-area-inset-top);
-		--safe-area-inset-right: constant(safe-area-inset-right);
-		--safe-area-inset-bottom: constant(safe-area-inset-bottom);
-		--safe-area-inset-left: constant(safe-area-inset-left);
+		--safe-area-inset-top: 0;
+		--safe-area-inset-right: 0;
+		--safe-area-inset-bottom: 0;
+		--safe-area-inset-left: 0;
+		font-size: 26rpx;
+		color: #222222;
+		height: 100%;
+		box-sizing: border-box;
 	}
-}
 
-@supports (top: env(safe-area-inset-top)) {
-	page {
-		--safe-area-inset-top: env(safe-area-inset-top);
-		--safe-area-inset-right: env(safe-area-inset-right);
-		--safe-area-inset-bottom: env(safe-area-inset-bottom);
-		--safe-area-inset-left: env(safe-area-inset-left);
+	@supports (top: constant(safe-area-inset-top)) {
+		page {
+			--safe-area-inset-top: constant(safe-area-inset-top);
+			--safe-area-inset-right: constant(safe-area-inset-right);
+			--safe-area-inset-bottom: constant(safe-area-inset-bottom);
+			--safe-area-inset-left: constant(safe-area-inset-left);
+		}
 	}
-}
-/* #endif */
+
+	@supports (top: env(safe-area-inset-top)) {
+		page {
+			--safe-area-inset-top: env(safe-area-inset-top);
+			--safe-area-inset-right: env(safe-area-inset-right);
+			--safe-area-inset-bottom: env(safe-area-inset-bottom);
+			--safe-area-inset-left: env(safe-area-inset-left);
+		}
+	}
+
+	/* #endif */
 </style>
