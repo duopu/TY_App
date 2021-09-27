@@ -1,6 +1,6 @@
 <template>
 	<!-- 列表item -->
-	<view class="trade-item">
+	<view class="trade-item" @click="goUserInfo">
 		<!-- 用户/地址 -->
 		<view class="flex-center-between item-top">
 			<!-- 商家 -->
@@ -64,6 +64,14 @@ export default {
 	},
 	created(){
 		console.info(this.dataItem);
+	},
+	methods:{
+		goUserInfo(){
+		  console.log(111);
+			uni.navigateTo({
+				url: '/pages-business/message/user/user?userId='+ this.dataItem.orderDetailVO.userId
+			});
+		}
 	}
 };
 </script>

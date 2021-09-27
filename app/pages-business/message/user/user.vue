@@ -53,9 +53,28 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			goodsList: [],
+			userInfo: [],
+			userId: ''
+		};
 	},
-	methods: {}
+	onLoad(){
+		this.getUserInfo();
+		this.getUserGoodsList();
+	},
+	methods: {
+		getUserInfo(){
+			this.$http.get('',{userId: this.userId},false).then(res => {
+				this.userInfo = res;
+			})
+		},
+		getUserGoodsList(){
+			this.$http.get('',{userId: this.userId},false).then(res => {
+				this.goodsList = res;
+			})
+		}
+	}
 };
 </script>
 
