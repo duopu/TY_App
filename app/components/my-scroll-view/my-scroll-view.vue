@@ -9,7 +9,7 @@
 		<slot name="list" :list="dataList"></slot>
 		
 		<!-- 列表为空 -->
-		<my-empty class="no-data" :show="dataList.length === 0"></my-empty>
+		<my-empty :show="dataList.length === 0"></my-empty>
 		
 		<!-- 加载更多 -->
 		<uni-load-more v-if="pageEnable && dataList.length > 0"
@@ -133,9 +133,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss" scoped>
-	.no-data {
-		height: 100%;
-	}
-</style>
