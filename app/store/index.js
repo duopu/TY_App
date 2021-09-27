@@ -211,9 +211,11 @@ const store = new Vuex.Store({
 		// 获取店铺信息
 		queryStoreInfo({commit}){
 			const user = getApp().globalData.user;
-			request.get('/store/queryInfoByLogin',{storeId:user.storeId}).then(res=>{
-				commit('setStoreInfo',res)
-			})
+			if(user.storeId){
+				request.get('/store/queryInfoByLogin',{storeId:user.storeId}).then(res=>{
+					commit('setStoreInfo',res)
+				})
+			}
 		}
 	}
 	
