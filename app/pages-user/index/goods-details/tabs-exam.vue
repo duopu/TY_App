@@ -14,7 +14,7 @@
 			</view>
 		</view>
 		<!-- 评论列表 -->
-		<block v-for="(item,index) in commentList.length > 3 ? commentList.slice(0,3) : commentList" 
+		<block v-for="(item,index) in commentList.length > 2 ? commentList.slice(0,2) : commentList" 
 		:key="`comment-entity-${index}`">
 			<comment-lists-item :data="item"></comment-lists-item>
 		</block>
@@ -26,6 +26,10 @@
 export default {
 	name: 'tabsExam',
 	props:{
+		score: { //考试评分
+			type: Number,
+			default: 0
+		},
 		examVO:{ //考试信息
 			type:Object,
 			required:true
@@ -38,13 +42,15 @@ export default {
 	data() {
 		return {
 			commentList:this.examCommentVOList, //考题评论
-			score:this.examVO.score, //考题评分
+			examScore:this.score, //考题评分
 			content:this.examVO.conent //考题内容
 		};
 	},
 	watch:{
+		score(newV, oldV){
+			this.examScore = newV;
+		},
 		examVO(newV, oldV){
-			this.score = newV.score;
 			this.content = newV.content;
 		},
 		examCommentVOList(newV, oldV){

@@ -71,7 +71,8 @@ export default {
 				{name:"录播",value:1}
 			],
 			mechanismTypeList:[
-				{name:"企业/机构",value:2},
+				{name:"企业",value:2},
+				{name:"官方",value:3},
 				{name:"个人",value:1},
 			],
 			form:{

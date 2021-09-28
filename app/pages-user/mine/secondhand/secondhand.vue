@@ -2,10 +2,10 @@
 <template>
 	<view class="page-wrapper classify-details">
 		<!-- 头部 -->
-		<view class="flex-center classify-details-top">
+		<!-- <view class="flex-center classify-details-top">
 			<image @click="onBack" mode="aspectFill" src="../../../static/images/login/back.png" class="icon-arrow"></image>
 			<custom-search placeholder="搜索" @search="getSearchInput"></custom-search>
-		</view>
+		</view> -->
 		<view class="flex-center filter">
 			<view class="filter-item flex-center-center flex-1" :class="filterSelect('sortPopup')" @click="openPopup('sortPopup')">
 				<text>{{ sortItem.name }}</text>
@@ -67,9 +67,8 @@ export default {
 			}
 		};
 	},
-	onLoad(option) {
-		this.queryParams.categoryId = option.categoryId;
-		this.categoryItem = { categoryName: option.categoryName, categoryId: option.categoryId };
+	onLoad() {
+		
 	},
 	methods: {
 		//返回 上一级
@@ -130,7 +129,7 @@ export default {
 		 */
 		onLoadData(page, pageSize, callback) {
 			this.queryParams.page = page;
-			this.queryParams.source = 1; //只查询新品
+			this.queryParams.source = 2; //只查询二手商品
 			this.$http
 				.get('/category/goods/queryPage', this.queryParams, true)
 				.then(res => {

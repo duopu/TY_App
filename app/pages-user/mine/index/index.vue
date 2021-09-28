@@ -70,6 +70,15 @@
 				<!-- 其他服务 -->
 				<view class="title">其他服务</view>
 				<view class="other-lists">
+					<view class="flex-center-between item" @click="gotoSecondhand">
+						<image class="item-image" src="../../../static/images/icons/icon-my-account.svg"
+							mode="aspectFill"></image>
+						<view class="flex-center-between right">
+							<text class="text">二手商品专区</text>
+							<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"
+								mode="aspectFill"></image>
+						</view>
+					</view>
 					<view class="flex-center-between item" @click="gotoAccountSet">
 						<image class="item-image" src="../../../static/images/icons/icon-my-account.svg"
 							mode="aspectFill"></image>
@@ -218,6 +227,12 @@
 						url: item.page
 					})
 				}
+			},
+			// 跳转二手商品专区
+			gotoSecondhand(){
+				uni.navigateTo({
+					url: '/pages-user/mine/secondhand/secondhand'
+				})
 			},
 			// 跳转账户与安全
 			gotoAccountSet() {
