@@ -3,7 +3,7 @@
 	<view class="tabs-catalogue">
 		<!-- 标题 -->
 		<view class="flex-center-between comment-title">
-			<view class="title">全部评论（{{commentList.length}}）</view>
+			<view class="title text-bold">全部评论（{{commentList.length}}）</view>
 			<view class="flex-center flex-1 color-yellow">
 				<text class="color-yellow">课程评分</text>
 				<rate class="rate" :number="courseScore"></rate>
@@ -20,7 +20,8 @@
 		</block>
 		<!-- 视频目录 -->
 		<view class="video-catalogue">
-			<block v-for="(item,index) in courseClassVOList">
+			<view class="title text-bold">课程目录</view>
+			<block v-for="(item,index) in courseClassVOList" :key="index">
 				<video-catalogue-item :data="item" :index="`${index+1}`"></video-catalogue-item>
 			</block>
 		</view>
