@@ -30,7 +30,7 @@
 			<view class="slot-item"></view>
 		</scroll-view>
 		<!-- 底部 -->
-		<view class="address-bottom"><button class="btn btn-block" @click="goAddAddress()">添加收获地址</button></view>
+		<view class="address-bottom"><button class="btn btn-block" @click="goAddAddress()">添加收货地址</button></view>
 	</view>
 </template>
 
@@ -80,11 +80,21 @@ export default {
 		 * @param {Object} id 地址ID
 		 */
 		deleteAddress(id){
-			this.$http
-				.post('/address/delete', {id:id}, true)
-				.then(res => {
-					this.getAddresList();
-				});
+			uni.showModal({
+				title: '提示',
+				content: '是否确定删除当前地址',
+				confirmText: '确定',
+				cancelText: '取消',
+				success: res => {
+					if (res.confirm) {
+						this.$http
+							.post('/address/delete', {id:id}, true)
+							.then(res => {
+								this.getAddresList();
+							});
+					}
+				}
+			});
 		},
 		
 		/**

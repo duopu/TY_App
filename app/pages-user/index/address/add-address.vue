@@ -35,7 +35,7 @@
 		<!-- 底部 -->
 		<view class="address-bottom"><button class="btn btn-block" @click="saveAddress">保存</button></view>
 		
-		<my-city-picker ref="myCityPicker" :data="pickerData" @submit="citySubmit"></my-city-picker>
+		<my-city-picker ref="myCityPicker" :cityCods="pickerData" @submit="citySubmit"></my-city-picker>
 		
 	</view>
 </template>
@@ -103,20 +103,45 @@ export default {
 		
 		// 定位
 		getLocation(){
+			this.pickerData = ['410000','410100']
+			uni.showLoading({
+				title: '定位中...',
+				mask: true,
+			})
 			uni.getLocation({
 			    type: 'wgs84',
 				geocode: true,
-			    success: function (res) {
+			    success: (res) => {
 			        console.log('当前位置的经度：' + res.longitude);
 			        console.log('当前位置的纬度：' + res.latitude);
 					console.log('当前位置的地址信息：' + res.address);
-			    }
+					
+					uni.hideLoading();
+					const address = res.address;
+					
+					if(!address){
+						this.$tool.showToast("无法获取地址信息");
+					}else{
+						const province = address.province;
+						const city = address.city;
+						const district = address.district;
+						const street = address.street || '';
+						const streetNum = address.streetNum || '';
+						this.form.address = `${street}${streetNum}`;
+						// TODO: 等待潘玉玉给接口，好进行数据回显
+					}
+					
+			    },
+				fail: (err) => {
+					console.log("定位失败 === ", err);
+					uni.hideLoading();
+					this.$tool.showToast("定位失败");
+				}
 			});
 		},
 		
 		// 保存配送地址信息
 		saveAddress(){
-			console.log("this.form == ",this.form);
 			if(!this.form.name){
 				this.$tool.showToast("请输入收货人姓名");
 				return
@@ -124,6 +149,11 @@ export default {
 			
 			if(!this.form.phone){
 				this.$tool.showToast("请输入手机号码");
+				return
+			}
+			
+			if(!this.$tool.isPhoneNumber(this.form.phone)){
+				this.$tool.showToast("请输入正确的手机号");
 				return
 			}
 			

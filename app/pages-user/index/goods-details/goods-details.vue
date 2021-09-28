@@ -566,7 +566,7 @@ export default {
 				this.$http
 					.post('/shopping/cart/add', addCarParams, true)
 					.then(res => {
-						this.$tool.showSuccess("添加成功，在购物车等亲~");
+						this.$tool.showSuccess("添加成功");
 					});
 			}else{ //立即购买
 			

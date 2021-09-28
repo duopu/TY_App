@@ -29,12 +29,14 @@
 		name:"my-city-picker",
 		emits:['submit'],
 		props: {
-			data:{ //当前选中的省市区街道code码
-				type:Array
+			cityCods:{ //当前选中的省市区街道code码
+				type:Array,
+				default:()=>[]
 			}
 		},
 		data() {
 			return {
+				data: this.cityCods,
 				indicatorStyle: `height: ${Math.round(uni.getSystemInfoSync().screenWidth/(750/100))}px;`, //每行的高度
 				valueArr: [0, 0, 0, 0], // 当前选中各列的下标
 				province: [] // 省市区街道结构树  例如[{code:1,name:'北京',children:[]}]
@@ -64,9 +66,17 @@
 			}
 		},
 		watch:{
+			data: {
+				deep: true,
+				immediate: true,
+				handler(newV, oldV){
+					this.data = newV;
+					this.initLoadArea();
+				}
+			},
 			province: {
 				handler(newV, oldV){
-					if(this.data && this.data.length === 4){
+					if(this.data && this.data.length >= 1){
 						for(let i=0; i< newV.length; i++){
 							let c_p = newV[i]; //当前省
 							
@@ -77,21 +87,21 @@
 								for(let j=0; j<c_p_citys.length; j++){
 									let c_p_c = c_p_citys[j]; // 当前市
 									
-									if(c_p_c.code === this.data[1]){
+									if(this.data.length >= 2 && c_p_c.code === this.data[1]){
 										this.valueArr[1] = j;
 										let c_p_c_areas = c_p_c.children || []; //当前市下所有的区
 										
 										for(let k=0; k<c_p_c_areas.length;k++){
 											let c_p_c_a = c_p_c_areas[k]; //当前区
 											
-											if(c_p_c_a.code === this.data[2]){
+											if(this.data.length >= 3 && c_p_c_a.code === this.data[2]){
 												this.valueArr[2] = k;
 												let c_p_c_a_streets = c_p_c_a.children || []; //当前区下所有的街道
 												
 												for(let l=0; l<c_p_c_a_streets.length; l++){
 													let c_p_c_a_s = c_p_c_a_streets[l]; //当前街道
 													
-													if(c_p_c_a_s.code === this.data[3]){
+													if(this.data.length >= 4 && c_p_c_a_s.code === this.data[3]){
 														this.valueArr[3] = l;
 														break;
 													}
@@ -113,7 +123,7 @@
 			}
 		},
 		created() {
-			this.initLoadArea();
+			// this.initLoadArea();
 		},
 		methods:{
 			
@@ -131,7 +141,7 @@
 					.then(res => {
 						this.province = res;
 						if(res && res.length > 0){
-							let provinceCode = this.data && this.data.length === 4 ? this.data[0] : this.province[this.valueArr[0]].code ;
+							let provinceCode = this.data && this.data.length >= 1 ? this.data[0] : this.province[this.valueArr[0]].code ;
 							this.loadCity(provinceCode)
 						}
 					});
@@ -148,7 +158,7 @@
 								res.forEach(item => {
 									this.province[this.valueArr[0]].children.push(item)
 								})
-								let cityCode = this.data && this.data.length === 4 ? this.data[1] : this.province[this.valueArr[0]].children[this.valueArr[1]].code ;
+								let cityCode = this.data && this.data.length >= 2 ? this.data[1] : this.province[this.valueArr[0]].children[this.valueArr[1]].code ;
 								this.loadArea(cityCode);
 							}
 						}
@@ -166,7 +176,7 @@
 								res.forEach(item => {
 									this.province[this.valueArr[0]].children[this.valueArr[1]].children.push(item)
 								})
-								let areaCode = this.data && this.data.length === 4 ? this.data[2] : this.province[this.valueArr[0]].children[this.valueArr[1]].children[this.valueArr[2]].code ;
+								let areaCode = this.data && this.data.length >= 3 ? this.data[2] : this.province[this.valueArr[0]].children[this.valueArr[1]].children[this.valueArr[2]].code ;
 								this.loadStreet(areaCode);
 							}
 						}
@@ -189,14 +199,37 @@
 					});
 			},
 			
+			/**
+			 * picker切换回调
+			 * @param {Object} e
+			 */
 			bindChange(e) {
 				const val = e.detail.value;
-				if (this.valueArr[0] !== val[0] && this.province[val[0]].children === undefined) {
-					this.loadCity(this.province[val[0]].code)
-				} else if (this.valueArr[1] !== val[1] && this.province[val[0]].children[val[1]].children === undefined) {
-					this.loadArea(this.province[val[0]].children[val[1]].code)
-				} else if (this.valueArr[2] !== val[2] && this.province[val[0]].children[val[1]].children[val[2]].children === undefined){
-					this.loadStreet(this.province[val[0]].children[val[1]].children[val[2]].code)
+				let c_p = null, c_p_citys = null, c_c = null, c_c_areas = null, c_a = null, c_a_streets = null;
+				c_p = this.province[val[0]]; // 当前省
+				if(c_p){
+					c_p_citys = c_p.children; //当前省下的所有市
+					if(c_p_citys){
+						c_c = c_p_citys[val[1]]; //当前市
+						if(c_c){
+							c_c_areas = c_c.children; //当前市下所有的区
+							if(c_c_areas){
+								c_a = c_c_areas[val[2]]; //当前区
+								if(c_a){
+									c_a_streets = c_a.children; //当前区下面所有的街道
+								}
+							}
+						}
+					}
+				}
+				
+				
+				if (this.valueArr[0] !== val[0] && c_p_citys === undefined) {
+					this.loadCity(c_p.code)
+				} else if (this.valueArr[1] !== val[1] && c_c_areas === undefined) {
+					this.loadArea(c_c.code)
+				} else if (this.valueArr[2] !== val[2] && c_a_streets === undefined){
+					this.loadStreet(c_a.code)
 				}
 				this.valueArr = val
 			},
