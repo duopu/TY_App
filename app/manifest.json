@@ -25,7 +25,8 @@
         "modules" : {
             "LivePusher" : {},
             "VideoPlayer" : {},
-            "Payment" : {}
+            "Payment" : {},
+            "OAuth" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -35,6 +36,7 @@
                 "permissions" : [
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.BATTERY_STATS\"/>",
@@ -50,6 +52,7 @@
                     "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
@@ -62,7 +65,17 @@
             },
             /* SDK配置 */
             "sdkConfigs" : {
-                "oauth" : {},
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "wx45e816c0f34c2bd4",
+                        "appsecret" : "c18625f4e1f2fa3f67614e8e9054a398",
+                        "UniversalLinks" : ""
+                    },
+                    "qq" : {
+                        "appid" : "101975426",
+                        "UniversalLinks" : ""
+                    }
+                },
                 "ad" : {},
                 "payment" : {
                     "alipay" : {
@@ -73,7 +86,8 @@
                         "appid" : "wx45e816c0f34c2bd4",
                         "UniversalLinks" : ""
                     }
-                }
+                },
+                "push" : {}
             },
             "icons" : {
                 "android" : {
