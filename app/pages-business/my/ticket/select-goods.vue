@@ -12,7 +12,7 @@
 			<!-- 搜索区域 -->
 			<view class="flex-center search ">
 				<image class="icon-search" src="../../../static/images/icons/icon-search1.svg" mode="aspectFill"></image>
-				<input class="felx-1" type="text" value="" placeholder="搜索" placeholder-style="input-placeholder" />
+				<input class="felx-1" type="text" value="" @input="searchGoods" placeholder="搜索" placeholder-style="input-placeholder" />
 			</view>
 			<!-- 筛选内容 -->
 			<view class="flex-center-between filter">
@@ -90,7 +90,8 @@ export default {
 			selectedList: [],
 			isSelectedAll: false,
 			total: 0,
-			page: 1
+			page: 1,
+			searchText: ''
 		};
 	},
 	onLoad(){
@@ -109,9 +110,10 @@ export default {
 		queryGoodList(params){
 			let paramsObj = {
 				page: this.page,size: 10, status: 1,
+				searchText: this.searchText,
 				...params
 			}
-			this.$http.get('/goods/queryPageByStoreId',params,true).then(res =>{
+			this.$http.get('/goods/queryPageByStoreId',paramsObj,true).then(res =>{
 				this.goodList = res.content;
 			})
 		},
@@ -142,6 +144,10 @@ export default {
 			console.log(selectedList);
 			uni.$emit('selectCallBack',selectedList);
 			uni.navigateBack();
+		},
+		searchGoods(event){
+			this.searchText = event.detail.value
+			this.queryGoodList()
 		}
 	}
 };

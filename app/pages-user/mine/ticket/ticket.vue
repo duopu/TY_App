@@ -11,9 +11,10 @@
 					<block v-for="(value, vi) in item.userPlatformCouponList || []" :key="`coupon-${vi}`">
 						<ticket-lists-item :data="value"></ticket-lists-item>
 					</block>
+					<my-empty style="height: 40%;" :show="(item.userPlatformCouponList || []).length === 0"></my-empty>
 					<!-- 商家优惠券 -->
 					<view class="title">商家优惠券</view>
-					<block v-for="(value, vi) in item.userStoreCouponList" :key="`store-${vi}`">
+					<block v-for="(value, vi) in item.userStoreCouponList || []" :key="`store-${vi}`">
 						<view class="flex-center goods-item">
 							<image class="avatar-image" src="../../../static/images/other/girl.png" mode="aspectFill"></image>
 							<text>{{value.storeName}}</text>
@@ -22,6 +23,7 @@
 							<ticket-lists-item :data="coupon"></ticket-lists-item>
 						</block>
 					</block>
+					<my-empty style="height: 40%;" :show="(item.userStoreCouponList || []).length === 0"></my-empty>
 				</scroll-view>
 			</swiper-item>
 		</swiper>
