@@ -29,14 +29,14 @@
 		name:"my-city-picker",
 		emits:['submit'],
 		props: {
-			cityCods:{ //当前选中的省市区街道code码
+			cityCodes:{ //当前选中的省市区街道code码
 				type:Array,
 				default:()=>[]
 			}
 		},
 		data() {
 			return {
-				data: this.cityCods,
+				data: this.cityCodes,
 				indicatorStyle: `height: ${Math.round(uni.getSystemInfoSync().screenWidth/(750/100))}px;`, //每行的高度
 				valueArr: [0, 0, 0, 0], // 当前选中各列的下标
 				province: [] // 省市区街道结构树  例如[{code:1,name:'北京',children:[]}]
@@ -66,7 +66,7 @@
 			}
 		},
 		watch:{
-			data: {
+			cityCodes: {
 				deep: true,
 				immediate: true,
 				handler(newV, oldV){

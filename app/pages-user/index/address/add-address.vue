@@ -35,7 +35,7 @@
 		<!-- 底部 -->
 		<view class="address-bottom"><button class="btn btn-block" @click="saveAddress">保存</button></view>
 		
-		<my-city-picker ref="myCityPicker" :cityCods="pickerData" @submit="citySubmit"></my-city-picker>
+		<my-city-picker ref="myCityPicker" :cityCodes="pickerData" @submit="citySubmit"></my-city-picker>
 		
 	</view>
 </template>
@@ -104,10 +104,10 @@ export default {
 		// 定位
 		getLocation(){
 			this.pickerData = ['410000','410100']
-			uni.showLoading({
-				title: '定位中...',
-				mask: true,
-			})
+			// uni.showLoading({
+			// 	title: '定位中...',
+			// 	mask: true,
+			// })
 			uni.getLocation({
 			    type: 'wgs84',
 				geocode: true,
