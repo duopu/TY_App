@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 3</title>
+    <g id="主页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-43.000000, -56.000000)">
+            <g id="编组-3" transform="translate(43.000000, 56.000000)">
+                <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+                <rect id="矩形" x="0" y="0" width="20" height="20"></rect>
+                <rect id="矩形" stroke="#686868" stroke-linejoin="round" x="3" y="4" width="14" height="12"></rect>
+                <text id="二手" font-family="FZLTTHJW--GB1-0, FZLanTingHeiS-H-GB" font-size="6" font-weight="normal" fill="#686868">
+                    <tspan x="4" y="12">二手</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
