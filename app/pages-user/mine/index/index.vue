@@ -71,7 +71,7 @@
 				<view class="title">其他服务</view>
 				<view class="other-lists">
 					<view class="flex-center-between item" @click="gotoSecondhand">
-						<image class="item-image" src="../../../static/images/icons/icon-my-account.svg"
+						<image class="item-image" src="../../../static/images/icons/icon-ershou.svg"
 							mode="aspectFill"></image>
 						<view class="flex-center-between right">
 							<text class="text">二手商品专区</text>
