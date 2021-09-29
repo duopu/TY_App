@@ -113,7 +113,7 @@ export default {
 			    type: 'wgs84',
 				geocode: true,
 			    success: (res) => {
-					console.log('当前位置的地址信息：' + res.address);
+					console.log('当前位置的地址信息：' , res.address); 
 					
 					uni.hideLoading();
 					const address = res.address;
