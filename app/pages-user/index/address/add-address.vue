@@ -33,7 +33,9 @@
 			</view>
 		</scroll-view>
 		<!-- 底部 -->
-		<view class="address-bottom"><button class="btn btn-block" @click="saveAddress">保存</button></view>
+		<view class="address-bottom">
+			<button class="btn btn-block" @click="saveAddress">保存</button>
+		</view>
 		
 		<my-city-picker ref="myCityPicker" :cityCodes="pickerData" @submit="citySubmit"></my-city-picker>
 		
@@ -102,18 +104,15 @@ export default {
 		},
 		
 		// 定位
-		getLocation(){
-			this.pickerData = ['410000','410100']
-			// uni.showLoading({
-			// 	title: '定位中...',
-			// 	mask: true,
-			// })
+		getLocation(){	
+			uni.showLoading({
+				title: '定位中...',
+				mask: true,
+			})
 			uni.getLocation({
 			    type: 'wgs84',
 				geocode: true,
 			    success: (res) => {
-			        console.log('当前位置的经度：' + res.longitude);
-			        console.log('当前位置的纬度：' + res.latitude);
 					console.log('当前位置的地址信息：' + res.address);
 					
 					uni.hideLoading();
@@ -125,12 +124,27 @@ export default {
 						const province = address.province;
 						const city = address.city;
 						const district = address.district;
-						const street = address.street || '';
-						const streetNum = address.streetNum || '';
-						this.form.address = `${street}${streetNum}`;
-						// TODO: 等待潘玉玉给接口，好进行数据回显
+						const street = address.street;
+						const streetNum = address.streetNum;
+						const params = {
+							provinceName: province,
+							cityName: city,
+							areaName: district,
+							streetName: street
+						}
+						this.$http
+							.get('/sysArea/queryCode', params, true)
+							.then(res => {
+								this.pickerData = [
+									res.provinceCode, 
+									res.cityCode,
+									res.areaCode,
+									res.streetCode
+								]
+							});
+						
+						this.form.address = `${street || ''}${streetNum || ''}`;
 					}
-					
 			    },
 				fail: (err) => {
 					console.log("定位失败 === ", err);
@@ -157,7 +171,7 @@ export default {
 				return
 			}
 			
-			if(!this.cityAddress){
+			if(!this.form.provinceName || !this.form.cityName || !this.form.areaName || !this.form.streetName){
 				this.$tool.showToast("请选择地区");
 				return
 			}

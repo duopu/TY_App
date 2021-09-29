@@ -75,6 +75,7 @@
 				}
 			},
 			province: {
+				deep: true,
 				handler(newV, oldV){
 					if(this.data && this.data.length >= 1){
 						for(let i=0; i< newV.length; i++){
@@ -117,9 +118,9 @@
 								break;
 							}
 						}
+						this.$emit("submit",this.formatterCityVO());
 					}
-				},
-				deep: true
+				}
 			}
 		},
 		created() {
@@ -235,20 +236,44 @@
 			},
 			
 			/**
+			 * 格式化要返回给父节点的城市选择器对象
+			 */
+			formatterCityVO(){
+				let province = null;
+				let city = null;
+				let area = null;
+				let street = null;
+				
+				if(this.province.length > 0){
+					province = this.province[this.valueArr[0]];
+					if(province && province.children){
+						city = province.children[this.valueArr[1]];
+						if(city && city.children){
+							area = city.children[this.valueArr[2]];
+							if(area && area.children){
+								street = area.children[this.valueArr[3]];
+							}
+						}
+					}
+				}
+				let cityVO = {
+					provinceCode: province ? province.code : null,
+					provinceName: province ? province.name : null,
+					cityCode: city ? city.code : null,
+					cityName: city ? city.name : null,
+					areaCode: area ? area.code : null,
+					areaName: area ? area.name : null,
+					streetCode: street ? street.code : null,
+					streetName: street ? street.name : null
+				}
+				return cityVO
+			},
+			
+			/**
 			 * 确定
 			 */
 			confirm(){
-				let cityVO = {
-					provinceCode: this.province[this.valueArr[0]].code,
-					provinceName: this.province[this.valueArr[0]].name,
-					cityCode: this.province[this.valueArr[0]].children[this.valueArr[1]].code,
-					cityName: this.province[this.valueArr[0]].children[this.valueArr[1]].name,
-					areaCode: this.province[this.valueArr[0]].children[this.valueArr[1]].children[this.valueArr[2]].code,
-					areaName: this.province[this.valueArr[0]].children[this.valueArr[1]].children[this.valueArr[2]].name,
-					streetCode: this.province[this.valueArr[0]].children[this.valueArr[1]].children[this.valueArr[2]].children[this.valueArr[3]].code,
-					streetName: this.province[this.valueArr[0]].children[this.valueArr[1]].children[this.valueArr[2]].children[this.valueArr[3]].name
-				}
-				this.$emit("submit",cityVO)
+				this.$emit("submit",this.formatterCityVO())
 				this.close();
 			}
 			
