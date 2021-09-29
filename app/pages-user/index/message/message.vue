@@ -5,7 +5,7 @@
 		<view class="message-top flex-center-between">
 			<image class="icon-back" @click="goBack" src="../../../static/images/login/back.png" mode="aspectFill"></image>
 			<text class="text-bold title">消息</text>
-			<text class="color-6">清除未读</text>
+			<text class="color-6" @click="cleanUnReadMessage">清除未读</text>
 		</view>
 		<!-- 切换 -->
 		<view class="message-tabs flex-center-between">
@@ -95,6 +95,22 @@ export default {
 		this.queryAnnouncementList();
 	},
 	methods: {
+		// 清除未读数
+		cleanUnReadMessage(){
+			console.log('2222222');
+			if(this.tabIndex == 0){
+				this.groupList.forEach(group=>{
+					this.$tool.imTool.markGroupMessageAsRead(group.groupId)
+				})
+			}else{
+				const redPromiseList = this.systemMsg.filter(msg=>msg.readState == 0).map(msg=>{
+					return this.$http.post('/announcement/read',{announcementId:msg.announcementId},true)
+				})
+				Promise.all(redPromiseList).then(res=>{
+					thisqueryAnnouncementList()
+				})
+			}
+		},
 		// 查询群组列表
 		queryGroupList(){
 			this.$http.get('/im/queryGroupList').then(res=>{
@@ -115,6 +131,7 @@ export default {
 				url:`/pages/im-message/im-message`
 			})
 		},
+		
 		// 查询公告列表
 		queryAnnouncementList(){
 			this.$http.get('/announcement/queryListByLogin').then(res=>{

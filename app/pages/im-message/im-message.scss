@@ -46,10 +46,14 @@ view{
 	}
 	
 	.list-view{
-		height: 90vh;
+		max-height: 90vh;
 	}
 	
 	.bottom{
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		right: 0;
 		background-color: #FFFFFF;
 		.input-bar{
 			height: 108rpx;
@@ -78,10 +82,8 @@ view{
 				background-color: #F8F8F8;
 				align-items: center;
 				justify-content: center;
-				.record-text{
-					color: #212121;
-					font-size: 28rpx;
-				}
+				color: #212121;
+				font-size: 28rpx;
 			}
 			
 			.img-btn{
