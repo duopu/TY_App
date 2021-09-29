@@ -126,12 +126,14 @@ export default {
 						const district = address.district;
 						const street = address.street;
 						const streetNum = address.streetNum;
+						const poiName = address.poiName;
 						const params = {
 							provinceName: province,
 							cityName: city,
 							areaName: district,
 							streetName: street
 						}
+						
 						this.$http
 							.get('/sysArea/queryCode', params, true)
 							.then(res => {
@@ -143,7 +145,7 @@ export default {
 								]
 							});
 						
-						this.form.address = `${street || ''}${streetNum || ''}`;
+						this.form.address = `${street || ''}${streetNum || ''}${poiName || ''}`;
 					}
 			    },
 				fail: (err) => {

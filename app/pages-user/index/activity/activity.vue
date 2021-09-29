@@ -21,8 +21,10 @@
 			<block v-for="(item, index) in groupBuyList" :key="`group-goods-${index}`">
 				<active-group-lists-item class="activity-lists-item" :data="item"></active-group-lists-item>
 			</block>
+			<!-- 列表为空 -->
+			<my-empty :show="groupBuyList.length === 0"></my-empty>
 			<!-- 加载更多 -->
-			<uni-load-more :status="groupBuyParams.status" :icon-size="16" :content-text="contentText"></uni-load-more>
+			<uni-load-more v-show="groupBuyList.length > 0" :status="groupBuyParams.status" :icon-size="16" :content-text="contentText"></uni-load-more>
 		</view>
 		
 		
@@ -36,6 +38,9 @@
 			<button class="btn" v-if="item.joinFlag === 1" @click="submitUnremittingly(item.unremittinglyId)">报名活动</button>
 			<button class="btn disable" v-if="item.joinFlag === 2">已报名</button>
 		</view>
+		<!-- 列表为空 -->
+		<my-empty style="height: auto;" :show="tabsIndex === 1 && unremittinglyList.length === 0"></my-empty>
+		
 		
 		
 		<!-- 分销大使 -->

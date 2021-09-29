@@ -9,10 +9,10 @@
 		<slot name="list" :list="dataList"></slot>
 		
 		<!-- 列表为空 -->
-		<my-empty :show="dataList.length === 0"></my-empty>
+		<my-empty :show="!_freshing && dataList.length === 0"></my-empty>
 		
 		<!-- 加载更多 -->
-		<uni-load-more v-if="pageEnable && dataList.length > 0"
+		<uni-load-more v-show="pageEnable && dataList.length > 0"
 		:status="status" 
 		:icon-size="16" 
 		:content-text="contentText"></uni-load-more>

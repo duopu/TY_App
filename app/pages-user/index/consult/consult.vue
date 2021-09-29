@@ -12,7 +12,9 @@
 								:data="item"
 								@clickItem="itemOnClick"></consult-lists-item>
 		</view>
-		<uni-load-more :status="status" :icon-size="16" :content-text="contentText" />
+		<!-- 列表为空 -->
+		<my-empty :show="articleList.length === 0"></my-empty>
+		<uni-load-more v-show="articleList.length > 0" :status="status" :icon-size="16" :content-text="contentText" />
 	</view>
 </template>
 

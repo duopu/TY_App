@@ -621,7 +621,7 @@ export default {
 		gotoStoreDetail(){
 			const storeId = this.goodsInfo.storeId;
 			uni.navigateTo({
-				url:`/pages-user/index/store-details/store-details?storeId=${this.goodsInfo.storeId}`
+				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
 			})
 		}
 	}
