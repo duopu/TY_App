@@ -26,7 +26,8 @@
             "LivePusher" : {},
             "VideoPlayer" : {},
             "Payment" : {},
-            "OAuth" : {}
+            "OAuth" : {},
+            "Maps" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -87,7 +88,13 @@
                         "UniversalLinks" : ""
                     }
                 },
-                "push" : {}
+                "push" : {},
+                "maps" : {
+                    "amap" : {
+                        "appkey_ios" : "0d58f814a3c878a86bdfa362d7115949",
+                        "appkey_android" : "122278e10454ad0e1c9b3de5711592e2"
+                    }
+                }
             },
             "icons" : {
                 "android" : {
