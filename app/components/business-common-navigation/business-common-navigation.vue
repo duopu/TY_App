@@ -4,7 +4,7 @@
 		<image @click="onBack" mode="aspectFill" src="../../static/images/icons/icon-back.svg" class="icon-back"></image>
 		<view class="flex-center flex-1 search-box">
 			<image mode="aspectFill" src="../../static/images/icons/icon-search1.svg" class="icons"></image>
-			<input class="input" placeholder-class="input-placeholder" type="text" placeholder="搜索" />
+			<input class="input" @confirm="onSearch"  placeholder-class="input-placeholder" type="text" placeholder="搜索" />
 		</view>
 		<image mode="aspectFill" src="../../static/images/icons/icon-message3.svg" class="icons"></image>
 	</view>
@@ -13,6 +13,7 @@
 <script>
 export default {
 	name: 'business-common-navigation',
+	emits:['search'],
 	data() {
 		return {};
 	},
@@ -22,6 +23,9 @@ export default {
 			uni.navigateBack({
 				delta: 1
 			});
+		},
+		onSearch(event) {
+			this.$emit('search',event.detail.value)
 		}
 	}
 };
