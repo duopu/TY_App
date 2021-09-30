@@ -130,7 +130,7 @@ export default {
 		 */
 		onLoadData(page, pageSize, callback) {
 			this.queryParams.page = page;
-			this.queryParams.source = 1; //只查询新品
+			this.queryParams.source = 5; //查询除了二手商品以外的全部商品
 			this.$http
 				.get('/category/goods/queryPage', this.queryParams, true)
 				.then(res => {

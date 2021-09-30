@@ -18,6 +18,8 @@
 		:key="`comment-course-${index}`">
 			<comment-lists-item :data="item"></comment-lists-item>
 		</block>
+		<!-- 评论列表为空 -->
+		<my-empty :show="commentList.length === 0" text="暂无评论"></my-empty>
 		<!-- 视频目录 -->
 		<view class="video-catalogue">
 			<view class="title text-bold">课程目录</view>

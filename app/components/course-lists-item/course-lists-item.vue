@@ -7,7 +7,7 @@
 			<view class="item-desc flex-center">
 				<view class="flex price text-bold" :class="from && 'cost'">
 					<text class="unit">￥</text>
-					<view>{{data.price}}</view>
+					<view>{{data.minPrice || data.price}}</view>
 				</view>
 				<view v-if="from" class="flex price text-bold">
 					<text class="unit">￥</text>
@@ -29,6 +29,8 @@
 					goodsName: undefined,
 					thumbnail: undefined,
 					price: 0,
+					minPrice: 0,
+					maxPrice: 0,
 					discountPrice: 0, //会议权益跳转过来需要用到的折扣字段
 					sales: 0,
 					goodsId: undefined

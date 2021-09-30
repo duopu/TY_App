@@ -3,7 +3,7 @@
 	<view class="page-wrapper salary">
 		<!-- 列表 -->
 		<scroll-view class="salary-lists" scroll-y="true">
-			<course-lists-item v-for="(item,index) in ['','','','','','','','']" :key="index"></course-lists-item>
+			<!-- <course-lists-item v-for="(item,index) in ['','','','','','','','']" :key="index"></course-lists-item> -->
 		</scroll-view>
 	</view>
 </template>

@@ -18,7 +18,12 @@
 		:key="`comment-entity-${index}`">
 			<comment-lists-item :data="item"></comment-lists-item>
 		</block>
-		<rich-text :nodes="content"></rich-text>
+		<!-- 评论列表为空 -->
+		<my-empty :show="commentList.length === 0" text="暂无评论"></my-empty>
+		<!-- 介绍富文本 -->
+		<view class="rich-text">
+			<rich-text :nodes="content"></rich-text>
+		</view>
 	</view>
 </template>
 

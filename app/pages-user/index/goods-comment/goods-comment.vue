@@ -4,6 +4,7 @@
 		:key="`comment-entity-${index}`">
 			<comment-lists-item :data="item"></comment-lists-item>
 		</block>
+		<my-empty :show="commentList.length === 0" text="暂无评论"></my-empty>
 	</view>
 </template>
 
