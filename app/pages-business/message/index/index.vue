@@ -11,7 +11,7 @@
 			<view class="right-text">
 				<image @click="()=>showPop=!showPop" class="icon-more-dot" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 				<view class="dot-lists" v-show="showPop">
-					<view class="dot-lists-item" v-for="(item, index) in dotsData" :key="index">{{ item }}</view>
+					<view class="dot-lists-item" @click="jumpSetting(index)" v-for="(item, index) in dotsData" :key="index">{{ item }}</view>
 				</view>
 			</view>
 		</view>
@@ -130,6 +130,30 @@ export default {
 				})
 			}
 		},
+		jumpSetting(index){
+			switch (index) {
+				case 0:
+					// uni.navigateTo({
+					// 	url:`/pages-business/message/store/store`
+					// })
+					break;
+				case 1:
+					// uni.navigateTo({
+					// 	url:`/pages-business/message/store/store`
+					// })
+					break;
+				case 2:
+					// uni.navigateTo({
+					// 	url:`/pages-business/message/store/store`
+					// })
+					break;
+				case 3:
+					uni.navigateTo({
+						url:`/pages-business/my/setting/setting`
+					})
+					break;
+			}
+		}
 	}
 };
 </script>

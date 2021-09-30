@@ -8,32 +8,31 @@
 				商家A
 			</view>
 			<view class="level">
-				LV1
+				LV{{ info.growth || 0 }}
 			</view>
 		</view>
 		<!-- 升级规则 -->
 		<view class="box rule">
 			<view class="text-bold font-large">升级规则</view>
 			<view class="lists">
-				<view class="item flex-center-between" v-for="(item,index) in ['','','','']" :key="index">
+				<view class="item flex-center-between" v-for="(item,index) in info.storeLevelVOList" :key="index">
 					<image class="image" src="../../../static/images/my/vip.png" mode="widthFix"></image>
 					<view class="flex-1 right">
-						<view class="text-bold font-large">LV3</view>
-						<view class="font-24">总营业额达<text class="color-red">1</text>元</view>
+						<view class="text-bold font-large">LV{{item.level}}</view>
+						<view class="font-24">{{item.rightsContent}}</view>
 					</view>
 				</view>
-				
 			</view>
 		</view>
 		<!-- 权益内容 -->
 		<view class="box rule">
 			<view class="text-bold font-large">权益内容</view>
 			<view class="lists">
-				<view class="item flex-center-between" v-for="(item,index) in ['','','','']" :key="index">
+				<view class="item flex-center-between" v-for="(item,index) in info.storeLevelVOList" :key="index">
 					<image class="image" src="../../../static/images/my/vip.png" mode="widthFix"></image>
 					<view class="flex-1 right">
-						<view class="text-bold font-large">LV3</view>
-						<view class="font-24">xxxxxxxxx</view>
+						<view class="text-bold font-large">LV{{item.level}}</view>
+						<view class="font-24">{{item.rightsContent}}</view>
 					</view>
 				</view>
 			</view>
@@ -44,7 +43,21 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			info: {
+				storeLevelVOList: []
+			}
+		};
+	},
+	onLoad(){
+		this.getInfo();
+	},
+	methods:{
+		getInfo(){
+			this.$http.get('/store/queryLevelList',null,false).then(res => {
+				this.info = res;
+			})
+		}
 	}
 };
 </script>
