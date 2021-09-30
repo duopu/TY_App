@@ -33,9 +33,11 @@
 			</view>
 		</scroll-view>
 		<!-- 底部 -->
-		<view class="address-bottom"><button class="btn btn-block" @click="saveAddress">保存</button></view>
+		<view class="address-bottom">
+			<button class="btn btn-block" @click="saveAddress">保存</button>
+		</view>
 		
-		<my-city-picker ref="myCityPicker" :data="pickerData" @submit="citySubmit"></my-city-picker>
+		<my-city-picker ref="myCityPicker" :cityCodes="pickerData" @submit="citySubmit"></my-city-picker>
 		
 	</view>
 </template>
@@ -102,21 +104,60 @@ export default {
 		},
 		
 		// 定位
-		getLocation(){
+		getLocation(){	
+			uni.showLoading({
+				title: '定位中...',
+				mask: true,
+			})
 			uni.getLocation({
 			    type: 'wgs84',
 				geocode: true,
-			    success: function (res) {
-			        console.log('当前位置的经度：' + res.longitude);
-			        console.log('当前位置的纬度：' + res.latitude);
-					console.log('当前位置的地址信息：' + res.address);
-			    }
+			    success: (res) => {
+					console.log('当前位置的地址信息：' , res.address); 
+					
+					uni.hideLoading();
+					const address = res.address;
+					
+					if(!address){
+						this.$tool.showToast("无法获取地址信息");
+					}else{
+						const province = address.province;
+						const city = address.city;
+						const district = address.district;
+						const street = address.street;
+						const streetNum = address.streetNum;
+						const poiName = address.poiName;
+						const params = {
+							provinceName: province,
+							cityName: city,
+							areaName: district,
+							streetName: street
+						}
+						
+						this.$http
+							.get('/sysArea/queryCode', params, true)
+							.then(res => {
+								this.pickerData = [
+									res.provinceCode, 
+									res.cityCode,
+									res.areaCode,
+									res.streetCode
+								]
+							});
+						
+						this.form.address = `${street || ''}${streetNum || ''}${poiName || ''}`;
+					}
+			    },
+				fail: (err) => {
+					console.log("定位失败 === ", err);
+					uni.hideLoading();
+					this.$tool.showToast("定位失败");
+				}
 			});
 		},
 		
 		// 保存配送地址信息
 		saveAddress(){
-			console.log("this.form == ",this.form);
 			if(!this.form.name){
 				this.$tool.showToast("请输入收货人姓名");
 				return
@@ -127,7 +168,12 @@ export default {
 				return
 			}
 			
-			if(!this.cityAddress){
+			if(!this.$tool.isPhoneNumber(this.form.phone)){
+				this.$tool.showToast("请输入正确的手机号");
+				return
+			}
+			
+			if(!this.form.provinceName || !this.form.cityName || !this.form.areaName || !this.form.streetName){
 				this.$tool.showToast("请选择地区");
 				return
 			}

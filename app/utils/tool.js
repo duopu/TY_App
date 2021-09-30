@@ -239,6 +239,19 @@ const getUrlQuery = (url) => {
 	 return obj;
 }
 
+/**
+ * 判断是否是手机号
+ * @param {String} value 手机号  
+ */
+const isPhoneNumber = (value) => {
+	const reg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+	if (!reg.test(value)) {
+	    return false
+	}else{
+	    return Number(value)
+	}
+}
+
 export default {
 	imTool,
 	systemInfo,
@@ -249,5 +262,6 @@ export default {
 	saveUserStorage,
 	toMessageList,
 	orderPay,
-	getUrlQuery
+	getUrlQuery,
+	isPhoneNumber
 }

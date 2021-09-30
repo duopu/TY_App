@@ -7,7 +7,6 @@
 			<view class="flex-center flex-1 color-yellow">
 				<text class="color-yellow">题库评分</text>
 				<rate class="rate" :number="score"></rate>
-				<text>{{score}}</text>
 			</view>
 			<view class="flex-center" @click="moreComment()">
 				更多
@@ -15,7 +14,7 @@
 			</view>
 		</view>
 		<!-- 评论列表 -->
-		<block v-for="(item,index) in commentList.length > 3 ? commentList.slice(0,3) : commentList" 
+		<block v-for="(item,index) in commentList.length > 2 ? commentList.slice(0,2) : commentList" 
 		:key="`comment-entity-${index}`">
 			<comment-lists-item :data="item"></comment-lists-item>
 		</block>
@@ -27,6 +26,10 @@
 export default {
 	name: 'tabsBank',
 	props:{
+		score: { //题库评分
+			type: Number,
+			default: 0
+		},
 		questionBankVO:{ //题库信息
 			type:Object,
 			required:true
@@ -39,13 +42,15 @@ export default {
 	data() {
 		return {
 			commentList:this.questionCommentVOList, //题库评论
-			score:this.questionBankVO.score, //题库评分
+			questionScore:this.score, //题库评分
 			content:this.questionBankVO.conent || "" //题库内容
 		};
 	},
 	watch:{
+		score(newV, oldV){
+			this.questionScore = newV;
+		},
 		questionBankVO(newV, oldV){
-			this.score = newV.score;
 			this.content = newV.content || "";
 		},
 		questionCommentVOList(newV, oldV){

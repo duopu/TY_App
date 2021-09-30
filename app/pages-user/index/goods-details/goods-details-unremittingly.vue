@@ -95,31 +95,35 @@
 					<tabs-brief v-if="item == '介绍'" 
 					:id="`content-wrap-${index}`" 
 					:goodsInfo="goodsInfo"></tabs-brief>
-
+					
 					<!--  tab 商品 -->
 					<tabs-goods v-if="item == '商品'"
 					:id="`content-wrap-${index}`"
+					:score="goodsInfo.goodsScore"
 					:entityGoodsVO="goodsInfo.entityGoodsVO"
 					:entityCommentVOList="entityCommentVOList"></tabs-goods>
-
-					<!--  tab 目录 -->
-					<tabs-catalogue v-if="item == '目录'" 
+					
+					<!--  tab 课程 -->
+					<tabs-catalogue v-if="item == '课程'" 
 					:id="`content-wrap-${index}`" 
+					:score="goodsInfo.courseScore"
 					:courseVO="goodsInfo.courseVO" 
 					:courseCommentVOList="courseCommentVOList"></tabs-catalogue>
-
+					
 					<!--  tab 题库 -->
 					<tabs-bank v-if="item == '题库'"
 					:id="`content-wrap-${index}`"
+					:score="goodsInfo.questionScore"
 					:questionBankVO="goodsInfo.questionBankVO"
 					:questionCommentVOList="questionCommentVOList"></tabs-bank>
-
+					
 					<!--  tab 考试 -->
 					<tabs-exam v-if="item == '考试'" 
 					:id="`content-wrap-${index}`" 
+					:score="goodsInfo.examScore"
 					:examVO="goodsInfo.examVO" 
 					:examCommentVOList="examCommentVOList"></tabs-exam>
-
+					
 					<!--  tab 推荐 -->
 					<tabs-recommend v-if="item == '推荐'" 
 					:id="`content-wrap-${index}`" 
@@ -130,7 +134,7 @@
 		</scroll-view>
 		<!-- 底部 -->
 		<view class="goods-bottom flex-center-between" id="goods-bottom">
-			<view class="flex-column">
+			<view class="flex-column" @click="gotoStoreDetail">
 				<image class="icons" src="../../../static/images/icons/icon-room.svg" mode="aspectFill"></image>
 				<text>店铺</text>
 			</view>
@@ -343,14 +347,12 @@ export default {
 					userIM:user.imNum,
 					userName:user.userName,
 					storeName:this.goodsInfo.storeName,
-					storePortrait:this.goodsInfo.portrait 
+					storePortrait:this.goodsInfo.avatar 
 				}
 				
-				const url = `/pages/im-message/im-message`
 				uni.navigateTo({
-					url
+					url:'/pages/im-message/im-message'
 				})
-				console.log('跳转客服页面',url);
 			})
 		},
 		
@@ -393,7 +395,7 @@ export default {
 					this.tabsData.push('商品');
 				}
 				if (res.courseCheck === 2) {
-					this.tabsData.push('目录');
+					this.tabsData.push('课程');
 				}
 				if (res.questionCheck === 2) {
 					this.tabsData.push('题库');
@@ -472,6 +474,14 @@ export default {
 			uni.navigateTo({
 				url: `/pages-user/index/address/address`
 			});
+		},
+		
+		// 跳转店铺详情
+		gotoStoreDetail(){
+			const storeId = this.goodsInfo.storeId;
+			uni.navigateTo({
+				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
+			})
 		}
 	}
 };

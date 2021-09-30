@@ -1,6 +1,5 @@
 <template>
-	<view class="im-message-page" @longpress="handleLongPress" @touchmove="handleTouchMove" @touchend="handleTouchEnd"
-		@touchcancel="touchcancel">
+	<view class="im-message-page">
 		<view v-show="isRecording" class="record-modal">
 			<view class="wrapper">
 				<view class="modal-loading"></view>
@@ -13,7 +12,6 @@
 		<scroll-view class="list-view" :scroll-top="messageScrollTop" :scroll-y="true">
 			<message-item v-for="msg in messageList" :message="msg" :userInfo="userInfo" @showBigImage="showBigImage">
 			</message-item>
-
 		</scroll-view>
 
 		<view class="bottom" :style="{paddingBottom:bottomPaddingBottom}">
@@ -23,8 +21,9 @@
 						cursor="10" :focus="textInputFocus" @focus="changeTextInputFocus(true)"
 						@blur="changeTextInputFocus(false)" @confirm='sendTextMessage' />
 				</view>
-				<view class="record" id='record' v-else>
-					<text class="record-text">{{isRecording ? '抬起 停止' : '按住 说话'}}</text>
+				<view class="record" id='record' v-else @longpress="handleLongPress" @touchmove="handleTouchMove"
+					@touchend="handleTouchEnd" @touchcancel="touchcancel">
+					{{isRecording ? '抬起 停止' : '按住 说话'}}
 				</view>
 				<image class="img-btn" @click="voiceBtnClick" src="../../static/images/im/voice_btn.png"
 					mode="aspectFit" />
@@ -74,7 +73,7 @@
 				// 消息列表 
 				messageList: [],
 				messageScrollTop: 0,
-				bottomPaddingBottom: '0rpx'
+				bottomPaddingBottom: '0rpx',
 			};
 		},
 		watch: {
@@ -87,7 +86,6 @@
 		computed: {},
 		onLoad() {
 			const messageParam = getApp().globalData.messageParam
-			console.log('消息页面 参数', messageParam);
 			this.groupId = messageParam.groupId;
 			this.userInfo = messageParam
 
@@ -101,6 +99,7 @@
 			uni.setNavigationBarTitle({
 				title: this.navTitle
 			})
+			// 获取群历史消息
 			this.getGroupHistoryMessageList();
 
 			recorderManager.onStart(() => {
@@ -160,6 +159,13 @@
 			// 语音按钮点击事件
 			voiceBtnClick() {
 				this.isRecord = !this.isRecord
+				if (this.isRecord) {
+					this.isEmojiOpen = false
+					this.textInputFocus = false
+				} else {
+					this.isEmojiOpen = false
+					this.textInputFocus = true
+				}
 			},
 			// 修改文本框焦点
 			changeTextInputFocus(focus) {

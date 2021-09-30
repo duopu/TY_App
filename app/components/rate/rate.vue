@@ -47,6 +47,11 @@
 				floatNumber: 0 //当前评分小数点的分值
 			};
 		},
+		watch: {
+			number(newV, oldV){
+				this.initView(newV);
+			}
+		},
 		created(){
 			this.initView(this.number);
 		},

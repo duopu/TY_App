@@ -30,6 +30,8 @@
 					</view>
 				</view>
 			</view>
+			
+			<my-empty :show="carList.length === 0"></my-empty>
 
 			<!-- 猜你喜欢 -->
 			<view class="title text-bold">猜你喜欢</view>

@@ -1,0 +1,51 @@
+.classify-details {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	&-top {
+		padding: calc(var(--status-bar-height) + 8rpx) 20rpx 8rpx;
+		background-color: #ffffff;
+		z-index: 100;
+		.icon-arrow {
+			flex-shrink: 0;
+			margin-right: 24rpx;
+			width: 48rpx;
+			height: 48rpx;
+		}
+	}
+	&-lists {
+		padding: 0 20rpx;
+		flex: 1;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		box-sizing: border-box;
+	}
+}
+// 筛选
+.filter {
+	flex-shrink: 0;
+	padding: 18rpx 0;
+	text-align: center;
+	background-color: #ffffff;
+	z-index: 100;
+	.arrow-image{
+		margin-left: 10rpx;
+		width: 42rpx;
+		height: 42rpx;
+		background-image: url(../../../static/images/icons/icon-collapse-arrow.svg);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		background-position: center;
+		transition: transform .3s ease;
+	}
+	.filter-item.on{
+		.arrow-image{
+			transform: rotate(180deg);
+		}
+	}
+}
+
+/deep/.popup-content {
+	padding-top: calc(var(--status-bar-height) + 88rpx);
+}

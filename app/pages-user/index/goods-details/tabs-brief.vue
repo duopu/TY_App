@@ -3,7 +3,7 @@
 	<view class="tabs-brief">
 		<!-- 店铺名称 -->
 		<merchanism-lists-item :type="1" :data="storeInfo"></merchanism-lists-item>
-		<rich-text :nodes="content"></rich-text>
+		<view class="rich-text"><rich-text :nodes="content" ></rich-text></view>
 	</view>
 </template>
 

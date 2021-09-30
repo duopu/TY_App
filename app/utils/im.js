@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 
 if (txIm) {
 	let isSuccess = txIm.initSDK({
-		sdkAppID: 1400563151,
+		sdkAppID: 1400574852,
 		logLevel: 4
 	}, result => {
 		console.log('初始化sdk', result);
@@ -35,11 +35,12 @@ if (txIm) {
 // im登录
 const login = (userId, userSig) => {
 	return new Promise((resolve, reject) => {
+		console.log();
 		txIm.login({
 			userId,
 			userSig
 		}, result => {
-			console.log('IM  登录', result);
+			console.log('IM  登录',{userId,userSig}, result);
 			if (result.code == 0) {
 				resolve();
 			} else {
@@ -275,6 +276,23 @@ const getGroupOnlineMemberCount = (groupId) => {
 	})
 }
 
+// 设置群组消息已读
+const markGroupMessageAsRead = (groupId)=>{
+	return new Promise((resolve, reject) => {
+		txIm.markGroupMessageAsRead({
+			groupId
+		}, result => {
+			console.log('设置群组消息已读',result);
+			if (result.code == 0) {
+				resolve(result)
+			} else {
+				reject()
+			}
+		})
+	})
+}
+
+
 export default {
 	login,
 	sendGroupTextMessage,
@@ -287,4 +305,5 @@ export default {
 	getGroupConversationMap,
 	getInfoFromConversation,
 	getGroupOnlineMemberCount,
+	markGroupMessageAsRead,
 }

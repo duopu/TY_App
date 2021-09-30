@@ -7,7 +7,7 @@
 			<view class="title">全部评论（{{commentList.length}}）</view>
 			<view class="flex-center flex-1 color-yellow">
 				<text class="color-yellow">商品评分</text>
-				<rate class="rate" :number="score || 0"></rate>
+				<rate class="rate" :number="goodsScore || 0"></rate>
 			</view>
 			<view class="flex-center" @click="moreComment()">
 				更多
@@ -15,7 +15,7 @@
 			</view>
 		</view>
 		<!-- 评论列表 -->
-		<block v-for="(item,index) in commentList.length > 3 ? commentList.slice(0,3) : commentList" 
+		<block v-for="(item,index) in commentList.length > 2 ? commentList.slice(0,2) : commentList" 
 		:key="`comment-entity-${index}`">
 			<comment-lists-item :data="item"></comment-lists-item>
 		</block>
@@ -27,6 +27,10 @@
 export default {
 	name: 'tabsGoods',
 	props: {
+		score: { //商品评分
+			type: Number,
+			default: 0
+		},
 		entityGoodsVO:{ //商品信息
 			type:Object,
 			required:true
@@ -39,13 +43,15 @@ export default {
 	data() {
 		return {
 			commentList:this.entityCommentVOList, //商品评论
-			score:this.entityGoodsVO.score, //商品评分
+			goodsScore:this.score, //商品评分
 			content:this.entityGoodsVO.conent || "" //商品内容
 		};
 	},
 	watch:{
+		score(newV, oldV){
+			this.goodsScore = newV;
+		},
 		entityGoodsVO(newV, oldV){
-			this.score = newV.score;
 			this.content = newV.content || "";
 		},
 		entityCommentVOList(newV, oldV){

@@ -38,7 +38,8 @@
 .no-data {
 	width: 100%;
 	height: 80%;
-	min-height: 400rpx;
+	// padding: 60rpx 0;
+	min-height: 500rpx;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

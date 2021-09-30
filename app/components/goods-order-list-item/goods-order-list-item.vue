@@ -2,25 +2,25 @@
 <template>
 	<view class="store-order-lists-item">
 		<!-- 商家 -->
-		<view class="flex-center-between top">
-			<view class="name">{{ storeGoodsVO.storeName }}</view>
+		<view class="flex-center-between top" @click="jumpStore">
+			<view class="name">{{ goodsVO.storeName }}</view>
 			<view class="desc">{{ showStateName }}</view>
 		</view>
 
 		<!-- 商品 -->
 		<view class="content flex" @click="goodsClick">
-			<image class="avatar-image" :src="storeGoodsVO.thumbnail" mode="aspectFill"></image>
+			<image class="avatar-image" :src="goodsVO.thumbnail" mode="aspectFill"></image>
 			<view class="flex-column flex-1 right">
-				<view class="title">{{ storeGoodsVO.goodsName }}</view>
+				<view class="title">{{ goodsVO.goodsName }}</view>
 				<view class="tag">
-					<view v-if="storeGoodsVO.attributesId" class="tag-item">{{ storeGoodsVO.attributesName }}</view>
+					<view v-if="goodsVO.attributesId" class="tag-item">{{ goodsVO.attributesName }}</view>
 				</view>
 				<view class="flex-center-between">
 					<view class="price">
 						<text class="unit">¥</text>
-						{{ storeGoodsVO.goodsPrice }}
+						{{ goodsVO.goodsPrice }}
 					</view>
-					<view class="number">×{{ storeGoodsVO.goodsNum }}</view>
+					<view class="number">×{{ goodsVO.goodsNum }}</view>
 				</view>
 			</view>
 		</view>
@@ -82,7 +82,7 @@ export default {
 	computed: {
 		// 显示当前订单状态
 		showStateName() {
-			switch (this.storeGoodsVO.orderState) {
+			switch (this.goodsVO.orderState) {
 				// 订单状态 -1:已取消 0:待支付 1:已支付 2:已发货 3:已收货 4:已评价 5:申请退款中(未发货) 6:退款中 7:拒绝退款 8：退款失败 9：退款完成 10:已完成（不能再做任何操作） 11: 退货退款申请中 12:商家允许退款待填写发货信息 13:商家拒绝退款 14:用户已填写发货单待商家退款 15:退货退款中 16:退货退款失败21：已支付拼团定金 22:拼团成功待支付尾款 23:已完成拼团并退款 24:拼团失败并退款中
 				case -1:
 					return '已取消';
@@ -131,6 +131,7 @@ export default {
 	},
 	data() {
 		return {
+			goodsVO: {},
 			optionBtns: [
 				//所有操作按钮配置
 				{ name: '取消订单', method: 'cancelOrder', class: ['btn', 'btn-border', 'grey'] },
@@ -149,9 +150,18 @@ export default {
 			moreBtn: null //更多按钮对象
 		};
 	},
-	created() {
-		this.initOptionBtns();
+	watch: {
+		storeGoodsVO: {
+			immediate: true,
+			handler(newV, oldV){
+				this.goodsVO = newV;
+				this.initOptionBtns();
+			}
+		}
 	},
+	// created() {
+	// 	this.initOptionBtns();
+	// },
 	destroyed() {
 		
 	},
@@ -178,7 +188,7 @@ export default {
 		 * @param {Object} optionBtnName 按钮名称
 		 */
 		isOptionBtnShow(optionBtnName) {
-			const { orderState, examCheck, entityGoodsId } = this.storeGoodsVO;
+			const { orderState, examCheck, entityGoodsId } = this.goodsVO;
 			switch (optionBtnName) {
 				case '取消订单':
 					return orderState === 0;
@@ -256,7 +266,7 @@ export default {
 				cancelText: '取消',
 				success: res => {
 					if (res.confirm) {
-						this.$http.post('/order/cancel', { orderNum: this.storeGoodsVO.orderNum }, true).then(res => {
+						this.$http.post('/order/cancel', { orderNum: this.goodsVO.orderNum }, true).then(res => {
 							this.$store.commit('setOrderChange');
 						});
 					}
@@ -277,7 +287,7 @@ export default {
 				cancelText: '取消',
 				success: res => {
 					if (res.confirm) {
-						this.$http.post('/order/delete', { orderNum: this.storeGoodsVO.orderNum }, true).then(res => {
+						this.$http.post('/order/delete', { orderNum: this.goodsVO.orderNum }, true).then(res => {
 							this.$store.commit('setOrderChange');
 						});
 					}
@@ -287,12 +297,12 @@ export default {
 		// 申请退款
 		applyRefund() {
 			uni.navigateTo({
-				url: `/pages-user/mine/refund/refund?orderNum=${this.storeGoodsVO.orderNum}`
+				url: `/pages-user/mine/refund/refund?orderNum=${this.goodsVO.orderNum}`
 			});
 		},
 		// 查看物流
 		queryLogistics() {
-			this.$http.get('/order/logistics', { orderNum: this.storeGoodsVO.orderNum }, true).then(res => {
+			this.$http.get('/order/logistics', { orderNum: this.goodsVO.orderNum }, true).then(res => {
 				this.$emit('queryLogistics', res);
 			});
 		},
@@ -300,24 +310,24 @@ export default {
 		evaluateOrder() {
 			let that = this;
 			uni.navigateTo({
-				url: `/pages-user/mine/evaluate/evaluate?goodsVO=${encodeURIComponent(JSON.stringify(this.storeGoodsVO))}`
+				url: `/pages-user/mine/evaluate/evaluate?goodsVO=${encodeURIComponent(JSON.stringify(this.goodsVO))}`
 			});
 		},
 		//确认收货
 		receivedOrder() {
-			this.$http.post('/order/received', { orderNum: this.storeGoodsVO.orderNum, goodsId: this.storeGoodsVO.goodsId }, true).then(res => {
+			this.$http.post('/order/received', { orderNum: this.goodsVO.orderNum, goodsId: this.goodsVO.goodsId }, true).then(res => {
 				this.$store.commit('setOrderChange');
 			});
 		},
 		//退款详情
 		refundDetail() {
 			uni.navigateTo({
-				url: `/pages-user/mine/refund/details?orderNum=${this.storeGoodsVO.orderNum}`
+				url: `/pages-user/mine/refund/details?orderNum=${this.goodsVO.orderNum}`
 			});
 		},
 		//电子凭证
 		queryExam() {
-			this.$http.get('/goods/queryExam', { goodsId: this.storeGoodsVO.goodsId }, true).then(res => {
+			this.$http.get('/goods/queryExam', { goodsId: this.goodsVO.goodsId }, true).then(res => {
 				this.$emit('queryExam', res);
 			});
 		},
@@ -363,6 +373,14 @@ export default {
 			}else if(element.children[2]){
 				element.removeChild(element.children[2]);
 			}
+		},
+		
+		// 跳转到店铺详情页
+		jumpStore(){
+			const storeId = this.goodsVO.storeId;
+			uni.navigateTo({
+				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
+			})
 		}
 	}
 };

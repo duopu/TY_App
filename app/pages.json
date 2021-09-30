@@ -274,6 +274,13 @@
 						"enablePullDownRefresh": false
 					}
 
+				},{
+					"path": "mine/secondhand/secondhand",
+					"style": {
+						"navigationBarTitleText": "二手商品专区",
+						"enablePullDownRefresh": false
+					}
+
 				}, {
 					"path": "mine/cart/cart",
 					"style": {
