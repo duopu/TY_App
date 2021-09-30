@@ -3,7 +3,7 @@
 		<my-scroll-view ref="scrollView" @loadData="loadData" class="collect-content">
 			<template v-slot:list="slotProps">
 				<view class="goods-lists-item" v-for="(item, index) in slotProps.list" :key="`goods-${index}`">
-					<view class="flex-center top">
+					<view class="flex-center top" @click="jumpStore(item.storeId)">
 						<view class="shop-name">{{item.storeName}}</view>
 					</view>
 					<!-- 商品 -->
@@ -14,7 +14,7 @@
 							<view class="name">{{item.goodsName}}</view>
 							<view class="price">
 								<text class="unit">¥</text>
-								{{item.price}}
+								{{item.minPrice || item.price}}
 							</view>
 						</view>
 						<image class="icon-clear" src="../../../static/images/icons/icon-black-clear.svg" mode="aspectFill" @click.stop="deleteGoods(item.id)"></image>
@@ -128,6 +128,16 @@ export default {
 			uni.navigateTo({
 				url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
 			});
+		},
+		
+		/**
+		 * 跳转到店铺详情
+		 * @param {Object} storeId 店铺ID
+		 */
+		jumpStore(storeId){
+			uni.navigateTo({
+				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
+			})
 		}
 	}
 };

@@ -4,10 +4,10 @@
 		<view class="flex-center-between" :class="{'root-item':isFolder}" @click="toggle()">
 			<text class="serial-number">{{index}}</text>
 			<text class="text flex-1 text-ellipsis">{{model.courseClassName}}</text>
-			<view class="flex-center" @click.stop="goWatchVideo($event)">
+			<!-- <view class="flex-center" @click.stop="goWatchVideo()">
 				<image src="../../static/images/icons/icon-video.svg" class="image-video" mode="aspectFill"></image>
 				<text class="color-yellow">试看</text>
-			</view>
+			</view> -->
 		</view>
 		<view class="sub" v-show="open" v-if="isFolder">
 			<video-catalogue-item v-for="(item,i) in model.nodes" :data="item" :index="`${index}.${i+1}`"></video-catalogue-item>
@@ -87,7 +87,7 @@ export default {
 		 * 试看
 		 */
 		goWatchVideo(){
-			//TODO: 这里需要去跳转到试看页面 model.url
+			//TODO: 当前先不做这个功能
 			console.log("去试看");
 		}
 	}

@@ -5,7 +5,7 @@
 				<view class="flex-column" v-for="(item, index) in slotProps.list" :key="`history-${index}`">
 					<text class="history-time">{{item.footprintDate}}</text>
 					<view class="goods-lists-item" v-for="(subItem, subIndex) in item.goodsVOList" :key="`goods-history-${index}-${subIndex}`">
-						<view class="flex-center top">
+						<view class="flex-center top" @click="jumpStore(subItem.storeId)">
 							<view class="shop-name">{{subItem.storeName}}</view>
 						</view>
 						<!-- 商品 -->
@@ -16,7 +16,7 @@
 								<view class="name">{{subItem.goodsName}}</view>
 								<view class="price">
 									<text class="unit">¥</text>
-									{{subItem.price}}
+									{{subItem.minPrice || subItem.price}}
 								</view>
 							</view>
 							<image class="icon-clear" src="../../../static/images/icons/icon-black-clear.svg" mode="aspectFill" @click.stop="deleteGoods(subItem.id)"></image>
@@ -131,6 +131,16 @@ export default {
 			uni.navigateTo({
 				url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
 			});
+		},
+		
+		/**
+		 * 跳转到店铺详情
+		 * @param {Object} storeId 店铺ID
+		 */
+		jumpStore(storeId){
+			uni.navigateTo({
+				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
+			})
 		}
 	}
 };

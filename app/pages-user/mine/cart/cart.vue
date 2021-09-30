@@ -41,7 +41,7 @@
 					<view class="text text-bold">{{ spliceStr(item.goodsName) }}</view>
 					<view class="price text-bold">
 						<text class="unit">￥</text>
-						<text>{{item.price}}</text>
+						<text>{{item.minPrice || item.price}}</text>
 					</view>
 				</view>
 			</view>

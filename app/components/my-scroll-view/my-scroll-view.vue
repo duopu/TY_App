@@ -5,11 +5,15 @@
 	:refresher-threshold="45"
 	@refresherrefresh="onRefresh"
 	@scrolltolower="onScrollTolower">
-	    <!-- 列表内容插槽， 可返回当前列表数据源 -->
-		<slot name="list" :list="dataList"></slot>
+	
+		<!-- 这里需要包一层view，是为了处理当cell有margin样式时，会把刷新图标暴露出来一点位置 -->
+		<view class="flex-column">
+			<!-- 列表内容插槽， 可返回当前列表数据源 -->
+			<slot name="list" :list="dataList"></slot>
+		</view>
 		
 		<!-- 列表为空 -->
-		<my-empty :show="!_freshing && dataList.length === 0"></my-empty>
+		<my-empty :show="!_freshing && dataList.length === 0" :text="noDataText"></my-empty>
 		
 		<!-- 加载更多 -->
 		<uni-load-more v-show="pageEnable && dataList.length > 0"
@@ -27,6 +31,7 @@
    * @property {Number} pageSize 分页大小
    * @property {Boolean} refreshEnable 是否需要下拉刷新
    * @property {Boolean} pageEnable 是否分页
+   * @property {String} noDataText 为空时显示的文案
    * @event {Function} loadData 触发加载数据事件，携带page、pageSize参数，同时根据回调返回网络请求数据结果，注意：如果网络接口失败，回调请传callback(null)
    * @example 
    * <my-scroll-view :pageSize="20" @loadData="onLoadData">
@@ -54,6 +59,10 @@ export default {
 		pageEnable: { //是否需要分页
 			type: Boolean,
 			default: true
+		}, 
+		noDataText: { //为空时显示的文案
+			type: String,
+			default: "暂无数据"
 		}
 	},
 	data() {
@@ -133,3 +142,9 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss" scoped>
+	/deep/.uni-scroll-view-refresher {
+		background-color: transparent!important;
+	}
+</style>
