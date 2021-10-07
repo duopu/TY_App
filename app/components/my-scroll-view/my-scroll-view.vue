@@ -3,6 +3,7 @@
 	:refresher-enabled="refreshEnable" 
 	:refresher-triggered="triggered" 
 	:refresher-threshold="45"
+	 @refresherrestore="onRestore" 
 	@refresherrefresh="onRefresh"
 	@scrolltolower="onScrollTolower">
 	
@@ -67,7 +68,6 @@ export default {
 	},
 	data() {
 		return {
-			_freshing:false,
 			triggered:false, //刷新标志位
 			page: 1, //页码
 			status: 'more', //加载更多状态
@@ -87,33 +87,31 @@ export default {
 	methods: {
 		getDataList(){
 			
-			let that = this;
-			
 			if(this.page > 1){
 				this.status = "loading";
 			}
 			
 			this.$emit('loadData',this.page,this.pageSize,(res)=>{
 				if(res){
-					if(that.page == 1){
-						that.triggered = false;
-						that._freshing = false;
-						that.dataList = res.content;
+					if(this.page == 1){
+						this.triggered = false;
+						this._freshing = false;
+						this.dataList = res.content;
 					}else {
-						that.dataList = that.dataList.concat(res.content);
+						this.dataList = this.dataList.concat(res.content);
 					}
-					if(res.totalSize <= that.page * that.pageSize){
-						that.status = "noMore"
+					if(res.totalSize <= this.page * this.pageSize){
+						this.status = "noMore"
 					}else{
-						that.status = "more"
+						this.status = "more"
 					}
 				}else{
-					if(that.page == 1){
-						that.triggered = false;
-						that._freshing = false;
+					if(this.page == 1){
+						this.triggered = false;
+						this._freshing = false;
 					}else {
-						that.status = "more";
-						that.page -= 1;
+						this.status = "more";
+						this.page -= 1;
 					}
 				}
 			})
@@ -128,7 +126,6 @@ export default {
 			this.page = 1;
 			this.getDataList();
 		},
-		
 		/**
 		 * 上拉加载
 		 */
@@ -138,7 +135,12 @@ export default {
 				this.page += 1;
 				this.getDataList();
 			}
-		}
+		},
+		onRestore() {
+		    this.triggered = 'restore'; // 需要重置
+		    console.log("onRestore");
+		},
+		
 	}
 }
 </script>
