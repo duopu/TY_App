@@ -292,6 +292,20 @@ const markGroupMessageAsRead = (groupId)=>{
 	})
 }
 
+// 获取所有会话的未读消息总数
+const getTotalUnreadMessageCount = ()=>{
+	return new Promise((resolve, reject) => {
+		txIm.getTotalUnreadMessageCount(result => {
+			console.log('获取所有会话的未读消息总数',result);
+			if (result.code == 0) {
+				resolve(result.totalCount)
+			} else {
+				reject()
+			}
+		})
+	})
+}
+
 
 export default {
 	login,
@@ -306,4 +320,5 @@ export default {
 	getInfoFromConversation,
 	getGroupOnlineMemberCount,
 	markGroupMessageAsRead,
+	getTotalUnreadMessageCount
 }
