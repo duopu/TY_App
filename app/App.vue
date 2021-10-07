@@ -20,10 +20,10 @@
 					if (user.token) {
 						this.$tool.login(user);
 					} else {
-						// 本地无用户信息，去登录页
-						uni.reLaunch({
-							url: '/pages/login/login'
-						});
+						// 本地无用户信息，当前就在 登录页
+						// uni.reLaunch({
+						// 	url: '/pages/login/login'
+						// });
 					}
 				},
 				fail(err) {
