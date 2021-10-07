@@ -19,8 +19,9 @@
 		</view>
 		<!-- 最新资讯 -->
 		<view class="flex consult">
-			<view class="image-left flex-column">
-				<view class="image-left-top flex" @click="gotoConsult">
+			<!-- 最新资讯 -->
+			<view class="image-left flex-column" @click="gotoConsult">
+				<view class="image-left-top flex" >
 					<view class="flex-column-center time-box">
 						<text class="text-bold text">09</text>
 						<text class="line"></text>
@@ -34,11 +35,14 @@
 				<view class="consult-text text-ellipsis">人工智能体系课，从入门到实…</view>
 			</view>
 			<view class="flex-column">
-				<image class="image-right" src="../../../static/images/index/index-active-03.png" mode="aspectFill"></image>
+				<!-- 每日任务 -->
+				<image class="image-right" @click="gotoTasks" src="../../../static/images/index/index-active-03.png" mode="aspectFill"></image>
 				<view class="flex-center">
-					<image class="flex-1 image-right-small" src="../../../static/images/index/index-active-01.png"
+					<!-- 活动推荐 -->
+					<image class="flex-1 image-right-small" @click="gotoActivity" src="../../../static/images/index/index-active-01.png"
 						mode="aspectFill"></image>
-					<image class="flex-1 image-right-small" src="../../../static/images/index/index-active-02.png"
+					<!-- 分销大使 -->
+					<image class="flex-1 image-right-small" @click="gotoKcfx" src="../../../static/images/index/index-active-02.png"
 						mode="aspectFill"></image>
 				</view>
 			</view>
@@ -262,7 +266,7 @@
 						url: '/pages-user/classify/index/index'
 					});
 				} else if (item.path == 'dkzb') {
-					this.scrollTop = 410 + Math.random();
+					this.scrollTop = 360 + Math.random();
 				} else if (item.path == 'kstk') {
 					this.scrollTop = 600 + Math.random();
 				} else if (item.path == 'gxzh') {
@@ -324,6 +328,20 @@
 				uni.navigateTo({
 					url:'/pages-user/index/consult/consult'
 				})
+			},
+			// 跳转每日任务
+			gotoTasks(){
+				uni.navigateTo({
+					url:'/pages-user/mine/sign-in/sign-in'
+				})
+			},
+			// 跳转活动页面
+			gotoActivity(){
+				uni.$emit('activity-open')
+			},
+			// 跳转分销大使
+			gotoKcfx(){
+				uni.$emit('activity-open',2)
 			}
 		}
 	};
