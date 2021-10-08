@@ -22,17 +22,17 @@
 			<!-- 最新资讯 -->
 			<view class="image-left flex-column" @click="gotoConsult">
 				<view class="image-left-top flex" >
-					<view class="flex-column-center time-box">
-						<text class="text-bold text">09</text>
+					<view class="flex-column-center time-box" v-show="newArticleCreatedTime">
+						<text class="text-bold text">{{newArticleCreatedTime.month}}</text>
 						<text class="line"></text>
-						<text class="text-bold text">22</text>
+						<text class="text-bold text">{{newArticleCreatedTime.day}}</text>
 					</view>
 					<view class="flex-column">
 						<image class="image-text" src="../../../static/images/index/index-consult-title.png" mode="widthFix"></image>
 						<text class="desc">新鲜资讯随心看</text>
 					</view>
 				</view>
-				<view class="consult-text text-ellipsis">人工智能体系课，从入门到实…</view>
+				<view class="consult-text text-ellipsis">{{newArticle.title}}</view>
 			</view>
 			<view class="flex-column">
 				<!-- 每日任务 -->
@@ -167,6 +167,7 @@
 	import {
 		mapState
 	} from 'vuex';
+	import dayjs from 'dayjs';
 
 	export default {
 		name: 'tab-recommend',
@@ -198,6 +199,8 @@
 						path: 'jpkc'
 					}
 				],
+				// 最新资讯
+				newArticle:{},
 				// 大咖直播 选中兴趣点
 				dakaIndex: null,
 				// 精品课程 选中兴趣点
@@ -216,6 +219,7 @@
 			this.dakaIndex = 0;
 			this.jpkcIndex = 0;
 			this.queryBannerList();
+			this.queryNewArticle();
 		},
 		computed: {
 			...mapState([
@@ -224,6 +228,15 @@
 			liveImg(){
 				if(this.liveData && this.liveData.img){
 					return this.liveData.img[0]
+				}
+			},
+			newArticleCreatedTime(){
+				if(this.newArticle.createdTime){
+					const createdTime = dayjs(this.newArticle.createdTime);
+					return {
+						month:createdTime.month() + 1,
+						day:createdTime.date()
+					}
 				}
 			}
 		},
@@ -310,6 +323,12 @@
 						this.liveData = null;
 					}
 				});
+			},
+			// 查询最新资讯 
+			queryNewArticle(){
+				this.$http.get('/article/queryPageAll',{page:1,size:1}).then(res=>{
+					this.newArticle = res.content[0];
+				})
 			},
 			// 查询 精品课程
 			queryClass(cateId) {
