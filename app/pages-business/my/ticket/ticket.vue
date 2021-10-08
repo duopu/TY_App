@@ -1,40 +1,45 @@
 <template>
 	<view class="ticket">
-		<business-common-navigation></business-common-navigation>
+		<business-common-navigation @search="onSearch"></business-common-navigation>
 		<!-- tabs -->
 		<custom-horizontal-tabs @change="onChange" :data="tabsData" :currentIndex="tabsIndex" class="custom-tabs"></custom-horizontal-tabs>
 
 		<!-- 优惠卷 -->
-		<scroll-view scroll-y="true">
-			<block v-for="(item, index) in dataList" :key="index">
-				<view class="ticket-item flex-center-between" @click="actionIndex = index">
-					<view class="left flex-column">
-						<view class="price flex">
-							<view class="unit">¥</view>
-							{{ item.couponAmount / 100 }}
+<!--		<scroll-view scroll-y="true">-->
+		<my-scroll-view ref="myScrollView" @loadData="queryTicket">
+			<template v-slot:list="slotProps">
+				<block v-for="(item, index) in slotProps.list" :key="index">
+					<view class="ticket-item flex-center-between" @click="actionIndex = index">
+						<view class="left flex-column">
+							<view class="price flex">
+								<view class="unit">¥</view>
+								{{ item.couponAmount / 100 }}
+							</view>
+							<view class="desc text-ellipsis">{{ item.couponTypeContent }}</view>
 						</view>
-						<view class="desc text-ellipsis">{{ item.couponTypeContent }}</view>
-					</view>
-					<view class="middle flex-column">
-						<view class="text">
-							{{ item.couponName }}
-							<!--							<text class="color-red">5</text>-->
+						<view class="middle flex-column">
+							<view class="text">
+								{{ item.couponName }}
+								<!--							<text class="color-red">5</text>-->
+							</view>
+							<view class="tag red text-ellipsis">{{ item.effectContent }}</view>
 						</view>
-						<view class="tag red text-ellipsis">{{ item.effectContent }}</view>
+						<view class="right flex-center-center"><image src="../../../static/images/icons/icon-copy.svg" class="icon-copy" mode="aspectFill"></image></view>
 					</view>
-					<view class="right flex-center-center"><image src="../../../static/images/icons/icon-copy.svg" class="icon-copy" mode="aspectFill"></image></view>
-				</view>
-				<view class="action" v-if="actionIndex == index">
-					<view class="flex-center-between record-row" @click="jumpHistory(item.couponId)">
-						<text class="text">领取使用记录</text>
-						<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
+					<view class="action" v-if="actionIndex == index">
+						<view class="flex-center-between record-row" @click="jumpHistory(item.couponId)">
+							<text class="text">领取使用记录</text>
+							<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
+						</view>
+						<view class="flex-center-between">
+							<view class="btn yellow">复制优惠券</view>
+							<view class="btn red" @click="deleteTicket">删除</view>
+						</view>
 					</view>
-					<view class="flex-center-between">
-						<view class="btn yellow">复制优惠券</view>
-						<view class="btn red" @click="deleteTicket">删除</view>
-					</view>
-				</view>
-			</block>
+				</block>
+			</template>
+
+		</my-scroll-view>
 			<!-- 优惠券 -->
 			<!--			<view class="ticket-item flex-center-between">-->
 			<!--				<view class="left flex-column">-->
@@ -54,7 +59,7 @@
 			<!--				</view>-->
 			<!--				<view class="right flex-center-center"><image src="../../../static/images/icons/icon-copy.svg" class="icon-copy" mode="aspectFill"></image></view>-->
 			<!--			</view>-->
-		</scroll-view>
+<!--		</scroll-view>-->
 	</view>
 </template>
 
@@ -65,26 +70,39 @@ export default {
 			tabsData: ['已创建', '已失效'],
 			tabsIndex: 0,
 			actionIndex: -1,
-			dataList: []
+			dataList: [],
+			searchText: ''
 		};
 	},
 	onLoad() {
-		this.queryTicket();
+		// this.queryTicket();
 	},
 	methods: {
 		// 查询优惠券列表
-		queryTicket(ty) {
-			this.$http
-				.get(
-					'/coupon/queryListByStoreId',
-					{
-						status: this.tabsIndex + 1
-					},
-					false
-				)
-				.then(res => {
-					this.dataList = res;
-				});
+		// queryTicket(ty) {
+		// 	this.$http
+		// 		.get(
+		// 			'/coupon/queryListByStoreId',
+		// 			{
+		// 				status: this.tabsIndex + 1
+		// 			},
+		// 			false
+		// 		)
+		// 		.then(res => {
+		// 			this.dataList = res;
+		// 		});
+		// },
+		queryTicket(pageNum = 1, pageSize, callback){
+			let params = {
+				status: this.tabsIndex + 1,
+				searchText: this.searchText
+			};
+			this.$http.get('/coupon/queryListByStoreId',{page: pageNum,size: pageSize,...params},true).then(res =>{
+				console.log(res || {});
+				callback(res);
+			}).catch( err => {
+				callback(null);
+			})
 		},
 		// 删除优惠券
 		deleteTicket() {
@@ -97,17 +115,23 @@ export default {
 					false
 				)
 				.then(res => {
-					this.dataList = res;
+					this.$refs.myScrollView.onRefresh();
+					// this.dataList = res;
 				});
 		},
 		onChange(data) {
 			this.tabsIndex = data;
-			this.queryTicket();
+			// this.queryTicket();
+			this.$refs.myScrollView.onRefresh();
 		},
 		jumpHistory(id){
 			uni.navigateTo({
 				url: `/pages-business/my/ticket/history?couponId=${id}`
 			});
+		},
+		onSearch(searchValue){
+			this.searchText = searchValue;
+			this.$refs.myScrollView.onRefresh();
 		}
 	}
 };

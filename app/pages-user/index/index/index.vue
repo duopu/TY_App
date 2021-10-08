@@ -52,6 +52,13 @@
 			uni.$on('activity-open', () => {
 				this.tabIndex = 1;
 			})
+			
+			// 监听会话，更新消息未读数
+			uni.$on('ConversationListen',()=>{
+				this.$store.dispatch('refreshTotalUnreadMessageCount')
+			})
+			// 初始化的时候更新一下消息未读数
+			this.$store.dispatch('refreshTotalUnreadMessageCount')
 		},
 		onShow() {
 			setTimeout(()=>{
@@ -59,7 +66,6 @@
 			},1000)
 		},
 		created() {},
-
 		methods: {
 			// 横向菜单，返回值
 			getTabIndex(value) {

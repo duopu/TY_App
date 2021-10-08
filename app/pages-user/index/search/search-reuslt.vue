@@ -96,6 +96,7 @@ export default {
 		 * @param {Object} callback
 		 */
 		onLoadGoodsData(page, pageSize, callback){
+			console.log('课程搜索');
 			this.$http.get('/goods/queryPage',{page:page, size:pageSize, goodsName:this.searchString},true).then(res=>{
 				callback(res);
 			}).catch( err => {

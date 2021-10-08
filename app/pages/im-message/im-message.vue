@@ -2,7 +2,13 @@
 	<view class="im-message-page">
 		<view v-show="isRecording" class="record-modal">
 			<view class="wrapper">
-				<view class="modal-loading"></view>
+				<image class="icon-voice" src="../../static/images/icons/icon-yuyin.svg" mode="widthFix"></image>
+				<view class="modal-loading">
+					<text class="line one"></text>
+					<text class="line two"></text>
+					<text class="line three"></text>
+					<text class="line four"></text>
+				</view>
 			</view>
 			<view class="modal-title">
 				{{title}}

@@ -70,7 +70,7 @@
                     "weixin" : {
                         "appid" : "wx45e816c0f34c2bd4",
                         "appsecret" : "c18625f4e1f2fa3f67614e8e9054a398",
-                        "UniversalLinks" : ""
+                        "UniversalLinks" : "https://quickcer.cn"
                     },
                     "qq" : {
                         "appid" : "101975426",
@@ -85,7 +85,7 @@
                     "weixin" : {
                         "__platform__" : [ "ios", "android" ],
                         "appid" : "wx45e816c0f34c2bd4",
-                        "UniversalLinks" : ""
+                        "UniversalLinks" : "https://quickcer.cn"
                     }
                 },
                 "push" : {},

@@ -4,7 +4,7 @@
 		<!-- 头部 -->
 		<view class="flex-center search-top">
 			<image @click="onBack" mode="aspectFill" src="../../../static/images/login/back.png" class="icon-arrow"></image>
-			<custom-search placeholder="搜索课程、机构、老师" :value="searchInput" @search="getSearchInput" @input="inputHandle"></custom-search>
+			<custom-search placeholder="搜索课程、机构、老师" :value="searchInput" @search="onSearch" @input="inputHandle"></custom-search>
 		</view>
 		<!-- 内容 -->
 		<!-- 默认 -->
@@ -35,8 +35,8 @@ export default {
 				delta: 1
 			});
 		},
-		// 获取搜索内容
-		getSearchInput(value) {
+		// 搜索事件
+		onSearch(value) {
 			if(value == null || value.length === 0){
 				this.$tool.showToast("请输入关键字");
 				return
@@ -49,7 +49,7 @@ export default {
 		// 搜索框内容改变
 		inputHandle(value){
 			if(value.length == 0){
-				this.searchInput = value;
+				this.searchInput = '';
 			}
 		},
 		

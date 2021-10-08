@@ -168,7 +168,7 @@
 				<image class="icons" src="../../../static/images/icons/icon-kf.svg" mode="aspectFill"></image>
 				<text>客服</text>
 			</view>
-			<view class="flex-column">
+			<view class="flex-column m-right-30">
 				<image
 					class="icons"
 					v-if="goodsInfo.userCollection === 2"

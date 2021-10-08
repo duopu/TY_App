@@ -14,7 +14,7 @@
 					<!-- 选中效果 -->
 					<view class="radio" :class="{ on: selectIndexs[index].children[subIndex] }" @click.stop="chooseGoods(subItem, subIndex, index)"></view>
 					<image class="avatar-image" :src="subItem.thumbnail" mode="aspectFill" @click="jumpGoodsDetail(subItem.goodsId)"></image>
-					<view class="flex-column flex-1 right">
+					<view class="flex-column-between flex-1 right">
 						<view class="flex-between">
 							<view  class="name">{{subItem.goodsName}}</view>
 							<image class="icon-clear" src="../../../static/images/icons/icon-black-clear.svg" mode="aspectFill" @click.stop="deleteGoods(subItem.id)"></image>

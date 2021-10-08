@@ -1,53 +1,55 @@
 <!-- 商家订单的店铺列表项组件 -->
 <template>
-	<view class="store-order-lists-item">
-		<!-- 商家 -->
-		<view class="flex-center-between top" @click="jumpStore">
-			<view class="name">{{ goodsVO.storeName }}</view>
-			<view class="desc">{{ showStateName }}</view>
-		</view>
-
-		<!-- 商品 -->
-		<view class="content flex" @click="goodsClick">
-			<image class="avatar-image" :src="goodsVO.thumbnail" mode="aspectFill"></image>
-			<view class="flex-column flex-1 right">
-				<view class="title">{{ goodsVO.goodsName }}</view>
-				<view class="tag">
-					<view v-if="goodsVO.attributesId" class="tag-item">{{ goodsVO.attributesName }}</view>
-				</view>
-				<view class="flex-center-between">
-					<view class="price">
-						<text class="unit">¥</text>
-						{{ goodsVO.goodsPrice }}
+	<view>
+		<view class="store-order-lists-item">
+			<!-- 商家 -->
+			<view class="flex-center-between top" @click="jumpStore">
+				<view class="name">{{ goodsVO.storeName }}</view>
+				<view class="desc">{{ showStateName }}</view>
+			</view>
+		
+			<!-- 商品 -->
+			<view class="content flex" @click="goodsClick">
+				<image class="avatar-image" :src="goodsVO.thumbnail" mode="aspectFill"></image>
+				<view class="flex-column-between flex-1 right">
+					<view class="title">{{ goodsVO.goodsName }}</view>
+					<view class="tag" v-if="goodsVO.attributesId">
+						<view class="tag-item">{{ goodsVO.attributesName }}</view>
 					</view>
-					<view class="number">×{{ goodsVO.goodsNum }}</view>
+					<view class="flex-center-between">
+						<view class="price">
+							<text class="unit">¥</text>
+							{{ goodsVO.goodsPrice }}
+						</view>
+						<view class="number">×{{ goodsVO.goodsNum }}</view>
+					</view>
 				</view>
 			</view>
-		</view>
-
-		<!-- 底部操作按钮 -->
-		<view class="flex-center-between bottom">
-			<!-- 更多按钮 -->
-			<view v-if="moreOptionBtns.length > 0" class="dots" @click="openMoreBtn">
-				<image class="icon-dots" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
-				<view class="dots-list">
-					<button v-for="(value, index) in moreOptionBtns" class="btn-text" :key="`more-btn-${index}`" @click.stop="handleFunctionCall(value.method)">
+		
+			<!-- 底部操作按钮 -->
+			<view class="flex-center-between bottom">
+				<!-- 更多按钮 -->
+				<view v-if="moreOptionBtns.length > 0" class="dots" @click="openMoreBtn">
+					<image class="icon-dots" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+					<view class="dots-list">
+						<button v-for="(value, index) in moreOptionBtns" class="btn-text" :key="`more-btn-${index}`" @click.stop="handleFunctionCall(value.method)">
+							{{ value.name }}
+						</button>
+					</view>
+				</view>
+		
+				<!-- 操作按钮，最多展示3个，超过3个后其余的放入更多中展示 -->
+				<view class="flex-center-end flex-1">
+					<button v-for="(value, index) in bottomOptionBtns" :class="value.class" :key="`bottom-btn-${index}`" @click.stop="handleFunctionCall(value.method)">
 						{{ value.name }}
 					</button>
 				</view>
 			</view>
-
-			<!-- 操作按钮，最多展示3个，超过3个后其余的放入更多中展示 -->
-			<view class="flex-center-end flex-1">
-				<button v-for="(value, index) in bottomOptionBtns" :class="value.class" :key="`bottom-btn-${index}`" @click.stop="handleFunctionCall(value.method)">
-					{{ value.name }}
-				</button>
-			</view>
 		</view>
-
 		<!-- 底部的插槽 -->
 		<slot name="bottom"></slot>
 	</view>
+	
 </template>
 
 <script>

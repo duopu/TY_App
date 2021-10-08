@@ -5,10 +5,10 @@
 			<view class="flex-center-between top"><view class="name">退款商品</view></view>
 			<view class="content flex">
 				<image class="avatar-image" :src="orderVO.thumbnail" mode="aspectFill"></image>
-				<view class="flex-column flex-1 right">
+				<view class="flex-column-between flex-1 right">
 					<view class="title">{{ orderVO.goodsName }}</view>
-					<view class="tag">
-						<view v-if="orderVO.attributesId" class="tag-item">{{ orderVO.attributesName }}</view>
+					<view class="tag" v-if="orderVO.attributesId">
+						<view class="tag-item">{{ orderVO.attributesName }}</view>
 					</view>
 					<view class="flex-center-between">
 						<view class="price">

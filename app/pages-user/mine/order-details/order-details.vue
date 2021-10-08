@@ -7,10 +7,7 @@
 			<text class="text-bold">{{ showStateName }}</text>
 		</view>
 		<!-- 商品 -->
-		<goods-order-list-item :storeGoodsVO="orderVO" 
-		@queryLogistics="queryLogistics"
-		@queryExam="queryExam" 
-		@payOrder="payOrder">
+		<goods-order-list-item :storeGoodsVO="orderVO" @queryLogistics="queryLogistics" @queryExam="queryExam" @payOrder="payOrder">
 			<template v-slot:bottom>
 				<view class="box">
 					<!-- 组团商品 -->
@@ -28,7 +25,7 @@
 						<view class="row flex-center-between">
 							<block v-if="orderVO.orderState === 0 || orderVO.orderState === -1 || orderVO.orderState === 21">
 								<text class="label">尾款（待支付）</text>
-								<text class="flex-1 color-9">¥{{orderVO.goodsPrice - orderVO.maxPrice}} - ¥{{orderVO.goodsPrice - orderVO.minPrice}}</text>
+								<text class="flex-1 color-9">¥{{ orderVO.goodsPrice - orderVO.maxPrice }} - ¥{{ orderVO.goodsPrice - orderVO.minPrice }}</text>
 							</block>
 							<block v-else>
 								<text class="label">尾款（已支付）</text>
@@ -36,11 +33,11 @@
 							</block>
 						</view>
 						<view class="column flex-column">
-							<text class="remark">{{groupBuyGoodsVO.endTime}}开始支付尾款，尾款金额由成团人数决定</text>
+							<text class="remark">{{ groupBuyGoodsVO.endTime }}开始支付尾款，尾款金额由成团人数决定</text>
 							<button class="rule" @click="openPopup('groupPopup')">查看拼团规则</button>
 						</view>
 					</block>
-					
+
 					<!-- 坚持不懈商品 -->
 					<block v-if="orderVO.orderType === 3">
 						<!-- 只有实体商品才会有运费 -->
@@ -124,33 +121,21 @@
 				<text class="flex-1">¥{{ orderVO.payAmount }}</text>
 			</view>
 		</view>
-		
+
 		<!-- 物流 弹窗 -->
-		<order-logistic-popup ref="logisticPopup" 
-		:data="logisticsVO"></order-logistic-popup>
-		
+		<order-logistic-popup ref="logisticPopup" :data="logisticsVO"></order-logistic-popup>
+
 		<!-- 电子凭证 弹窗 -->
-		<order-exam-certificate ref="examPop" 
-		:data="examVO"></order-exam-certificate>
-		
+		<order-exam-certificate ref="examPop" :data="examVO"></order-exam-certificate>
+
 		<!-- 弹窗 拼团规则-->
-		<goods-group-popup v-if="orderVO.orderType === 2" 
-		ref="groupPopup" 
-		:data="groupBuyGoodsVO" 
-		:showBottom="false"></goods-group-popup>
-		
+		<goods-group-popup v-if="orderVO.orderType === 2" ref="groupPopup" :data="groupBuyGoodsVO" :showBottom="false"></goods-group-popup>
+
 		<!-- 弹窗 坚持不懈规则 -->
-		<sales-activity-popup v-if="orderVO.orderType === 3" 
-		ref="salesActivityPopup" 
-		:showBottom="false" 
-		:data="unremittinglyVO"></sales-activity-popup>
-		
-		
+		<sales-activity-popup v-if="orderVO.orderType === 3" ref="salesActivityPopup" :showBottom="false" :data="unremittinglyVO"></sales-activity-popup>
+
 		<!-- 支付方式 弹窗 -->
-		<common-payment-popup ref="paymentPopup" 
-		:data="payOrderVO" 
-		@cancelPay="cancelPay"></common-payment-popup>
-		
+		<common-payment-popup ref="paymentPopup" :data="payOrderVO" @cancelPay="cancelPay"></common-payment-popup>
 	</scroll-view>
 </template>
 
@@ -190,26 +175,34 @@ export default {
 				case 10:
 					return '已完成';
 					break;
-				case 5: case 11:
+				case 5:
+				case 11:
 					return '申请退款中';
 					break;
-				case 6: case 12: case 14: case 15: case 23: case 24:
+				case 6:
+				case 12:
+				case 14:
+				case 15:
+				case 23:
+				case 24:
 					return '退款中';
 					break;
-				case 7: case 13:
+				case 7:
+				case 13:
 					return '拒绝退款';
 					break;
 				case 9:
 					return '退款完成';
 					break;
-				case 8: case 16:
+				case 8:
+				case 16:
 					return '退款失败';
 					break;
 			}
 		}
 	},
-	watch:{
-		'$store.state.orderChange': function(){
+	watch: {
+		'$store.state.orderChange': function() {
 			this.queryOrderDetail();
 		}
 	},
@@ -222,29 +215,28 @@ export default {
 		queryOrderDetail() {
 			this.$http.get('/order/queryDetail', { orderNum: this.orderNum }, true).then(res => {
 				this.orderVO = res;
-				
-				if(res.orderType === 2){ // 如果是组团商品，需要查询组团活动详情
+
+				if (res.orderType === 2) {
+					// 如果是组团商品，需要查询组团活动详情
 					this.queryGroupBuyInfo();
-				}else if(res.orderType === 3){ // 如果是坚持不懈商品，需要查询坚持不懈活动详情
+				} else if (res.orderType === 3) {
+					// 如果是坚持不懈商品，需要查询坚持不懈活动详情
 					this.queryUnremittingly();
 				}
-				
 			});
 		},
 		// 查询拼团活动详情
-		queryGroupBuyInfo(){
+		queryGroupBuyInfo() {
 			this.$http.get('/groupBuy/queryInfoByLogin', { groupBuyId: this.orderVO.groupBuyId }, true).then(res => {
 				this.groupBuyGoodsVO = res;
 			});
 		},
-		
+
 		// 查询坚持不懈活动详情
-		queryUnremittingly(){
-			this.$http
-				.get('/unremittingly/queryInfo', {unremittinglyId: this.orderVO.unremittinglyId}, true)
-				.then(res => {
-					this.unremittinglyVO = res;
-				});	
+		queryUnremittingly() {
+			this.$http.get('/unremittingly/queryInfo', { unremittinglyId: this.orderVO.unremittinglyId }, true).then(res => {
+				this.unremittinglyVO = res;
+			});
 		},
 		// 打开弹窗
 		openPopup(value) {
@@ -254,31 +246,31 @@ export default {
 		 * 查询物流
 		 * @param {Object} logisticsVO 物流对象
 		 */
-		queryLogistics(logisticsVO){
+		queryLogistics(logisticsVO) {
 			this.logisticsVO = logisticsVO;
 			this.$refs.logisticPopup.open();
 		},
-		
+
 		/**
 		 * 电子凭证点击
 		 * @param {Object} data 电子凭证对象
 		 */
-		queryExam(data){
+		queryExam(data) {
 			this.examVO = data;
 			this.$refs.examPop.open();
 		},
-		
+
 		// 支付订单
-		payOrder(){
+		payOrder() {
 			this.payOrderVO = {
 				orderNum: this.orderVO.orderNum,
 				payOrderNum: this.orderVO.orderTotalNum
-			}
+			};
 			this.$refs.paymentPopup.open();
 		},
-		
+
 		// 取消支付
-		cancelPay(){
+		cancelPay() {
 			this.$refs.paymentPopup.close();
 		}
 	}

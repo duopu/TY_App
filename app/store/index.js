@@ -20,7 +20,8 @@ const store = new Vuex.Store({
 		groupConversationMap: {},// 会话map，key：群组id  value：会话对象
 		storeInfo: {}, // 店铺信息  给商家端使用
 		inviterId: undefined ,//邀请人ID
-		inviterGoodsId: undefined //邀请人分销的商品ID
+		inviterGoodsId: undefined ,//邀请人分销的商品ID,
+		unReadMessageTotalCount:0, // 未读消息总数量
     },
 	
 	mutations:{
@@ -161,6 +162,10 @@ const store = new Vuex.Store({
 		 */
 		setinviterGoodsId(state, inviterGoodsId){
 			state.inviterGoodsId = inviterGoodsId;
+		},
+		// 设置  未读消息总数量
+		setUnReadMessageTotalCount(state, totalCount){
+			state.unReadMessageTotalCount = totalCount;
 		}
 	},
 	
@@ -216,7 +221,14 @@ const store = new Vuex.Store({
 					commit('setStoreInfo',res)
 				})
 			}
-		}
+		},
+		//获取消息未读数
+		refreshTotalUnreadMessageCount({commit}){
+			// 获取消息未读数
+			imtool.getTotalUnreadMessageCount().then(totalCount=>{
+				commit('setUnReadMessageTotalCount',totalCount);
+			})
+		},
 	}
 	
 })

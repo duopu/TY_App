@@ -12,7 +12,7 @@
 			<view class="item"
 			v-for="(item,index) in historyList"
 			:key="`history-list-${index}`"
-			@click="tagClick(item,0)">{{item.name}}</view>
+			@click="tagClick(item.name,0)">{{item.name}}</view>
 		</view>
 		<!-- 热门搜索 -->
 		<view class="title text-bold">热门搜索</view>

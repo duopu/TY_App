@@ -23,7 +23,7 @@ export default {
 
 		if (loading) {
 			uni.showLoading({
-				title: url + '奋力加载中...',
+				title: '奋力加载中...',
 				mask: true,
 			})
 		}
@@ -40,12 +40,6 @@ export default {
 			console.log('请求地址', url);
 			console.log('请求参数', options);
 			console.log('全部响应', res);
-			console.log(`
-				【【 字符串表示 ，方便给后端发报错信息 】】
-				请求地址：${url}
-				请求信息：${JSON.stringify(options)}
-				响应信息：${JSON.stringify(res)}
-			`);
 			
 			if (loading) {
 				uni.hideLoading()
@@ -58,6 +52,13 @@ export default {
 					message: msg
 				};
 			} else {
+				console.error(`
+					【【 字符串表示 ，方便给后端发报错信息 】】
+					请求地址：${url}
+					请求信息：${JSON.stringify(options)}
+					响应信息：${JSON.stringify(res)}
+				`);
+				
 				if (loading) {
 					uni.showToast({
 						title: msg,

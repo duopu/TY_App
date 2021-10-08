@@ -35,7 +35,7 @@
 					<!-- 得分 -->
 					<view class="rate flex-center">
 						<text>综合评分</text>
-						<rate :max="5" class="rate-star" :number="storeInfo.score"></rate>
+						<rate :max="5" class="rate-star" :number="storeInfo.score || 0"></rate>
 					</view>
 				</view>
 			</view>

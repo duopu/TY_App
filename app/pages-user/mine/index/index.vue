@@ -11,7 +11,7 @@
 			</view>
 			<view class="right" @click="toMessageList">
 				<image class="icons" src="../../../static/images/icons/icon-message2.svg" mode="aspectFill"></image>
-				<text class="tips-number">12</text>
+				<text class="tips-number" v-if="unReadMessageTotalCount">{{unReadMessageTotalCount}}</text>
 			</view>
 		</view>
 		<scroll-view scroll-y="true" class="my-content">
@@ -170,6 +170,11 @@
 		},
 		onShow() {
 			this.queryMineInfo()
+		},
+		computed:{
+			unReadMessageTotalCount(){
+				return this.$store.state.unReadMessageTotalCount
+			}
 		},
 		methods: {
 			// 查询我的信息
