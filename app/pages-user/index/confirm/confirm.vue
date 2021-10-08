@@ -31,7 +31,7 @@
 				</view>
 				<view class="row flex-center-between" @click="chooseStoreCoupon(item.storeCouponId, item.storeCouponList, index)">
 					<text class="label">商家优惠</text>
-					<text v-if="item.storeCouponId" class="flex-1 color-red">-¥{{ item.storeDiscountAmount }}</text>
+					<text v-if="item.storeCouponId" class="flex-1 color-red">-¥{{ item.storeCouponAmount }}</text>
 					<text v-else class="flex-1 color-9">{{ item.storeCouponList && item.storeCouponList.length > 0 ? '请选择优惠券' : '无可用优惠券' }}</text>
 					<image
 						v-if="item.storeCouponList && item.storeCouponList.length > 0"
