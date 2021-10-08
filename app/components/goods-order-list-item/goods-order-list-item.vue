@@ -170,6 +170,8 @@ export default {
 		 * 初始化底部操作按钮
 		 */
 		initOptionBtns() {
+			this.bottomOptionBtns = [];
+			this.moreOptionBtns = [];
 			this.optionBtns.forEach(value => {
 				const isShow = this.isOptionBtnShow(value.name);
 				if (isShow) {
