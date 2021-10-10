@@ -144,6 +144,7 @@
 			getGroupHistoryMessageList() {
 				const oldMessage = this.messageList[0] || {}
 				this.$tool.imTool.getGroupHistoryMessageList(this.groupId, oldMessage.msgId).then(historys => {
+					console.log('加载历史消息',historys);
 					this.messageList = historys.reverse()
 				})
 			},

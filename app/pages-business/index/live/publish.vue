@@ -2,7 +2,7 @@
 <template>
 	<view class="live publish">
 		<view class="form-row">
-			<text class="label">选择课程1</text>
+			<text class="label">选择课程</text>
 			<picker class="input" @change="bindPickerChange" :value="selectedIndexArr" @columnchange="columnchange" range-key="courseClassName"  mode="multiSelector"  :range="curriculumList">
 				<view class="uni-input">{{ selectedNames.join('/') }}</view>
 			</picker>
@@ -86,15 +86,18 @@ export default {
 			}
 		},
 		bindPickerChange(event){
-			let arr = [];
-			event.detail.value.map((item,index) => {
-				arr.push(this.curriculumList[index][item].courseClassName)
-			});
-
-			this.courseClassId = this.curriculumList[2][event.detail.value[2]].courseClassId;
-			this.courseId = this.curriculumList[2][event.detail.value[2]].courseId;
-			this.selectedNames = arr;
-			this.selectedIndexArr = event.detail.value
+			const indexList = event.detail.value;
+			const classArr = [];
+			indexList.forEach((item,i)=>{
+				const selectClass = this.curriculumList[i][item];
+				if(selectClass) classArr.push(selectClass);
+			})
+			console.log();
+			this.selectedNames = classArr.map(c=>c.courseClassName);
+			this.selectedIndexArr = indexList;
+			const lastClass = classArr[classArr.length - 1];
+			this.courseClassId = lastClass.courseClassId
+			this.courseId = lastClass.courseId
 		}
 	}
 };
