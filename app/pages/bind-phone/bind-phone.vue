@@ -3,10 +3,10 @@
 	<view class="code-reset pd">
 		<view class="title">绑定手机号</view>
 		<view class="form">
-			<input class="input item" placeholder-class="input-placeholder" type="text" v-model="phone"
+			<input class="input item" placeholder-class="input-placeholder" type="number" v-model="phone"
 				placeholder="请输入手机号" />
 			<view class="item">
-				<input class="input" placeholder-class="input-placeholder" type="text" v-model="smsCode"
+				<input class="input" placeholder-class="input-placeholder" type="number" v-model="smsCode"
 					placeholder="请输入验证码" />
 				<view class="getCode" :disable="waitSms" @click="sendSmsCode">
 					{{waitSms ? `获取验证码(${smsCodeCountDown})` : '获取验证码'}}</view>

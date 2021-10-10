@@ -72,10 +72,10 @@
 			</view>
 			<view class="broadcast-item flex-center-between" v-if="liveData">
 				<view class="broadcast-item-left">
-					<view class="name">{{ liveData.title }}</view>
-					<view class="desc">{{ liveData.content }}</view>
+					<view class="name">{{ liveData.goodsName }}</view>
+					<view class="desc">{{ liveData.courseName }}</view>
 					<view class="flex-center-between broadcast-item-live">
-						<text>{{ liveData.time || '--' }}</text>
+						<text>{{ liveData.startTime || '--' }}</text>
 						<text class="color-white" @click="gotoGoodsDetail(liveData)">购买直播</text>
 					</view>
 				</view>
