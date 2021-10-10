@@ -6,6 +6,7 @@
 				<text class="dot"></text>
 				<text class="text">{{item.title}}</text>
 			</view>
+			<text class="content">{{item.content}}</text>
 			<view class="time">{{ item.createTime }}</view>
 		</view>
 	</view>
@@ -24,7 +25,6 @@ export default {
 	methods:{
 		queryNoticeList(){
 			this.$http.get('/announcement/queryPage',{page: 1, size: 3},false).then(res => {
-				console.log(res);
 				this.noticeList = res.content || [];
 			})
 		},
