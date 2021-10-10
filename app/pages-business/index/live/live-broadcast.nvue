@@ -7,7 +7,7 @@
 			<text class="title">直播间名称</text>
 			<text class="desc">{{liveName}}</text>
 			<text class="title">直播间简介</text>
-			<text class="desc">{{liveIntro}}</text>
+			<text class="desc">{{liveIntro}}</text> 
 		</cover-view>
 
 		<cover-view class="cover-start-btn" @click="startLive" v-if="!pushing">

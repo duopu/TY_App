@@ -79,7 +79,6 @@
 				"navigationBarTitleText": "帮助与反馈",
 				"enablePullDownRefresh": false
 			}
-
 		}
 	],
 	"subPackages": [{
@@ -117,7 +116,6 @@
 						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
-
 				},
 				{
 					"path": "index/salary/salary",
@@ -583,14 +581,18 @@
 						"navigationBarTitleText": "优惠券领取使用记录",
 						"enablePullDownRefresh": false
 					}
-
 				}, {
 					"path": "my/ticket/select-goods",
 					"style": {
 						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
-
+				},{
+					"path":"index/room/room",
+					"style":{
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
 				}
 			]
 		}
