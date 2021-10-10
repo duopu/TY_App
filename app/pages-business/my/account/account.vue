@@ -6,7 +6,7 @@
 			<text class="text">{{phone}}</text>
 			<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
-		<view class="flex-center-between row" @click="jump('resetPassword')">
+		<view class="flex-center-between row" @click="resetPassword">
 			<text class="label">密码修改</text>
 			<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
@@ -33,8 +33,10 @@
 		onLoad(){
 		},
 		methods:{
-			jump(type){
-
+			resetPassword(){
+				uni.navigateTo({
+					url:'/pages/reset-password/reset-password'
+				})
 			}
 		}
 	}
