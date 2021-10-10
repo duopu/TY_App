@@ -207,12 +207,13 @@ export default {
 					});
 					break;
 				case 'created-ticket':
+				// 	创建优惠券
 					uni.navigateTo({
 						url: `/pages-business/my/ticket/add`
 					});
 					break;
 				case 'live':
-					// 跳转直播，测试用 丁乐写
+					// 跳转直播
 					uni.navigateTo({
 						url: '/pages-business/index/live/record'
 					});
