@@ -29,6 +29,10 @@
 			<view class="answer-lists flex">
 				<view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 3)" :key="ind">{{ item.index + 1 }}</view>
 			</view>
+      <view class="title">简答题</view>
+			<view class="answer-lists flex">
+				<view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 4)" :key="ind">{{ item.index + 1 }}</view>
+			</view>
 		</view>
 	</uni-popup>
 </template>

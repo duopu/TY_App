@@ -34,12 +34,15 @@
                     <text v-html="item.content"></text>
                   </view>
                 </view>
-                <block v-for="(flag,ind) in item.questionOptionVOList" :key="ind">
+                <block v-if="item.type === 4">
+                    <!-- 简答题 -->
+                    <textarea class="textarea" @input="inputChange" placeholder="请输入答案" :value="item.userAnswer" />
+                </block>
+                <block v-else v-for="(flag,ind) in item.questionOptionVOList" :key="ind">
                   <view class="select-row flex" @click="checkChange(item,flag)">
                     <!-- 多选 -->
                     <view v-if="item.type === 2" class="checkbox" :class="flag.checked && 'on'"></view>
                     <!-- 单选 | 判断题 -->
-                    <!-- item.userAnswer === flag.optionLabel -->
                     <view v-else class="radio" :class="[ flag.isTrue && 'right',flag.checked && 'on']"></view>
                     <view>{{flag.optionLabel ? (flag.optionLabel + '、') : ''}}{{flag.content}}</view>
                   </view>
@@ -152,6 +155,9 @@ export default {
         case 3:
           text = '判断'
           break;
+        case 4:
+          text = '简答'
+          break;  
       }
       return text + '题'
     },
@@ -320,6 +326,12 @@ export default {
       })
     },
 
+    inputChange(e){
+      const currQues = this.questionList[this.current];
+      currQues.isAnswer = 1 //表示题目已经答过
+      currQues.userAnswer = e.target.value;
+    },
+
     // 按钮确定
     btnSure(){
       // 模拟题得分页面回来查看解析
@@ -381,19 +393,34 @@ export default {
     // 提交
     submit(){
       const isAnswerList = this.questionList.filter(item=>item.isAnswer === 1);
+      console.log('isAnswerList',isAnswerList);
       (isAnswerList || []).map(i=>{
-        const checkedQuestionOption = i.questionOptionVOList.filter(i=>i.checked)
-        if(checkedQuestionOption.length>0){
-            let userAnswer =  (checkedQuestionOption || []).map(i=>i.optionLabel).join('') 
-            const checkSubmitQuestionDTOList = this.submitQuestionDTOList.filter(item=>item.questionId === i.questionId)
-            if(checkSubmitQuestionDTOList.length>0){
-              checkSubmitQuestionDTOList.userAnswer = userAnswer
-            }else{
-              this.submitQuestionDTOList.push({
-                  questionId:i.questionId,
-                  userAnswer
-              })  
-            }
+        // 简答题
+        if(i.type === 4){
+          const checkSubmitQuestionDTOList = this.submitQuestionDTOList.filter(item=>item.questionId === i.questionId)
+          if(checkSubmitQuestionDTOList.length>0){
+            checkSubmitQuestionDTOList.userAnswer = i.userAnswer
+          }else{
+            this.submitQuestionDTOList.push({
+              questionId:i.questionId,
+              userAnswer:i.userAnswer
+            }) 
+          }
+        }else{
+          // 单选 + 判断 + 多选
+          const checkedQuestionOption = i.questionOptionVOList.filter(i=>i.checked)
+          if(checkedQuestionOption.length>0){
+              let userAnswer = (checkedQuestionOption || []).map(i=>i.optionLabel).join('') 
+              const checkSubmitQuestionDTOList = this.submitQuestionDTOList.filter(item=>item.questionId === i.questionId)
+              if(checkSubmitQuestionDTOList.length>0){
+                checkSubmitQuestionDTOList.userAnswer = userAnswer
+              }else{
+                this.submitQuestionDTOList.push({
+                    questionId:i.questionId,
+                    userAnswer
+                })  
+              }
+          }
         }
       })
       const examStartTime = new Date().valueOf()
@@ -432,13 +459,17 @@ export default {
       const params = {
         questionBankId:this.questionBankId 
       }
-      let apiUrl = '';
+      let apiUrl = '',newData = [];
       switch(this.type){
         case 0:
           apiUrl = '/question/queryRandomAllList'
           break;
         case 1:
-          apiUrl = '/question/queryList'
+          // 顺序练习 查最新列表如果是空表示未做过练习题 
+          newData = await this.$http.get('/questionRecord/queryNewList',params,true) || [];
+          if(newData.length === 0){
+            apiUrl = '/question/queryList'
+          }
           break; 
         case 2:
           apiUrl = '/question/querySimulatedPaperList'
@@ -450,13 +481,22 @@ export default {
           apiUrl = '/questionBank/queryWrongListByUser'
           break;      
       }
-      const data =  await this.$http.get(apiUrl,params,true) || [];
+      const data =  apiUrl  ? await this.$http.get(apiUrl,params,true) : newData ||  [];
       data.map((i,index)=>{
         i.index = index;
         i.mark = false;
+        i.isShowAnswer = i.userAnswer && i.userAnswer !== i.answer;
+        i.isAnswer = i.userAnswer && i.userAnswer === i.answer ? 1 : 0;
         (i.questionOptionVOList || []).map(f=>{
-          f.checked = false
+          if(i.userAnswer){
+            f.checked = i.userAnswer.indexOf(f.optionLabel) > -1
+          }else{
+            f.checked = false
+          }
         })
+        if(i.userAnswer){
+          this.current = index
+        }
       })
       this.questionList = data;
     }, 

@@ -16,7 +16,7 @@
 					<image src="../../static/images/course/shop.png"  mode="aspectFill" class="icon-image" />
 					<text>{{data.storeName}}</text>
 				</view>
-				<button class="btn btn-block black" v-if="state === 1" @click.stop="btnClick()">开始做题</button>
+				<button class="btn btn-block black" v-if="state === 1">开始做题</button>
         <button class="btn btn-block black" v-else>观看学习</button>
 			</view>
 		</view>
@@ -53,9 +53,9 @@ export default {
 			this.$emit("clickItem",this.data)
 		},
     // 观看学习 | 开始做题 点击事件
-    btnClick(){
-      this.$emit("btnClick",this.data)
-    },
+    // btnClick(){
+    //   this.$emit("btnClick",this.data)
+    // },
 	}
 };
 </script>
