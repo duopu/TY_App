@@ -22,7 +22,7 @@ export default {
 	// 各种链接地址
 	urlLink:{
 		// 分享的商品详情
-		shareGoodsDetailUrl:'shareGoodsDetailUrl?goodsId=',
+		shareGoodsDetailUrl:'xxxxxxxx?goodsId=',
 		// 分享的店铺详情
 		shareShopDetailUrl:'xxxxxxxx?shopId=',
 		// 分享邀请注册

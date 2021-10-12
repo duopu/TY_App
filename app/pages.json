@@ -142,7 +142,7 @@
 				}, {
 					"path": "index/goods-details/goods-details",
 					"style": {
-						"navigationBarTitleText": "商品详情2",
+						"navigationBarTitleText": "商品详情",
 						"enablePullDownRefresh": false,
 						"app-plus":{
 							"titleNView":{
@@ -618,6 +618,14 @@
 					"path": "validate-code/validate-code",
 					"style": {
 						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "goods-details/goods-details",
+					"style": {
+						"navigationStyle": "custom",
+						"navigationBarTitleText":"商品详情",
 						"enablePullDownRefresh": false
 					}
 				}
