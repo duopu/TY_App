@@ -36,7 +36,7 @@
 					<view class="flex-1">
 						<view class="flex-center-between">
 							<text>属性分类</text>
-							<image @click="openPopup('classifyPopup')" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+							<image @click="openPopup('classifyPopup')" class="icon-more" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
 						<view class="checkbox-lists">
 							<view v-for="(item, index) in goodsInfo.goodsAttributesVOList" :key="`goodsAttribute-${index}`" class="item">{{ item.attributesName }}</view>
@@ -45,7 +45,7 @@
 					</view>
 				</view>
 				<!-- 发货（只有实体商品才显示） -->
-				<view v-if="entityGoodsCheck === 2" class="flex row">
+				<view v-if="entityGoodsCheck === 2" class="flex row"> 
 					<text class="label color-9">发货</text>
 					<view class="flex-1">
 						<view class="flex-center-between">
@@ -55,7 +55,7 @@
 								<block v-if="entityGoodsCheck === 2 && selectGoodsVO.attributesId">快递: {{ freightAmount > 0 ? `${freightAmount}元` : '免快递费' }}</block>
 							</text>
 							<!-- 只有实体商品才可以去选择配送地址 -->
-							<image v-if="entityGoodsCheck === 2" @click="goAddress()" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+							<image v-if="entityGoodsCheck === 2" @click="goAddress()" class="icon-more" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 						</view>
 						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">
 							配送至：{{ defaultAddress.provinceName }} {{ defaultAddress.cityName }} {{ defaultAddress.areaName }} {{ defaultAddress.streetName }}
@@ -72,7 +72,7 @@
 							<view class="item yellow">平台认证</view>
 							<view class="item red">保证金</view>
 						</view>
-						<image @click="openPopup('ensurePopup')" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+						<image @click="openPopup('ensurePopup')" class="icon-more" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 					</view>
 				</view>
 				<!-- 参数 -->
@@ -83,7 +83,7 @@
 						<view class="item" v-if="courseCheck === 2">课程方式</view>
 						<view class="item" v-if="questionCheck === 2">题库数量</view>
 					</view>
-					<image @click="openPopup('parameterPopup')" class="icon-more" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+					<image @click="openPopup('parameterPopup')" class="icon-more" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 				</view>
 			</view>
 			<!-- 横向菜单 -->
@@ -135,22 +135,22 @@
 		<!-- 底部 -->
 		<view class="goods-bottom flex-center-between" id="goods-bottom">
 			<view class="flex-column" @click="gotoStoreDetail">
-				<image class="icons" src="../../../static/images/icons/icon-room.svg" mode="aspectFill"></image>
+				<image class="icons" src="../../static/images/icons/icon-room.svg" mode="aspectFill"></image>
 				<text>店铺</text>
 			</view>
 			<view class="flex-column" @click="toCustomerService">
-				<image class="icons" src="../../../static/images/icons/icon-kf.svg" mode="aspectFill"></image>
+				<image class="icons" src="../../static/images/icons/icon-kf.svg" mode="aspectFill"></image>
 				<text>客服</text>
 			</view>
 			<view class="flex-column">
 				<image
 					class="icons"
 					v-if="goodsInfo.userCollection === 2"
-					src="../../../static/images/icons/icon-save-on.svg"
+					src="../../static/images/icons/icon-save-on.svg"
 					mode="aspectFill"
 					@click="collectClick(false)"
 				></image>
-				<image class="icons" v-else src="../../../static/images/icons/icon-save.svg" @click="collectClick(true)"></image>
+				<image class="icons" v-else src="../../static/images/icons/icon-save.svg" @click="collectClick(true)"></image>
 				<text>收藏</text>
 			</view>
 			<button class="btn btn-block flex-1" @click="jumpConfirm">立即购买</button>

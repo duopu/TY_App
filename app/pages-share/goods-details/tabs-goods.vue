@@ -11,7 +11,7 @@
 			</view>
 			<view class="flex-center" @click="moreComment()">
 				更多
-				<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
+				<image class="icon-arrow" mode="aspectFill" src="../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
 		</view>
 		<!-- 评论列表 -->
