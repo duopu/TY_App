@@ -1,0 +1,175 @@
+.login-page {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	justify-content: space-around;
+	padding-top: var(--status-bar-height);
+}
+
+//头部
+.top {
+	flex-shrink: 0;
+	.logo {
+		margin: 60rpx auto 70rpx;
+		.logo-image{
+			width: 144rpx;
+			height: 144rpx;
+			border-radius: 32rpx;
+		}
+	}
+	.tabs-title {
+		margin-bottom: 20rpx;
+		&-item {
+			position: relative;
+			flex: 1;
+			font-size: 26rpx;
+			color: #666666;
+			text-align: center;
+			&.on {
+				font-size: 32rpx;
+				color: #000000;
+
+				&::after {
+					content: '';
+					position: absolute;
+					margin-left: -10rpx;
+					left: 50%;
+					bottom: -15rpx;
+					width: 20rpx;
+					height: 6rpx;
+					border-radius: 10rpx;
+					background-color: #ffb55b;
+				}
+			}
+		}
+	}
+}
+
+//内容
+.form-wrapper {
+	flex: 1;
+	margin: 0 40rpx 20rpx;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	.input {
+		padding: 32rpx 0;
+		font-size: 28rpx;
+		border-bottom: 2rpx solid #dfe0e6;
+		&-placeholder,&::placeholder {
+			color: #cccccc;
+		}
+	}
+
+	.helper {
+		margin-top: 24rpx;
+		font-size: 26rpx;
+		color: #999999;
+	}
+
+	.forget {
+		text-align: right;
+		color: #222222;
+		font-size: 26rpx;
+		background-color: transparent;
+	}
+
+	.login-btn {
+		height: 96rpx;
+		background: #222222;
+		color: #ffffff;
+		text-align: center;
+		font-size: 30rpx;
+		line-height: 96rpx;
+		margin-top: 60rpx;
+	}
+
+	.huo {
+		margin: 30rpx auto;
+		font-size: 26rpx;
+		text-align: center;
+		color: #999999;
+	}
+
+	.password-login {
+		color: #222222;
+		font-size: 30rpx;
+		text-align: center;
+	}
+
+	.input-with-icon {
+		margin-top: 40rpx;
+		border-bottom: 2rpx solid #dfe0e6;
+		.input {
+			flex: 1;
+			border: none;
+			outline: none;
+		}
+
+		.icon {
+			flex-shrink: 0;
+			width: 48rpx;
+			height: 48rpx;
+		}
+	}
+}
+
+// 底部
+.bottom {
+	flex-shrink: 0;
+	margin: auto 40rpx auto;
+	.rules {
+		text-align: center;
+		margin: auto auto 60rpx auto;
+		color: #222222;
+		font-size: 22rpx;
+
+		text {
+			color: #1aa8ff;
+		}
+	}
+
+	.through {
+		position: relative;
+		color: #999999;
+		font-size: 26rpx;
+		margin-bottom: 40rpx;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 0;
+			right: 0;
+			height: 1px;
+			background-color: #eeeeee;
+		}
+
+		text {
+			width: 40%;
+			background-color: #ffffff;
+			text-align: center;
+			z-index: 1;
+		}
+	}
+
+	.methods {
+		margin: auto auto 20rpx 20rpx;
+
+		&-image {
+			width: 80rpx;
+			height: 80rpx;
+
+			& + .methods-image {
+				margin-left: 56rpx;
+			}
+		}
+	}
+
+	.advert-image {
+		width: 100%;
+		height: 180rpx;
+		border-radius: 16rpx;
+		overflow: hidden;
+	}
+}

@@ -604,6 +604,24 @@
 					}
 				}
 			]
+		},
+		{
+			"root": "pages-share",
+			"pages": [{
+					"path": "register/register",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "validate-code/validate-code",
+					"style": {
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+				}
+			]
 		}
 	],
 	"tabBar": {

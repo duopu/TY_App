@@ -252,6 +252,11 @@ const isPhoneNumber = (value) => {
 	}
 }
 
+//  H5使用： 打开App 或者 打开App下载页面
+const openApp = ()=>{
+	console.log('H5使用： 打开App 或者 打开App下载页面');
+}
+
 export default {
 	imTool,
 	systemInfo,
@@ -263,5 +268,6 @@ export default {
 	toMessageList,
 	orderPay,
 	getUrlQuery,
-	isPhoneNumber
+	isPhoneNumber,
+	openApp,
 }

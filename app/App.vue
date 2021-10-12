@@ -11,10 +11,12 @@
 		},
 		onLaunch: function() {
 
+			// #ifdef APP-PLUS
 			// 从本地恢复登录信息;
 			uni.getStorage({
 				key: config.storageKeys.loginUserKey,
 				success: res => {
+
 					const user = res.data;
 					console.log('从本地恢复登录信息2', user);
 					if (user.token) {
@@ -34,7 +36,6 @@
 				}
 			});
 
-
 			// 监听会话变化
 			uni.$on('ConversationListen', (data) => {
 				console.log('监听会话变化 22', data);
@@ -47,12 +48,12 @@
 				this.$store.dispatch('getGroupConversationMap')
 			}, 2000)
 
-
 			// 定时刷新token
 			this.$http.refreshToken();
 			const timer = setInterval(() => {
 				this.$http.refreshToken();
 			}, 60 * 60 * 1000);
+			// #endif
 		},
 		onShow: function() {
 			console.log('App Show');
