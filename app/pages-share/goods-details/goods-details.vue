@@ -26,15 +26,6 @@
 							{{ priceArry[1] }}
 						</view>
 					</view>
-					<!-- 分销申请 只有是普通商品才显示分销的功能 组团的商品、坚持不懈的商品都不显示 -->
-					<block v-if="goodsInfo.goodsGroupBy === 0">
-						<view v-if="goodsInfo.goodsDistributionStatus === 0 || goodsInfo.goodsDistributionStatus === 2" @click="goodsApply" class="state color-2 flex-center">
-							<image class="icon-share" src="" mode="aspectFill"></image>
-							申请分销
-						</view>
-						<view v-else-if="goodsInfo.goodsDistributionStatus === 3" class="state" @click="goGoodsApply">分销申请审核中</view>
-						<view v-else-if="goodsInfo.goodsDistributionStatus === 1" class="state" @click="goGoodsApply">查看分销进度</view>
-					</block>
 				</view>
 			</view>
 			<!-- 规格参数信息 -->
@@ -64,29 +55,12 @@
 								<block v-if="entityGoodsCheck === 2 && selectGoodsVO.attributesId">快递: {{ freightAmount > 0 ? `${freightAmount}元` : '免快递费' }}</block>
 							</text>
 							<!-- 只有实体商品才可以去选择配送地址 -->
-							<image v-if="entityGoodsCheck === 2" @click="goAddress()" class="icon-more" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+							<!-- <image v-if="entityGoodsCheck === 2" @click="goAddress()" class="icon-more" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image> -->
 						</view>
-						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">
+						<!-- <view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">
 							配送至：{{ defaultAddress.provinceName }} {{ defaultAddress.cityName }} {{ defaultAddress.areaName }} {{ defaultAddress.streetName }}
 							{{ defaultAddress.address }}
-						</view>
-					</view>
-				</view>
-				<!-- 优惠 -->
-				<view class="flex row" v-if="storeCouponTypeContent || platformCouponTypeContent">
-					<text class="label color-9">优惠</text>
-					<view class="flex-1 flex">
-						<view class="discount-lists">
-							<view v-if="storeCouponTypeContent" class="lists-item flex-center">
-								<view class="tag">商家</view>
-								<view>{{storeCouponTypeContent}}</view>
-							</view>
-							<view v-if="platformCouponTypeContent" class="lists-item flex-center">
-								<view class="tag">平台</view>
-								<view>{{platformCouponTypeContent}}</view>
-							</view>
-						</view>
-						<image @click="jumpCoupon" class="icon-more" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+						</view> -->
 					</view>
 				</view>
 				<!-- 保障 -->
@@ -160,35 +134,7 @@
 		</scroll-view>
 		<!-- 底部 -->
 		<view class="goods-bottom flex-center-between" id="goods-bottom">
-			<view class="flex-column" @click="gotoStoreDetail">
-				<image class="icons" src="../../static/images/icons/icon-room.svg" mode="aspectFill"></image>
-				<text>店铺</text>
-			</view>
-			<view class="flex-column" @click="toCustomerService">
-				<image class="icons" src="../../static/images/icons/icon-kf.svg" mode="aspectFill"></image>
-				<text>客服</text>
-			</view>
-			<view class="flex-column m-right-30">
-				<image
-					class="icons"
-					v-if="goodsInfo.userCollection === 2"
-					src="../../static/images/icons/icon-save-on.svg"
-					mode="aspectFill"
-					@click="collectClick(false)"
-				></image>
-				<image class="icons" v-else src="../../static/images/icons/icon-save.svg" @click="collectClick(true)"></image>
-				<text>收藏</text>
-			</view>
-			<!-- 普通商品 -->
-			<block v-if="goodsInfo.goodsGroupBy === 0">
-				<button class="btn btn-light" @click="jumpAddCar">加入购物车</button>
-				<button class="btn btn-block" @click="jumpConfirm">立即购买</button>
-			</block>
-			<!-- 参团商品 -->
-			<block v-else-if="goodsInfo.goodsGroupBy === 1">
-				<button v-if="goodsInfo.joinFlagGroupBy === 3" @click="openGroupBuyPop" class="btn btn-block flex-1">参与拼团</button>
-				<button v-else class="btn btn-gray flex-1">已参与，等待拼团完成</button>
-			</block>
+			<button class="btn btn-light" @click="jumpAddCar">打开App，查看更多内容</button>
 		</view>
 		<!-- 弹窗 属性分类 -->
 		<goods-classify-popup ref="classifyPopup"
@@ -201,8 +147,6 @@
 		<goods-parameter-popup ref="parameterPopup" :goodsInfo="goodsInfo"></goods-parameter-popup>
 		<!-- 弹窗 分销 -->
 		<goods-distribute-popup ref="distributePopup"></goods-distribute-popup>
-		<!-- 弹窗 参与拼团 -->
-		<goods-group-popup ref="groupPopup" :data="groupBuyVO"></goods-group-popup>
 	</view>
 </template>
 
@@ -267,8 +211,6 @@ export default {
 		};
 	},
 	computed: mapState({
-		// 选中的收货地址
-		defaultAddress: state => state.defaultAddress,
 		// 快递费
 		freightAmount: function() {
 			var price = 0;
@@ -287,11 +229,7 @@ export default {
 				price = storeFreightConfigVO.freightAmount;
 			}
 			return price;
-		},
-		// 邀请人ID
-		inviterId: state => state.inviterId,
-		// 邀请人分销商品ID
-		inviterGoodsId: state => state.inviterGoodsId
+		}
 	}),
 	watch: {
 		'$store.state.goodsDetailsHeightChange': {
@@ -299,9 +237,6 @@ export default {
 				//动态设置swiper的高度
 				this.setSwiperHeight();
 			}
-		},
-		'$store.state.orderChange': function(){
-			this.getGoodsInfo();
 		}
 	},
 	onLoad(option) {
@@ -309,22 +244,6 @@ export default {
 		this.getGoodsResource();
 		this.getGoodsInfo();
 		this.getComment();
-		this.getCouponInfo();
-	},
-	onUnload(){
-		// 这里要把邀请人、邀请人分销商品全部清空掉
-		this.$store.commit('setInviterId', undefined);
-		this.$store.commit('setinviterGoodsId', undefined);
-	},
-	// 监听原生标题栏按钮点击事件，参数为Object{index:原生标题栏按钮数组的下标}
-	onNavigationBarButtonTap(){
-		uni.setClipboardData({
-		    data: `${config.urlLink.shareGoodsDetailUrl}${this.goodsId}`,
-		    success: () => {
-				uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
-				this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
-		    }
-		});
 	},
 	methods: {
 		// 获取当前 tab index
@@ -387,56 +306,6 @@ export default {
 				indicator: 'default'
 			});        
 		},
-		//立即购买
-		jumpConfirm(){
-			this.goodsClassifyPopType = 2;
-			if(this.entityGoodsCheck === 2){ //只有实体商品才会弹出商品属性选择
-				this.openPopup('classifyPopup');
-			}else { //如果是虚拟商品，就不需要选择商品属性，直接进行下一步操作
-				let goodsAttributes = {
-					price: this.goodsInfo.price
-				}
-				this.goodsAttributesSubmit({goodsAttributes, count:1});
-			}
-		},
-
-		//加入购物车
-		jumpAddCar(){
-			this.goodsClassifyPopType = 1;
-			if(this.entityGoodsCheck === 2){ //只有实体商品才会弹出商品属性选择
-				this.openPopup('classifyPopup');
-			}else { //如果是虚拟商品，就不需要选择商品属性，直接进行下一步操作
-				let goodsAttributes = {
-					price: this.goodsInfo.price
-				}
-				this.goodsAttributesSubmit({goodsAttributes, count:1});
-			}
-			
-		},
-		// 跳转客服页面
-		toCustomerService(){
-			this.$http.get('/im/getIMGroupId',{storeId:this.goodsInfo.storeId},true).then(res=>{
-				const groupId = res.groupId;
-				const user = getApp().globalData.user;
-				getApp().globalData.messageParam = {
-					groupId:groupId,
-					userIM:user.imNum,
-					userName:user.userName,
-					storeName:this.goodsInfo.storeName,
-					storePortrait:this.goodsInfo.avatar 
-				}
-				
-				uni.navigateTo({
-					url:'/pages/im-message/im-message'
-				})
-			})
-		},
-		//优惠
-		jumpCoupon() {
-			uni.navigateTo({
-				url: `/pages-user/index/ticket/ticket?goodsId=${this.goodsId}`
-			});
-		},
 
 		/**
 		 * tab水平滚动回调
@@ -493,7 +362,7 @@ export default {
 		 */
 
 		getGoodsInfo() {
-			this.$http.get('/goods/queryInfoByLogin', { goodsId: this.goodsId }, true).then(res => {
+			this.$http.get('/goods/queryInfo', { goodsId: this.goodsId }, true).then(res => {
 				this.goodsInfo = res;
 
 				if (res.minPrice && res.maxPrice && res.minPrice !== res.maxPrice) {
@@ -524,116 +393,41 @@ export default {
 				this.questionCommentVOList = res.questionCommentVOList;
 			});
 		},
-		
-		/**
-		 * 查询当前商品的优惠券信息
-		 */
-		getCouponInfo(){
-			this.$http.get('/coupon/queryListByLogin', { goodsId: this.goodsId }, true).then(res => {
-				// 找到平台最大的优惠力度
-				if(res.couponList && res.couponList.length > 0){
-					let couponList =  res.couponList.sort(function(a, b){
-						return b.couponAmount - a.couponAmount;
-					});
-					this.platformCouponTypeContent = couponList[0].couponTypeContent;
-				}
-				// 找到商家最大的优惠力度
-				if(res.storeCouponList && res.storeCouponList.length > 0){
-					let storeCouponList =  res.storeCouponList.sort(function(a, b){
-						return b.couponAmount - a.couponAmount;
-					});
-					this.storeCouponTypeContent = storeCouponList[0].couponTypeContent;
-				}
-			});
-		},
 
-		/** 商品收藏
-		 * @param {Object} isCollect  true 收藏/ false 取消收藏
-		 */
-		collectClick(isCollect) {
-			if (isCollect) {
-				this.$http.post('/goods/collect', { goodsId: this.goodsId }, true).then(res => {
-					this.goodsInfo.userCollection = 2;
-				});
-			} else {
-				this.$http.delete('/goods/collection/delete', { idList: [this.goodsId] }, true).then(res => {
-					this.goodsInfo.userCollection = 1;
-				});
-			}
-		},
 
 		/**
 		 * 商品属性提交回调
 		 */
 		goodsAttributesSubmit({goodsAttributes,count}){
-			this.selectGoodsVO = {...goodsAttributes,goodsNum:count};
-			if(this.goodsClassifyPopType === 1){ //加入购物车
-				let addCarParams = {
-					goodsId: this.goodsInfo.goodsId,
-					attributesId: goodsAttributes.attributesId, 
-					goodsNum: count,
-					distributorId: this.inviterGoodsId == this.goodsInfo.goodsId ? this.inviterId : undefined  //这里要判断如果当前是商品是通过分销口令打开的，就设置邀请人ID
-				}
-				this.$http
-					.post('/shopping/cart/add', addCarParams, true)
-					.then(res => {
-						this.$tool.showSuccess("添加成功");
-					});
-			}else{ //立即购买
+			// this.selectGoodsVO = {...goodsAttributes,goodsNum:count};
+			// if(this.goodsClassifyPopType === 1){ //加入购物车
+			// 	let addCarParams = {
+			// 		goodsId: this.goodsInfo.goodsId,
+			// 		attributesId: goodsAttributes.attributesId, 
+			// 		goodsNum: count,
+			// 		distributorId: this.inviterGoodsId == this.goodsInfo.goodsId ? this.inviterId : undefined  //这里要判断如果当前是商品是通过分销口令打开的，就设置邀请人ID
+			// 	}
+			// 	this.$http
+			// 		.post('/shopping/cart/add', addCarParams, true)
+			// 		.then(res => {
+			// 			this.$tool.showSuccess("添加成功");
+			// 		});
+			// }else{ //立即购买
 			
-				let storeGoodList = [{
-					attributesId: goodsAttributes.attributesId,
-					goodsId: this.goodsInfo.goodsId,
-					goodsNum: count,	
-					distributorId: this.inviterGoodsId == this.goodsInfo.goodsId ? this.inviterId : undefined  //这里要判断如果当前是商品是通过分销口令打开的，就设置邀请人ID
-				}];
-				// 设置下单时要购买的商品
-				this.$store.commit('setStoreGoodsList',storeGoodList)
+			// 	let storeGoodList = [{
+			// 		attributesId: goodsAttributes.attributesId,
+			// 		goodsId: this.goodsInfo.goodsId,
+			// 		goodsNum: count,	
+			// 		distributorId: this.inviterGoodsId == this.goodsInfo.goodsId ? this.inviterId : undefined  //这里要判断如果当前是商品是通过分销口令打开的，就设置邀请人ID
+			// 	}];
+			// 	// 设置下单时要购买的商品
+			// 	this.$store.commit('setStoreGoodsList',storeGoodList)
 			
-				uni.navigateTo({
-					url: `/pages-user/index/confirm/confirm`
-				});
-			}
+			// 	uni.navigateTo({
+			// 		url: `/pages-user/index/confirm/confirm`
+			// 	});
+			// }
 
-		},
-
-		// 打开配送地址页面
-		goAddress() {
-			uni.navigateTo({
-				url: `/pages-user/index/address/address`
-			});
-		},
-
-		// 申请分销
-		goodsApply() {
-			this.$http.post('/distribution/goodsApply', { goodsId: this.goodsInfo.goodsId, storeId: this.goodsInfo.storeId }, true).then(res => {
-				this.goodsInfo.goodsDistributionStatus = 3;
-				this.openPopup('distributePopup');
-				this.$store.commit('setOrderChange');
-			});
-		},
-
-		// 跳转到商品分销页面
-		goGoodsApply() {
-			//TODO: 商品分销
-			// uni.navigateTo({
-			// 	url: `/pages-user/index/address/address`
-			// });
-		},
-		
-		// 参与拼团按钮点击
-		openGroupBuyPop(){
-			this.$http.get('/groupBuy/queryInfoByLogin', { groupBuyId: this.goodsInfo.groupBuyId }, true).then(res => {
-				this.groupBuyVO = res;
-				this.openPopup('groupPopup');
-			});
-		},
-		// 跳转店铺详情
-		gotoStoreDetail(){
-			const storeId = this.goodsInfo.storeId;
-			uni.navigateTo({
-				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
-			})
 		}
 	}
 };
