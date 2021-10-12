@@ -214,6 +214,7 @@ import TabsExam from './tabs-exam.vue';
 import TabsCatalogue from './tabs-catalogue.vue';
 import TabsRecommend from './tabs-recommend.vue';
 import { mapState } from 'vuex'; //引入mapState
+import config from '../../../utils/config.js';
 export default {
 	components: {
 		TabsBrief,
@@ -314,6 +315,16 @@ export default {
 		// 这里要把邀请人、邀请人分销商品全部清空掉
 		this.$store.commit('setInviterId', undefined);
 		this.$store.commit('setinviterGoodsId', undefined);
+	},
+	// 监听原生标题栏按钮点击事件，参数为Object{index:原生标题栏按钮数组的下标}
+	onNavigationBarButtonTap(){
+		uni.setClipboardData({
+		    data: `${config.urlLink.shareGoodsDetailUrl}${this.goodsId}`,
+		    success: () => {
+				uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+				this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
+		    }
+		});
 	},
 	methods: {
 		// 获取当前 tab index

@@ -142,8 +142,17 @@
 				}, {
 					"path": "index/goods-details/goods-details",
 					"style": {
-						"navigationBarTitleText": "商品详情",
-						"enablePullDownRefresh": false
+						"navigationBarTitleText": "商品详情2",
+						"enablePullDownRefresh": false,
+						"app-plus":{
+							"titleNView":{
+								"buttons":[
+									{
+										"type":"share"
+									}
+								]
+							}
+						}
 					}
 				}, {
 					"path": "index/goods-details/goods-details-unremittingly",

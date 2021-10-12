@@ -10,6 +10,8 @@ export default {
 		baseUrl:debug ? 'http://education.sinfinite.cn' : '',
 	// #endif
 	
+	
+	
 	// 本地存储的key值
 	storageKeys:{
 		// 登录用户的信息
@@ -17,7 +19,12 @@ export default {
 		// 历史搜索
 		historySearchKey:'storageHistorySearchKey'
 	},
-	
+	// 各种链接地址
+	urlLink:{
+		// 分享的商品详情
+		shareGoodsDetailUrl:'shareGoodsDetailUrl?goodsId=',
+		// 
+	},
 	// 复制链接的固定头部地址
 	copyUrl: 'https://tengyunjiaoyu.com.cn/app'
 }
