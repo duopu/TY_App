@@ -23,7 +23,10 @@ export default {
 	urlLink:{
 		// 分享的商品详情
 		shareGoodsDetailUrl:'shareGoodsDetailUrl?goodsId=',
-		// 
+		// 分享的店铺详情
+		shareShopDetailUrl:'xxxxxxxx?shopId=',
+		// 分享邀请注册
+		shareRegisterUrl:'xxxxxx?userId='
 	},
 	// 复制链接的固定头部地址
 	copyUrl: 'https://tengyunjiaoyu.com.cn/app'
