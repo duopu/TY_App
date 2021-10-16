@@ -368,7 +368,11 @@ export default {
 		 * 打开APP
 		 */
 		openApp(){
-			
+			const linkType = 6; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销  6普通商品详情 7坚持不懈商品详情 8店铺详情
+			const goodsId = this.goodsId;
+			let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}`;
+			let shareMsg = `推荐一款超值的商品给你：${url}`;
+			this.$tool.openApp(url)
 		}
 	}
 };

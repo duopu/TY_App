@@ -259,25 +259,67 @@ const isPhoneNumber = (value) => {
  * @param {url}  拼接好的url地址
  */
 const openApp = (url)=>{
-	console.log('H5使用： 打开App 或者 打开App下载页面');
 	
-	const isApplicationExist = plus.runtime.isApplicationExist({
-									pname:'com.ihomefnt.tyjy',
-									action:'com.ihomefnt.tyjy://',
-								});
-	
-	if(isApplicationExist){ // 如果已经安装了App
-		// 复制链接到系统剪贴板中
+	// #ifdef H5
 		uni.setClipboardData({
 			data: url,
 			success: () => {
-				uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
-				plus.runtime.openURL("com.ihomefnt.tyjy://")
+				uni.hideToast(); 
+				if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+				    var loadDateTime = new Date();
+					window.location = "com.ihomefnt.tyjy://";//schema链接或者universal link
+					window.setTimeout(function() { //如果没有安装app,便会执行setTimeout跳转下载页
+						window.location = "http://itunes.apple.com/app/******"; //TODO: ios下载地址  
+					}, 2500);	                          
+				} else if (navigator.userAgent.match(/android/i)) {
+				    var state = null;
+				    window.location = 'com.ihomefnt.tyjy://'; //schema链接或者universal link
+				    window.setTimeout(function() { //如果没有安装app,便会执行setTimeout跳转下载页
+				        window.location = "https://a.app.qq.com/o/simple.jsp?pkgname=com.ihomefnt.tyjy"; //android下载地址  
+				    }, 2500);  
+				}
+				
 			}
 		});
-	}else{
+	// #endif
+	
+	
+	
+	// 目前这段代码没啥用，只能在APP容器中使用
+	// #ifdef APP-PLUS
+		const isApplicationExist = plus.runtime.isApplicationExist({
+										pname:'com.ihomefnt.tyjy',
+										action:'com.ihomefnt.tyjy://',
+									});
 		
-	}
+		if(isApplicationExist){ // 如果已经安装了App
+			// 复制链接到系统剪贴板中
+			uni.setClipboardData({
+				data: url,
+				success: () => {
+					uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+					plus.runtime.openURL("com.ihomefnt.tyjy://")
+				}
+			});
+		}else{
+			// 复制链接到系统剪贴板中
+			uni.setClipboardData({
+				data: url,
+				success: () => {
+					uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+					if(plus.os.name == 'Android'){
+						//TODO: 这里是跳转到应用宝，pkgname是包名
+						plus.runtime.openURL("https://a.app.qq.com/o/simple.jsp?pkgname=com.ihomefnt.tyjy")	
+					}else if(plus.os.name == 'iOS'){
+						//TODO: 这里等上架到App Store之后要获取appId填入此处
+						plus.runtime.openURL("http://itunes.apple.com/app/******")	
+					}
+				}
+			});
+		}
+	// #endif                
+	
+	
 }
 
 export default {

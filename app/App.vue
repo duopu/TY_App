@@ -78,8 +78,25 @@
 					let params = this.$tool.getUrlQuery(copyLink);
 					const linkType = params.linkType;
 					console.log("params == ", params);
-
-					if (linkType == 5) { //店铺分销
+					
+					if (linkType == 8){ // H5分享 - 店铺
+						const storeId = params.storeId;
+						uni.navigateTo({
+							url: `/pages-user/index/store-details/store-details?storeId=${storeId}`
+						})
+					} else if (linkType == 7){ // H5分享 - 坚持不懈商品
+						const goodsId = params.goodsId;
+						const unremittinglyId = params.unremittinglyId;
+						this.$store.commit('setUnremittinglyVO',{goodsId,unremittinglyId});
+						uni.navigateTo({
+							url: `/pages-user/index/goods-details/goods-details-unremittingly`
+						});
+					} else if (linkType == 6){ // H5分享 -普通商品
+						const goodsId = params.goodsId;
+						uni.navigateTo({
+							url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
+						});
+					} else if (linkType == 5) { //店铺分销
 						const storeId = params.storeId;
 						uni.navigateTo({
 							url: `/pages-user/index/store-details/store-details?storeId=${storeId}`
