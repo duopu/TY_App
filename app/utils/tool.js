@@ -267,13 +267,13 @@ const openApp = (url)=>{
 				uni.hideToast(); 
 				if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
 				    var loadDateTime = new Date();
-					window.location = "com.ihomefnt.tyjy://";//schema链接或者universal link
+					window.location = "tyjy://";//schema链接或者universal link
 					window.setTimeout(function() { //如果没有安装app,便会执行setTimeout跳转下载页
 						window.location = "http://itunes.apple.com/app/******"; //TODO: ios下载地址  
 					}, 2500);	                          
 				} else if (navigator.userAgent.match(/android/i)) {
 				    var state = null;
-				    window.location = 'com.ihomefnt.tyjy://'; //schema链接或者universal link
+				    window.location = 'tyjy://'; //schema链接或者universal link
 				    window.setTimeout(function() { //如果没有安装app,便会执行setTimeout跳转下载页
 				        window.location = "https://a.app.qq.com/o/simple.jsp?pkgname=com.ihomefnt.tyjy"; //android下载地址  
 				    }, 2500);  
@@ -289,7 +289,7 @@ const openApp = (url)=>{
 	// #ifdef APP-PLUS
 		const isApplicationExist = plus.runtime.isApplicationExist({
 										pname:'com.ihomefnt.tyjy',
-										action:'com.ihomefnt.tyjy://',
+										action:'tyjy://',
 									});
 		
 		if(isApplicationExist){ // 如果已经安装了App
@@ -298,7 +298,7 @@ const openApp = (url)=>{
 				data: url,
 				success: () => {
 					uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
-					plus.runtime.openURL("com.ihomefnt.tyjy://")
+					plus.runtime.openURL("tyjy://")
 				}
 			});
 		}else{

@@ -57,7 +57,7 @@
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ],
-                "schemes" : "com.ihomefnt.tyjy"
+                "schemes" : "tyjy"
             },
             /* ios打包配置 */
             "ios" : {
@@ -65,7 +65,7 @@
                 "privacyDescription" : {
                     "NSMicrophoneUsageDescription" : "发送语音"
                 },
-                "urltypes" : "com.ihomefnt.tyjy"
+                "urltypes" : "tyjy"
             },
             /* SDK配置 */
             "sdkConfigs" : {
