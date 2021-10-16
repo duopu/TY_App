@@ -16,20 +16,12 @@
 			uni.getStorage({
 				key: config.storageKeys.loginUserKey,
 				success: res => {
-
 					const user = res.data;
-					console.log('从本地恢复登录信息2', user);
 					if (user.token) {
 						this.$tool.login(user);
-					} else {
-						// 本地无用户信息，当前就在 登录页
-						// uni.reLaunch({
-						// 	url: '/pages/login/login'
-						// });
 					}
 				},
 				fail(err) {
-					console.log('从本地恢复登录信息; 失败', err);
 					uni.reLaunch({
 						url: '/pages/login/login'
 					});
@@ -57,9 +49,9 @@
 		},
 		onShow: function() {
 			console.log('App Show');
-
-			// 在非H5环境下，读取剪贴板中的信息实现复制链接功能
-			// #ifndef H5
+			
+			// 读取剪贴板中的信息
+			// #ifdef APP-PLUS
 			uni.getClipboardData({
 				success: (res) => {
 					console.log(res.data);
@@ -74,61 +66,33 @@
 							uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
 						},
 					});
-
-					let params = this.$tool.getUrlQuery(copyLink);
-					const linkType = params.linkType;
-					console.log("params == ", params);
 					
-					if (linkType == 8){ // H5分享 - 店铺
-						const storeId = params.storeId;
-						uni.navigateTo({
-							url: `/pages-user/index/store-details/store-details?storeId=${storeId}`
+					let params = this.$tool.getUrlQuery(copyLink);
+					this.$store.commit('setCopyUrlParams',params);
+					
+					// 如果用户已经登录过，则直接跳转对应页面，否则先去登录，再去跳转
+					if (getApp().globalData.user.token) {
+						this.$tool.jumpWithCopyUrl()
+					}else{
+						uni.getStorage({
+							key: config.storageKeys.loginUserKey,
+							success: res => {
+								const user = res.data;
+								if (user.token) {
+									this.$tool.jumpWithCopyUrl()
+								}
+							},
+							fail(err) {
+								uni.reLaunch({
+									url: '/pages/login/login'
+								});
+							}
 						})
-					} else if (linkType == 7){ // H5分享 - 坚持不懈商品
-						const goodsId = params.goodsId;
-						const unremittinglyId = params.unremittinglyId;
-						this.$store.commit('setUnremittinglyVO',{goodsId,unremittinglyId});
-						uni.navigateTo({
-							url: `/pages-user/index/goods-details/goods-details-unremittingly`
-						});
-					} else if (linkType == 6){ // H5分享 -普通商品
-						const goodsId = params.goodsId;
-						uni.navigateTo({
-							url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
-						});
-					} else if (linkType == 5) { //店铺分销
-						const storeId = params.storeId;
-						uni.navigateTo({
-							url: `/pages-user/index/store-details/store-details?storeId=${storeId}`
-						})
-					} else if (linkType == 4) { //商品分销
-						const goodsId = params.goodsId;
-						const userId = params.userId;
-						this.$store.commit('setInviterId', userId);
-						this.$store.commit('setinviterGoodsId', goodsId);
-						uni.navigateTo({
-							url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
-						});
-					} else if (linkType == 3) { //邀请好友参加坚持不懈
-						const userId = params.userId;
-						this.$store.commit('setInviterId', userId);
-						uni.switchTab({
-							url: '/pages-user/index/index/index'
-						})
-						// 打开首页->活动->坚持不懈
-						uni.$emit('activity-open', 1)
-					} else if (linkType == 2) { //邀请好久参加组团优惠
-						const userId = params.userId;
-						this.$store.commit('setInviterId', userId);
-						uni.switchTab({
-							url: '/pages-user/index/index/index'
-						})
-						// 打开首页->活动->组团优惠
-						uni.$emit('activity-open', 0)
 					}
 				}
 			});
 			// #endif
+			
 
 		},
 		onHide: function() {

@@ -22,6 +22,7 @@ const store = new Vuex.Store({
 		inviterId: undefined ,//邀请人ID
 		inviterGoodsId: undefined ,//邀请人分销的商品ID,
 		unReadMessageTotalCount:0, // 未读消息总数量
+		copyUrlParams: undefined, //剪贴板里获取链接的参数对象
     },
 	
 	mutations:{
@@ -166,6 +167,10 @@ const store = new Vuex.Store({
 		// 设置  未读消息总数量
 		setUnReadMessageTotalCount(state, totalCount){
 			state.unReadMessageTotalCount = totalCount;
+		},
+		
+		setCopyUrlParams(state, copyUrlParams){
+			state.copyUrlParams = copyUrlParams;
 		}
 	},
 	
@@ -228,7 +233,7 @@ const store = new Vuex.Store({
 			imtool.getTotalUnreadMessageCount().then(totalCount=>{
 				commit('setUnReadMessageTotalCount',totalCount);
 			})
-		},
+		}
 	}
 	
 })

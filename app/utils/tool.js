@@ -62,8 +62,16 @@ const login = (user)=>{
 		
 		// 跳转用户首页页面 
 		uni.reLaunch({
-			url: '/pages-user/index/index/index'
+			url: '/pages-user/index/index/index',
+			complete: function(){
+				
+				// 这里判断如果剪贴板里有复制链接的参数，则根据参数跳转到对应页面
+				if(store.state.copyUrlParams){
+					jumpWithCopyUrl();
+				}
+			}
 		}); 
+		
 	}else{
 
 		// 获取商家IM 信息
@@ -252,11 +260,10 @@ const isPhoneNumber = (value) => {
 	}
 }
 
-//  H5使用： 打开App 或者 打开App下载页面
 
 /**
  * H5使用： 打开App 或者 打开App下载页面
- * @param {url}  拼接好的url地址
+ * @param {url}  拼接好的复制链接地址
  */
 const openApp = (url)=>{
 	
@@ -281,45 +288,68 @@ const openApp = (url)=>{
 				
 			}
 		});
-	// #endif
+	// #endif	
+}
+
+
+/**
+ * 根据剪贴板里复制链接的参数，跳转到对应App页面
+ */
+const jumpWithCopyUrl = () => {
+	let params = store.state.copyUrlParams;
+	const linkType = params.linkType;
+	console.log("params == ", params);
 	
+	// 这里要清空掉复制链接的参数对象
+	store.commit('setCopyUrlParams',undefined)
 	
-	
-	// 目前这段代码没啥用，只能在APP容器中使用
-	// #ifdef APP-PLUS
-		const isApplicationExist = plus.runtime.isApplicationExist({
-										pname:'com.ihomefnt.tyjy',
-										action:'tyjy://',
-									});
-		
-		if(isApplicationExist){ // 如果已经安装了App
-			// 复制链接到系统剪贴板中
-			uni.setClipboardData({
-				data: url,
-				success: () => {
-					uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
-					plus.runtime.openURL("tyjy://")
-				}
-			});
-		}else{
-			// 复制链接到系统剪贴板中
-			uni.setClipboardData({
-				data: url,
-				success: () => {
-					uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
-					if(plus.os.name == 'Android'){
-						//TODO: 这里是跳转到应用宝，pkgname是包名
-						plus.runtime.openURL("https://a.app.qq.com/o/simple.jsp?pkgname=com.ihomefnt.tyjy")	
-					}else if(plus.os.name == 'iOS'){
-						//TODO: 这里等上架到App Store之后要获取appId填入此处
-						plus.runtime.openURL("http://itunes.apple.com/app/******")	
-					}
-				}
-			});
-		}
-	// #endif                
-	
-	
+	if (linkType == 8){ // H5分享 - 店铺
+		const storeId = params.storeId;
+		uni.navigateTo({
+			url: `/pages-user/index/store-details/store-details?storeId=${storeId}`
+		})
+	} else if (linkType == 7){ // H5分享 - 坚持不懈商品
+		const goodsId = params.goodsId;
+		const unremittinglyId = params.unremittinglyId;
+		store.commit('setUnremittinglyVO',{goodsId,unremittinglyId});
+		uni.navigateTo({
+			url: `/pages-user/index/goods-details/goods-details-unremittingly`
+		});
+	} else if (linkType == 6){ // H5分享 -普通商品
+		const goodsId = params.goodsId;
+		uni.navigateTo({
+			url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
+		});
+	} else if (linkType == 5) { //店铺分销
+		const storeId = params.storeId;
+		uni.navigateTo({
+			url: `/pages-user/index/store-details/store-details?storeId=${storeId}`
+		})
+	} else if (linkType == 4) { //商品分销
+		const goodsId = params.goodsId;
+		const userId = params.userId;
+		store.commit('setInviterId', userId);
+		store.commit('setinviterGoodsId', goodsId);
+		uni.navigateTo({
+			url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
+		});
+	} else if (linkType == 3) { //邀请好友参加坚持不懈
+		const userId = params.userId;
+		store.commit('setInviterId', userId);
+		uni.switchTab({
+			url: '/pages-user/index/index/index'
+		})
+		// 打开首页->活动->坚持不懈
+		uni.$emit('activity-open', 1)
+	} else if (linkType == 2) { //邀请好久参加组团优惠
+		const userId = params.userId;
+		store.commit('setInviterId', userId);
+		uni.switchTab({
+			url: '/pages-user/index/index/index'
+		})
+		// 打开首页->活动->组团优惠
+		uni.$emit('activity-open', 0)
+	}
 }
 
 export default {
@@ -335,4 +365,5 @@ export default {
 	getUrlQuery,
 	isPhoneNumber,
 	openApp,
+	jumpWithCopyUrl
 }
