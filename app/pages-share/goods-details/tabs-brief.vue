@@ -2,7 +2,7 @@
 <template>
 	<view class="tabs-brief">
 		<!-- 店铺名称 -->
-		<merchanism-lists-item :type="1" :data="storeInfo"></merchanism-lists-item>
+		<merchanism-lists-item :type="1" :data="storeInfo" :canJump="false"></merchanism-lists-item>
 		<!-- 介绍富文本 -->
 		<view class="rich-text">
 			<rich-text :nodes="content"></rich-text>

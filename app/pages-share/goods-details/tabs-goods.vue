@@ -9,7 +9,7 @@
 				<text class="color-yellow">商品评分</text>
 				<rate class="rate" :number="goodsScore || 0"></rate>
 			</view>
-			<view class="flex-center" @click="moreComment()">
+			<view class="flex-center">
 				更多
 				<image class="icon-arrow" mode="aspectFill" src="../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
@@ -61,20 +61,6 @@ export default {
 		},
 		entityCommentVOList(newV, oldV){
 			this.commentList = newV;
-		}
-	},
-	methods:{
-		
-		// 更多评论点击
-		moreComment(){
-			let that = this;
-			uni.navigateTo({
-				url: `/pages-user/index/goods-comment/goods-comment`,
-				success: function(res) {
-				    // 通过eventChannel向被打开页面传送数据
-				    res.eventChannel.emit('commentList', {type:"商品",commentList:that.commentList})
-				}
-			});
 		}
 	}
 };

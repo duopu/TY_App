@@ -26,6 +26,10 @@ export default {
 			type: Number,
 			default: 0 // 0-店铺推荐 1-综合评分
 		},
+		canJump: {
+			type: Boolean,
+			default: true
+		},
 		data: {
 			type: Object,
 			default: {
@@ -51,6 +55,7 @@ export default {
 	methods: {
 		// 跳转到店铺详情
 		jumpStoreDetail(){
+			if(!this.canJump) return
 			const storeId = this.storeInfo.id;
 			uni.navigateTo({
 				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`

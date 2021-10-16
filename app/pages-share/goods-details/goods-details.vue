@@ -51,16 +51,8 @@
 						<view class="flex-center-between">
 							<text>
 								{{ goodsInfo.city }}{{ goodsInfo.area }}
-								<!-- 只有实体商品才会有快递费 -->
-								<block v-if="entityGoodsCheck === 2 && selectGoodsVO.attributesId">快递: {{ freightAmount > 0 ? `${freightAmount}元` : '免快递费' }}</block>
 							</text>
-							<!-- 只有实体商品才可以去选择配送地址 -->
-							<!-- <image v-if="entityGoodsCheck === 2" @click="goAddress()" class="icon-more" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image> -->
 						</view>
-						<!-- <view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">
-							配送至：{{ defaultAddress.provinceName }} {{ defaultAddress.cityName }} {{ defaultAddress.areaName }} {{ defaultAddress.streetName }}
-							{{ defaultAddress.address }}
-						</view> -->
 					</view>
 				</view>
 				<!-- 保障 -->
@@ -134,13 +126,12 @@
 		</scroll-view>
 		<!-- 底部 -->
 		<view class="goods-bottom flex-center-between" id="goods-bottom">
-			<button class="btn btn-light" @click="jumpAddCar">打开App，查看更多内容</button>
+			<button class="btn btn-light" @click="openApp">打开App，查看更多内容</button>
 		</view>
 		<!-- 弹窗 属性分类 -->
 		<goods-classify-popup ref="classifyPopup"
 		:type="goodsClassifyPopType"
-		:goodsInfo="goodsInfo"
-		@submit="goodsAttributesSubmit"></goods-classify-popup>
+		:goodsInfo="goodsInfo"></goods-classify-popup>
 		<!-- 弹窗 保障 -->
 		<goods-ensure-popup ref="ensurePopup" :goodsInfo="goodsInfo"></goods-ensure-popup>
 		<!-- 弹窗 参数 -->
@@ -210,27 +201,6 @@ export default {
 			groupBuyVO: {} //组团优惠详情对象
 		};
 	},
-	computed: mapState({
-		// 快递费
-		freightAmount: function() {
-			var price = 0;
-			var storeFreightConfigVO = this.goodsInfo.storeFreightConfigVO || {};
-			if (storeFreightConfigVO.type == 2) {
-				//阶梯运费
-				// 最终价格 = 选中商品的单价*数量
-				let finalPrice = this.selectGoodsVO.price * this.selectGoodsVO.goodsNum;
-				if (finalPrice < storeFreightConfigVO.orderAmount) {
-					price = storeFreightConfigVO.maxFreightAmount;
-				} else {
-					price = storeFreightConfigVO.minFreightAmount;
-				}
-			} else if (storeFreightConfigVO.type == 1) {
-				//统一运费
-				price = storeFreightConfigVO.freightAmount;
-			}
-			return price;
-		}
-	}),
 	watch: {
 		'$store.state.goodsDetailsHeightChange': {
 			handler: function(newVal, oldVal) {
@@ -393,41 +363,12 @@ export default {
 				this.questionCommentVOList = res.questionCommentVOList;
 			});
 		},
-
-
+		
 		/**
-		 * 商品属性提交回调
+		 * 打开APP
 		 */
-		goodsAttributesSubmit({goodsAttributes,count}){
-			// this.selectGoodsVO = {...goodsAttributes,goodsNum:count};
-			// if(this.goodsClassifyPopType === 1){ //加入购物车
-			// 	let addCarParams = {
-			// 		goodsId: this.goodsInfo.goodsId,
-			// 		attributesId: goodsAttributes.attributesId, 
-			// 		goodsNum: count,
-			// 		distributorId: this.inviterGoodsId == this.goodsInfo.goodsId ? this.inviterId : undefined  //这里要判断如果当前是商品是通过分销口令打开的，就设置邀请人ID
-			// 	}
-			// 	this.$http
-			// 		.post('/shopping/cart/add', addCarParams, true)
-			// 		.then(res => {
-			// 			this.$tool.showSuccess("添加成功");
-			// 		});
-			// }else{ //立即购买
+		openApp(){
 			
-			// 	let storeGoodList = [{
-			// 		attributesId: goodsAttributes.attributesId,
-			// 		goodsId: this.goodsInfo.goodsId,
-			// 		goodsNum: count,	
-			// 		distributorId: this.inviterGoodsId == this.goodsInfo.goodsId ? this.inviterId : undefined  //这里要判断如果当前是商品是通过分销口令打开的，就设置邀请人ID
-			// 	}];
-			// 	// 设置下单时要购买的商品
-			// 	this.$store.commit('setStoreGoodsList',storeGoodList)
-			
-			// 	uni.navigateTo({
-			// 		url: `/pages-user/index/confirm/confirm`
-			// 	});
-			// }
-
 		}
 	}
 };

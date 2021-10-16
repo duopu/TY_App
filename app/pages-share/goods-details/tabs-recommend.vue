@@ -7,7 +7,8 @@
 			<template v-slot:list="slotProps">
 				<course-lists-item v-for="(item, index) in slotProps.list"
 				:key="`goods-recommend-${index}`" 
-				:data="item"></course-lists-item>
+				:data="item" 
+				:canJump="false"></course-lists-item>
 			</template>
 		</my-scroll-view>
 	</view>

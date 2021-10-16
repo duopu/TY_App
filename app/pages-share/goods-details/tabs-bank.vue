@@ -8,7 +8,7 @@
 				<text class="color-yellow">题库评分</text>
 				<rate class="rate" :number="score"></rate>
 			</view>
-			<view class="flex-center" @click="moreComment()">
+			<view class="flex-center">
 				更多
 				<image class="icon-arrow" mode="aspectFill" src="../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
@@ -60,20 +60,6 @@ export default {
 		},
 		questionCommentVOList(newV, oldV){
 			this.commentList = newV;
-		}
-	},
-	methods:{
-		
-		// 更多评论点击
-		moreComment(){
-			let that = this;
-			uni.navigateTo({
-				url: `/pages-user/index/goods-comment/goods-comment`,
-				success: function(res) {
-				    // 通过eventChannel向被打开页面传送数据
-				    res.eventChannel.emit('commentList', {type:"题库",commentList:that.commentList})
-				}
-			});
 		}
 	}
 };

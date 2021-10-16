@@ -23,6 +23,10 @@
 	export default {
 		name: "course-lists-item",
 		props: {
+			canJump: {
+				type: Boolean,
+				default: true
+			},
 			data: {
 				type: Object,
 				default: {
@@ -54,6 +58,7 @@
 			
 			// 跳转到商品详情页
 			itemClick() {
+				if(!this.canJump) return
 				const goodsId = this.data.goodsId;
 				uni.navigateTo({
 					url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`

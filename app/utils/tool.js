@@ -253,8 +253,31 @@ const isPhoneNumber = (value) => {
 }
 
 //  H5使用： 打开App 或者 打开App下载页面
-const openApp = ()=>{
+
+/**
+ * H5使用： 打开App 或者 打开App下载页面
+ * @param {url}  拼接好的url地址
+ */
+const openApp = (url)=>{
 	console.log('H5使用： 打开App 或者 打开App下载页面');
+	
+	const isApplicationExist = plus.runtime.isApplicationExist({
+									pname:'com.ihomefnt.tyjy',
+									action:'com.ihomefnt.tyjy://',
+								});
+	
+	if(isApplicationExist){ // 如果已经安装了App
+		// 复制链接到系统剪贴板中
+		uni.setClipboardData({
+			data: url,
+			success: () => {
+				uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+				plus.runtime.openURL("com.ihomefnt.tyjy://")
+			}
+		});
+	}else{
+		
+	}
 }
 
 export default {

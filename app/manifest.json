@@ -56,14 +56,16 @@
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                ],
+                "schemes" : "com.ihomefnt.tyjy"
             },
             /* ios打包配置 */
             "ios" : {
                 "appid" : "com.ihomefnt.tyjy",
                 "privacyDescription" : {
                     "NSMicrophoneUsageDescription" : "发送语音"
-                }
+                },
+                "urltypes" : "com.ihomefnt.tyjy"
             },
             /* SDK配置 */
             "sdkConfigs" : {
