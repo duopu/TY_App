@@ -7,7 +7,7 @@ export default {
 	// #endif
 	
 	// #ifndef H5
-		baseUrl:debug ? 'http://education.sinfinite.cn' : '',
+		baseUrl:debug ? 'http://education.sinfinite.cn' : 'http://education.sinfinite.cn',
 	// #endif
 	
 	
