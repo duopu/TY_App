@@ -157,8 +157,17 @@
 				}, {
 					"path": "index/goods-details/goods-details-unremittingly",
 					"style": {
-						"navigationBarTitleText": "",
-						"enablePullDownRefresh": false
+						"navigationBarTitleText": "商品详情",
+						"enablePullDownRefresh": false,
+						"app-plus":{
+							"titleNView":{
+								"buttons":[
+									{
+										"type":"share"
+									}
+								]
+							}
+						}
 					}
 				}, {
 					"path": "index/goods-comment/goods-comment",
@@ -626,6 +635,20 @@
 					"style": {
 						"navigationStyle": "custom",
 						"navigationBarTitleText":"商品详情",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "goods-details/goods-details-unremittingly",
+					"style": {
+						"navigationStyle": "custom",
+						"navigationBarTitleText":"商品详情",
+						"enablePullDownRefresh": false
+					}
+				},{
+					"path": "store-details/store-details",
+					"style": {
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
 				}

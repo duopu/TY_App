@@ -4,7 +4,6 @@
 		<view class="sticky-top" :class="{ 'hidden-store': hideStore }">
 			<!-- 头部 -->
 			<view class="flex-center-between store-top">
-				<image @click="goBack" class="icon-back" src="../../../static/images/icons/icon-back.svg" mode="aspectFill"></image>
 				<custom-search placeholder="搜索" :value="searchText" @search="onSearchInput"></custom-search>
 			</view>
 			<!-- 店铺信息-->
@@ -15,21 +14,9 @@
 						<view class="flex-column flex-1">
 							<view class="flex-center">
 								<view class="text-bold">{{ storeInfo.storeName }}</view>
-								<image class="icon-company" v-if="storeInfo.type == 2" src="../../../static/images/index/company-tag.png" mode="aspectFill"></image>
+								<image class="icon-company" v-if="storeInfo.type == 2" src="../../static/images/index/company-tag.png" mode="aspectFill"></image>
 							</view>
 							<text class="desc">{{ storeInfo.storeDesc }}</text>
-						</view>
-						<view class="flex-column-center save" @click="shopCollectAction">
-							<image
-								class="icon"
-								:src="storeInfo.storeCollectionCheck == 2 ? '../../../static/images/icons/icon-save-on.svg' : '../../../static/images/icons/icon-save.svg'"
-								mode="aspectFill"
-							></image>
-							<text class="text">{{ storeInfo.storeCollectionCheck == 2 ? '已收藏' : '收藏' }}</text>
-						</view>
-						<view class="flex-column-center" @click="applyDistributionAction">
-							<image class="icon" src="../../../static/images/icons/icon-share2.svg" mode="aspectFill"></image>
-							<text class="text">申请分销</text>
 						</view>
 					</view>
 					<!-- 得分 -->
@@ -47,13 +34,19 @@
 
 		<!-- 列表 -->
 		<scroll-view scroll-y="true" class="store-content">
-			<block v-for="(item, index) in goodsList" :key="index" @itemClick="goodsItemClick(item)"><course-lists-item :data="item"></course-lists-item></block>
+			<block v-for="(item, index) in goodsList" :key="index">
+				<course-lists-item :data="item" :canJump="false"></course-lists-item>
+			</block>
 		</scroll-view>
+		<view class="sticky-bottom flex-center-between">
+			<button class="btn btn-light" @click="openApp">打开App，查看更多内容</button>
+		</view>
 	</view>
 </template>
 
 <script>
 import filterTab from './filter-tab.vue';
+import config from '../../utils/config.js';
 
 export default {
 	components: {
@@ -94,20 +87,8 @@ export default {
 	methods: {
 		// 查询店铺详情
 		queryStoreInfo() {
-			this.$http.get('/store/queryInfoByLogin', { storeId: this.storeId }, true).then(res => {
+			this.$http.get('/store/queryInfo', { storeId: this.storeId }, true).then(res => {
 				this.storeInfo = res;
-			});
-		},
-		// 申请分销 事件
-		applyDistributionAction() {
-			this.$http.post('/distribution/storeApply', { storeId: this.storeId }, true).then(res => {
-				this.$tool.showSuccess('已提交申请');
-			});
-		},
-		// 店铺收藏 取消收藏
-		shopCollectAction() {
-			this.$http.post('/store/collect', { storeId: this.storeId }, true).then(res => {
-				this.queryStoreInfo();
 			});
 		},
 		// 搜索事件
@@ -136,14 +117,19 @@ export default {
 				this.goodsList = res.content;
 			});
 		},
-		//  返回上一级
-		goBack() {
-			uni.navigateBack({});
-		},
 		// 点击下拉弹窗，隐藏店铺信息
 		hideMessage(value){
 			this.hideStore = value;
-			console.log(this.hideStore)
+		},
+		/**
+		 * 打开APP
+		 */
+		openApp(){
+			const linkType = 8; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销  6普通商品详情 7坚持不懈商品详情 8店铺详情
+			const storeId = this.storeId;
+			let url = `${config.copyUrl}?linkType=${linkType}&storeId=${storeId}`;
+			let shareMsg = `推荐一款超赞的店铺给你：${url}`;
+			this.$tool.openApp(shareMsg)
 		}
 	}
 };

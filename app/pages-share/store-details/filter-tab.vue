@@ -6,7 +6,7 @@
 				<text class="arrow-image"></text>
 			</view>
 			<view class="filter-item flex-1 flex-center-center" :class="filterSelect('cloudPopup')" @click="openPopup('cloudPopup')">
-				<text>云计算</text>
+				<text>{{ categoryItem.categoryName || '全部'}}</text>
 				<text class="arrow-image"></text>
 			</view>
 			<view class="filter-item flex-1 flex-center-center" :class="filterSelect('filterPopup')" @click="openPopup('filterPopup')">
@@ -18,15 +18,17 @@
 		<!-- 综合排序 -->
 		<classify-sort-popup class="popup-top-height" ref="sortPopup" @select="getSortIndex" @change="value => changePopup('sortPopup', value)"></classify-sort-popup>
 		<!-- 分类 -->
-		<classify-cloud-popup class="popup-top-height" ref="cloudPopup" :category="categoryItem" @select="getCategory" @change="value => changePopup('cloudPopup', value)"></classify-cloud-popup>
+		<classify-type-popup class="popup-top-height" ref="cloudPopup" :category="categoryItem" @select="getCategory" @change="value => changePopup('cloudPopup', value)"></classify-type-popup>
 		<!-- 筛选 -->
 		<classify-filter-popup ref="filterPopup" @submit="filterSubmit" @change="value => changePopup('filterPopup', value)"></classify-filter-popup>
 	</view>
 </template>
 
 <script>
+import classifyTypePopup from './classify-cloud-popup/classify-cloud-popup.vue';
 export default {
 	name: 'filter-tab',
+	components: {classifyTypePopup},
 	data() {
 		return {
 			sortItem: {},

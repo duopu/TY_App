@@ -80,11 +80,6 @@ export default {
 		},
 		// 重新申请
 		apply() {
-			// this.$http
-			// 	.post('/distribution/goodsApply', {goodsId:this.data.goodsId, storeId:this.data.storeId}, true)
-			// 	.then(res => {
-			// 		this.$store.commit('setOrderChange');
-			// 	});
 			this.$http.post('/distribution/operation', { id: this.data.id }, true).then(res => {
 				this.$store.commit('setOrderChange');
 			});

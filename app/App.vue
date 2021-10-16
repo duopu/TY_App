@@ -125,10 +125,6 @@
 						})
 						// 打开首页->活动->组团优惠
 						uni.$emit('activity-open', 0)
-					} else if (linkType == 1) { //邀请好友注册
-						const userId = params.userId;
-						this.$store.commit('setInviterId', userId);
-						// TODO: 这里跳转到注册填写邀请码页面
 					}
 				}
 			});

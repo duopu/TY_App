@@ -51,15 +51,7 @@
 						<view class="flex-center-between">
 							<text>
 								{{ goodsInfo.city }}{{ goodsInfo.area }}
-								<!-- 只有实体商品才会有快递费 -->
-								<block v-if="entityGoodsCheck === 2 && selectGoodsVO.attributesId">快递: {{ freightAmount > 0 ? `${freightAmount}元` : '免快递费' }}</block>
 							</text>
-							<!-- 只有实体商品才可以去选择配送地址 -->
-							<image v-if="entityGoodsCheck === 2" @click="goAddress()" class="icon-more" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
-						</view>
-						<view v-if="defaultAddress && defaultAddress.id" class="color-9 m-top-20">
-							配送至：{{ defaultAddress.provinceName }} {{ defaultAddress.cityName }} {{ defaultAddress.areaName }} {{ defaultAddress.streetName }}
-							{{ defaultAddress.address }}
 						</view>
 					</view>
 				</view>
@@ -134,32 +126,12 @@
 		</scroll-view>
 		<!-- 底部 -->
 		<view class="goods-bottom flex-center-between" id="goods-bottom">
-			<view class="flex-column" @click="gotoStoreDetail">
-				<image class="icons" src="../../static/images/icons/icon-room.svg" mode="aspectFill"></image>
-				<text>店铺</text>
-			</view>
-			<view class="flex-column" @click="toCustomerService">
-				<image class="icons" src="../../static/images/icons/icon-kf.svg" mode="aspectFill"></image>
-				<text>客服</text>
-			</view>
-			<view class="flex-column">
-				<image
-					class="icons"
-					v-if="goodsInfo.userCollection === 2"
-					src="../../static/images/icons/icon-save-on.svg"
-					mode="aspectFill"
-					@click="collectClick(false)"
-				></image>
-				<image class="icons" v-else src="../../static/images/icons/icon-save.svg" @click="collectClick(true)"></image>
-				<text>收藏</text>
-			</view>
-			<button class="btn btn-block flex-1" @click="jumpConfirm">立即购买</button>
+			<button class="btn btn-light" @click="openApp">打开App，查看更多内容</button>
 		</view>
 		<!-- 弹窗 属性分类 -->
 		<goods-classify-popup ref="classifyPopup"
 		:type="2"
-		:goodsInfo="goodsInfo"
-		@submit="goodsAttributesSubmit"></goods-classify-popup>
+		:goodsInfo="goodsInfo"></goods-classify-popup>
 		<!-- 弹窗 保障 -->
 		<goods-ensure-popup ref="ensurePopup" :goodsInfo="goodsInfo"></goods-ensure-popup>
 		<!-- 弹窗 参数 -->
@@ -175,6 +147,7 @@ import TabsExam from './tabs-exam.vue';
 import TabsCatalogue from './tabs-catalogue.vue';
 import TabsRecommend from './tabs-recommend.vue';
 import { mapState } from 'vuex'; //引入mapState
+import config from '../../utils/config.js';
 export default {
 	components: {
 		TabsBrief,
@@ -220,31 +193,6 @@ export default {
 			selectGoodsVO: {} //选中的商品对象
 		};
 	},
-	computed: mapState({
-		// 选中的收货地址
-		defaultAddress: state => state.defaultAddress,
-		// 快递费
-		freightAmount: function() {
-			var price = 0;
-			var storeFreightConfigVO = this.goodsInfo.storeFreightConfigVO || {};
-			if (storeFreightConfigVO.type == 2) {
-				//阶梯运费
-				// 最终价格 = 选中商品的单价*数量
-				let finalPrice = this.selectGoodsVO.price * this.selectGoodsVO.goodsNum;
-				if (finalPrice < storeFreightConfigVO.orderAmount) {
-					price = storeFreightConfigVO.maxFreightAmount;
-				} else {
-					price = storeFreightConfigVO.minFreightAmount;
-				}
-			} else if (storeFreightConfigVO.type == 1) {
-				//统一运费
-				price = storeFreightConfigVO.freightAmount;
-			}
-			return price;
-		},
-		// 坚持不懈报名活动对象
-		unremittinglyVO: state => state.unremittinglyVO
-	}),
 	watch: {
 		'$store.state.goodsDetailsHeightChange': {
 			handler: function(newVal, oldVal) {
@@ -257,8 +205,8 @@ export default {
 		}
 	},
 	onLoad(option) {
-		this.goodsId = this.unremittinglyVO.goodsId;
-		this.unremittinglyId = this.unremittinglyVO.unremittinglyId;
+		this.goodsId = option.goodsId;
+		this.unremittinglyId = option.unremittinglyId;
 		this.getGoodsResource();
 		this.getGoodsInfo();
 		this.getComment();
@@ -324,38 +272,7 @@ export default {
 				indicator: 'default'
 			});        
 		},
-		//立即购买
-		jumpConfirm(){
-			if(this.entityGoodsCheck === 2){ //只有实体商品才会弹出商品属性选择
-				this.openPopup('classifyPopup');
-			}else { //如果是虚拟商品，就不需要选择商品属性，直接进行下一步操作
-				let goodsAttributes = {
-					price: this.goodsInfo.price
-				}
-				this.goodsAttributesSubmit({goodsAttributes, count:1});
-			}
-		},
-
-		
-		// 跳转客服页面
-		toCustomerService(){
-			this.$http.get('/im/getIMGroupId',{storeId:this.goodsInfo.storeId},true).then(res=>{
-				const groupId = res.groupId;
-				const user = getApp().globalData.user;
-				getApp().globalData.messageParam = {
-					groupId:groupId,
-					userIM:user.imNum,
-					userName:user.userName,
-					storeName:this.goodsInfo.storeName,
-					storePortrait:this.goodsInfo.avatar 
-				}
-				
-				uni.navigateTo({
-					url:'/pages/im-message/im-message'
-				})
-			})
-		},
-		
+	
 
 		/**
 		 * tab水平滚动回调
@@ -412,7 +329,7 @@ export default {
 		 */
 
 		getGoodsInfo() {
-			this.$http.get('/goods/queryInfoByLogin', { goodsId: this.goodsId, unremittinglyId:this.unremittinglyId }, true).then(res => {
+			this.$http.get('/goods/queryInfo', { goodsId: this.goodsId, unremittinglyId:this.unremittinglyId }, true).then(res => {
 				this.goodsInfo = res;
 
 				if (res.minPrice && res.maxPrice && res.minPrice !== res.maxPrice) {
@@ -442,47 +359,20 @@ export default {
 				this.questionCommentVOList = res.questionCommentVOList;
 			});
 		},
-
-		/** 商品收藏
-		 * @param {Object} isCollect  true 收藏/ false 取消收藏
-		 */
-		collectClick(isCollect) {
-			if (isCollect) {
-				this.$http.post('/goods/collect', { goodsId: this.goodsId }, true).then(res => {
-					this.goodsInfo.userCollection = 2;
-				});
-			} else {
-				this.$http.delete('/goods/collection/delete', { idList: [this.goodsId] }, true).then(res => {
-					this.goodsInfo.userCollection = 1;
-				});
-			}
-		},
-
-		/**
-		 * 商品属性提交回调
-		 */
-		goodsAttributesSubmit({goodsAttributes,count}){
-			this.selectGoodsVO = {...goodsAttributes,goodsNum:count};						
-			uni.navigateTo({
-				url: `/pages-user/index/confirm/confirm-unremittingly?goodsNum=${count}&attributesId=${goodsAttributes.attributesId}`
-			});
-
-		},
-
-		// 打开配送地址页面
-		goAddress() {
-			uni.navigateTo({
-				url: `/pages-user/index/address/address`
-			});
-		},
 		
-		// 跳转店铺详情
-		gotoStoreDetail(){
-			const storeId = this.goodsInfo.storeId;
-			uni.navigateTo({
-				url:`/pages-user/index/store-details/store-details?storeId=${storeId}`
-			})
+		/**
+		 * 打开APP
+		 */
+		openApp(){
+			const linkType = 7; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销  6普通商品详情 7坚持不懈商品详情 8店铺详情
+			const goodsId = this.goodsId;
+			const unremittinglyId = this.unremittinglyId;
+			let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}&unremittinglyId=${unremittinglyId}`;
+			let shareMsg = `推荐一款超值的商品给你：${url}`;
+			this.$tool.openApp(shareMsg)
 		}
+
+		
 	}
 };
 </script>

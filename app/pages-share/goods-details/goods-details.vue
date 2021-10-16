@@ -372,7 +372,7 @@ export default {
 			const goodsId = this.goodsId;
 			let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}`;
 			let shareMsg = `推荐一款超值的商品给你：${url}`;
-			this.$tool.openApp(url)
+			this.$tool.openApp(shareMsg)
 		}
 	}
 };

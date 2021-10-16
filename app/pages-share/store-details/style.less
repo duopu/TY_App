@@ -171,7 +171,7 @@
 		line-height: 64rpx;
 		font-size: 24rpx;
 		color: @color-yellow;
-		background-image: url(../../../static/images/index/index-broadcast.png);
+		background-image: url(../../static/images/index/index-broadcast.png);
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 	}
@@ -234,7 +234,7 @@
 		margin-left: 10rpx;
 		width: 42rpx;
 		height: 42rpx;
-		background-image: url(../../../static/images/icons/icon-collapse-arrow.svg);
+		background-image: url(../../static/images/icons/icon-collapse-arrow.svg);
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
 		background-position: center;
@@ -250,5 +250,47 @@
 .popup-top-height {
 	::v-deep .popup-content {
 		padding-top: calc(var(--status-bar-height) + 280rpx);
+	}
+}
+
+.sticky-bottom {
+	padding: 20rpx;
+	font-size: 18rpx;
+	background-color: #ffffff;
+	.icons {
+		width: 48rpx;
+		height: 48rpx;
+	}
+	.m-right-30{
+		margin-right: 30rpx;
+	}
+	.flex-column {
+		width: 90rpx;
+		justify-content: center;
+		align-items: center;
+	}
+	.btn {
+		flex: 1;
+		margin-right: 0;
+		margin-left: 24rpx;
+		min-width: 200rpx;
+		height: 64rpx;
+		line-height: 64rpx;
+		font-size: 28rpx;
+		text-align: center;
+		border-radius: 44rpx;
+		&-light {
+			margin: 0;
+			color: #ff705b;
+			background-color: rgba(#ff705b, 0.1);
+		}
+		&-block {
+			color: #ffffff;
+			background-color: #ff705b;
+		}
+		&-gray {
+			color: #ffffff;
+			background-color: #CCCCCC;
+		}
 	}
 }

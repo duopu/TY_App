@@ -5,20 +5,6 @@
 			<image :src="data.thumbnail" class="avatar-image" mode="aspectFill"></image>
 			<view class="right">
 				<view class="name text-bold">{{data.groupBuyName}}</view>
-				<!-- 拼团进度条 -->
-				<!-- <view class="process-wrapper flex-center">
-					<view class="process-discount" :style="{left: '20%'}">
-						<text class="text">当前优惠:</text>
-						<text class="price">¥23</text>
-					</view>
-					<view class="process flex-1">
-						<view class="process-bar text-bold" :style="{width: '40%'}">40%</view>
-					</view>
-					<view class="process-text flex-center">
-						<text class="text">预计优惠:</text>
-						<text class="price">¥16</text>
-					</view>
-				</view> -->
 				<view class="time">开团时间:{{data.startTime}}</view>
 				<view class="text-bold price">最低折扣价¥{{data.minPrice}}</view>
 			</view>

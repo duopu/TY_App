@@ -21,7 +21,8 @@
 				phone: '',
 				smsCode: '',
 				roleStatus:'user',
-				smsCodeCountDown:60
+				smsCodeCountDown:60,
+				userId: undefined
 			};
 		},
 		computed:{
@@ -30,6 +31,8 @@
 			}
 		},
 		onLoad(data) {
+			//TODO: 这里可以通过data.userId拿到邀请人ID进行注册
+			this.userId = data.userId;
 			this.phone = data.phone
 			this.roleStatus = data.roleStatus
 			this.startTimer()
@@ -63,6 +66,7 @@
 				}
 				const source = this.roleStatus == 'user' ? 3 : 2
 				
+				// TODO:  这里缺少邀请人ID进行邀请人注册功能
 				const param =  {
 					phone: this.phone,
 					smsCode: this.smsCode,
@@ -72,8 +76,11 @@
 				
 				this.$http.post('/user/login', param, true).then(res => {
 					this.$tool.showSuccess('注册成功',()=>{
-						// 打开App 或者 打开App下载页面
-						this.$tool.openApp();
+						const linkType = 1; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
+						const userId = this.userId;
+						let url = `${config.copyUrl}?&linkType=${linkType}&userId=${userId}`;
+						let shareMsg = `推荐一款超好用的App给你，一起打卡学习吧：${url}`;
+						this.$tool.openApp(shareMsg);
 					})
 				})
 			}

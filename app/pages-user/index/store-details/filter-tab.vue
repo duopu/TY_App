@@ -6,7 +6,7 @@
 				<text class="arrow-image"></text>
 			</view>
 			<view class="filter-item flex-1 flex-center-center" :class="filterSelect('cloudPopup')" @click="openPopup('cloudPopup')">
-				<text>云计算</text>
+				<text>{{ categoryItem.categoryName || '全部'}}</text>
 				<text class="arrow-image"></text>
 			</view>
 			<view class="filter-item flex-1 flex-center-center" :class="filterSelect('filterPopup')" @click="openPopup('filterPopup')">
@@ -88,8 +88,8 @@ export default {
 		},
 		// 分类选中回调
 		getCategory(item) {
+			console.log("item == ",item);
 			this.categoryItem = item;
-			console.log(item);
 			this.submitFilter();
 		},
 		/** 筛选提交回调

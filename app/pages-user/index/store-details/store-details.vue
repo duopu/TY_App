@@ -6,6 +6,7 @@
 			<view class="flex-center-between store-top">
 				<image @click="goBack" class="icon-back" src="../../../static/images/icons/icon-back.svg" mode="aspectFill"></image>
 				<custom-search placeholder="搜索" :value="searchText" @search="onSearchInput"></custom-search>
+				<image @click="shareClick" class="icon-share" src="../../../static/images/icons/icon-share-right.svg" mode="aspectFill"></image>
 			</view>
 			<!-- 店铺信息-->
 			<view class="store-message-item flex">
@@ -54,7 +55,7 @@
 
 <script>
 import filterTab from './filter-tab.vue';
-
+import config from '../../../utils/config.js';
 export default {
 	components: {
 		filterTab
@@ -144,6 +145,18 @@ export default {
 		hideMessage(value){
 			this.hideStore = value;
 			console.log(this.hideStore)
+		},
+		//TODO: 分享按钮点击
+		shareClick(){
+			let url = `${config.urlLink.shareShopDetailUrl}?storeId=${this.storeId}`;
+			let shareMsg = `推荐一家超赞的店铺给你：${url}`;
+			uni.setClipboardData({
+			    data: shareMsg,
+			    success: () => {
+					uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+					this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
+			    }
+			});
 		}
 	}
 };

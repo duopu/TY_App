@@ -61,7 +61,11 @@ export default {
 			eye: 1, // 密码登录， 密码输入框的那个小眼睛 标记
 			phone:'',// 手机号
 			pwd:'',// 密码
+			userId: undefined
 		};
+	},
+	onLoad(option) {
+		this.userId = option.userId;
 	},
 	methods: {
 		
@@ -77,7 +81,7 @@ export default {
 			// 发送验证码
 			this.$http.get('/user/getSmsCode',{phone:this.phone,smsType:1},true).then(res=>{
 				uni.navigateTo({
-					url: `/pages-share/validate-code/validate-code?phone=${this.phone}&roleStatus=${this.roleStatus}`
+					url: `/pages-share/validate-code/validate-code?phone=${this.phone}&roleStatus=${this.roleStatus}&userId=${this.userId}`
 				});
 			})
 		},
