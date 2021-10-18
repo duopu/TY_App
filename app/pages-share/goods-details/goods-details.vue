@@ -198,7 +198,9 @@ export default {
             goodsClassifyPopType: 1, //商品属性弹窗类型 1加入购物车 2立即购买
 			platformCouponTypeContent:undefined, //平台最大优惠力度
 			storeCouponTypeContent:undefined, //商家最大优惠力度
-			groupBuyVO: {} //组团优惠详情对象
+			groupBuyVO: {}, //组团优惠详情对象
+			linkType: undefined,
+			userId: undefined
 		};
 	},
 	watch: {
@@ -211,6 +213,8 @@ export default {
 	},
 	onLoad(option) {
 		this.goodsId = option.goodsId;
+		this.linkType = option.linkType;
+		this.userId = option.userId;
 		this.getGoodsResource();
 		this.getGoodsInfo();
 		this.getComment();
@@ -368,9 +372,7 @@ export default {
 		 * 打开APP
 		 */
 		openApp(){
-			const linkType = 6; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销  6普通商品详情 7坚持不懈商品详情 8店铺详情
-			const goodsId = this.goodsId;
-			let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}`;
+			let url = `${config.copyUrl}?linkType=${this.linkType}&goodsId=${this.goodsId}&userId=${this.userId}`;
 			let shareMsg = `推荐一款超值的商品给你：${url}`;
 			this.$tool.openApp(shareMsg)
 		}

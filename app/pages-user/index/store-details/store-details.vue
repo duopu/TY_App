@@ -148,8 +148,9 @@ export default {
 		},
 		//TODO: 分享按钮点击
 		shareClick(){
-			let url = `${config.urlLink.shareShopDetailUrl}?storeId=${this.storeId}`;
-			let shareMsg = `推荐一家超赞的店铺给你：${url}`;
+			const linkType = config.linkType.storeShare;
+			const url = `${config.urlLink.shareShopDetailUrl}?linkType=${linkType}&storeId=${this.storeId}`;
+			const shareMsg = `推荐一家超赞的店铺给你：${url}`;
 			uni.setClipboardData({
 			    data: shareMsg,
 			    success: () => {

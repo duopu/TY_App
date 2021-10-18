@@ -139,4 +139,21 @@
 	}
 
 	/* #endif */
+	
+	
+	/* #ifdef H5 */   
+	/* H5商品详情分享页面去掉返回按钮 */
+	uni-page[data-page="pages-share/goods-details/goods-details"] .uni-page-head-hd {
+			display: none;
+	}
+	/* H5组团优惠分享页面去掉返回按钮 */
+	uni-page[data-page="pages-share/goods-group/goods-group"] .uni-page-head-hd {
+			display: none;
+	}
+	/* H5坚持不懈分享页面去掉返回按钮 */
+	uni-page[data-page="pages-share/goods-unremittingly/goods-unremittingly"] .uni-page-head-hd {
+			display: none;
+	}
+	/* #endif */
+	 
 </style>

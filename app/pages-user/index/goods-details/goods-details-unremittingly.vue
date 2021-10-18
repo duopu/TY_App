@@ -264,18 +264,6 @@ export default {
 		this.getGoodsInfo();
 		this.getComment();
 	},
-	// 监听原生标题栏按钮点击事件，参数为Object{index:原生标题栏按钮数组的下标}
-	onNavigationBarButtonTap(){
-		let url = `${config.urlLink.shareGoodsUnremittinglyDetailUrl}?goodsId=${this.goodsId}&unremittinglyId=${this.unremittinglyId}`;
-		let shareMsg = `推荐一款超值的商品给你：${url}`;
-		uni.setClipboardData({
-		    data: shareMsg,
-		    success: () => {
-				uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
-				this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
-		    }
-		});
-	},
 	methods: {
 		// 获取当前 tab index
 		getTabsIndex(index) {

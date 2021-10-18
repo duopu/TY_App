@@ -69,10 +69,12 @@ export default {
 			// 筛选条件
 			filterParam: {},
 			goodsList: [],
+			linkType: undefined
 		};
 	},
 	onLoad(option) {
 		this.storeId = option.storeId;
+		this.linkType = option.linkType;
 		this.queryStoreInfo();
 		this.queryGoodsList();
 	},
@@ -125,9 +127,7 @@ export default {
 		 * 打开APP
 		 */
 		openApp(){
-			const linkType = 8; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销  6普通商品详情 7坚持不懈商品详情 8店铺详情
-			const storeId = this.storeId;
-			let url = `${config.copyUrl}?linkType=${linkType}&storeId=${storeId}`;
+			let url = `${config.copyUrl}?linkType=${this.linkType}&storeId=${this.storeId}`;
 			let shareMsg = `推荐一款超赞的店铺给你：${url}`;
 			this.$tool.openApp(shareMsg)
 		}

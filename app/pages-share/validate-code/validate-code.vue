@@ -76,11 +76,7 @@
 				
 				this.$http.post('/user/login', param, true).then(res => {
 					this.$tool.showSuccess('注册成功',()=>{
-						const linkType = 1; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
-						const userId = this.userId;
-						let url = `${config.copyUrl}?&linkType=${linkType}&userId=${userId}`;
-						let shareMsg = `推荐一款超好用的App给你，一起打卡学习吧：${url}`;
-						this.$tool.openApp(shareMsg);
+						this.$tool.openApp("");
 					})
 				})
 			}

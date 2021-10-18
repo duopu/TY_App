@@ -19,7 +19,9 @@
 		<!-- 组团优惠 -->
 		<view v-show="tabsIndex === 0">
 			<block v-for="(item, index) in groupBuyList" :key="`group-goods-${index}`">
-				<active-group-lists-item class="activity-lists-item" :data="item"></active-group-lists-item>
+				<active-group-lists-item class="activity-lists-item" 
+				:data="item" 
+				@submit="sbumitGoodsGroup"></active-group-lists-item>
 			</block>
 			<!-- 列表为空 -->
 			<my-empty :show="groupBuyList.length === 0"></my-empty>
@@ -56,6 +58,11 @@
 		<sales-activity-popup ref="salesActivityPopup" 
 		:data="currentUnremittinglyVO" 
 		@submit="unremittinglySubmit"></sales-activity-popup>
+		
+		<!-- 弹窗 参与拼团 -->
+		<goods-group-popup ref="groupPopup" 
+		:data="currentGroupBuyVO" 
+		@submit="goodsGroupSubmit"></goods-group-popup>
 		
 	</scroll-view>
 </template>
@@ -104,6 +111,7 @@ export default {
 			distributionGoodsList: [], //商品分销
 			distributionStoreList: [], //店铺分销
 			currentUnremittinglyVO: {}, //当前选中的坚持不懈报名产品
+			currentGroupBuyVO: {}, //当前选中的参与拼团商品
 			tabsSaleIndex: 0 //当前分销大使Tabs索引  0商品分销  1店铺分销
 			
 		};
@@ -337,6 +345,29 @@ export default {
 			this.$store.commit('setUnremittinglyVO',unremittinglyVO);
 			uni.navigateTo({
 				url: `/pages-user/index/goods-details/goods-details-unremittingly`
+			});
+		},
+		
+		/**
+		 * 参加拼团按钮点击
+		 * @param {Object} groupBuyId  拼团活动ID
+		 */
+		sbumitGoodsGroup(groupBuyId){
+			this.$http.get('/groupBuy/queryInfoByLogin', { groupBuyId: groupBuyId }, true).then(res => {
+				this.currentGroupBuyVO = res;
+				this.openPopup('groupPopup');
+			});
+		},
+		
+		/**
+		 * 立即参与拼团按钮点击回调
+		 * @param {Object} groupBuyVO  组团优惠活动对象
+		 */
+		goodsGroupSubmit(groupBuyVO){
+			this.$refs.groupPopup.close();
+			this.$store.commit('setGroupBuyGoodsVO', groupBuyVO);
+			uni.navigateTo({
+				url: `/pages-user/index/confirm/confirm-groupbuy`
 			});
 		},
 		

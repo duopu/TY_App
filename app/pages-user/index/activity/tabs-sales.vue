@@ -194,20 +194,18 @@ export default {
 		 * @param {Object} item 店铺分销对象
 		 */
 		copyStoreLink(item){
-			// #ifndef H5
-				const linkType = 5; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
-				const storeId = item.storeId;
-				let url = `${config.copyUrl}?linkType=${linkType}&storeId=${storeId}`
-				let shareMsg = `推荐一家超赞的店铺给你：${url}`;
-				// 复制链接到系统剪贴板中
-				uni.setClipboardData({
-				    data: shareMsg,
-				    success: () => {
-						uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
-						this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
-				    }
-				});
-			// #endif
+			const linkType = config.linkType.storeDistribute; 
+			const storeId = item.storeId;
+			let url = `${config.urlLink.shareShopDetailUrl}?linkType=${linkType}&storeId=${storeId}`
+			let shareMsg = `推荐一家超赞的店铺给你：${url}`;
+			// 复制链接到系统剪贴板中
+			uni.setClipboardData({
+			    data: shareMsg,
+			    success: () => {
+					uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+					this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
+			    }
+			});	
 		},
 		
 		/**

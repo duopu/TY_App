@@ -303,29 +303,17 @@ const jumpWithCopyUrl = () => {
 	// 这里要清空掉复制链接的参数对象
 	store.commit('setCopyUrlParams',undefined)
 	
-	if (linkType == 8){ // H5分享 - 店铺
+	if (linkType == config.linkType.storeShare || linkType == config.linkType.storeDistribute){ // H5分享 - 店铺 || 店铺分销
 		const storeId = params.storeId;
 		uni.navigateTo({
 			url: `/pages-user/index/store-details/store-details?storeId=${storeId}`
 		})
-	} else if (linkType == 7){ // H5分享 - 坚持不懈商品
-		const goodsId = params.goodsId;
-		const unremittinglyId = params.unremittinglyId;
-		store.commit('setUnremittinglyVO',{goodsId,unremittinglyId});
-		uni.navigateTo({
-			url: `/pages-user/index/goods-details/goods-details-unremittingly`
-		});
-	} else if (linkType == 6){ // H5分享 -普通商品
+	} else if (linkType == config.linkType.goodsShare){ // H5分享 -普通商品
 		const goodsId = params.goodsId;
 		uni.navigateTo({
 			url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
 		});
-	} else if (linkType == 5) { //店铺分销
-		const storeId = params.storeId;
-		uni.navigateTo({
-			url: `/pages-user/index/store-details/store-details?storeId=${storeId}`
-		})
-	} else if (linkType == 4) { //商品分销
+	} else if (linkType == config.linkType.goodsDistribute) { //商品分销
 		const goodsId = params.goodsId;
 		const userId = params.userId;
 		store.commit('setInviterId', userId);
@@ -333,22 +321,20 @@ const jumpWithCopyUrl = () => {
 		uni.navigateTo({
 			url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
 		});
-	} else if (linkType == 3) { //邀请好友参加坚持不懈
+	} else if (linkType == config.linkType.inviteUserUnremittingly) { //邀请好友参加坚持不懈
 		const userId = params.userId;
 		store.commit('setInviterId', userId);
 		uni.switchTab({
 			url: '/pages-user/index/index/index'
 		})
-		// 打开首页->活动->坚持不懈
-		uni.$emit('activity-open', 1)
-	} else if (linkType == 2) { //邀请好久参加组团优惠
+		uni.$emit('activity-open', 1) // 打开首页->活动->坚持不懈
+	} else if (linkType == config.linkType.inviteUserGroup) { //邀请好友参加组团优惠
 		const userId = params.userId;
+		const goodsId = params.goodsId;
 		store.commit('setInviterId', userId);
-		uni.switchTab({
-			url: '/pages-user/index/index/index'
-		})
-		// 打开首页->活动->组团优惠
-		uni.$emit('activity-open', 0)
+		uni.navigateTo({
+			url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
+		});
 	}
 }
 

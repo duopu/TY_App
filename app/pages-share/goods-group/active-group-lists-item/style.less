@@ -1,0 +1,94 @@
+//列表
+.activity-lists-item {
+	margin: 0 20rpx 30rpx;
+	padding-top: 30rpx;
+	align-items: flex-start;
+	& + .activity-lists-item {
+		border-top: 1rpx solid #dfe0e6;
+	}
+	.price {
+		color: #ff6f5b;
+	}
+	.item-top {
+		.avatar-image {
+			margin-right: 20rpx;
+			width: 240rpx;
+			height: 160rpx;
+			border-radius: 20rpx;
+		}
+		.right {
+			flex: 1;
+			.name {
+				margin-bottom: 10rpx;
+				font-size: 28rpx;
+			}
+			.text,
+			.time {
+				font-size: 24rpx;
+				color: #999999;
+				margin-bottom: 10rpx;
+			}
+		}
+	}
+	.process-wrapper {
+		margin-bottom: 12rpx;
+		padding-top: 50rpx;
+		position: relative;
+		.process-discount {
+			position: absolute;
+			top: 0;
+			left: 0;
+			padding: 4rpx 10rpx;
+			background-color: #fff1f1;
+			border-radius: 10rpx;
+			transform: translateX(-50%);
+			white-space: nowrap;
+			&::after {
+				position: absolute;
+				left: 50%;
+				bottom: -18rpx;
+				margin-left: -15rpx;
+				content: '';
+				border-width: 10rpx;
+				border-style: solid;
+				border-color: #fff1f1 transparent transparent;
+			}
+		}
+		.process {
+			margin-right: 22rpx;
+			flex: 1;
+			height: 24rpx;
+			width: 100%;
+			background-color: #fff1f1;
+			border-radius: 18rpx;
+			&-bar {
+				height: 24rpx;
+				font-size: 20rpx;
+				color: #ffffff;
+				text-align: right;
+				line-height: 24rpx;
+				background: linear-gradient(180deg, #ff6f5b 0%, #ffb8ae 100%);
+				border-radius: 18rpx;
+				box-sizing: border-box;
+				transition: width 0.2s ease;
+			}
+		}
+	}
+	.item-bottom {
+		margin-top: 16rpx;
+		.btn-block {
+			margin: 0 0 0 32rpx;
+			padding: 0 28rpx;
+			height: 56rpx;
+			line-height: 56rpx;
+			font-size: 26rpx;
+			color: #ffffff;
+			background-color: #222222;
+			border-radius: 32rpx;
+			&.disable {
+				color: #ffffff;
+				background-color: #cccccc;
+			}
+		}
+	}
+}

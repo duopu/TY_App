@@ -27,15 +27,34 @@ export default {
 	urlLink:{
 		// 分享的普通商品详情
 		shareGoodsDetailUrl:`${h5Url}/#/pages-share/goods-details/goods-details`,
-		// 分享的坚持不懈商品详情
-		shareGoodsUnremittinglyDetailUrl:`${h5Url}/#/pages-share/goods-details/goods-details-unremittingly`,
 		// 分享的店铺详情
 		shareShopDetailUrl:`${h5Url}/#/pages-share/store-details/store-details`,
 		// 分享邀请注册
 		shareRegisterUrl:`${h5Url}/#/pages-share/register/register`,
+		// 分享的坚持不懈列表
+		shareGoodsUnremittinglyListUrl:`${h5Url}/#/pages-share/goods-unremittingly/goods-unremittingly`,
+		// 分享的组团优惠列表
+		shareGoodsGroupListUrl:`${h5Url}/#/pages-share/goods-group/goods-group`,
 	},
 	
+	// 链接类型
+	linkType:{
+		// 邀请好友注册
+		inviteUserRegister: 1,
+		// 邀请好友参加组团优惠
+		inviteUserGroup: 2,
+		// 邀请好友参加坚持不懈
+		inviteUserUnremittingly: 3,
+		// 商品分销
+		goodsDistribute: 4,
+		// 店铺分销
+		storeDistribute: 5,
+		// H5商品分享（普通商品/组团优惠）
+		goodsShare: 6,
+		// H5店铺分享
+		storeShare: 7
+	},
 	
 	// 复制链接的固定头部地址
-	copyUrl: 'tyjy://app'
+	copyUrl: h5Url
 }

@@ -4,7 +4,7 @@
 		<view class="popup-main">
 			<view class="title text-bold">
 				拼团详情
-				<image @click="close()" class="icon-close" src="../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
+				<image @click="close()" class="icon-close" src="../../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
 			</view>
 			<view class="row">
 				<text class="label text-bold">团购开始时间：</text>
@@ -25,12 +25,8 @@
 			<view class="row price">
 				最低折扣：¥{{detail.minPrice}} - ¥{{detail.maxPrice}}
 			</view>
-			<view v-if="showBottom" class="flex-center-between popup-bottom">
-				<view class="flex-column-center" @click="customerClick">
-					<image class="icon" src="../../static/images/icons/icon-kf.svg" mode="aspectFill"></image>
-					<text>客服</text>
-				</view>
-				<button class="btn flex-1" @click="submit">{{`¥${detail.joinAmount}  参与拼团`}}</button>
+			<view class="flex-center-between popup-bottom">
+				<button class="btn flex-1" @click="openApp">{{`¥${detail.joinAmount}  打开App，查看更多内容`}}</button>
 			</view>
 		</view>
 	</uni-popup>
@@ -39,14 +35,10 @@
 <script>
 export default {
 	name: 'goods-group-popup',
-	emits: ['submit'],
+	emits: ['openApp'],
 	props: {
 		data: {
 			type: Object
-		},
-		showBottom: { //是否显示底部操作按钮
-			type: Boolean,
-			default: true
 		}
 	},
 	data() {
@@ -68,28 +60,9 @@ export default {
 		close() {
 			this.$refs.popup.close();
 		},
-		// 参与拼团按钮点击
-		submit(){
-			this.$emit('submit',this.detail);
-		},
-		// 客服按钮点击
-		customerClick(){
-			//TODO: 这里需要跳转到IM界面
-			this.$http.get('/im/getIMGroupId',{storeId:this.detail.storeId},true).then(res=>{
-				const groupId = res.groupId;
-				const user = getApp().globalData.user;
-				getApp().globalData.messageParam = {
-					groupId:groupId,
-					userIM:user.imNum,
-					userName:user.userName,
-					storeName:this.detail.storeName,
-					storePortrait:this.detail.avatar 
-				}
-				
-				uni.navigateTo({
-					url:'/pages/im-message/im-message'
-				})
-			})
+		// 打开App
+		openApp(){
+			this.$emit('openApp');
 		}
 	}
 };

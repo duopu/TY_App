@@ -195,10 +195,10 @@ export default {
 		// 复制链接点击
 		copyUrlClick(){
 			if(this.state === 2){ //商品分销
-				const linkType = 4; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
+				const linkType = config.linkType.goodsDistribute; 
 				const goodsId = item.goodsId;
 				const userId = item.userId;
-				let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}&userId=${userId}`;
+				let url = `${config.urlLink.shareGoodsDetailUrl}?linkType=${linkType}&goodsId=${goodsId}&userId=${userId}`;
 				let shareMsg = `推荐一款超值的商品给你：${url}`;
 				// 复制链接到系统剪贴板中
 				uni.setClipboardData({
@@ -209,7 +209,7 @@ export default {
 				    }
 				});
 			}else if(this.state === 1 && this.detail.type === 1){ //平台分销 - 邀请好友注册
-				const linkType = 1; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
+				const linkType = config.linkType.inviteUserRegister; 
 				const userId = getApp().globalData.user.userId;
 				let url = `${config.urlLink.shareRegisterUrl}?&userId=${userId}`;
 				let shareMsg = `推荐一款超好用的App给你，一起打卡学习吧：${url}`;
@@ -222,9 +222,9 @@ export default {
 				    }
 				});
 			}else if(this.state === 1 && this.detail.type === 2){ ////平台分销 - 邀请好友参加组团优惠
-				const linkType = 2; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
+				const linkType = config.linkType.inviteUserGroup;
 				const userId = getApp().globalData.user.userId;
-				let url = `${config.copyUrl}?linkType=${linkType}&userId=${userId}`;
+				let url = `${config.urlLink.shareGoodsGroupListUrl}?linkType=${linkType}&userId=${userId}`;
 				let shareMsg = `推荐一个超划算的活动给你：${url}`;
 				// 复制链接到系统剪贴板中
 				uni.setClipboardData({
@@ -235,9 +235,9 @@ export default {
 				    }
 				});
 			}else if(this.state === 1 && this.detail.type === 3){ ////平台分销 - 邀请好友参加坚持不懈
-				const linkType = 3; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销
+				const linkType = config.linkType.inviteUserUnremittingly; 
 				const userId = getApp().globalData.user.userId;
-				let url = `${config.copyUrl}?linkType=${linkType}&userId=${userId}`;
+				let url = `${config.urlLink.shareGoodsUnremittinglyListUrl}?linkType=${linkType}&userId=${userId}`;
 				let shareMsg = `推荐一个超划算的活动给你：${url}`;
 				// 复制链接到系统剪贴板中
 				uni.setClipboardData({

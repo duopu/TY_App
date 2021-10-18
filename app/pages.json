@@ -158,16 +158,7 @@
 					"path": "index/goods-details/goods-details-unremittingly",
 					"style": {
 						"navigationBarTitleText": "商品详情",
-						"enablePullDownRefresh": false,
-						"app-plus":{
-							"titleNView":{
-								"buttons":[
-									{
-										"type":"share"
-									}
-								]
-							}
-						}
+						"enablePullDownRefresh": false
 					}
 				}, {
 					"path": "index/goods-comment/goods-comment",
@@ -633,22 +624,28 @@
 				{
 					"path": "goods-details/goods-details",
 					"style": {
-						"navigationStyle": "custom",
 						"navigationBarTitleText":"商品详情",
 						"enablePullDownRefresh": false
 					}
 				},
 				{
-					"path": "goods-details/goods-details-unremittingly",
-					"style": {
-						"navigationStyle": "custom",
-						"navigationBarTitleText":"商品详情",
-						"enablePullDownRefresh": false
-					}
-				},{
 					"path": "store-details/store-details",
 					"style": {
 						"navigationStyle": "custom",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "goods-group/goods-group",
+					"style": {
+						"navigationBarTitleText":"组团优惠",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "goods-unremittingly/goods-unremittingly",
+					"style": {
+						"navigationBarTitleText":"坚持不懈",
 						"enablePullDownRefresh": false
 					}
 				}

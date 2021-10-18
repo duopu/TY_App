@@ -202,7 +202,7 @@
 		<!-- 弹窗 分销 -->
 		<goods-distribute-popup ref="distributePopup"></goods-distribute-popup>
 		<!-- 弹窗 参与拼团 -->
-		<goods-group-popup ref="groupPopup" :data="groupBuyVO"></goods-group-popup>
+		<goods-group-popup ref="groupPopup" :data="groupBuyVO" @submit="goodsGroupSubmit"></goods-group-popup>
 	</view>
 </template>
 
@@ -318,8 +318,9 @@ export default {
 	},
 	// 监听原生标题栏按钮点击事件，参数为Object{index:原生标题栏按钮数组的下标}
 	onNavigationBarButtonTap(){
-		let url = `${config.urlLink.shareGoodsDetailUrl}?goodsId=${this.goodsId}`;
-		let shareMsg = `推荐一款超值的商品给你：${url}`;
+		const linkType = config.linkType.goodsShare;
+		const url = `${config.urlLink.shareGoodsDetailUrl}?linkType=${linkType}&goodsId=${this.goodsId}`;
+		const shareMsg = `推荐一款超值的商品给你：${url}`;
 		uni.setClipboardData({
 		    data: shareMsg,
 		    success: () => {
@@ -630,6 +631,16 @@ export default {
 				this.openPopup('groupPopup');
 			});
 		},
+		
+		// 立即拼团按钮点击回调
+		goodsGroupSubmit(groupBuyVO){
+			this.$refs.groupPopup.close();
+			this.$store.commit('setGroupBuyGoodsVO', groupBuyVO);
+			uni.navigateTo({
+				url: `/pages-user/index/confirm/confirm-groupbuy`
+			});
+		},
+		
 		// 跳转店铺详情
 		gotoStoreDetail(){
 			const storeId = this.goodsInfo.storeId;
