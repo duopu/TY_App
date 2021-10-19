@@ -6,7 +6,8 @@
 		</view>
 		<view class="image-lists flex-column-center">
 			<view class="item upload-image" @click="selectCommitmentBook">
-				<image class="image-photo" :src="commitmentBook" mode="aspectFill"></image>
+				<image class="image" v-if="contractInfo.commitmentBook" :src="contractInfo.commitmentBook" mode="aspectFill"></image>
+				<image class="image-photo" v-else src="../../../static/images/check-in-photo.png" mode="aspectFill"></image>
 			</view>
 			<view class="text-bold">请上传手持承诺书照片</view>
 		</view>
@@ -26,9 +27,9 @@ export default {
 		return {};
 	},
 	computed:{
-		commitmentBook(){
-			return this.contractInfo.commitmentBook || '../../../static/images/check-in-photo.png'
-		}
+		// commitmentBook(){
+		// 	return this.contractInfo.commitmentBook || '../../../static/images/check-in-photo.png'
+		// }
 	},
 	methods:{
 		selectCommitmentBook(){

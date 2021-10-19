@@ -29,12 +29,12 @@
 			
 			<view class="item" @click="uploadIdcardImg('idCardFront')">
 				<!-- 替换已上传的图片 -->
-				<image class="image" :src="idCardFront" mode="widthFix"></image>
+				<image class="image" :src="idCardFront" mode="aspectFill"></image>
 				<!-- 上传标识 -->
 				<image class="image-photo" v-if="!userInfo.idCardFront" src="../../../static/images/check-in-photo.png" mode="aspectFill"></image>
 			</view>
 			<view class="item" @click="uploadIdcardImg('idCardObverse')">
-				<image class="image" :src="idCardObverse" mode="widthFix"></image>
+				<image class="image" :src="idCardObverse" mode="aspectFill"></image>
 				<!-- 上传标识 -->
 				<image class="image-photo" v-if="!userInfo.idCardObverse" src="../../../static/images/check-in-photo.png" mode="aspectFill"></image>
 			</view>
