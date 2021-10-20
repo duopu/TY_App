@@ -8,7 +8,7 @@
 		<check-in-form-item label="*营业执照" align="start" class="no-border">
 			<view class="upload-image small" @click="uploadPic('businessLicense')">
 				<!-- 上传后的图片 -->
-				<image class="image-photo" v-if="mechanismInfo.businessLicense" :src="mechanismInfo.businessLicense"
+				<image class="image" v-if="mechanismInfo.businessLicense" :src="mechanismInfo.businessLicense"
 					mode="aspectFill"></image>
 				<image class="image-photo" v-else src="../../../static/images/check-in-photo.png" mode="aspectFill">
 				</image>
@@ -49,14 +49,12 @@
 		</check-in-form-item>
 
 		<check-in-form-item label="*教育资质证书" align="start" class="no-border" v-if="mechanismInfo.educationStatus == '1'">
-			<view class="upload-image" @click="uploadPic('educationLicense')">
-				<view class="upload-image small m-top-60">
-					<!-- 上传后的图片 -->
-					<image class="image-photo" v-if="mechanismInfo.educationLicense" :src="mechanismInfo.educationLicense"
-						mode="aspectFill"></image>
-					<image class="image-photo" v-else src="../../../static/images/check-in-photo.png" mode="aspectFill">
-					</image>
-				</view>
+			<view class="upload-image small" @click="uploadPic('educationLicense')">
+				<!-- 上传后的图片 -->
+				<image class="image" v-if="mechanismInfo.educationLicense" :src="mechanismInfo.educationLicense"
+					mode="aspectFill"></image>
+				<image class="image-photo" v-else src="../../../static/images/check-in-photo.png" mode="aspectFill">
+				</image>
 			</view>
 		</check-in-form-item>
 		<check-in-form-item label="*教育资质证书有效期" class="no-border" v-if="mechanismInfo.educationStatus == '1'">
@@ -99,13 +97,13 @@
 		<view class="identity-image-lists flex-center">
 			<view class="item upload-image" @click="uploadPic('idCardFront')">
 				<!-- 替换已上传的图片 -->
-				<image class="image" :src="idCardFront" mode="widthFix"></image>
+				<image class="image" :src="idCardFront" mode="aspectFill"></image>
 				<!-- 上传标识 -->
 				<image class="image-photo" v-if="!mechanismInfo.idCardFront"
 					src="../../../static/images/check-in-photo.png" mode="aspectFill"></image>
 			</view>
 			<view class="item upload-image" @click="uploadPic('idCardObverse')">
-				<image class="image" :src="idCardObverse" mode="widthFix"></image>
+				<image class="image" :src="idCardObverse" mode="aspectFill"></image>
 				<!-- 上传标识 -->
 				<image class="image-photo" v-if="!mechanismInfo.idCardObverse"
 					src="../../../static/images/check-in-photo.png" mode="aspectFill"></image>
