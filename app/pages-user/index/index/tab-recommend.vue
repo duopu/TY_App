@@ -99,20 +99,20 @@
 						<text class="name">{{item.smallTitle}}</text>
 					</view>
 					<view class="lists-item-bottom">
-						<view class="flex-center">
+						<view class="flex-center" >
 							<image class="person-image" src="../../../static/images/index/live_img.png"
 								mode="aspectFill"></image>
 							<image class="person-image" src="../../../static/images/index/live_img.png"
 								mode="aspectFill"></image>
 							<image class="person-image" src="../../../static/images/index/live_img.png"
 								mode="aspectFill"></image>
-							<text class="color-6 font-24">.....等836人已报名</text>
+							<text class="color-6 font-24" v-if="item.sales">.....已有{{item.sales}}人已报名</text>
 						</view>
 						<view class="right">
 							<view class="color-9 font-20">{{item.tag}}</view>
 							<view class="price">
 								<text class="price-unit">￥</text>
-								<text class="price-number">500</text>
+								<text class="price-number">{{item.price}}</text>
 							</view>
 						</view>
 					</view>
