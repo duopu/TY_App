@@ -83,9 +83,10 @@
 								}
 							},
 							fail(err) {
-								uni.reLaunch({
-									url: '/pages/login/login'
-								});
+								// 为啥这样写  我先注释了  丁乐
+								// uni.reLaunch({
+								// 	url: '/pages/login/login'
+								// });
 							}
 						})
 					}

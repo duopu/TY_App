@@ -90,7 +90,7 @@
 			<button class="btn-text" @click="sendSmsCode">{{waitSms ? `获取验证码(${smsCodeCountDown})` : '获取验证码'}}</button>
 		</check-in-form-item>
 		<check-in-form-item label="*身份证号">
-			<input v-model="mechanismInfo.idCardNumber" type="text" class="input" placeholder-class="input-placeholder"
+			<input v-model="mechanismInfo.idCardNumber" type="idcard" class="input" placeholder-class="input-placeholder"
 				placeholder="请输入" />
 		</check-in-form-item>
 		<!-- 身份证上传 -->

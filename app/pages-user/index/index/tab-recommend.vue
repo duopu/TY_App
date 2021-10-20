@@ -21,14 +21,15 @@
 		<view class="flex consult">
 			<!-- 最新资讯 -->
 			<view class="image-left flex-column" @click="gotoConsult">
-				<view class="image-left-top flex" >
+				<view class="image-left-top flex">
 					<view class="flex-column-center time-box" v-show="newArticleCreatedTime">
 						<text class="text-bold text">{{newArticleCreatedTime.month}}</text>
 						<text class="line"></text>
 						<text class="text-bold text">{{newArticleCreatedTime.day}}</text>
 					</view>
 					<view class="flex-column">
-						<image class="image-text" src="../../../static/images/index/index-consult-title.png" mode="widthFix"></image>
+						<image class="image-text" src="../../../static/images/index/index-consult-title.png"
+							mode="widthFix"></image>
 						<text class="desc">新鲜资讯随心看</text>
 					</view>
 				</view>
@@ -36,14 +37,15 @@
 			</view>
 			<view class="flex-column">
 				<!-- 每日任务 -->
-				<image class="image-right" @click="gotoTasks" src="../../../static/images/index/index-active-03.png" mode="aspectFill"></image>
+				<image class="image-right" @click="gotoTasks" src="../../../static/images/index/index-active-03.png"
+					mode="aspectFill"></image>
 				<view class="flex-center">
 					<!-- 活动推荐 -->
-					<image class="flex-1 image-right-small" @click="gotoActivity" src="../../../static/images/index/index-active-01.png"
-						mode="aspectFill"></image>
+					<image class="flex-1 image-right-small" @click="gotoActivity"
+						src="../../../static/images/index/index-active-01.png" mode="aspectFill"></image>
 					<!-- 分销大使 -->
-					<image class="flex-1 image-right-small" @click="gotoKcfx" src="../../../static/images/index/index-active-02.png"
-						mode="aspectFill"></image>
+					<image class="flex-1 image-right-small" @click="gotoKcfx"
+						src="../../../static/images/index/index-active-02.png" mode="aspectFill"></image>
 				</view>
 			</view>
 		</view>
@@ -64,8 +66,7 @@
 				</view>
 			</view>
 			<view class="classify-tabs flex-center">
-				<view class="classify-tabs-item" v-for="(item, index) in interestList"
-					@click="() => (dakaIndex = index)" :key="index" :class="{ on: index === dakaIndex }">
+				<view class="classify-tabs-item" v-for="(item, index) in interestList">
 					{{ item.interestName }}
 				</view>
 				<view class="color-9 border-item" @click="gotoClassCategory">修改兴趣</view>
@@ -92,10 +93,10 @@
 				</view>
 			</view>
 			<scroll-view scroll-x="true" class="question-bank-lists">
-				<view class="lists-item" v-for="(item, index) in ['', '', '', '']" :key="index">
+				<view class="lists-item" v-for="(item, index) in examinationBank" :key="index" @click="gotoGoodsDetail(item)">
 					<view>
-						<text class="sub-title">小标题</text>
-						<text class="name">2021下半年软考高级职称-45分高数直通车(重学)</text>
+						<text class="sub-title">{{item.title}}</text>
+						<text class="name">{{item.smallTitle}}</text>
 					</view>
 					<view class="lists-item-bottom">
 						<view class="flex-center">
@@ -108,7 +109,7 @@
 							<text class="color-6 font-24">.....等836人已报名</text>
 						</view>
 						<view class="right">
-							<view class="color-9 font-20">自定义标签</view>
+							<view class="color-9 font-20">{{item.tag}}</view>
 							<view class="price">
 								<text class="price-unit">￥</text>
 								<text class="price-number">500</text>
@@ -128,13 +129,13 @@
 				</view>
 			</view>
 			<scroll-view scroll-x="true" class="career-lists">
-				<view class="item flex-column-center" v-for="(item, index) in ['', '', '']" :key="index">
-					<view class="title text-bold">转薪秘籍</view>
+				<view class="item flex-column-center" v-for="(item, index) in divertedConfigVOList" :key="index">
+					<view class="title text-bold">{{item.title}}</view>
 					<view class="text-line">职场最全加薪秘籍</view>
 					<view class="text-line">史上最牛跳槽达人</view>
 					<view class="text-line">燃爆你的职场生涯</view>
-					<view class="text">落户，一证多用</view>
-					<button type="default" class="btn text-bold">查看详情</button>
+					<view class="text">{{item.description}}</view>
+					<button type="default" class="btn text-bold" @click="watchDiverted(item)">查看详情</button>
 				</view>
 			</scroll-view>
 		</view>
@@ -153,8 +154,8 @@
 				</view>
 			</view>
 			<view class="classify-tabs flex-center">
-				<view v-for="(item, index) in interestList" @click="() => (jpkcIndex = index)" :key="index"
-					:class="{ on: index === jpkcIndex }" class="classify-tabs-item">{{ item.interestName }}</view>
+				<view v-for="(item, index) in interestList" :key="index"
+					class="classify-tabs-item">{{ item.interestName }}</view>
 				<view class="color-9 border-item" @click="gotoClassCategory">修改兴趣</view>
 			</view>
 			<course-lists-item :data="clsssData" v-if="clsssData">
@@ -200,11 +201,7 @@
 					}
 				],
 				// 最新资讯
-				newArticle:{},
-				// 大咖直播 选中兴趣点
-				dakaIndex: null,
-				// 精品课程 选中兴趣点
-				jpkcIndex: null,
+				newArticle: {},
 				// 大咖直播数据
 				liveData: null,
 				// 精品课程 数据
@@ -212,56 +209,44 @@
 				// banner图
 				bannerList: [],
 				// 滚动条顶部位置
-				scrollTop: 0
+				scrollTop: 0,
+				// 考试题库
+				examinationBank:[],
+				// 高薪转行
+				divertedConfigVOList:[],
 			};
 		},
 		mounted() {
-			this.dakaIndex = 0;
-			this.jpkcIndex = 0;
 			this.queryBannerList();
 			this.queryNewArticle();
+			// 查询腾云课堂自定义模块化信息（高新转行、考试题库）
+			this.queryHomeConfig();
 		},
 		computed: {
 			...mapState([
 				'interestList' // 兴趣点列表
 			]),
-			liveImg(){
-				if(this.liveData && this.liveData.img){
+			liveImg() {
+				if (this.liveData && this.liveData.img) {
 					return this.liveData.img[0]
 				}
 			},
-			newArticleCreatedTime(){
-				if(this.newArticle.createdTime){
+			newArticleCreatedTime() {
+				const time = {}
+				if (this.newArticle.createdTime) {
 					const createdTime = dayjs(this.newArticle.createdTime);
-					return {
-						month:createdTime.month() + 1,
-						day:createdTime.date()
-					}
+					time.month = createdTime.month() + 1;
+					time.day = createdTime.date()
 				}
+				return time
 			}
 		},
-		watch: {
-			interestList() {
-				const interest1 = this.interestList[this.dakaIndex];
-				if (interest1) {
-					this.queryLive(interest1.categoryId);
-				}
-				const interest2 = this.interestList[this.jpkcIndex];
-				if (interest2) {
-					this.queryClass(interest2.categoryId);
-				}
-			},
-			dakaIndex() {
-				const interest = this.interestList[this.dakaIndex];
-				if (interest) {
-					this.queryLive(interest.categoryId);
-				}
-			},
-			jpkcIndex() {
-				const interest = this.interestList[this.jpkcIndex];
-				if (interest) { 
-					this.queryClass(interest.categoryId);
-				} 
+		watch:{
+			interestList(){
+				// 获取大咖直播数据
+				this.queryLive();
+				// 获取精品课程数据
+				this.queryClass();
 			}
 		},
 		methods: {
@@ -288,10 +273,22 @@
 					this.scrollTop = 1026 + Math.random();
 				}
 			},
+			// 查询自定义模块化信息
+			queryHomeConfig(){
+				this.$http.get('/tencent/queryHomeConfig').then(res=>{
+					res.forEach(config=>{
+						if(config.code == 'question_bank'){  // 考试题库
+							this.examinationBank = config.questionBankConfigVOList;
+						}else if (config.code == 'Diverted'){
+							this.divertedConfigVOList = config.divertedConfigVOList;
+						}
+					})
+				})
+			},
 			// 跳转大咖直播页面
 			gotoLiveList() {
 				uni.navigateTo({
-					url:'/pages-user/index/live/payback'
+					url: '/pages-user/index/live/payback'
 				})
 			},
 			// 跳转分类页面
@@ -300,22 +297,16 @@
 					url: '/pages-user/classify/index/index'
 				})
 			},
-			// 跳转修改兴趣点
-			gotoChangeInterestList() {
-				uni.switchTab({
-					url: '/pages-user/classify/index/index'
-				});
-			},
 			// 跳转商品详情
-			gotoGoodsDetail(liveData){
+			gotoGoodsDetail(goodsData) {
 				uni.navigateTo({
-					url: `/pages-user/index/goods-details/goods-details?goodsId=${liveData.goodsId}`
+					url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsData.goodsId}`
 				});
 			},
-			// 查询直播
-			queryLive(cateId) {
+			// 查询大咖直播
+			queryLive() {
 				this.$http.get('/live/queryLiveList', {
-					cateIdList: [cateId]
+					cateIdList: this.interestList.map(i=>i.categoryId)
 				}).then(res => {
 					if (res && res.length > 0) {
 						this.liveData = res[0];
@@ -325,15 +316,18 @@
 				});
 			},
 			// 查询最新资讯 
-			queryNewArticle(){
-				this.$http.get('/article/queryPageAll',{page:1,size:1}).then(res=>{
+			queryNewArticle() {
+				this.$http.get('/article/queryPageAll', {
+					page: 1,
+					size: 1
+				}).then(res => {
 					this.newArticle = res.content[0];
 				})
 			},
 			// 查询 精品课程
-			queryClass(cateId) {
+			queryClass() {
 				this.$http.get('/course/queryList', {
-					cateIdList: [cateId]
+					cateIdList:  this.interestList.map(i=>i.categoryId)
 				}).then(res => {
 					if (res && res.length > 0) {
 						this.clsssData = res[0];
@@ -342,25 +336,29 @@
 					}
 				});
 			},
+			// 高薪转行  查看详情操作
+			watchDiverted(item){
+				
+			},
 			// 跳转资讯页面
-			gotoConsult(){
+			gotoConsult() {
 				uni.navigateTo({
-					url:'/pages-user/index/consult/consult'
+					url: '/pages-user/index/consult/consult'
 				})
 			},
 			// 跳转每日任务
-			gotoTasks(){
+			gotoTasks() {
 				uni.navigateTo({
-					url:'/pages-user/mine/sign-in/sign-in'
+					url: '/pages-user/mine/sign-in/sign-in'
 				})
 			},
 			// 跳转活动页面
-			gotoActivity(){
+			gotoActivity() {
 				uni.$emit('activity-open')
 			},
 			// 跳转分销大使
-			gotoKcfx(){
-				uni.$emit('activity-open',2)
+			gotoKcfx() {
+				uni.$emit('activity-open', 2)
 			}
 		}
 	};

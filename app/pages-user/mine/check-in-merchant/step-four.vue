@@ -1,7 +1,7 @@
 <template>
 	<view class="check-in-form">
 		<view class="mesage text-bold">
-			请先 <text class="download color-primary">下载承诺书</text> ，签署后，将本人手持承诺书的照片上
+			请先 <text class="download color-primary" @click="downloadCommitment">下载承诺书</text> ，签署后，将本人手持承诺书的照片上
 			传至系统。
 		</view>
 		<view class="image-lists flex-column-center" >
@@ -48,6 +48,27 @@ export default {
 					})
 				}
 			});
+		},
+		downloadCommitment(){
+			this.$http.post('/value/config/batchQuery',{codeList:['UNDERTAKING']}).then(res=>{
+				const data = res[0];
+				const content = data.content;
+				uni.downloadFile({
+					url:content,
+					success:(res)=>{
+						const tempFilePath = res.tempFilePath;
+						console.log(res);
+						uni.saveFile({
+							tempFilePath:tempFilePath,
+							success: (res) => {
+								console.log('下载成功',res);
+								this.$tool.showSuccess('下载成功')
+							}
+						})
+					}
+				})
+			})
+			
 		}
 	}
 };

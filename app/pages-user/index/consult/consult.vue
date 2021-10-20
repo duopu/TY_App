@@ -3,14 +3,14 @@
 	<view class="page-wrapper consult">
 		<!-- 菜单 -->
 		<scroll-view scroll-x="true" class="consult-top">
-			<view class="item" :class="{'on':currentCategoryId === item.articleCategoryId}" v-for="(item,index) in categoryList" :key="item.id" @click="changeTabs(item.articleCategoryId)">{{item.name}}</view>
+			<view class="item" :class="{'on':currentCategoryId === item.articleCategoryId}"
+				v-for="(item,index) in categoryList" :key="item.id" @click="changeTabs(item.articleCategoryId)">
+				{{item.name}}</view>
 		</scroll-view>
 		<!-- 列表 -->
 		<view class="consult-lists">
-			<consult-lists-item v-for="(item,index) in articleList"
-								:key="item.id"
-								:data="item"
-								@clickItem="itemOnClick"></consult-lists-item>
+			<consult-lists-item v-for="(item,index) in articleList" :key="item.articleId" :data="item"
+				@clickItem="itemOnClick"></consult-lists-item>
 		</view>
 		<!-- 列表为空 -->
 		<my-empty :show="articleList.length === 0"></my-empty>
@@ -47,67 +47,71 @@
 			this.page += 1;
 			this.getArticelList();
 		},
-		methods:{
-			
+		methods: {
+
 			/** 顶部类型切换
 			 * @param {Object} categoryId 资讯类型ID
 			 */
-			changeTabs(categoryId){
+			changeTabs(categoryId) {
 				this.currentCategoryId = categoryId;
 				this.getArticelList();
 			},
-			
+
 			/**
 			 * 获取资讯分类
 			 */
 			getCategoryList() {
-				this.$http.get('/article/queryCategoryList',{},true).then(res=>{
+				this.$http.get('/article/queryCategoryList', {}, true).then(res => {
 					this.categoryList = res;
-					if(res.length > 0 ){
+					if (res.length > 0) {
 						this.currentCategoryId = res[0].articleCategoryId;
 						this.getArticelList(this.currentCategoryId);
 					}
-					
+
 				})
 			},
-			
+
 			/** 
 			 * 获取文章列表
 			 */
-			getArticelList(){
-				
-				if(this.page > 1){
+			getArticelList() {
+
+				if (this.page > 1) {
 					this.status = "loading";
 				}
 
-				this.$http.get('/article/queryPage',{articleCategoryId:this.currentCategoryId, page:this.page, size:this.pageSize},true).then(res=>{
-					
-					if(this.page == 1){
+				this.$http.get('/article/queryPage', {
+					articleCategoryId: this.currentCategoryId,
+					page: this.page,
+					size: this.pageSize
+				}, true).then(res => {
+
+					if (this.page == 1) {
 						uni.stopPullDownRefresh();
 						this.articleList = res.content;
-					}else {
+					} else {
 						this.articleList = this.articleList.concat(res.content);
 					}
-					
-					if(res.totalSize <= this.page * this.pageSize){
+
+					if (res.totalSize <= this.page * this.pageSize) {
 						this.status = "noMore"
-					}else{
+					} else {
 						this.status = "more"
 					}
-				}).catch( err => {
-					if(this.page == 1){
+				}).catch(err => {
+					if (this.page == 1) {
 						uni.stopPullDownRefresh();
-					}else {
+					} else {
 						this.status = "more";
 						this.page -= 1;
 					}
 				})
 			},
-			
+
 			/** 列表行点击
 			 * @param {Object} articleId 为文章id
 			 */
-			itemOnClick(articleId){
+			itemOnClick(articleId) {
 				uni.navigateTo({
 					url: `/pages-user/index/consult/details?articleId=${articleId}`
 				});
@@ -116,4 +120,4 @@
 	}
 </script>
 
-<style src="./style.less" lang="less"></style> 
+<style src="./style.less" lang="less"></style>

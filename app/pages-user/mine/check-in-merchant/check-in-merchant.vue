@@ -52,7 +52,9 @@ export default {
 			// 是否同意协议
 			isAgree:false,
 			// 机构信息
-			mechanismInfo:{},
+			mechanismInfo:{
+				educationStatus:'1',
+			},
 			// 店铺信息
 			shopInfo:{},
 			// 承诺书信息
