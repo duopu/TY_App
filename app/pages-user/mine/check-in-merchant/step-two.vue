@@ -49,14 +49,12 @@
 		</check-in-form-item>
 
 		<check-in-form-item label="*教育资质证书" align="start" class="no-border" v-if="mechanismInfo.educationStatus == '1'">
-			<view class="upload-image" @click="uploadPic('educationLicense')">
-				<view class="upload-image small m-top-60">
-					<!-- 上传后的图片 -->
-					<image class="image-photo" v-if="mechanismInfo.educationLicense" :src="mechanismInfo.educationLicense"
-						mode="aspectFill"></image>
-					<image class="image-photo" v-else src="../../../static/images/check-in-photo.png" mode="aspectFill">
-					</image>
-				</view>
+			<view class="upload-image small" @click="uploadPic('educationLicense')">
+				<!-- 上传后的图片 -->
+				<image class="image" v-if="mechanismInfo.educationLicense" :src="mechanismInfo.educationLicense"
+					mode="aspectFill"></image>
+				<image class="image-photo" v-else src="../../../static/images/check-in-photo.png" mode="aspectFill">
+				</image>
 			</view>
 		</check-in-form-item>
 		<check-in-form-item label="*教育资质证书有效期" class="no-border" v-if="mechanismInfo.educationStatus == '1'">
