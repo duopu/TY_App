@@ -7,8 +7,7 @@ export default {
 		
 		let header = {
 			Accept: 'application/json',
-			'Content-Type': method == 'POST' ? 'application/json; charset=utf-8' : 'application/x-www-form-urlencoded',
-			'x-uid':1
+			'Content-Type': method == 'POST' ? 'application/json; charset=utf-8' : 'application/x-www-form-urlencoded'
 		}
 		const user = getApp().globalData.user
 		if (user.token) {

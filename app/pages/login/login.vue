@@ -40,7 +40,7 @@
     <view class="bottom">
       <view class="rules">
         注册即同意
-        <text>《腾云课堂服务协议》</text>
+        <text @click="watchServerAgreement">《腾云课堂服务协议》</text>
       </view>
       <view class="through flex-center-center">
         <text>其他登录方式</text>
@@ -146,6 +146,12 @@ export default {
 					url:`/pages/bind-phone/bind-phone?roleStatus=${this.roleStatus}&openId=${openId}&provider=${provider}`
 				})
 			}
+		},
+		// 查看用户服务协议
+		watchServerAgreement(){
+			uni.navigateTo({
+				url:'/pages/watch-h5/watch-h5?code=USER_AGREEMENT'
+			})
 		}
 	}
 };
