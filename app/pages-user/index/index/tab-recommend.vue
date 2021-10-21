@@ -130,7 +130,7 @@
 			</view>
 			<scroll-view scroll-x="true" class="career-lists">
 				<view class="item flex-column-center" v-for="(item, index) in divertedConfigVOList" :key="index">
-					<view class="title text-bold">{{item.title}}</view>
+					<view class="title text-bold text-ellipsis">{{item.title}}</view>
 					<view class="text-line">{{item.description}}</view>
 					<!-- <view class="text-line">史上最牛跳槽达人</view>
 					<view class="text-line">燃爆你的职场生涯</view> -->
