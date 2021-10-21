@@ -198,9 +198,7 @@ export default {
             goodsClassifyPopType: 1, //商品属性弹窗类型 1加入购物车 2立即购买
 			platformCouponTypeContent:undefined, //平台最大优惠力度
 			storeCouponTypeContent:undefined, //商家最大优惠力度
-			groupBuyVO: {}, //组团优惠详情对象
-			linkType: undefined,
-			userId: undefined
+			groupBuyVO: {} //组团优惠详情对象
 		};
 	},
 	watch: {
@@ -213,8 +211,6 @@ export default {
 	},
 	onLoad(option) {
 		this.goodsId = option.goodsId;
-		this.linkType = option.linkType;
-		this.userId = option.userId;
 		this.getGoodsResource();
 		this.getGoodsInfo();
 		this.getComment();
@@ -230,16 +226,18 @@ export default {
 		},
 		// 获取Tab选项卡距离顶部的高度及自身高度
 		getTabsTopAndHeight() {
-			this.$nextTick(() => {
-				let query = uni.createSelectorQuery().in(this);
-				query.select('#custom-tabs').boundingClientRect();
-				query.exec(res => {
-					if (res && res[0]) {
-						this.tabsTop = res[0].top;
-						this.tabsHeight = res[0].height;
-					}
+			setTimeout(()=>{
+				this.$nextTick(() => {
+					let query = uni.createSelectorQuery().in(this);
+					query.select('#custom-tabs').boundingClientRect();
+					query.exec(res => {
+						if (res && res[0]) {
+							this.tabsTop = res[0].top;
+							this.tabsHeight = res[0].height;
+						}
+					});
 				});
-			});
+			}, 1000);
 		},
 		// 获取底部购物车工具类高度
 		getGoodsBottomHeight() {
@@ -258,16 +256,16 @@ export default {
 		 * @param {Object} e
 		 */
 		scrollHandle(e) {
-			// 这里要实现页面上滑到tab时，tab进行固定的效果
-			if (e.detail.scrollTop >= this.tabsTop && !this.tabsFixed) {
-				this.tabsFixed = true;
-				return;
-			}
-
-			if (e.detail.scrollTop < this.tabsTop && this.tabsFixed) {
-				this.tabsFixed = false;
-				return;
-			}
+			// TODO: 这里固定效果不太好，先去掉这种效果吧 这里要实现页面上滑到tab时，tab进行固定的效果
+			// if (e.detail.scrollTop >= this.tabsTop && !this.tabsFixed) {
+			// 	this.tabsFixed = true;
+			// 	return;
+			// }
+			
+			// if (e.detail.scrollTop < this.tabsTop && this.tabsFixed) {
+			// 	this.tabsFixed = false;
+			// 	return;
+			// }
 		},
 		/**
 		 * 轮播图预览
@@ -372,9 +370,11 @@ export default {
 		 * 打开APP
 		 */
 		openApp(){
-			let url = `${config.copyUrl}?linkType=${this.linkType}&goodsId=${this.goodsId}&userId=${this.userId}`;
+			const linkType = 6; //1 邀请好友注册  2邀请好久参加组团优惠  3邀请好久参加坚持不懈  4商品分销  5店铺分销  6普通商品详情 7坚持不懈商品详情 8店铺详情
+			const goodsId = this.goodsId;
+			let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}`;
 			let shareMsg = `推荐一款超值的商品给你：${url}`;
-			this.$tool.openApp(shareMsg)
+			this.$tool.openApp(url)
 		}
 	}
 };

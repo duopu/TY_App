@@ -1,3 +1,10 @@
+### 上线前准备（开发必看）
+- config.js 中修改H5地址为线上H5所在地址
+- config.js debug改为true
+- config.js iosDownloadUrl、androidDownloadUrl 改为线上的APP下载地址
+
+
+
 # 使用
 下载下来直接引入，然后使用。也可以直接复制下面的源码内容。无任何依赖。
 

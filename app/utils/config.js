@@ -57,5 +57,11 @@ export default {
 	},
 	
 	// 复制链接的固定头部地址
-	copyUrl: h5Url
+	copyUrl: h5Url,
+	
+	// iOS下载地址  ***是上线之后的appId
+	iosDownloadUrl: 'http://itunes.apple.com/app/******',
+	
+	// Android下载地址   目前写的是应用宝下载地址，pkgname跟的是包名
+	androidDownloadUrl: 'https://a.app.qq.com/o/simple.jsp?pkgname=com.ihomefnt.tyjy'
 }

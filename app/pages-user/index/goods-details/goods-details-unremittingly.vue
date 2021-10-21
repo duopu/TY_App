@@ -275,16 +275,18 @@ export default {
 		},
 		// 获取Tab选项卡距离顶部的高度及自身高度
 		getTabsTopAndHeight() {
-			this.$nextTick(() => {
-				let query = uni.createSelectorQuery().in(this);
-				query.select('#custom-tabs').boundingClientRect();
-				query.exec(res => {
-					if (res && res[0]) {
-						this.tabsTop = res[0].top;
-						this.tabsHeight = res[0].height;
-					}
+			setTimeout(()=>{
+				this.$nextTick(() => {
+					let query = uni.createSelectorQuery().in(this);
+					query.select('#custom-tabs').boundingClientRect();
+					query.exec(res => {
+						if (res && res[0]) {
+							this.tabsTop = res[0].top;
+							this.tabsHeight = res[0].height;
+						}
+					});
 				});
-			});
+			}, 1000);
 		},
 		// 获取底部购物车工具类高度
 		getGoodsBottomHeight() {
@@ -303,16 +305,16 @@ export default {
 		 * @param {Object} e
 		 */
 		scrollHandle(e) {
-			// 这里要实现页面上滑到tab时，tab进行固定的效果
-			if (e.detail.scrollTop >= this.tabsTop && !this.tabsFixed) {
-				this.tabsFixed = true;
-				return;
-			}
-
-			if (e.detail.scrollTop < this.tabsTop && this.tabsFixed) {
-				this.tabsFixed = false;
-				return;
-			}
+			// TODO: 这里固定效果不太好，先去掉这种效果吧 这里要实现页面上滑到tab时，tab进行固定的效果
+			// if (e.detail.scrollTop >= this.tabsTop && !this.tabsFixed) {
+			// 	this.tabsFixed = true;
+			// 	return;
+			// }
+			
+			// if (e.detail.scrollTop < this.tabsTop && this.tabsFixed) {
+			// 	this.tabsFixed = false;
+			// 	return;
+			// }
 		},
 		/**
 		 * 轮播图预览
