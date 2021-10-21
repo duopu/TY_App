@@ -13,7 +13,8 @@ export default {
 		baseUrl:debug ? 'http://education.sinfinite.cn' : 'http://education.sinfinite.cn',
 	// #endif
 	
-	
+	// 打开H5页面的数据，存放此处，H5页面打开后从这里拿数据
+	H5Obj:{},
 	
 	// 本地存储的key值
 	storageKeys:{

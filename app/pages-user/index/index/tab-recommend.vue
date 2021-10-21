@@ -4,7 +4,7 @@
 		<!-- 轮播图 -->
 		<view class="swiper-content">
 			<swiper class="swiper" :indicator-dots="true" :autoplay="true" interval="4000" duration="500">
-				<swiper-item v-for="item in bannerList">
+				<swiper-item v-for="item in bannerList" @click="bannerAction(item)">
 					<image class="swiper-img" :src="item.image" mode="aspectFill"></image>
 				</swiper-item>
 			</swiper>
@@ -169,6 +169,7 @@
 		mapState
 	} from 'vuex';
 	import dayjs from 'dayjs';
+	import config from '../../../utils/config.js';
 
 	export default {
 		name: 'tab-recommend',
@@ -252,9 +253,29 @@
 		methods: {
 			// 查询轮播图
 			queryBannerList() {
-				this.$http.get('/navigate/queryBannerList').then(res => {
+				this.$http.get('/navigate/queryBannerList',{platform:1}).then(res => {
 					this.bannerList = res;
 				});
+			},
+			// banner 点击事件
+			bannerAction(banner){
+				if(banner.type == 1){
+					config.H5Obj = {
+						title:banner.title,
+						link:banner.content
+					} 
+					
+					uni.navigateTo({
+						url:'/pages/watch-h5/watch-h5?type=link'
+					})
+				}else if(banner.type == 2){
+					this.gotoGoodsDetail({goodsId:banner.content});
+				}else if(banner.type == 3){
+					uni.navigateTo({
+						url:`/pages-user/index/store-details/store-details?storeId=${banner.content}`
+					})
+				}
+				console.log(banner);
 			},
 			// 菜单按钮点击事件
 			menuClick(item) {

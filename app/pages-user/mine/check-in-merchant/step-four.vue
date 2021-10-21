@@ -69,7 +69,7 @@
 					filename: "_downloads/" + name //利用保存路径，实现下载文件的重命名
 				}, function(d, status) {
 					uni.hideLoading()
-
+					
 					//d为下载的文件对象
 					if (status == 200) {
 						console.log('下载成功')
