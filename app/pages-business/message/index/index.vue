@@ -26,11 +26,11 @@
 				<image src="" mode="aspectFill" class="item-image"></image>
 				<view class="flex-column flex-1">
 					<view class="name text-bold">交易信息</view>
-					<view class="desc">有1个新订单产生</view>
+					<view class="desc">有{{newOrderMessageCount}}个新订单产生</view>
 				</view>
 				<view class="flex-column item-right">
-					<view class="time">2012-20-12</view>
-					<view class="number">15</view>
+					<view class="time">{{dayTimeStr}}</view>
+					<view class="number">{{newOrderMessageCount}}</view>
 				</view>
 			</view>
 			<!-- 店铺信息 -->
@@ -41,8 +41,8 @@
 					<view class="desc">有新的退款审批需处理</view>
 				</view>
 				<view class="flex-column item-right">
-					<view class="time">2012-20-12</view>
-					<view class="number">15</view>
+					<view class="time">{{dayTimeStr}}</view>
+					<view class="number">{{refundMessageCount}}</view>
 				</view>
 			</view>
 			<!-- 用户消息列表 -->
@@ -63,6 +63,7 @@
 
 <script>
 	import { mapState } from 'vuex';
+	import datjs from 'dayjs';
 
 export default {
 	name: 'messageIndex',
@@ -74,6 +75,9 @@ export default {
 			dotsData: ['全部标为已读', '删除全部会话', '聊天设置', '新消息通知设置'],
 			insideData:[],
 			user:{},
+			newOrderMessageCount:0,
+			refundMessageCount:0,
+			dayTimeStr:datjs().formData('YYYY-MM-DD'),
 		};
 	},
 	computed:{
@@ -95,8 +99,16 @@ export default {
 	mounted(){
 		this.queryGroupList()
 		this.user = getApp().globalData.user;
+		this.queryStatistic();
 	},
 	methods: {
+		// 查询店铺信息
+		queryStatistic(){
+			this.$http.get('/message/queryStatistic',{}).then(res=>{
+				this.newOrderMessageCount = res.newOrderMessageCount;
+				this.refundMessageCount = res.refundMessageCount;
+			})
+		},
 		// 查询群组列表
 		queryGroupList(){
 			this.$http.get('/im/queryGroupList').then(res=>{
