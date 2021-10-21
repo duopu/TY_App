@@ -58,10 +58,13 @@ export default {
 		return {
 			goodsList: [],
 			userInfo: [],
-			userId: ''
+			userId: '',
+			storeId:'',
 		};
 	},
-	onLoad(){
+	onLoad(option){
+		this.userId = option.userId;
+		
 		this.getUserInfo();
 		this.getUserGoodsList();
 	},
@@ -71,12 +74,13 @@ export default {
 			uni.navigateBack({})
 		},
 		getUserInfo(){
-			this.$http.get('',{userId: this.userId},false).then(res => {
+			this.$http.get('/user/queryInfoById',{userId: this.userId},false).then(res => {
 				this.userInfo = res;
 			})
 		},
 		getUserGoodsList(){
-			this.$http.get('',{userId: this.userId},false).then(res => {
+			console.log(getApp().globalData.user)
+			this.$http.get('/goods/queryListByUserId',{userId: this.userId,storeId:''},false).then(res => {
 				this.goodsList = res;
 			})
 		}
