@@ -67,9 +67,14 @@ export default {
 	},
 	methods:{
 		goUserInfo(){
+			console.log('订单信息',this.dataItem);
+			const  orderDetailVO = this.dataItem.orderDetailVO
+			const storeId = orderDetailVO.storeId;
+			const userId = orderDetailVO.userId;
+			
 			this.$http.post('/message/update',{messageId:this.dataItem.messageId},true).then(res=>{
 				uni.navigateTo({
-					url: '/pages-business/message/user/user?userId='+ this.dataItem.orderDetailVO.userId
+					url: `/pages-business/message/user/user?userId=${userId}&storeId=${storeId}`
 				});
 			})
 		}

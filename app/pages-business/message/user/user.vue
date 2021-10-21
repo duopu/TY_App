@@ -64,6 +64,7 @@ export default {
 	},
 	onLoad(option){
 		this.userId = option.userId;
+		this.storeId = option.storeId;
 		
 		this.getUserInfo();
 		this.getUserGoodsList();
@@ -80,7 +81,7 @@ export default {
 		},
 		getUserGoodsList(){
 			console.log(getApp().globalData.user)
-			this.$http.get('/goods/queryListByUserId',{userId: this.userId,storeId:''},false).then(res => {
+			this.$http.get('/goods/queryListByUserId',{userId: this.userId,storeId:this.storeId},false).then(res => {
 				this.goodsList = res;
 			})
 		}
