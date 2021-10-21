@@ -269,37 +269,37 @@ const openApp = (url)=>{
 	
 	// #ifdef H5
 	if (document.queryCommandSupported('copy')) { // 复制到系统剪贴板中
-	
+
 		uni.showLoading({
 			title: '请等待...',
 			mask: true,
 		})
-	
+
 	    let textarea = document.createElement("textarea")
 	    textarea.value = url
 	    textarea.readOnly = "readOnly"
 	    document.body.appendChild(textarea)
 	    textarea.select() // 选中文本内容
-	    textarea.setSelectionRange(0, url.length) 
-	    let result = document.execCommand("copy") 
+	    textarea.setSelectionRange(0, url.length)
+	    let result = document.execCommand("copy")
 	    textarea.remove()
-	    
+
 		if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
 		var loadDateTime = new Date();
 			window.location = "tyjy://";//schema链接或者universal link
 			window.setTimeout(function() { //如果没有安装app,便会执行setTimeout跳转下载页
 				uni.hideLoading();
-				window.location = config.iosDownloadUrl; //ios下载地址  
-			}, 2500);	                          
+				window.location = config.iosDownloadUrl; //ios下载地址
+			}, 2500);
 		} else if (navigator.userAgent.match(/android/i)) {
 		    var state = null;
 		    window.location = 'tyjy://'; //schema链接或者universal link
 		    window.setTimeout(function() { //如果没有安装app,便会执行setTimeout跳转下载页
 				uni.hideLoading();
-		        window.location = config.androidDownloadUrl; //android下载地址  
-		    }, 2500);  
+		        window.location = config.androidDownloadUrl; //android下载地址
+		    }, 2500);
 		}
-		
+
 	}else{
 		showToast("您的浏览器不支持复制");
 	}

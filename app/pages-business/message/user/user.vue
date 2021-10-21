@@ -5,7 +5,7 @@
 		<!-- 头部 -->
 		<view class="user-top">
 			<view class="flex-center-between">
-				<image class="icon-arrow" src="../../../static/images/icons/icon-back.svg" mode="aspectFill"></image>
+				<image class="icon-arrow" src="../../../static/images/icons/icon-back.svg" @click="backAction" mode="aspectFill"></image>
 				<view class="save font-24">已收藏本店</view>
 			</view>
 			<!-- 用户 -->
@@ -44,7 +44,9 @@
 			</view>
 			<!-- 列表 -->
 			<view class="user-lists">
-				<block v-for="(item, index) in ['', '', '', '', '']" :key="index"><trade-lists-item :role="1" :state="1"></trade-lists-item></block>
+				<block v-for="(item, index) in ['', '', '', '', '']" :key="index">
+					<trade-lists-item :role="1" :state="1"></trade-lists-item>
+				</block>
 			</view>
 		</scroll-view>
 	</view>
@@ -56,21 +58,29 @@ export default {
 		return {
 			goodsList: [],
 			userInfo: [],
-			userId: ''
+			userId: '',
+			storeId:'',
 		};
 	},
-	onLoad(){
+	onLoad(option){
+		this.userId = option.userId;
+		
 		this.getUserInfo();
 		this.getUserGoodsList();
 	},
 	methods: {
+		// 返回事件
+		backAction(){
+			uni.navigateBack({})
+		},
 		getUserInfo(){
-			this.$http.get('',{userId: this.userId},false).then(res => {
+			this.$http.get('/user/queryInfoById',{userId: this.userId},false).then(res => {
 				this.userInfo = res;
 			})
 		},
 		getUserGoodsList(){
-			this.$http.get('',{userId: this.userId},false).then(res => {
+			console.log(getApp().globalData.user)
+			this.$http.get('/goods/queryListByUserId',{userId: this.userId,storeId:''},false).then(res => {
 				this.goodsList = res;
 			})
 		}

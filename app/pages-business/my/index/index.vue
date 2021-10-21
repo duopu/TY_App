@@ -28,11 +28,11 @@
 				<text class="flex-1">账号与安全</text>
 				<image src="../../../static/images/icons/icon-business-more.svg" class="icon-arrow" mode="aspectFill"></image>
 			</view>
-			<view class="lists-item" @click="jump('setting')">
+			<!-- <view class="lists-item" @click="jump('setting')">
 				<image class="item-image" src="../../../static/images/icons/icon-business-message.svg" mode="aspectFill"></image>
 				<text class="flex-1">新消息通知设置</text>
 				<image src="../../../static/images/icons/icon-business-more.svg" class="icon-arrow" mode="aspectFill"></image>
-			</view>
+			</view> -->
 		</view>
 		<view class="lists">
 			<view class="lists-item" @click="jump('help')">
