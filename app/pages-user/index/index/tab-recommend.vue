@@ -50,7 +50,7 @@
 			</view>
 		</view>
 		<!-- 大咖直播 -->
-		<view class="broadcast">
+		<view class="broadcast" v-if="showLive">
 			<view class="flex-center-between index-title">
 				<view class="flex-center">
 					<image class="icon-image" src="../../../static/images/index/index-menu-02.png" mode="aspectFill">
@@ -84,7 +84,7 @@
 			</view>
 		</view>
 		<!-- 考试题库 -->
-		<view class="question-bank">
+		<view class="question-bank" v-if="show_question_bank">
 			<view class="flex-center-between index-title">
 				<view class="flex-center">
 					<image class="icon-image" src="../../../static/images/index/index-menu-03.png" mode="aspectFill">
@@ -120,7 +120,7 @@
 			</scroll-view>
 		</view>
 		<!-- 高薪转行 -->
-		<view class="change-career">
+		<view class="change-career" v-if="showDiverted">
 			<view class="flex-center-between index-title">
 				<view class="flex-center">
 					<image class="icon-image" src="../../../static/images/index/index-menu-04.png" mode="aspectFill">
@@ -131,16 +131,16 @@
 			<scroll-view scroll-x="true" class="career-lists">
 				<view class="item flex-column-center" v-for="(item, index) in divertedConfigVOList" :key="index">
 					<view class="title text-bold">{{item.title}}</view>
-					<view class="text-line">职场最全加薪秘籍</view>
-					<view class="text-line">史上最牛跳槽达人</view>
-					<view class="text-line">燃爆你的职场生涯</view>
-					<view class="text">{{item.description}}</view>
+					<view class="text-line">{{item.description}}</view>
+					<!-- <view class="text-line">史上最牛跳槽达人</view>
+					<view class="text-line">燃爆你的职场生涯</view> -->
+					<!-- <view class="text">{{item.description}}</view> -->
 					<button type="default" class="btn text-bold" @click="watchDiverted(item)">查看详情</button>
 				</view>
 			</scroll-view>
 		</view>
 		<!-- 精品课程 -->
-		<view class="course">
+		<view class="course" v-if="showCourse">
 			<view class="flex-center-between index-title">
 				<view class="flex-center">
 					<image class="icon-image" src="../../../static/images/index/index-menu-05.png" mode="aspectFill">
@@ -215,6 +215,14 @@
 				examinationBank:[],
 				// 高薪转行
 				divertedConfigVOList:[],
+				// 显示大咖直播
+				showLive:false,
+				// 显示 开始题库
+				show_question_bank:false ,
+				// 显示 高薪转行
+				showDiverted :false,
+				// 显示精品课程
+				showCourse :false,
 			};
 		},
 		mounted() {
@@ -263,8 +271,7 @@
 					config.H5Obj = {
 						title:banner.title,
 						link:banner.content
-					} 
-					
+					}
 					uni.navigateTo({
 						url:'/pages/watch-h5/watch-h5?type=link'
 					})
@@ -275,7 +282,6 @@
 						url:`/pages-user/index/store-details/store-details?storeId=${banner.content}`
 					})
 				}
-				console.log(banner);
 			},
 			// 菜单按钮点击事件
 			menuClick(item) {
@@ -300,8 +306,14 @@
 					res.forEach(config=>{
 						if(config.code == 'question_bank'){  // 考试题库
 							this.examinationBank = config.questionBankConfigVOList;
-						}else if (config.code == 'Diverted'){
+							this.show_question_bank = true;
+						}else if (config.code == 'Diverted'){ // 高薪转行
 							this.divertedConfigVOList = config.divertedConfigVOList;
+							this.showDiverted = true;
+						}else if (config.code == 'Live'){ // 大咖直播
+							this.showLive = true;
+						}else if (config.code == 'course'){ // 精品课程
+							this.showCourse = true;
 						}
 					})
 				})

@@ -125,15 +125,11 @@ export default {
 			apis: ['/goods/downPush','/goods/push','/goods/delete']
 		};
 	},
-	// onLoad() {
-	// 	this.queryGoodList();
-	// },
 	onLoad(options) {
 		console.log(options);
 		console.error('==============')
 		this.type = Number(options.type);
 		this.tabsIndex = Number(options.type) - 1;
-		// this.queryGoodList();
 	},
 	methods:{
 		//获取当前 tabs Index
@@ -142,12 +138,6 @@ export default {
 			this.type = value + 1;
 			this.$refs.myScrollView.onRefresh();
 		},
-		// 获取商品列表
-		// queryGoodList(params){
-		// 	this.$http.get('/goods/queryPageByStoreId',{page,size,...params},true).then(res =>{
-		// 		this.goodList = page > 1 ? this.goodList.concat(res.content) : res.content;
-		// 	})
-		// },
 		queryGoodList(pageNum = 1, pageSize, callback){
 			let params = {
 				status: this.type

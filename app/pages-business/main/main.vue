@@ -48,7 +48,7 @@ export default {
 				{
 					defaultImage: '../../static/images/tabbars/business-consult.png',
 					selectImage: '../../static/images/tabbars/business-consult-selected.png',
-					text: '咨询'
+					text: '资讯'
 				},
 				{
 					defaultImage: '../../static/images/tabbars/business-mine.png',
