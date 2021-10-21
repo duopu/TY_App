@@ -45,6 +45,7 @@ export default {
 			}
 			
 			this.$http.get('/live/getPushUrl',param,true).then(res=>{
+				// 这个地方 要弹窗询问是手机直播还是电脑直播。 靠你了陆秋
 				const pushUrl = res.pushUrl;
 				const navUrl = `/pages-business/index/live/live-broadcast?pushUrl=${pushUrl}&courseId=${this.courseId}&liveName=${this.liveName}&liveIntro=${this.liveIntro}&courseClassId=${this.courseClassId}`
 				console.log('导航去直播页面',navUrl);
