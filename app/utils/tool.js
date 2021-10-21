@@ -270,7 +270,7 @@ const openApp = (url)=>{
 	// #ifdef H5
 		uni.setClipboardData({
 			data: url,
-			success: () => {
+			success: () => { 
 				uni.hideToast(); 
 				if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
 				    var loadDateTime = new Date();
@@ -285,7 +285,6 @@ const openApp = (url)=>{
 				        window.location = "https://a.app.qq.com/o/simple.jsp?pkgname=com.ihomefnt.tyjy"; //android下载地址  
 				    }, 2500);  
 				}
-				
 			}
 		});
 	// #endif	

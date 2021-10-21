@@ -34,7 +34,7 @@ export default {
 	},
 	data() {
 		return {
-			processIndex: 4,
+			processIndex: 1,
 			processData: [
 				{
 					text: '签订入驻协议'

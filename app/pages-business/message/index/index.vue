@@ -3,15 +3,17 @@
 	<view class="message flex-column">
 		<!-- 头部 -->
 		<view class="message-top flex-center-between">
-<!--			<view class="state flex-center">-->
-<!--				<image mode="aspectFill" src="../../../static/images/my-state-zx.png" class="icon-state"></image>-->
-<!--				<text>在线</text>-->
-<!--			</view>-->
+			<!--			<view class="state flex-center">-->
+			<!--				<image mode="aspectFill" src="../../../static/images/my-state-zx.png" class="icon-state"></image>-->
+			<!--				<text>在线</text>-->
+			<!--			</view>-->
 			<text class="title text-bold">消息</text>
 			<view class="right-text">
-				<image @click="()=>showPop=!showPop" class="icon-more-dot" src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
+				<image @click="()=>showPop=!showPop" class="icon-more-dot"
+					src="../../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
 				<view class="dot-lists" v-show="showPop">
-					<view class="dot-lists-item" @click="jumpSetting(index)" v-for="(item, index) in dotsData" :key="index">{{ item }}</view>
+					<view class="dot-lists-item" @click="jumpSetting(index)" v-for="(item, index) in dotsData"
+						:key="index">{{ item }}</view>
 				</view>
 			</view>
 		</view>
@@ -62,111 +64,115 @@
 </template>
 
 <script>
-	import { mapState } from 'vuex';
-	import datjs from 'dayjs';
+	import {
+		mapState
+	} from 'vuex';
+	import dayjs from 'dayjs';
 
-export default {
-	name: 'messageIndex',
-	components: {
-	},
-	data() {
-		return {
-			showPop:false,
-			dotsData: ['全部标为已读', '删除全部会话', '聊天设置', '新消息通知设置'],
-			insideData:[],
-			user:{},
-			newOrderMessageCount:0,
-			refundMessageCount:0,
-			dayTimeStr:datjs().formData('YYYY-MM-DD'),
-		};
-	},
-	computed:{
-		...mapState([
-			'groupConversationMap' // 兴趣点列表
-		]),
-		groupList(){
-			const newGroup = this.insideData.map(group=>{
-				let cov = this.groupConversationMap[group.groupId]
-				if(cov){
-					const covInfo = this.$tool.imTool.getInfoFromConversation(cov);
-					return {...group,...covInfo};
+	export default {
+		name: 'messageIndex',
+		components: {},
+		data() {
+			return {
+				showPop: false,
+				dotsData: ['全部标为已读', '删除全部会话', '聊天设置', '新消息通知设置'],
+				insideData: [],
+				user: {},
+				newOrderMessageCount: 0,
+				refundMessageCount: 0,
+				dayTimeStr: dayjs().format('YYYY-MM-DD'),
+			};
+		},
+		computed: {
+			...mapState([
+				'groupConversationMap' // 兴趣点列表
+			]),
+			groupList() {
+				const newGroup = this.insideData.map(group => {
+					let cov = this.groupConversationMap[group.groupId]
+					if (cov) {
+						const covInfo = this.$tool.imTool.getInfoFromConversation(cov);
+						return {
+							...group,
+							...covInfo
+						};
+					}
+					return group
+				})
+				return newGroup;
+			},
+		},
+		mounted() {
+			this.queryGroupList()
+			this.user = getApp().globalData.user;
+			this.queryStatistic();
+		},
+		methods: {
+			// 查询店铺信息
+			queryStatistic() {
+				this.$http.get('/message/queryStatistic', {}).then(res => {
+					this.newOrderMessageCount = res.newOrderMessageCount;
+					this.refundMessageCount = res.refundMessageCount;
+				})
+			},
+			// 查询群组列表
+			queryGroupList() {
+				this.$http.get('/im/queryGroupList').then(res => {
+					this.insideData = res;
+				})
+			},
+			// 跳转聊天界面
+			navImMessage(item) {
+				console.log('跳转聊天界面', item);
+				getApp().globalData.messageParam = {
+					groupId: item.groupId,
+					userPortrait: item.avatar,
+					userIM: item.imNum,
+					userName: item.nickName,
+					storeName: item.storeName,
+					storePortrait: item.storeAvatar
 				}
-				return group
-			})
-			return newGroup;
-		},
-	},
-	mounted(){
-		this.queryGroupList()
-		this.user = getApp().globalData.user;
-		this.queryStatistic();
-	},
-	methods: {
-		// 查询店铺信息
-		queryStatistic(){
-			this.$http.get('/message/queryStatistic',{}).then(res=>{
-				this.newOrderMessageCount = res.newOrderMessageCount;
-				this.refundMessageCount = res.refundMessageCount;
-			})
-		},
-		// 查询群组列表
-		queryGroupList(){
-			this.$http.get('/im/queryGroupList').then(res=>{
-				this.insideData = res;
-			})
-		},
-		// 跳转聊天界面
-		navImMessage(item){
-			console.log('跳转聊天界面',item);
-			getApp().globalData.messageParam = {
-				groupId:item.groupId,
-				userPortrait:item.avatar,
-				userIM:item.imNum,
-				userName:item.nickName,
-				storeName:item.storeName,
-				storePortrait:item.storeAvatar
-			}
-			uni.navigateTo({
-				url:`/pages/im-message/im-message`
-			})
-		},
-		// 跳转页面 便利方法
-		jump(type){
-			if(type == 'trade'){
 				uni.navigateTo({
-					url:`/pages-business/message/trade/trade`
+					url: `/pages/im-message/im-message`
 				})
-			}else{
-				uni.navigateTo({
-					url:`/pages-business/message/store/store`
-				})
-			}
-		},
-		jumpSetting(index){
-			switch (index) {
-				case 0:
-					// uni.navigateTo({
-					// 	url:`/pages-business/message/store/store`
-					// })
-					break;
-				case 1:
-					// uni.navigateTo({
-					// 	url:`/pages-business/message/store/store`
-					// })
-					break;
-				case 2:
-					// uni.navigateTo({
-					// 	url:`/pages-business/message/store/store`
-					// })
-					break;
-				case 3:
+			},
+			// 跳转页面 便利方法
+			jump(type) {
+				if (type == 'trade') {
 					uni.navigateTo({
-						url:`/pages-business/my/setting/setting`
+						url: `/pages-business/message/trade/trade`
 					})
-					break;
+				} else {
+					uni.navigateTo({
+						url: `/pages-business/message/store/store`
+					})
+				}
+			},
+			jumpSetting(index) {
+				switch (index) {
+					case 0:
+						// uni.navigateTo({
+						// 	url:`/pages-business/message/store/store`
+						// })
+						break;
+					case 1:
+						// uni.navigateTo({
+						// 	url:`/pages-business/message/store/store`
+						// })
+						break;
+					case 2:
+						// uni.navigateTo({
+						// 	url:`/pages-business/message/store/store`
+						// })
+						break;
+					case 3:
+						uni.navigateTo({
+							url: `/pages-business/my/setting/setting`
+						})
+						break;
+				}
 			}
 		}
-	}
-};
+	};
 </script>
 <style lang="less" src="./style.less"></style>

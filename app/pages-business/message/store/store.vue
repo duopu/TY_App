@@ -21,7 +21,9 @@ export default {
 		this.queryMessage();
 	},
 	methods:{
+		// 查询消息
 		queryMessage(){
+			
 			this.$http.get('/message/queryListByStoreId',{messageType: 2},true).then(res => {
 				this.dataList = res;
 			})
