@@ -70,6 +70,9 @@ export default {
 			}
 			this.$http.post('/article/create',params,true).then(res => {
 				this.classifyData = res;
+				this.$tool.showSuccess('发布成功',()=>{
+					uni.navigateBack({})
+				})
 			})
 		},
 		goBack(){

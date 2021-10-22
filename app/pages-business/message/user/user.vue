@@ -43,9 +43,9 @@
 				</view>
 			</view>
 			<!-- 列表 -->
-			<view class="user-lists">
+			<view class="user-lists" v-if="list.length > 0">
 				<block v-for="(item, index) in list" :key="index">
-					<trade-lists-item :role="0" :dataItem="item" :state="1"></trade-lists-item>
+					<trade-lists-item :role="1" :key="index" :dataItem="item" :state="1"></trade-lists-item>
 				</block>
 			</view>
 		</scroll-view>

@@ -75,7 +75,7 @@
 		data() {
 			return {
 				showPop: false,
-				dotsData: ['全部标为已读', '删除全部会话', '聊天设置', '新消息通知设置'],
+				dotsData: ['全部标为已读', '删除全部会话'],
 				insideData: [],
 				user: {},
 				newOrderMessageCount: 0,
@@ -151,11 +151,21 @@
 			jumpSetting(index) {
 				switch (index) {
 					case 0:
-						// uni.navigateTo({
-						// 	url:`/pages-business/message/store/store`
-						// })
+						// 设置全部已读
+						this.groupList.map((item,index) => {
+							this.$tool.imTool.markGroupMessageAsRead(item.groupId);
+							if(index == this.groupList.length - 1){
+								this.$tool.showSuccess('设置成功')
+							}
+						});
 						break;
 					case 1:
+						this.groupList.map((item,index) => {
+							this.$tool.imTool.deleteConversation(item.groupId);
+							if(index == this.groupList.length - 1){
+								this.$tool.showSuccess('suanchuuuu                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     成功')
+							}
+						});
 						// uni.navigateTo({
 						// 	url:`/pages-business/message/store/store`
 						// })

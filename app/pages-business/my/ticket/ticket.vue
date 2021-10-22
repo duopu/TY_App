@@ -24,7 +24,7 @@
 							</view>
 							<view class="tag red text-ellipsis">{{ item.effectContent }}</view>
 						</view>
-						<view class="right flex-center-center"><image src="../../../static/images/icons/icon-copy.svg" class="icon-copy" mode="aspectFill"></image></view>
+						<view class="right flex-center-center" @click="copy"><image src="../../../static/images/icons/icon-copy.svg" class="icon-copy" mode="aspectFill"></image></view>
 					</view>
 					<view class="action" v-if="actionIndex == index">
 						<view class="flex-center-between record-row" @click="jumpHistory(item.couponId)">
@@ -132,6 +132,14 @@ export default {
 		onSearch(searchValue){
 			this.searchText = searchValue;
 			this.$refs.myScrollView.onRefresh();
+		},
+		copy(){
+			uni.setClipboardData({
+				data: 'hello',
+				success: function () {
+					console.log('success');
+				}
+			});
 		}
 	}
 };
