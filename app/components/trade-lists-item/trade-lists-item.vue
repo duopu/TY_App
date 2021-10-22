@@ -16,25 +16,25 @@
 		</view>
 		<!-- 主体 -->
 		<view class="item-content flex">
-			<image class="goods-image" mode="aspectFill" :src="dataItem.orderDetailVO.thumbnail"></image>
+			<image class="goods-image" mode="aspectFill" :src="dataItem.thumbnail || dataItem.orderDetailVO.thumbnail"></image>
 			<view class="flex-1 flex-column-between">
-				<view class="text-bold">{{dataItem.orderDetailVO.goodsName}}</view>
+				<view class="text-bold">{{dataItem.goodsName || dataItem.orderDetailVO.goodsName}}</view>
 				<view class="flex-center-between">
-					<view class="tag">{{dataItem.orderDetailVO.attributesName}}</view>
-					<view class="color-9 number">×{{dataItem.orderDetailVO.goodsNum}}</view>
+					<view class="tag">{{dataItem.attributesName || dataItem.orderDetailVO.attributesName}}</view>
+					<view class="color-9 number">×{{dataItem.goodsNum || dataItem.orderDetailVO.goodsNum}}</view>
 				</view>
 			</view>
 		</view>
 		<!-- 底部 -->
 		<view class="item-bottom flex-center">
 			<!-- 时间 - 商家状态显示 -->
-			<view class="color-9" v-if="role === 0">{{dataItem.orderDetailVO.createTime}}</view>
+			<view class="color-9" v-if="role === 0">{{dataItem.createTime || dataItem.orderDetailVO.createTime}}</view>
 			<!-- 金钱 -->
 			<view class="flex-center pay-block">
 				<text>{{ role === 0 ? '已支付：' : '实付款:' }}</text>
 				<view class="text-bold flex-center price">
 					<view class="unit">¥</view>
-					<view>{{dataItem.orderDetailVO.payAmount}}</view>
+					<view>{{dataItem.payAmount || dataItem.orderDetailVO.payAmount}}</view>
 				</view>
 			</view>
 		</view>
@@ -68,7 +68,7 @@ export default {
 	methods:{
 		goUserInfo(){
 			console.log('订单信息',this.dataItem);
-			const  orderDetailVO = this.dataItem.orderDetailVO
+			const  orderDetailVO = this.dataItem.orderDetailVO || this.dataItem;
 			const storeId = orderDetailVO.storeId;
 			const userId = orderDetailVO.userId;
 			

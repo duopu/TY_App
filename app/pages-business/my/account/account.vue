@@ -15,11 +15,6 @@
 			<text class="text">尚未绑定</text>
 			<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
-		<view class="flex-center-between row">
-			<text class="label">支付宝</text>
-			<text class="text">尚未绑定</text>
-			<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
-		</view>
 	</view>
 </template>
 

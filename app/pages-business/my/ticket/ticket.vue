@@ -13,7 +13,7 @@
 						<view class="left flex-column">
 							<view class="price flex">
 								<view class="unit">¥</view>
-								{{ item.couponAmount / 100 }}
+								{{ item.couponAmount }}
 							</view>
 							<view class="desc text-ellipsis">{{ item.couponTypeContent }}</view>
 						</view>
