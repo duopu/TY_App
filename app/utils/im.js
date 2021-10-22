@@ -306,6 +306,20 @@ const getTotalUnreadMessageCount = ()=>{
 	})
 }
 
+// 删除会话 传参  会话id；
+const deleteConversation = (conversationId)=>{
+	return new Promise((resolve, reject) => {
+		txIm.deleteConversation({conversationId},result => {
+			console.log('删除会话',result);
+			if (result.code == 0) {
+				resolve(result)
+			} else {
+				reject()
+			}
+		})
+	})
+}
+
 
 export default {
 	login,
@@ -320,5 +334,6 @@ export default {
 	getInfoFromConversation,
 	getGroupOnlineMemberCount,
 	markGroupMessageAsRead,
-	getTotalUnreadMessageCount
+	getTotalUnreadMessageCount,
+	deleteConversation,
 }
