@@ -1,6 +1,6 @@
 <template>
 	<view class="ticket">
-		<business-common-navigation @search="onSearch"></business-common-navigation>
+		<business-common-navigation @search="onSearch" @jump="jumpMessage"></business-common-navigation>
 		<!-- tabs -->
 		<custom-horizontal-tabs @change="onChange" :data="tabsData" :currentIndex="tabsIndex" class="custom-tabs"></custom-horizontal-tabs>
 
@@ -33,7 +33,7 @@
 						</view>
 						<view class="flex-center-between">
 							<view class="btn yellow">复制优惠券</view>
-							<view class="btn red" @click="deleteTicket">删除</view>
+							<view class="btn red" @click="deleteTicket(item.couponId)">删除</view>
 						</view>
 					</view>
 				</block>
@@ -105,12 +105,13 @@ export default {
 			})
 		},
 		// 删除优惠券
-		deleteTicket() {
+		deleteTicket(id) {
+			console.log(id);
 			this.$http
-				.get(
+				.post(
 					'/coupon/delete',
 					{
-						couponId: this.dataList[this.actionIndex].couponId
+						couponId: id
 					},
 					false
 				)
@@ -133,11 +134,20 @@ export default {
 			this.searchText = searchValue;
 			this.$refs.myScrollView.onRefresh();
 		},
+		jumpMessage(){
+			uni.navigateTo({
+				url: `/pages-business/main/main`,
+				success: (res) => {
+					res.eventChannel.emit('changeTab', { data: 1 })
+				}
+			});
+		},
 		copy(){
 			uni.setClipboardData({
-				data: 'hello',
-				success: function () {
-					console.log('success');
+				data: '',
+				showToast: false,
+				success: () => {
+					// this.$tool.showSuccess('已复制到剪贴板')
 				}
 			});
 		}

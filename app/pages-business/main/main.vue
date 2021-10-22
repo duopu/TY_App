@@ -58,6 +58,13 @@ export default {
 			]
 		};
 	},
+	onShow(){
+		const eventChannel = this.getOpenerEventChannel();
+		eventChannel.on('changeTab', (res) => {
+			console.error(res);
+			this.tabbarsIndex = res.data;
+		});
+	},
 	methods: {
 		// 显示image地址
 		showImage(item, index) {

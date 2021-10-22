@@ -45,13 +45,35 @@ export default {
 			}
 			
 			this.$http.get('/live/getPushUrl',param,true).then(res=>{
-				// 这个地方 要弹窗询问是手机直播还是电脑直播。 靠你了陆秋
-				const pushUrl = res.pushUrl;
-				const navUrl = `/pages-business/index/live/live-broadcast?pushUrl=${pushUrl}&courseId=${this.courseId}&liveName=${this.liveName}&liveIntro=${this.liveIntro}&courseClassId=${this.courseClassId}`
-				console.log('导航去直播页面',navUrl);
-				uni.navigateTo({
-					url:navUrl
-				})
+				// 这个地方 要弹窗询问是手机直播还是电脑直播
+				uni.showModal({
+					title: '直播已创建',
+					content: '请选择直播方式',
+					cancelText: '手机直播',
+					confirmText: 'OBS直播',
+					success: (data) => {
+						const pushUrl = res.pushUrl;
+						if (data.confirm) {
+							let str = 'live/';
+							let arr = pushUrl.split(str);
+							console.log('用户点击确定');
+							uni.setClipboardData({
+								data: `OBS推流地址：${arr[0]} \n OBS推流名称：${arr[1]}`,
+								showToast: false,
+								success: () => {
+									// this.$tool.showSuccess('已复制到剪贴板')
+								}
+							});
+						} else if (data.cancel) {
+
+							const navUrl = `/pages-business/index/live/live-broadcast?pushUrl=${pushUrl}&courseId=${this.courseId}&liveName=${this.liveName}&liveIntro=${this.liveIntro}&courseClassId=${this.courseClassId}`
+							console.log('导航去直播页面',navUrl);
+							uni.navigateTo({
+								url:navUrl
+							})
+						}
+					}
+				});
 			})
 		},
 
