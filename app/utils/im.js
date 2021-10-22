@@ -306,7 +306,7 @@ const getTotalUnreadMessageCount = ()=>{
 	})
 }
 
-// 删除会话 传参  会话id；
+// 删除会话 传参  conversationId：会话id
 const deleteConversation = (conversationId)=>{
 	return new Promise((resolve, reject) => {
 		txIm.deleteConversation({conversationId},result => {
