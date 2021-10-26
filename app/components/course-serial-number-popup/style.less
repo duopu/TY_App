@@ -1,54 +1,58 @@
-.popup-main{
-	padding:34rpx 24rpx 60rpx;
-	background-color: #FFFFFF;
-	border-radius: 32rpx 32rpx 0 0;
-	.title{
-		margin-top: 40rpx;
-		font-size: 28rpx;
-		font-weight: bold;
-	}
-	.answer-lists{
-		margin: auto -20rpx;
-		flex-wrap: wrap;
-		.item{
-			margin-top: 20rpx;
-			margin-left: 18rpx;
-			margin-right: 18rpx;
-			width: 56rpx;
-			height: 56rpx;
-			font-size: 28rpx;
-			font-weight: bold;
-			line-height: 52rpx;
-			text-align: center;
-			border: 2rpx solid #CCCCCC;
-			border-radius: 50%;
-			box-sizing: border-box;
-			&.current{
-				border-color: #222222;
-				background-color: #FFD74B;
-			}
-			&.error{
-				border-color: #222222;
-				background-color: #A3FFC8;
-			}
-			&.right{
-				border-color: #222222;
-        background-color: #FF9D9D;
-				
-			}
-		}
-	}
+.popup-main {
+  padding: 34rpx 24rpx 60rpx;
+  background-color: #ffffff;
+  border-radius: 32rpx 32rpx 0 0;
+
+  .popup-body {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .title {
+    margin-top: 40rpx;
+    font-size: 28rpx;
+    font-weight: bold;
+  }
+  .answer-lists {
+    margin: auto -20rpx;
+    flex-wrap: wrap;
+    .item {
+      margin-top: 20rpx;
+      margin-left: 18rpx;
+      margin-right: 18rpx;
+      width: 56rpx;
+      height: 56rpx;
+      font-size: 28rpx;
+      font-weight: bold;
+      line-height: 52rpx;
+      text-align: center;
+      border: 2rpx solid #cccccc;
+      border-radius: 50%;
+      box-sizing: border-box;
+      &.current {
+        border-color: #222222;
+        background-color: #ffd74b;
+      }
+      &.error {
+        border-color: #222222;
+        background-color: #a3ffc8;
+      }
+      &.right {
+        border-color: #222222;
+        background-color: #ff9d9d;
+      }
+    }
+  }
 }
-.popup-top{
-	margin-bottom: 60rpx;
-	font-size: 32rpx;
-	font-weight: bold;
-	.icons {
-		margin-right: 16rpx;
-		width: 48rpx;
-		height: 48rpx;
-	}
-	.m-left-80 {
-		margin-left: 80rpx;
-	}
+.popup-top {
+  margin-bottom: 60rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  .icons {
+    margin-right: 16rpx;
+    width: 48rpx;
+    height: 48rpx;
+  }
+  .m-left-80 {
+    margin-left: 80rpx;
+  }
 }
