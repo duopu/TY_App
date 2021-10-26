@@ -30,7 +30,7 @@
 		methods:{
 			resetPassword(){
 				uni.navigateTo({
-					url:'/pages/reset-password/reset-password'
+					url:'/pages/reset-password/reset-password?roleStatus=business'
 				})
 			}
 		}

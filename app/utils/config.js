@@ -1,16 +1,16 @@
 
-const debug = true
+const debug = false;
 // H5地址
 const h5Url = 'https://static-71d6e5c1-8785-439f-bc7a-d627a1930796.bspapp.com'
 
 export default {
 	
 	// #ifdef H5
-		baseUrl:debug ? '/api' : 'http://education.sinfinite.cn',
+		baseUrl:debug ? '/api' : 'https://api.quickcer.com',
 	// #endif
 	
 	// #ifndef H5
-		baseUrl:debug ? 'http://education.sinfinite.cn' : 'http://education.sinfinite.cn',
+		baseUrl:debug ? 'http://education.sinfinite.cn' : 'https://api.quickcer.com', 
 	// #endif
 	
 	// 打开H5页面的数据，存放此处，H5页面打开后从这里拿数据
@@ -20,7 +20,7 @@ export default {
 	storageKeys:{
 		// 登录用户的信息
 		loginUserKey:'storageLoginUserKey',
-		// 历史搜索
+		// 历史搜索 
 		historySearchKey:'storageHistorySearchKey'
 	},
 	

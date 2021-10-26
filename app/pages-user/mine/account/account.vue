@@ -65,7 +65,7 @@ export default {
 		// 修改密码
 		changePwd(){
 			uni.navigateTo({
-				url:'/pages/reset-password/reset-password'
+				url:'/pages/reset-password/reset-password?roleStatus=user'
 			})
 		}
 	}
