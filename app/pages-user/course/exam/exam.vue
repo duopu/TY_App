@@ -284,7 +284,7 @@ export default {
       }
       this.modal.title = `还有${questionLen - isAnswerLen}道题未完成，确定${this.isMoNi ? '交卷' : '提交'}？`
       this.modal.sure = ()=>{
-        this.submit;
+        this.submit();
         uni.navigateBack();
       }
       this.openPopup('submitPopup');
