@@ -271,7 +271,7 @@ export default {
     // 返回
     goBack(){
       // 顺序练习 + 随机练习直接返回 
-      if(this.type === 0 || this.type === 1){
+      if([0,1].includes(this.type) && !this.noSunmit){
         this.submit();
         uni.navigateBack()
         uni.$emit("examback",this.questionBankId);
