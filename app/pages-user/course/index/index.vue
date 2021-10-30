@@ -59,7 +59,7 @@ export default {
 			learnStatistic: {}
 		};
 	},
-	onLoad() {
+	onShow() {
 		this.queryLearnStatistic();
 	},
 	methods: {
