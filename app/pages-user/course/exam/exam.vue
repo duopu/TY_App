@@ -563,7 +563,9 @@ export default {
         apiUrl = '/questionRecord/practiceSubmit'
         params.questionType = this.type === 0 ? 1 : 2
       }
-      
+      if(this.submitQuestionDTOList.length === 0){
+        return;
+      }
       this.$http.post(apiUrl,params,true).then((res)=>{
         const { questionRecordId , points} = res || {}
         this.questionRecordId = questionRecordId
