@@ -11,10 +11,11 @@
 			<text class="title">{{title}}</text>
 			<view class="right flex-center">
 				<image v-if="isShowMark" class="icons" @click="mark" src="../../../static/images/icons/icon-circle-wenhao.svg" mode="aspectFill" />
-        <block v-if="isShowStar">
-          <!-- 未收藏/已收藏 -->
-          <image v-if="isStar()" @click="star(1)" class="icons" src="../../../static/images/icons/icon-star-black.svg" mode="aspectFill" />
-          <image v-else @click="star(2)" class="icons" src="../../../static/images/icons/icon-star-save.svg" mode="aspectFill" />
+        <block v-if="isShowStar && questionList.length>0">
+          <!-- 已收藏/未收藏1 --> 
+          <image v-if="isStar()" @click="star(2)" class="icons" src="../../../static/images/icons/icon-star-save.svg" mode="aspectFill" />
+          <image v-else @click="star(1)" class="icons" src="../../../static/images/icons/icon-star-black.svg" mode="aspectFill" />
+          
         </block>
 				<!-- 模拟考试才有交卷 -->
 				<button v-if="type === 2 && !isGoBack" class="btn" @click="finish">交卷</button>
@@ -48,6 +49,8 @@
                   </view>
                 </block>
 
+                <!-- 回答正确与否 -->
+                <view v-if="item.showRight" class="exam-ans" :class="item.answer === item.userAnswer ? '' : 'err'">回答{{item.answer === item.userAnswer ? '正确' : '错误'}}</view>
                 <!-- 解析 -->
                 <view class="exam-analysis" v-if="item.isShowAnswer" >
                   <view class="flex-center analysis-answer" :class="item.type == 4 ?  'column':  ''">
@@ -104,6 +107,9 @@
       @answerClick="answerClick" 
     />
 
+    <!-- 顺序练习 已做题目的弹窗  -->
+    <course-exam-do ref="examDoPopup" @btnClick="_examDoFunc" />
+
 	</view>
 </template>
 
@@ -138,6 +144,7 @@ export default {
       form:'',// 从哪个页面过来
       submitQuestionDTOList:[], // 提交入参-选中的题目的答案
       lastCurr:0, //练习题上一次答题的位置
+      sxQuesList:[], //顺序题list
     };
 	},
 
@@ -221,8 +228,38 @@ export default {
       this.queryQuestionList(2)
       return;
     }
-    this.queryList()
-
+    // 顺序练习 先查记录
+    if(this.type === 1){
+        const params = {
+          questionBankId:this.questionBankId 
+        }
+        const data = await this.$http.get('/questionRecord/queryNewList',params,true) || [];
+        data.map((i,index)=>{
+          i.index = index;
+          i.mark = false;
+          i.isShowAnswer = i.userAnswer && i.userAnswer !== i.answer;
+          i.isAnswer = i.userAnswer && i.userAnswer === i.answer ? 1 : 0;
+          i.showRight = false;
+          (i.questionOptionVOList || []).map(f=>{
+            if(i.userAnswer){
+              f.checked = i.userAnswer.indexOf(f.optionLabel) > -1
+            }else{
+              f.checked = false
+            }
+          })
+          if(i.userAnswer){
+            this.lastCurr = index + 1 
+            this.current = index + 1
+          }
+        })
+        this.sxQuesList = data
+    }
+    if(this.sxQuesList.length > 0){
+      this.openPopup('examDoPopup')
+    }else{
+      this.queryList()
+    }
+    
     // 模拟提交后 返回 v:1 全部错题解析 v:2 全部题目解析
     uni.$on("back", (v,questionRecordId) => {
       this.current = 0;
@@ -271,7 +308,7 @@ export default {
     // 返回
     goBack(){
       // 顺序练习 + 随机练习直接返回 
-      if([0,1].includes(this.type) && !this.noSunmit){
+      if([0,1,3].includes(this.type) && !this.noSunmit){
         this.submit();
         uni.navigateBack()
         uni.$emit("examback",this.questionBankId);
@@ -349,19 +386,20 @@ export default {
             }else{
               f.checked = false
             }
+            currQues.showRight = true;
           }
           // 多选
           if(type === 2){
             if(f.questionOptionId === flag.questionOptionId){
               f.checked = !f.checked
-              currQues.isAnswer = 1
+              // currQues.isAnswer = 1
             }
           }
       })
       if(type === 1){
         // 直接显示解析
         const optionLabel = currQues.questionOptionVOList.filter(i=>i.checked)[0].optionLabel
-        currQues.isShowAnswer =  answer != optionLabel
+        currQues.isShowAnswer =  true//answer != optionLabel
       }
     },
 
@@ -388,6 +426,9 @@ export default {
       }else{
         userAns = (checkedQuestionOption || []).map(i=>i.optionLabel).join('')
       }
+      
+      // 显示正确/错误答案 
+      currQuestion.showRight = true
 
       // 未做题目 提示
       if(currQuestion.type == 4 &&  !currQuestion.userAnswer){
@@ -445,16 +486,33 @@ export default {
 
     // 收藏
     star(type){
+      const currQues = this.questionList[this.current]
       const params = {
         questionBankId:this.questionBankId,
-        questionId:this.questionList[this.current].questionId
+        questionId:currQues.questionId
       }
       const apiUrl = (type === 1 ?  '/question/collect' : '/question/cancelCollect')
       this.$http.post(apiUrl,params,true)
-      this.questionList[this.current].questionCollectionCheck = this.questionList[this.current].questionCollectionCheck === 1 ? 2 : 1 
+      // 我的收藏页面取消收藏调用接口查询数据
+      if(type === 2 && this.type === 3){
+        let timer = setTimeout(()=>{
+          timer && clearTimeout(timer);
+          this.queryList()  
+        },500)
+        return;
+      }
+      currQues.questionCollectionCheck = currQues.questionCollectionCheck === 1 ? 2 : 1 
     },
     isStar(){
-      return this.current && this.questionList[this.current].questionCollectionCheck && (this.questionList[this.current].questionCollectionCheck === 1) ? true : false
+      if(this.type === 3){
+        return true
+      }
+      if(this.questionList.length === 0){
+        return false
+      }
+      const currQues = this.questionList[this.current]
+      // 1 未收藏 2 已收藏
+      return currQues.questionCollectionCheck === 2
     },
 
     // 提交
@@ -520,6 +578,28 @@ export default {
       })
     },
 
+    // 是否重新答题 弹窗确认事件
+    _examDoFunc(v){
+      if(v === 0){
+        // 从头开始
+        this.current = 0;
+        this.queryList();
+        return;
+      }
+      const data = this.sxQuesList.slice()
+      // 顺序 + 随机练习 显示之前所有的题目的解析
+      if(data.length>0){
+        data.map((item,ind)=>{
+          if(ind < this.current){
+            item.isShowAnswer = true
+            item.isAnswer = 1
+            item.showRight = true
+          }
+        })
+      }
+      this.questionList = data;
+    },
+
     // 随机练习0 | 顺序练习1 | 模式考试2 | 我的收藏3 | 我的错题4
     async queryList(){
       const params = {
@@ -531,11 +611,7 @@ export default {
           apiUrl = '/question/queryRandomAllList'
           break;
         case 1:
-          // 顺序练习 查最新列表如果是空表示未做过练习题 
-          newData = await this.$http.get('/questionRecord/queryNewList',params,true) || [];
-          if(newData.length === 0){
-            apiUrl = '/question/queryList'
-          }
+          apiUrl = '/question/queryList'
           break; 
         case 2:
           apiUrl = '/question/querySimulatedPaperList'
@@ -547,12 +623,13 @@ export default {
           apiUrl = '/questionBank/queryWrongListByUser'
           break;      
       }
-      const data =  apiUrl  ? await this.$http.get(apiUrl,params,true) : newData ||  [];
+      const data =  apiUrl  ? await this.$http.get(apiUrl,params,true) :  [];
       data.map((i,index)=>{
         i.index = index;
         i.mark = false;
         i.isShowAnswer = i.userAnswer && i.userAnswer !== i.answer;
         i.isAnswer = i.userAnswer && i.userAnswer === i.answer ? 1 : 0;
+        i.showRight = false;
         (i.questionOptionVOList || []).map(f=>{
           if(i.userAnswer){
             f.checked = i.userAnswer.indexOf(f.optionLabel) > -1
@@ -560,20 +637,11 @@ export default {
             f.checked = false
           }
         })
-        if(i.userAnswer){
-          this.lastCurr = index + 1 
-          this.current = index + 1
-        }
+        // if(i.userAnswer){
+        //   this.lastCurr = index + 1 
+        //   this.current = index + 1
+        // }
       })
-      // 顺序 + 随机练习 显示之前所有的题目的解析
-      if([0,1].includes(this.type) && newData.length>0){
-        data.map((item,ind)=>{
-          if(ind < this.current){
-            item.isShowAnswer = true
-            item.isAnswer = 1
-          }
-        })
-      }
       this.questionList = data;
     }, 
 

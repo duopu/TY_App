@@ -60,14 +60,14 @@ export default {
 			detail: {} //题库详情
 		};
 	},
-	update() { 
+	mounted() { 
     // 返回刷新页面
      uni.$on("examback", (questionBankId) => {
        if(questionBankId){
          this.queryDetail(questionBankId);
        }
       // 清除监听
-      uni.$off('examback');
+      // uni.$off('examback');
     }) 
   },
 	methods: {
