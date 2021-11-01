@@ -24,7 +24,7 @@
 							</view>
 							<view class="tag red text-ellipsis">{{ item.effectContent }}</view>
 						</view>
-						<view class="right flex-center-center" @click="copy"><image src="../../../static/images/icons/icon-copy.svg" class="icon-copy" mode="aspectFill"></image></view>
+						<view class="right flex-center-center" @click="copy(item.couponId)"><image src="../../../static/images/icons/icon-copy.svg" class="icon-copy" mode="aspectFill"></image></view>
 					</view>
 					<view class="action" v-if="actionIndex == index">
 						<view class="flex-center-between record-row" @click="jumpHistory(item.couponId)">
@@ -32,7 +32,7 @@
 							<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 						</view>
 						<view class="flex-center-between">
-							<view class="btn yellow">复制优惠券</view>
+							<view class="btn yellow" @click="copy(item.couponId)">复制优惠券</view>
 							<view class="btn red" @click="deleteTicket(item.couponId)">删除</view>
 						</view>
 					</view>
@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import config from '../../../utils/config.js';
 export default {
 	data() {
 		return {
@@ -142,13 +143,16 @@ export default {
 				}
 			});
 		},
-		copy(){
+		copy(couponId){
+			const linkType = config.linkType.ticketShare;
+			const url = `${config.urlLink.shareTicketUrl}?linkType=${linkType}&couponId=${couponId}`;
+			const shareMsg = `分享一张优惠券给你：${url}`;
 			uni.setClipboardData({
-				data: '',
-				showToast: false,
-				success: () => {
-					// this.$tool.showSuccess('已复制到剪贴板')
-				}
+			    data: shareMsg,
+			    success: () => {
+					uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+					this.$tool.showToast('链接已复制到剪贴板，快分享给小伙伴吧');
+			    }
 			});
 		}
 	}

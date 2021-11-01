@@ -7,13 +7,18 @@
 			<!-- 优惠券 -->
 			<ticket-lists-item :data="item" @collect="collectCoupon(item.couponId)"></ticket-lists-item>
 			<!-- 适用商品 -->
-			<view class="sub-title"><text class="text">适用商品</text></view>
-			<scroll-view class="goods-lists" scroll-x="true">
-				<view class="flex-column goods-lists-item" v-for="(value, i) in item.goodsDetailList" :key="`goods-list-${i}`">
-					<image class="goods-image" :src="value.thumbnail" mode="aspectFill"></image>
-					<view class="text text-ellipsis">{{value.goodsName}}</view>
-				</view>
-			</scroll-view>
+			<block v-if="item.goodsDetailList && item.goodsDetailList.length > 0">
+				<view class="sub-title"><text class="text">适用商品</text></view>
+				<scroll-view class="goods-lists" scroll-x="true">
+					<view class="flex-column goods-lists-item" 
+					v-for="(value, i) in item.goodsDetailList" 
+					:key="`goods-list-${i}`" 
+					@click="jumpGoodsDetail(value.goodsId)">
+						<image class="goods-image" :src="value.thumbnail" mode="aspectFill"></image>
+						<view class="text text-ellipsis">{{value.goodsName}}</view>
+					</view>
+				</scroll-view>
+			</block>
 		</block>
 		<view class="title">平台优惠券</view>
 		<block v-for="(item, index) in couponList" :key="`coupon-${index}`">
@@ -59,6 +64,16 @@ export default {
 				.then(res => {
 					this.getCouponList();
 				});
+		},
+		
+		/**
+		 * 跳转到商品详情
+		 * @param {Object} goodsId 商品ID
+		 */
+		jumpGoodsDetail(goodsId){
+			uni.navigateTo({
+				url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
+			});
 		}
 	}
 };
