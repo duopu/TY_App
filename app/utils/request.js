@@ -63,11 +63,6 @@ export default {
 						title: msg,
 						icon: 'none'
 					}) 
-				}else{
-					uni.showToast({
-						title: msg,
-						icon: 'none'
-					})
 				}
 				throw {
 					message: msg

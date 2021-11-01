@@ -39,7 +39,7 @@
                     <textarea class="textarea" @input="inputChange" placeholder="请输入答案" :value="item.userAnswer" />
                 </block>
                 <block v-else v-for="(flag,ind) in item.questionOptionVOList" :key="ind">
-                  <view class="select-row flex" @click="checkChange(item,flag)">
+                  <view v-if="flag" class="select-row flex" @click="checkChange(item,flag)">
                     <!-- 多选 -->
                     <view v-if="item.type === 2" class="checkbox" :class="flag.checked && 'on'"></view>
                     <!-- 单选 | 判断题 -->
@@ -50,13 +50,14 @@
 
                 <!-- 解析 -->
                 <view class="exam-analysis" v-if="item.isShowAnswer" >
-                  <view class="flex-center analysis-answer">
+                  <view class="flex-center analysis-answer" :class="item.type == 4 ?  'column':  ''">
                     <view class="flex-1">正确答案：{{item.answer}}</view>
                     <view class="flex-1 color-9">考生答案：{{item.userAnswer}}</view>
                   </view>
                   <view class="title">解析：</view>
                   <view class="analysis-content">
-                    <text v-html="item.answerAnalysis"></text>
+                    <text v-if="item.answerAnalysis" v-html="item.answerAnalysis"></text>
+                    <text v-else>-</text>
                   </view>
                 </view>
               </view>
@@ -64,7 +65,8 @@
       </swiper>  
 
       <!-- 确定按钮 -->
-      <button v-if="!isGoBack" class="btn" @click="btnSure">确定</button>
+      <button v-if="_showBtn()" class="btn" @click="btnSure">确定</button>
+      <!-- <button v-if="!isGoBack" class="btn" @click="btnSure">确定</button> -->
 		</scroll-view>
 
 		<!-- 底部 -->
@@ -97,7 +99,9 @@
       :question="questionList"
       :rightLen="getRightWrongQues(1)"
       :wrongLen="getRightWrongQues(0)"
-      @answerClick="answerClick"
+      :type="type"
+      :lastCurr="lastCurr"
+      @answerClick="answerClick" 
     />
 
 	</view>
@@ -133,6 +137,7 @@ export default {
       },
       form:'',// 从哪个页面过来
       submitQuestionDTOList:[], // 提交入参-选中的题目的答案
+      lastCurr:0, //练习题上一次答题的位置
     };
 	},
 
@@ -175,11 +180,11 @@ export default {
         this.count.hour = parseInt(examTime/60)
         this.count.minute = parseInt(examTime%60)
         this.count.second = 0
-        return;
+      }else{
+        this.count.hour = 0;
+        this.count.minute = parseInt(examTime%60)
+        this.count.second = 0
       }
-      this.count.hour = 0;
-      this.count.minute = parseInt(examTime%60)
-      this.count.second = 0
     }
     this.questionBankId = questionBankId
     this.type = Number(type)
@@ -219,7 +224,7 @@ export default {
     this.queryList()
 
     // 模拟提交后 返回 v:1 全部错题解析 v:2 全部题目解析
-    uni.$on("goBack", (v,questionRecordId) => {
+    uni.$on("back", (v,questionRecordId) => {
       this.current = 0;
       this.questionRecordId = questionRecordId
       this.isGoBack = true
@@ -230,8 +235,14 @@ export default {
       }
       this.queryQuestionList(2)
       // 清除监听
-      uni.$off('goBack');
+      uni.$off('back');
     }) 
+
+    // 关闭ios左滑回到上一个页面
+    // #ifdef APP-PLUS
+    var page = this.$mp.page.$getAppWebview();
+    page.setStyle({ popGesture: 'none' });
+    // #endif
   },
 
 	methods: {
@@ -246,8 +257,26 @@ export default {
       this.current = e.detail.current
     },
 
+    // 是否显示底部返回
+    _showBtn(){
+      const currQues = this.questionList[this.current] || {};
+      const { type } = currQues;
+      // 多选 + 简答题 显示按钮
+      if(type === 4 || type === 2){
+        return true
+      }
+      return false
+    },
+
     // 返回
     goBack(){
+      // 顺序练习 + 随机练习直接返回 
+      if([0,1].includes(this.type) && !this.noSunmit){
+        this.submit();
+        uni.navigateBack()
+        uni.$emit("examback",this.questionBankId);
+        return;
+      }
       if(this.modalCheck() || this.noSunmit || this.isGoBack ){
         uni.navigateBack()
       }
@@ -282,6 +311,10 @@ export default {
         return true
       }
       this.modal.title = `还有${questionLen - isAnswerLen}道题未完成，确定${this.isMoNi ? '交卷' : '提交'}？`
+      this.modal.sure = ()=>{
+        this.submit();
+        uni.navigateBack();
+      }
       this.openPopup('submitPopup');
       return false
     },
@@ -301,7 +334,7 @@ export default {
 
     // 答案选中事件
     checkChange(item,flag){
-       const { type } = item || {}
+       const { type,answer } = item || {}
        if(item.userAnswer){
          return;
        }
@@ -311,6 +344,7 @@ export default {
           if(type === 1 || type === 3){
             if(f.questionOptionId === flag.questionOptionId){
               f.checked = true
+              currQues.userAnswer = f.optionLabel;
               currQues.isAnswer = 1 //表示题目已经答过
             }else{
               f.checked = false
@@ -324,6 +358,11 @@ export default {
             }
           }
       })
+      if(type === 1){
+        // 直接显示解析
+        const optionLabel = currQues.questionOptionVOList.filter(i=>i.checked)[0].optionLabel
+        currQues.isShowAnswer =  answer != optionLabel
+      }
     },
 
     inputChange(e){
@@ -339,11 +378,29 @@ export default {
         this.next();
         return;
       }
+     
+      const currQuestion = this.questionList[this.current];
+      const checkedQuestionOption = currQuestion.questionOptionVOList.filter(i=>i.checked);
+      let userAns;
+      if(currQuestion.type == 4){
+        // 简答题
+        userAns = currQuestion.userAnswer
+      }else{
+        userAns = (checkedQuestionOption || []).map(i=>i.optionLabel).join('')
+      }
+
+      // 未做题目 提示
+      if(currQuestion.type == 4 &&  !currQuestion.userAnswer){
+        this.$tool.showToast("请输入答案");
+        return;
+      }
+      if(currQuestion.type != 4 && currQuestion.questionOptionVOList.filter((i)=>i.checked).length === 0){
+        this.$tool.showToast("请选择答案");
+        return;
+      }
+
       // 错题 + 收藏 不提交
       if(this.noSunmit){
-        const currQuestion = this.questionList[this.current]
-        const checkedQuestionOption = currQuestion.questionOptionVOList.filter(i=>i.checked);
-        const userAns = (checkedQuestionOption || []).map(i=>i.optionLabel).join('') 
         if(currQuestion.answer === userAns){
           this.next();
         }else{
@@ -352,9 +409,16 @@ export default {
         }
         return;
       }
+
+      // 答案与用户答案对比 回答错误显示解析  注：模拟题不显示答案 
+      if(!this.isMoNi && currQuestion.answer != userAns){
+          this.$set(this.questionList[this.current],'userAnswer',userAns)
+          this.$set(this.questionList[this.current],'isShowAnswer',true)
+          return;
+      }
       
-      // 模拟考试直接进入下一题 做完提交
-      if(this.isMoNi && this.current < (this.questionList.length - 1)){
+      // 直接进入下一题 做完提交
+      if( this.current < (this.questionList.length - 1)){
         this.next();
         return;
       }
@@ -373,6 +437,9 @@ export default {
 
     // 倒计时结束提交答案
     timeEnd(){
+      if(!examTime){
+        return;
+      }
       this.submit()
     },
 
@@ -448,9 +515,8 @@ export default {
           uni.navigateTo({
             url:`/pages-user/course/result/result?questionRecordId=${this.questionRecordId}&points=${points}`
           });
-          return;
         }
-        this.queryQuestionList()
+        // this.queryQuestionList()
       })
     },
 
@@ -495,9 +561,19 @@ export default {
           }
         })
         if(i.userAnswer){
-          this.current = index
+          this.lastCurr = index + 1 
+          this.current = index + 1
         }
       })
+      // 顺序 + 随机练习 显示之前所有的题目的解析
+      if([0,1].includes(this.type) && newData.length>0){
+        data.map((item,ind)=>{
+          if(ind < this.current){
+            item.isShowAnswer = true
+            item.isAnswer = 1
+          }
+        })
+      }
       this.questionList = data;
     }, 
 

@@ -60,7 +60,16 @@ export default {
 			detail: {} //题库详情
 		};
 	},
-	onLoad() {},
+	update() { 
+    // 返回刷新页面
+     uni.$on("examback", (questionBankId) => {
+       if(questionBankId){
+         this.queryDetail(questionBankId);
+       }
+      // 清除监听
+      uni.$off('examback');
+    }) 
+  },
 	methods: {
 		onLoadData(page, size, callback) {
 			this.$http

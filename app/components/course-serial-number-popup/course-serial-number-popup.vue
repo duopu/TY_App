@@ -17,22 +17,24 @@
 					<text>{{current + 1}}/{{question.length}}</text>
 				</view>
 			</view>
-			<view class="title">单选题</view>
-			<view class="answer-lists flex">
-				<view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 1)" :key="ind">{{ item.index + 1 }}</view> 
-			</view>
-			<view class="title">多选题</view>
-			<view class="answer-lists flex">
-				<view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 2)" :key="ind">{{ item.index + 1 }}</view>
-			</view>
-			<view class="title">判断题</view>
-			<view class="answer-lists flex">
-				<view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 3)" :key="ind">{{ item.index + 1 }}</view>
-			</view>
-      <view class="title">简答题</view>
-			<view class="answer-lists flex">
-				<view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 4)" :key="ind">{{ item.index + 1 }}</view>
-			</view>
+      <scroll-view :scroll-y="true" class="popup-body">
+        <view class="title">单选题</view>
+        <view class="answer-lists flex">
+          <view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 1)" :key="ind">{{ item.index + 1 }}</view> 
+        </view>
+        <view class="title">多选题</view>
+        <view class="answer-lists flex">
+          <view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 2)" :key="ind">{{ item.index + 1 }}</view>
+        </view>
+        <view class="title">判断题</view>
+        <view class="answer-lists flex">
+          <view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 3)" :key="ind">{{ item.index + 1 }}</view>
+        </view>
+        <view class="title">简答题</view>
+        <view class="answer-lists flex">
+          <view class="item" @click="answerClick(item.index)" :class="showClassName(item)" v-for="(item, ind) in question.filter(i=>i.type=== 4)" :key="ind">{{ item.index + 1 }}</view>
+        </view>
+      </scroll-view>
 		</view>
 	</uni-popup>
 </template>
@@ -41,7 +43,15 @@
 export default {
 	name: 'course-serial-number-popup',
 	props:{
+    type:{
+      type:Number,
+      default:0,
+    },
     current:{
+      type:Number,
+      default:0,
+    },
+    lastCurr:{
       type:Number,
       default:0,
     },
@@ -72,11 +82,13 @@ export default {
       if(item.userAnswer){
         if(item.answer === item.userAnswer){
           return 'right';
-        }else{
-          return 'error';
         }
+        return 'error';
       }else if(item.mark){
         return 'current';
+      }
+      if(this.type === 1 && item.index < this.lastCurr){
+        return 'error';
       }
 		},
     answerClick(current){

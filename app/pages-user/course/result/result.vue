@@ -7,8 +7,8 @@
 			<view class="score">{{score}}</view>
 		</view>
 		<view class="btns-row">
-			<button class="btn btn-border" @click="goBack(1)">查看错题解析</button>
-			<button class="btn btn-block" @click="goBack(2)">查看全部解析</button>
+			<button class="btn btn-border" @click="back(1)">查看错题解析</button>
+			<button class="btn btn-block" @click="back(2)">查看全部解析</button>
 		</view>
 	</view>
 </template>
@@ -27,8 +27,8 @@ export default {
     this.points = points;
   },
   methods:{
-    async goBack(v){
-       await uni.$emit("goBack",v,this.questionRecordId);
+    back(v){
+       uni.$emit("back",v,this.questionRecordId);
        uni.navigateBack()
     },
   }

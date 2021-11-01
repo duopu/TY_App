@@ -85,67 +85,6 @@ export default {
 				});
 			})
 		},
-		// // 密码登录
-		// pwdLogin(){
-		// 	if(!this.phone){
-		// 		this.$tool.showToast('请输入手机号')
-		// 		return
-		// 	}
-		// 	if(!this.pwd){
-		// 		this.$tool.showToast('请输入密码')
-		// 		return
-		// 	}
-		// 	const source = this.roleStatus == 'user' ? 3 : 2
-		// 	const pwd = md5(this.pwd).substr(2,28)
-		// 	this.$http.post('/user/login',{userName:this.phone,password:pwd,loginType:2,source},true).then(res=>{
-		// 		res = {...res,roleStatus:this.roleStatus}
-		// 		this.$tool.login(res)
-		// 	}) 
-		// },
-		// // 跳转忘记密码
-		// onForgetPwd(){
-		// 	uni.navigateTo({ 
-		// 		url:`/pages/reset-password/reset-password?roleStatus=${this.roleStatus}`
-		// 	})
-		// },
-		// // QQ登录
-		// qqLogin(){
-		// 	this.authLogin('qq')
-		// },
-		// // 微信登录
-		// wechatLogin(){
-		// 	this.authLogin('weixin')
-		// },
-		// authLogin(provider){
-		// 	uni.showLoading({
-		// 		title:'登录中...'
-		// 	})
-		// 	uni.login({
-		// 	  provider: provider,
-		// 	  success:  ({authResult})=> {
-		// 	    console.log('微信登录',authResult);
-		// 		const source = this.roleStatus == 'user' ? 3 : 2
-		// 		const loginType = provider == 'weixin' ? 3 : 4
-		// 		this.$http.post('/user/login',{loginType,openId:authResult.openid,source},true).then(res=>{
-		// 			this.authResultTodo(provider,authResult.openid,res)
-		// 		}) 
-		// 	  },
-		// 	  complete:()=> {
-		// 	  	uni.hideLoading()
-		// 	  }
-		// 	});
-		// }, 
-		// authResultTodo(provider,openId,data){
-		// 	if(data.isBind){
-		// 		// 登录成功
-		// 		this.$tool.login( {...data,roleStatus:this.roleStatus})
-		// 	}else{ 
-		// 		// 未绑定手机号
-		// 		uni.navigateTo({
-		// 			url:`/pages/bind-phone/bind-phone?roleStatus=${this.roleStatus}&openId=${openId}&provider=${provider}`
-		// 		})
-		// 	}
-		// }
 	}
 };
 </script>

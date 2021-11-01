@@ -39,6 +39,7 @@
 				eye: 1,
 				phone: '',
 				smsCode: '',
+				//user-用户版 business-商家版
 				roleStatus: 'user',
 				pwd: '',
 				pwdAgain: '',
@@ -100,17 +101,18 @@
 					return
 				}
 
-				this.$http.post('/user/resetPassword', {
+				const url = this.roleStatus == 'user' ? '/user/resetPassword' : '/storeUser/resetPassword';
+				const param = {
 					phone: this.phone,
 					phoneSmsCode: this.smsCode,
 					newPassword: this.pwd,
 					confirmPassword: this.pwdAgain
-				}, true).then(res => {
+				}
+				this.$http.post(url,param , true).then(res => {
 					this.$tool.showSuccess('密码重置成功',()=>{
 						uni.navigateBack({})
 					})
 				})
-
 			}
 		}
 	};

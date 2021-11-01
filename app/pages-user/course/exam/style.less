@@ -57,6 +57,8 @@
   }
   .exam-item {
     margin-bottom: 60rpx;
+    overflow-y: auto;
+    height: 100%;
     .flex-name {
       display: flex;
       font-size: 32rpx;
@@ -109,6 +111,16 @@
       .flex-1 {
         &:last-child {
           margin-left: 60upx;
+        }
+      }
+      &.column {
+        flex-direction: column;
+        align-items: flex-start;
+        .flex-1 {
+          &:last-child {
+            margin-left: 0;
+            margin-top: 20upx;
+          }
         }
       }
     }
