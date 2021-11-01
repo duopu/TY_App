@@ -196,6 +196,13 @@
 					}
 
 				}, {
+					"path": "index/ticket/ticket-recive",
+					"style": {
+						"navigationBarTitleText": "领取优惠券",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
 					"path": "mine/ticket/ticket",
 					"style": {
 						"navigationBarTitleText": "优惠券",
@@ -655,6 +662,13 @@
 					"path": "goods-unremittingly/goods-unremittingly",
 					"style": {
 						"navigationBarTitleText":"坚持不懈",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "ticket/ticket",
+					"style": {
+						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
 				}

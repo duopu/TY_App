@@ -350,6 +350,11 @@ const jumpWithCopyUrl = () => {
 		uni.navigateTo({
 			url: `/pages-user/index/goods-details/goods-details?goodsId=${goodsId}`
 		});
+	} else if (linkType == config.linkType.ticketShare) { //H5分享 - 优惠券
+		const couponId = params.couponId;
+		uni.navigateTo({
+			url: `/pages-user/index/ticket/ticket-recive?couponId=${couponId}`
+		});
 	}
 }
 

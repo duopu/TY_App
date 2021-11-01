@@ -36,6 +36,8 @@ export default {
 		shareGoodsUnremittinglyListUrl:`${h5Url}/#/pages-share/goods-unremittingly/goods-unremittingly`,
 		// 分享的组团优惠列表
 		shareGoodsGroupListUrl:`${h5Url}/#/pages-share/goods-group/goods-group`,
+		// 分享的优惠券
+		shareTicketUrl: `${h5Url}/#/pages-share/ticket/ticket`
 	},
 	
 	// 链接类型
@@ -53,7 +55,9 @@ export default {
 		// H5商品分享（普通商品/组团优惠）
 		goodsShare: 6,
 		// H5店铺分享
-		storeShare: 7
+		storeShare: 7,
+		// H5优惠券分享
+		ticketShare: 8
 	},
 	
 	// 复制链接的固定头部地址
