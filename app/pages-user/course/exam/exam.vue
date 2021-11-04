@@ -308,7 +308,7 @@ export default {
     // 返回
     goBack(){
       // 顺序练习 + 随机练习直接返回 
-      if([0,1,3].includes(this.type) && !this.noSunmit){
+      if([0,1].includes(this.type) && !this.noSunmit){
         this.submit();
         uni.navigateBack()
         uni.$emit("examback",this.questionBankId);
@@ -376,13 +376,13 @@ export default {
          return;
        }
        const currQues = this.questionList[this.current];
+       currQues.isAnswer = 1 //表示题目已经答过
        (currQues.questionOptionVOList || []).map(f=>{
           // 单选 | 判断
           if(type === 1 || type === 3){
             if(f.questionOptionId === flag.questionOptionId){
               f.checked = true
               currQues.userAnswer = f.optionLabel;
-              currQues.isAnswer = 1 //表示题目已经答过
             }else{
               f.checked = false
             }
@@ -392,7 +392,6 @@ export default {
           if(type === 2){
             if(f.questionOptionId === flag.questionOptionId){
               f.checked = !f.checked
-              // currQues.isAnswer = 1
             }
           }
       })
@@ -418,6 +417,7 @@ export default {
       }
      
       const currQuestion = this.questionList[this.current];
+      currQuestion.isAnswer = 1;
       const checkedQuestionOption = currQuestion.questionOptionVOList.filter(i=>i.checked);
       let userAns;
       if(currQuestion.type == 4){
