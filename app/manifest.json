@@ -2,8 +2,8 @@
     "name" : "IT快证",
     "appid" : "__UNI__1EC9770",
     "description" : "",
-    "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "versionName" : "1.0.1",
+    "versionCode" : 101,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -144,6 +144,20 @@
                     "isCloud" : true,
                     "bought" : 1,
                     "pid" : "5405",
+                    "parameters" : {}
+                }
+            },
+            "PP-Alipay" : {
+                "__plugin_info__" : {
+                    "name" : "【66特惠】支付宝授权登录，支付宝，授权登录，使用简单，不冲突，更安全",
+                    "description" : "支付宝通过authinfo 原生授权登录，更安全，有问题请联系作者",
+                    "platforms" : "Android,iOS",
+                    "url" : "https://ext.dcloud.net.cn/plugin?id=1411",
+                    "android_package_name" : "com.ihomefnt.tyjy",
+                    "ios_bundle_id" : "com.ihomefnt.tyjy",
+                    "isCloud" : true,
+                    "bought" : 1,
+                    "pid" : "1411",
                     "parameters" : {}
                 }
             }
