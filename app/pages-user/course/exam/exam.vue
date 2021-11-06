@@ -288,6 +288,14 @@
 			});
 			// #endif
 		},
+		onBackPress() {
+			console.log('返回处理==========')
+			// 顺序练习 + 随机练习直接返回 
+			if ([0, 1].includes(this.type) && !this.noSunmit) {
+				this.submit();
+				uni.$emit("examback", this.questionBankId);
+			}
+		},
 
 		methods: {
 
@@ -319,8 +327,8 @@
 				// 顺序练习 + 随机练习直接返回 
 				if ([0, 1].includes(this.type) && !this.noSunmit) {
 					this.submit();
-					uni.navigateBack()
 					uni.$emit("examback", this.questionBankId);
+					uni.navigateBack()
 					return;
 				}
 				if (this.modalCheck() || this.noSunmit || this.isGoBack) {
@@ -380,7 +388,7 @@
 
 			// 答案选中事件
 			checkChange(item, flag) {
-				console.log('答案选中事件',item,flag);
+				console.log('答案选中事件', item, flag);
 				const {
 					type,
 					answer
@@ -388,9 +396,9 @@
 				if (item.userAnswer) {
 					return;
 				}
-				
+
 				item.isAnswer = 1;
-				item.questionOptionVOList = item.questionOptionVOList.map(f=>{
+				item.questionOptionVOList = item.questionOptionVOList.map(f => {
 					// 单选 | 判断
 					if (type === 1 || type === 3) {
 						if (f.questionOptionId === flag.questionOptionId) {
@@ -409,14 +417,14 @@
 					}
 					return f;
 				})
-				
+
 				if (type === 1) {
 					// 直接显示解析
 					const optionLabel = item.questionOptionVOList.filter(i => i.checked)[0].optionLabel
 					item.isShowAnswer = true //answer != optionLabel
 				}
-				
-				this.questionList = this.questionList.map(q=>q.questionId == item.questionId ? item : q);
+
+				this.questionList = this.questionList.map(q => q.questionId == item.questionId ? item : q);
 			},
 
 			inputChange(e) {
