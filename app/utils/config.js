@@ -1,5 +1,5 @@
 
-const debug = true;
+const debug = false;
 // H5地址
 const h5Url = 'https://static-71d6e5c1-8785-439f-bc7a-d627a1930796.bspapp.com'
 
@@ -9,7 +9,7 @@ export default {
 		baseUrl:debug ? '/api' : 'https://api.quickcer.com',
 	// #endif
 	
-	// #ifndef H5
+	// #ifndef H5 
 		baseUrl:debug ? 'http://education.sinfinite.cn' : 'https://api.quickcer.com', 
 	// #endif
 	
