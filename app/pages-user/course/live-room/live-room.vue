@@ -4,7 +4,7 @@
 		<!-- 视频 -->
 		<view class="live-room-top">
 			<video v-if="videoUrl" class="video" :src="videoUrl" controls :autoplay="true" />
-			<image v-else :src="detail.img[0]" class="live-img" />
+			<image v-else :src="detail.img ? detail.img[0] : ''" class="live-img" />
 			<view class="flex-center-between text-bold process">
 				<text class="title text-bold">{{detail.courseName}}</text>
 				<text v-if="!isLocal" class="color-red">{{detail.learnRate || 0}}%</text>
