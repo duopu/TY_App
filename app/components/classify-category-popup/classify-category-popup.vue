@@ -33,6 +33,7 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	
 	export default {
 		name: 'classify-category-popup',
@@ -55,12 +56,23 @@
 				interestList:[...this.$store.state.interestList],
 			};
 		},
+		// computed:{
+		// 	...mapState([
+		// 		'interestList', // 兴趣点列表
+		// 	])
+		// },
 		watch: {
 			data: { //深度监听，可监听到对象、数组的变化
 				handler(newV, oldV) {
 					// do something, 可使用this
 					this.hotCategoryVOList = newV.hotCategoryVOList.concat([]);
 					this.categoryVOList = newV.categoryVOList.concat([]);
+				},
+				deep: true
+			},
+			'$store.state.interestList': {
+				handler(newV, oldV){
+					this.interestList = [...newV];
 				},
 				deep: true
 			}

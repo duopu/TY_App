@@ -43,7 +43,7 @@
 				<view class="flex-center text">
 					同意
 					<!-- TODO: 这里的协议地址需要配置 -->
-					<navigator class="service" url="">《腾云课堂服务协议》</navigator>
+					<view class="service" @click="goH5">《腾云课堂服务协议》</view>
 				</view>
 			</view>
 		</scroll-view>
@@ -158,6 +158,13 @@ export default {
 			uni.navigateTo({
 				url: `/pages-user/index/address/address`
 			});
+		},
+		
+		// 跳转到服务协议页面
+		goH5(){
+			uni.navigateTo({
+				url:'/pages/watch-h5/watch-h5?code=SERVICE_AGREEMENT'
+			})
 		}
 	}
 };

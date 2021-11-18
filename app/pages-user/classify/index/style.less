@@ -17,6 +17,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		&-item{
+			position: relative;
 			margin-top: 26rpx;
 			width: 25%;
 			display: flex;
@@ -24,6 +25,13 @@
 			justify-content: center;
 			text-align: center;
 			overflow: hidden;
+			.icon-del{
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 30rpx;
+				height: 30rpx;
+			}
 			.item-image{
 				margin: auto;
 				width: 84rpx;

@@ -2,12 +2,13 @@
 <template>
 	<view class="page-wrapper">
 		<!-- 我的兴趣 -->
-		<view class="title text-bold">我的兴趣</view>
+		<view class="flex-center-between title text-bold">我的兴趣 <view @click="manageClick">{{canDelete ? '完成' : '管理'}}</view></view>
 		<view class="classify-lists block-box">
 			<view class="classify-lists-item" 
 			v-for="(item, index) in interestList" 
 			:key="item.categoryId" 
 			@click="goDetail(item.categoryId, item.interestName)">
+				<image class="icon-del" v-show="canDelete" @click.stop="deleteInterset(item.id)" src="../../../static/images/icons/icon-cha.svg"/>
 				<image class="item-image" :src="item.img" mode="aspectFill"></image>
 				<text class="text-bold text-ellipsis">{{item.interestName}}</text>
 			</view>
@@ -55,7 +56,8 @@ export default {
 	data() {
 		return {
 			hotCategoryVOList:[], //热门分类
-			categoryVOList:[] //分类
+			categoryVOList:[], //分类
+			canDelete: false //能否删除
 		};
 	},
 	onLoad() {
@@ -87,6 +89,21 @@ export default {
 			uni.navigateTo({
 				url: `/pages-user/classify/details/details?categoryId=${categoryId}&categoryName=${categoryName}`
 			});
+		},
+		
+		// 管理按钮点击
+		manageClick(){
+			this.canDelete = !this.canDelete
+		},
+		
+		/**
+		 * 删除感兴趣的分类
+		 * @param {Object} id
+		 */
+		deleteInterset(id){
+			this.$http.post('/category/delete',{id: id},true).then(res=>{
+				this.$store.dispatch('queryInterestList')
+			})
 		}
 	}
 };
