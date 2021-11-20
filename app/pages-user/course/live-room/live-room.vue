@@ -3,13 +3,13 @@
 	<view class="live-room">
 		<!-- 视频 -->
 		<view class="live-room-top">
-			<video v-if="videoUrl" class="video" :src="videoUrl" controls :autoplay="true" />
+			<video v-if="videoUrl" class="video" @timeupdate="_timeupdate" @ended="_endUpdata" :src="videoUrl" controls :autoplay="true" />
 			<image v-else :src="detail.img ? detail.img[0] : ''" class="live-img" />
 			<view class="flex-center-between text-bold process">
 				<text class="title text-bold">{{detail.courseName}}</text>
 				<text v-if="!isLocal" class="color-red">{{detail.learnRate || 0}}%</text>
 			</view>
-		</view>
+		</view> 
 
 		<!-- 目录 -->
 		<scroll-view class="live-room-category" scroll-y="true">
@@ -80,14 +80,15 @@
 				videoUrl: '',
 				id: '', //课时id
 				isLocal: false,
-				courseSyncList: uni.getStorageSync('courseList') || []
+				courseSyncList: uni.getStorageSync('courseList') || [],
+        currTime:0, //播放时长
+        classDuration:0, //课程总时长
 			};
 		},
 		filters: {
 
 	    // 时间转分钟
 			filterDate(v) {
-        console.log(111,v)
 				if (!v) return 0;
 				return dayjs(v).minute()
 			},
@@ -119,7 +120,32 @@
 			periodClick(item) {
 				this.id = item.id;
 				this.videoUrl = item.url
+        this.courseClassId = item.courseClassId
 			},
+
+      // 播放时间监听
+      _timeupdate(event){
+        const {currentTime}  = event.detail
+        if(currentTime - this.currTime > 1){
+          this.currTime = currentTime;
+          this.courseUpdateTime();
+        }
+      },
+
+      // 播放结束
+      _endUpdata(event){
+        this.currTime = this.classDuration;
+        this.courseUpdateTime();
+      },
+
+      // 更新进度接口 
+      courseUpdateTime(){
+          const params = {
+            learnDuration:parseInt(this.currTime),
+            id:this.id
+          }
+          this.$http.get('/userCourse/update', params, true)
+      },
 
 			//树状结构 第一层点击 
 			firstCheck(data) {
@@ -258,6 +284,13 @@
 					(data.userCourseClassList || []).map(item => {
 						item.checked = false;
 					})
+          if(data.userCourseClassList[0] && data.userCourseClassList[0].nodes.length>0){
+            if(data.userCourseClassList[0].nodes[0].url){
+              this.videoUrl = data.userCourseClassList[0].nodes[0].url;
+            }
+            this.classDuration = data.userCourseClassList[0].nodes[0].classDuration;
+            this.id = data.userCourseClassList[0].nodes[0].id;
+          }
 				}
 				this.detail = data;
 			},
