@@ -163,7 +163,7 @@
 		<!-- 弹窗 保障 -->
 		<goods-ensure-popup ref="ensurePopup" :goodsInfo="goodsInfo"></goods-ensure-popup>
 		<!-- 弹窗 参数 -->
-		<goods-parameter-popup ref="parameterPopup" :goodsInfo="goodsInfo"></goods-parameter-popup>
+		<goods-parameter-popup ref="parameterPopup" :goodsInfo="goodsInfo" :courseCheck="courseCheck" :questionCheck="questionCheck"></goods-parameter-popup>
 	</view>
 </template>
 

@@ -6,7 +6,7 @@
 			<view class="flex-center">
 				<image class="icon-arrow" src="../../../static/images/icons/icon-back.svg" mode="aspectFill" @click="goBack"></image>
 				<custom-search @search="getSearchInput"></custom-search>
-				<image class="icon-message" src="../../../static/images/icons/icon-message.svg" mode="aspectFill"></image>
+				<image class="icon-message" src="../../../static/images/icons/icon-message.svg" mode="aspectFill" @click="goMessage"></image>
 			</view>
 			<!-- 菜单 -->
 			<custom-horizontal-tabs class="custom-tabs" :data="tabsData" :currentIndex="tabsIndex" @change="getTabsIndex"></custom-horizontal-tabs>
@@ -165,6 +165,11 @@ export default {
 		// 取消支付
 		cancelPay(){
 			this.$refs.paymentPopup.close();
+		},
+		
+		// 跳转到消息页面
+		goMessage(){
+			this.$tool.toMessageList();
 		}
 	}
 };

@@ -211,11 +211,21 @@ export default {
 		 * @param {Object} shoppingCartId 商品购物车ID
 		 */
 		deleteGoods(shoppingCartId){
-			this.$http
-				.post('/shopping/cart/deleteBatch', {shoppingCartId:[shoppingCartId]}, true)
-				.then(res => {
-					this.queryShoppintCar();
-				});
+			uni.showModal({
+				title: '提示',
+				content: '是否删除当前商品',
+				confirmText: '确定',
+				cancelText: '取消',
+				success: res => {
+					if (res.confirm) {
+						this.$http
+							.post('/shopping/cart/deleteBatch', {shoppingCartId:[shoppingCartId]}, true)
+							.then(res => {
+								this.queryShoppintCar();
+							});
+					}
+				}
+			});
 		},
 		
 		// 获取订单信息
@@ -236,7 +246,13 @@ export default {
 				}
 			}
 			
-			if(goodsList.length === 0){ return }
+			if(goodsList.length === 0){ // 这里是当用户全部都没有选上购买的商品
+				this.goodsList = [];
+				this.orderVO = { 
+					payAmount:0
+				} 
+				return
+			}
 			
 			this.goodsList = goodsList;
 			
