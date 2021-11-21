@@ -3,7 +3,7 @@
 	<view class="live-room">
 		<!-- 视频 -->
 		<view class="live-room-top">
-			<video v-if="videoUrl" class="video" @timeupdate="_timeupdate" @ended="_endUpdata" :src="videoUrl" controls :autoplay="true" />
+			<video v-if="videoUrl" class="video" :key="videokey" @timeupdate="_timeupdate" @ended="_endUpdata" :src="videoUrl" controls :autoplay="true" />
 			<image v-else :src="detail.img ? detail.img[0] : ''" class="live-img" />
 			<view class="flex-center-between text-bold process">
 				<text class="title text-bold">{{detail.courseName}}</text>
@@ -78,6 +78,7 @@
 				},
 				current: 0,
 				videoUrl: '',
+				videokey: Math.random(),
 				id: '', //课时id
 				isLocal: false,
 				courseSyncList: uni.getStorageSync('courseList') || [],
@@ -118,9 +119,15 @@
 
 			// 课时点击
 			periodClick(item) {
-				this.id = item.id;
-				this.videoUrl = item.url
-        this.courseClassId = item.courseClassId
+        if(this.isLocal && !item.url){
+          this.$tool.showToast('未缓存此课')
+          return;
+        }
+        if(item.url){
+          this.id = item.id;
+          this.videoUrl = item.url
+          this.videokey = Math.random();
+        }
 			},
 
       // 播放时间监听
@@ -144,7 +151,7 @@
             learnDuration:parseInt(this.currTime),
             id:this.id
           }
-          this.$http.get('/userCourse/update', params, true)
+          this.$http.post('/userCourse/update', params, false)
       },
 
 			//树状结构 第一层点击 
@@ -236,6 +243,17 @@
 				uni.setStorageSync('courseList', courseSyncList)
 			},
 
+      /**
+       * ios下文件名中文处理
+       * @param {String} filename
+       */
+      fileNameEscape(filename) {
+        if (uni.getSystemInfoSync().platform == "ios") {
+          filename = escape(filename);
+        }
+        return filename;
+      },
+
 			// 跳转客服页面
 			toCustomerService() {
 				const {
@@ -281,8 +299,8 @@
 				}
 				const data = await this.$http.get('/userCourse/queryDetail', params, true)
 				if (data.userCourseClassList) {
-					(data.userCourseClassList || []).map(item => {
-						item.checked = false;
+					(data.userCourseClassList || []).map((item,index) => {
+						item.checked = index === 0;
 					})
           if(data.userCourseClassList[0] && data.userCourseClassList[0].nodes.length>0){
             if(data.userCourseClassList[0].nodes[0].url){
@@ -298,8 +316,21 @@
 			// 本地缓存数据-设置详情
 			setDetail() {
 				const courseList = uni.getStorageSync('courseList')
-				const detail = courseList.filter(item => item.courseId == this.courseId)[0]
-				this.detail = detail
+				const data = courseList.filter(item => item.courseId == this.courseId)[0]
+        const userCourseClassList = data.userCourseClassList
+        const checkCourseClassList = userCourseClassList.filter(item=>item.nodes && item.nodes.length>0 && item.nodes.filter(i=>i.url).length>0)
+        if (data.userCourseClassList) {
+					(data.userCourseClassList || []).map((item) => {
+						item.checked = item.id === checkCourseClassList[0].id;
+					})
+          const checkNodes = checkCourseClassList[0].nodes.filter(i=>i.url)[0];
+          if(checkNodes){
+            this.classDuration = checkNodes.classDuration
+            this.id = checkNodes.id
+            this.videoUrl = checkNodes.url
+          }
+				}
+				this.detail = data
 			}
 		}
 	};
