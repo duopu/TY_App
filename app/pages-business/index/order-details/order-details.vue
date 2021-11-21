@@ -93,7 +93,7 @@
 					</view>
 					<view class="form-item">
 						<text class="label">物流单号</text>
-						<input type="text" @input="event => (this.deliveryNum = event.detail.value)" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
+						<input type="text" @blur="inputChange" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
 					</view>
 				</view>
 
@@ -135,12 +135,13 @@ export default {
 				orderNum: this.orderId
 			};
 			this.$http
-				.get('/order/delivery', params)
+				.post('/order/delivery', {...params})
 				.then(res => {
 					// this.orderInfo = res;
 					uni.showToast({
 						title: '发货成功'
 					});
+					this.closeLogisticsPopup();
 					this.queryInfo();
 				})
 				.catch(err => {});
@@ -162,6 +163,10 @@ export default {
 		// 弹窗 关闭物流
 		closeLogisticsPopup(){
 			this.$refs.logisticsPopup.close();
+		},
+		inputChange(event){
+			console.log(event)
+			this.deliveryNum = event.detail.value
 		}
 	}
 };

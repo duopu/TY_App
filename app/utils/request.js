@@ -4,7 +4,7 @@ import tool from './tool.js';
 export default {
 
 	request(url, data, method, loading) {
-		
+		console.log(data)
 		let header = {
 			Accept: 'application/json',
 			'Content-Type': method == 'POST' ? 'application/json; charset=utf-8' : 'application/x-www-form-urlencoded'

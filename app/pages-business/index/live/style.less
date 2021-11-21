@@ -1,8 +1,10 @@
 .live {
+	position: relative;
 	height: 100%;
 	overflow: hidden;
 	box-sizing: border-box;
 	background-color: #f4f5f9;
+	//padding-bottom: 80rpx;
 	&.record,
 	&.publish {
 		background-color: #ffffff;
@@ -15,6 +17,10 @@
 		margin-left: 10rpx;
 		color: #666666;
 	}
+}
+
+.padding{
+	padding-bottom: 80rpx;
 }
 // 直播 列表
 .live-lists {
@@ -130,11 +136,16 @@
 }
 
 .publishLive{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	width: 100%;
 	height: 80rpx;
 	background: #FFB55B;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
 }
 

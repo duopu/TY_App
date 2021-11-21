@@ -1,6 +1,6 @@
 <!-- 查看直播记录 -->
 <template>
-	<scroll-view scroll-y="true" class="live record">
+	<scroll-view scroll-y="true" class="live record padding">
 		<!-- 记录 -->
 		<view class="record-lists-item" v-for="(item,index) in dataList" :key="item.liveId" >
 			<image class="image" :src="item.thumbnail" mode="aspectFill"></image>
