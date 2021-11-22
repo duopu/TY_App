@@ -43,7 +43,7 @@
 							<text class="radio-circle" @click="timeRadio = 1" v-bind:class="timeRadio === 1 ? 'on' : ''"></text>
 						</view>
 						<view>
-							<view class="label">领券开始日期~领券结束日期</view>
+							<view class="label">优惠券使用开始日期~优惠券使用结束日期</view>
 							<view class="flex-center m-top-8 flex-1">
 								<picker mode="date" class="border" @change="fromChange" data-key="effectStartDate">
 									<view>{{ ticketFormData.effectStartDate }}</view>

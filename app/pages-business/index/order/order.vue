@@ -2,7 +2,7 @@
 <template>
 	<view class="order">
 		<!-- 导航 -->
-		<business-common-navigation></business-common-navigation>
+		<business-common-navigation @search="onSearch"></business-common-navigation>
 		<!-- 菜单 -->
 		<custom-horizontal-tabs @change="getTabsIndex" :data="tabsData" :currentIndex="tabsIndex"></custom-horizontal-tabs>
 		<!-- 待付款 -->
@@ -31,6 +31,7 @@ export default {
 			tabsData: ['待付款', '待发货', '待收货','待售后','已完成'],
 			tabsIndex:0,
 			// orderList: [],
+			searchText: ''
 		};
 	},
 	onLoad(options){
@@ -44,8 +45,12 @@ export default {
 			this.$refs.myScrollView.onRefresh();
 		},
 		onLoadData(pageNum = 1, pageSize, callback){
-			console.error(this.tabsIndex);
-			this.$http.get('/order/queryPage',{page: pageNum,orderState: this.tabsIndex,size: pageSize},true).then(res=>{
+			this.$http.get('/order/queryPage',{
+				page: pageNum,
+				orderState: this.tabsIndex,
+				size: pageSize,
+				searchText: this.searchText},true).
+			then(res=>{
 				callback(res);
 			}).catch( err => {
 				callback(null);
@@ -53,6 +58,11 @@ export default {
 		},
 		seeOrderInfo(id){
 			console.log(id);
+		},
+		onSearch(value){
+			console.log(value);
+			this.searchText = value;
+			this.$refs.myScrollView.onRefresh();
 		}
 	}
 };

@@ -32,7 +32,7 @@
 		<!--列表 -->
 
 		<!-- 我的课程 -->
-		<tab-my-course v-if="tabsIndex === 0" />
+		<tab-my-course v-if="tabsIndex === 0" :key="myCourseKey" ref="myCourse" />
 
 		<!-- 我的题库 -->
 		<tab-question-bank v-else-if="tabsIndex === 1" />
@@ -56,11 +56,14 @@ export default {
 		return {
 			tabsData: ['我的课程', '我的题库', '缓存课程'],
 			tabsIndex: 0,
-			learnStatistic: {}
+			learnStatistic: {},
+      myCourseKey:0, // 解决页面返回子组件数据不刷新
 		};
 	},
 	onShow() {
 		this.queryLearnStatistic();
+    this.$refs.myCourse.onLoadData();
+    this.myCourseKey += 1;
 	},
 	methods: {
 		// 获取当前 tab index

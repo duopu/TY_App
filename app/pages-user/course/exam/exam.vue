@@ -503,7 +503,7 @@
 
 			// 倒计时结束提交答案
 			timeEnd() {
-				if (!examTime) {
+				if (!this.examTime) {
 					return;
 				}
 				this.submit()

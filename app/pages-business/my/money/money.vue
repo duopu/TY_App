@@ -9,7 +9,7 @@
 				{{ info.cashDepositAmount || 0 }}
 			</view>
 			<view class="flex-center-center">
-				<button class="btn btn-block" v-if="info.cashDepositState == 0" @click="depositPay">立即缴纳</button>
+				<button class="btn btn-block" v-if="!info.cashDepositState" @click="depositPay">立即缴纳</button>
 				<!-- <button class="btn btn-light" v-else>保证金退款</button> -->
 			</view>
 		</view>

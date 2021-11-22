@@ -199,7 +199,8 @@
                     }
                 }
             }
-        }
+        },
+        "template" : "index.html"
     }
 }
 //quickcer.cn

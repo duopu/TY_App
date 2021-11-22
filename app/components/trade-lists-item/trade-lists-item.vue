@@ -1,10 +1,10 @@
 <template>
 	<!-- 列表item -->
-	<view class="trade-item" @click="goUserInfo">
+	<view class="trade-item" v-on:click.stop="goOrderDetail">
 		<!-- 用户/地址 -->
 		<view class="flex-center-between item-top">
 			<!-- 商家 -->
-			<view class="flex-center" v-if="role === 0">
+			<view class="flex-center" v-if="role === 0" v-on:click.stop="goUserInfo">
 				<image class="avatar-image" src="../../static/images/other/girl.png"></image>
 				<text class="text-bold">{{dataItem.orderDetailVO.name}}</text>
 				<text class="color-9">{{dataItem.orderDetailVO.address}}</text>
@@ -77,6 +77,12 @@ export default {
 					url: `/pages-business/message/user/user?userId=${userId}&storeId=${storeId}`
 				});
 			})
+		},
+		goOrderDetail(){
+			console.log(this.dataItem)
+			uni.navigateTo({
+				url: '/pages-business/index/order-details/order-details?orderId='+this.dataItem.orderNum
+			});
 		}
 	}
 };
