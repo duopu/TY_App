@@ -9,11 +9,16 @@
 		<!-- 菜单 -->
 		<custom-horizontal-tabs @change="getTabsIndex" :currentIndex="tabsIndex" :data="tabsData"></custom-horizontal-tabs>
 		<!-- 列表 -->
-		<scroll-view class="consult-content" scroll-y="true">
+		<my-scroll-view ref="myScrollView" class="consult-content" @loadData="onLoadData">
+			<template v-slot:list="slotProps">
+				<consult-lists-item v-for="(item, index) in slotProps.list" :data="item" class="current-item" :key="index"></consult-lists-item>
+			</template>
+		</my-scroll-view>
+		<!-- <scroll-view class="consult-content" scroll-y="true">
 			<block v-for="(item, index) in dataList" :key="index">
 				<consult-lists-item :data="item" class="current-item"></consult-lists-item>
 			</block>
-		</scroll-view>
+		</scroll-view> -->
 	</view>
 </template>
 
@@ -23,23 +28,31 @@ export default {
 	data() {
 		return {
 			tabsIndex:0,
-			tabsData:['推荐','最新','关注','我的'],
+			tabsData:['热门','最新','我的'],
 			dataList: [],
 			page: 1,
 			size: 20
 		};
 	},
 	created() {
-		this.queryList();
 	},
 	methods:{
 		getTabsIndex(value){
 			this.tabsIndex = value;
-			this.queryList();
+			this.$refs.myScrollView.onRefresh();
 		},
-		queryList(){
-			this.$http.get('/article/queryPage',{page: this.page,size: this.size,type: this.tabsIndex + 1 }, true).then(res => {
-				this.dataList = res.data;
+		onLoadData(pageNum = 1, pageSize, callback){
+			this.$http.get('/article/queryPageByType',{
+				page: pageNum,
+				size: pageSize,
+				type: this.tabsIndex + 1 
+				}, true
+			).then(res => {
+				console.log(res,'22');
+				callback(res);
+				// this.dataList = res.content;
+			}).catch( err => {
+				callback(null);
 			})
 		},
 		addConsult(){
