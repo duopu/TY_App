@@ -49,11 +49,11 @@
 		},
 		watch: {
 			number(newV, oldV){
-				this.initView(newV);
+				this.initView(newV || 0);
 			}
 		},
 		created(){
-			this.initView(this.number);
+			this.initView(this.number || 0);
 		},
 		methods: {
 			

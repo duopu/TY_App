@@ -134,7 +134,7 @@ export default {
 		this.queryDistributionGoods();
 		this.queryDistributionStore();
 		uni.$on('activity-open',(index)=>{
-			this.tabsIndex = index;
+			this.changeTabsIndex(index || this.tabsIndex)
 		})
 	},
 	methods: {
@@ -142,6 +142,15 @@ export default {
 		changeTabsIndex(value) {
 			if (value === this.tabsIndex) return;
 			this.tabsIndex = value;
+			// 每次TAB切换都要触发接口刷新
+			this.groupBuyParams.page = 1;
+			this.unremittinglyParams.page = 1;
+			this.distributionGoodsParams.page = 1;
+			this.distributionStoreParams.page = 1;
+			this.queryGroupBuy();
+			this.queryUnremittingly();
+			this.queryDistributionGoods();
+			this.queryDistributionStore();
 		},
 		//打开弹窗
 		openPopup(refName) {

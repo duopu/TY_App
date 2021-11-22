@@ -59,7 +59,10 @@ export default {
 	},
 	watch:{
 		'$store.state.orderChange': function(){
-			this.$refs[`scrollView${this.tabsIndex}`][0].onRefresh();
+			// 监听订单状态变更，让所有列表都刷新
+			this.tabsData.map((value,index)=>{
+				this.$refs[`scrollView${index}`][0].onRefresh();
+			})
 		}
 	},
 	methods: {

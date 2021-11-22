@@ -54,6 +54,7 @@
 			 */
 			changeTabs(categoryId) {
 				this.currentCategoryId = categoryId;
+				this.page = 1
 				this.getArticelList();
 			},
 
