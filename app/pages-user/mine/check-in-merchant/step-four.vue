@@ -63,20 +63,23 @@
 				})
 			},
 			downLoadAction(url) {
+				plus.runtime.openURL(url);
+				return 
 				uni.showLoading()
 				var name = '承诺书模板.docx'; //文件名称可以在上传时进行保存，下载时取出，当文件名称中存在单双引号时，要做好处理，否则会报错
 				var dtask = plus.downloader.createDownload(url, {
 					filename: "_downloads/" + name //利用保存路径，实现下载文件的重命名
-				}, function(d, status) {
+				}, (d, status) =>{
 					uni.hideLoading()
 					
 					//d为下载的文件对象
 					if (status == 200) {
 						console.log('下载成功')
+						this.$tool.showSuccess('下载成功')
 						//下载成功,d.filename是文件在保存在本地的相对路径，使用下面的API可转为平台绝对路径
 						this.localPath = plus.io.convertLocalFileSystemURL(d.filename);
 
-						plus.runtime.openFile(d.filename); //选择软件打开文件
+						// plus.runtime.openFile(d.filename); //选择软件打开文件
 					} else { 
 						console.log('下载失败')
 						//下载失败

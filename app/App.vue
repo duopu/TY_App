@@ -17,11 +17,11 @@
 				key: config.storageKeys.loginUserKey,
 				success: res => {
 					const user = res.data;
-					console.log('=========== 从本地恢复登录信息 =========',user);
+					console.log('=========== 从本地恢复登录信息  ===',user);
 					if (user.token) {
 						this.$tool.login(user);
 					}
-				},
+				}, 
 				fail(err) {
 					uni.reLaunch({
 						url: '/pages/login/login'

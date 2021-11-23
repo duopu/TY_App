@@ -34,14 +34,6 @@
 					placeholder-class="input-placeholder" 
 					v-model="form.maxPrice">
 				</view>
-				<view class="title text-bold">机构类型</view>
-				<view class="horizontal-lists">
-					<view class="item"
-					:class="{'on':form.mechanismType === item.value}" 
-					v-for="(item,index) in mechanismTypeList" 
-					:key="`mechanism-type-${index}`" 
-					@click="tagClick(item.value, 'mechanismType')">{{item.name}}</view>
-				</view>
 			</scroll-view>
 			<!-- 底部 -->
 			<view class="btn-bottom">
@@ -147,7 +139,7 @@ export default {
 				this.$tool.showToast("请输入正确的价格区间");
 				return;
 			}
-			
+			console.log('筛选条件',this.form);
 			this.$emit("submit",this.form);
 			this.close();
 		}

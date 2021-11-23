@@ -31,14 +31,6 @@
 						<text class="number" v-if="item.flag">{{item.dailyDate.substr(8,2)}}</text>
 						<image class="image" v-else src="../../../static/images/sign-in-time.png" mode="aspectFill">
 					</view>
-					<!-- 
-					<view class="item normal flex-center-center"><text class="number">29</text></view>
-					<view class="item normal flex-center-center"><text class="number ">30</text></view>
-					<view class="item normal flex-center-center"><text class="number ">1</text></view>
-					<view class="item normal flex-center-center"><image class="image" src="../../../static/images/sign-in-time.png" mode="aspectFill"></image></view>
-					<view class="item normal flex-center-center"><image class="image" src="../../../static/images/sign-in-time.png" mode="aspectFill"></image></view>
-					<view class="item normal flex-center-center"><image class="image" src="../../../static/images/sign-in-time.png" mode="aspectFill"></image></view>
-					<image class="image item" src="../../../static/images/sign-in-gift.png" mode="aspectFill"></image> -->
 				</view>
 			</view>
 			<!-- 每日任务 -->
@@ -48,7 +40,7 @@
 				<view class="flex-center-center item" v-for="(item, index) in signInfo.dailyTaskList" :key="index">
 					<view class="flex-column flex-1">
 						<view class="flex-center">
-							<text class="text-bold">{{item.content}}</text>
+							<text class="text-bold">{{item.title}}</text>
 							<view class="flex-center tag">
 								<image class="image-tag" src="../../../static/images/sign-in-time.png" mode="aspectFill"></image>
 								<text class="color-red font-24">+{{item.gold}}</text>
@@ -57,7 +49,7 @@
 						<text class="font-24 color-6" v-if="item.totalMinute">今天已完成：{{item.minute || 0}}/{{item.totalMinute}}</text>
 					</view>
 					<!-- yellow -->
-					<button class="btn text-bold " :class="{ yellow: item.flag === 1 }">{{item.flag == 0 ? '未完成' : '已完成'}}</button>
+					<button class="btn text-bold " :class="{ yellow: item.flag === 1 }" @click="taskClick(item)">{{item.flag == 0 ? '未完成' : '已完成'}}</button>
 				</view>
 			</view>
 		</scroll-view>
@@ -101,7 +93,28 @@ export default {
 				this.queryLearnStatistic()
 			})
 		},
-		
+		// 任务事件
+		taskClick(task){
+			// 类型：1-每日签到，2-每日学习，3-分享海报，4-参加坚持不懈
+			const type = task.type;
+			if(task.flag == 0){
+				// if(type == 2){
+				// 	uni.ge
+				// }
+				uni.navigateBack({
+				})
+				this.$nextTick(()=>{
+					// 打开首页，活动,分销大使
+					// 跳转课程分销页面
+					uni.switchTab({
+						url: '/pages-user/index/index/index'
+					})
+					// 打开首页，活动,分销大使
+					uni.$emit('activity-open',2)
+				})
+			}
+			console.log(task);
+		},
 		// 返回上一级
 		goBack() {
 			uni.navigateBack({});
