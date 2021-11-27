@@ -70,11 +70,11 @@
 				</view>
 			</view>
 		</view>
-		<!-- 待发货 -->
-		<button v-if="orderInfo.orderState == 1" @click="openLogisticsPopup()" class="btn">发货</button>
 		<!-- 待收货 -->
 		<button class="btn" @click="queryLogistics" v-if="orderInfo.orderState >=2 && !!orderInfo.entityGoodsId">物流详情</button>
-
+		<!-- 发货  或者 修改物流信息 -->
+		<button class="btn"  @click="openLogisticsPopup()" v-if="!!orderInfo.entityGoodsId">{{ orderInfo.orderState == 1 ? '发货' : '修改流信息' }}</button>
+		
 		<!-- 弹窗  物流 -->
 		<uni-popup type="bottom" ref="logisticsPopup">
 			<view class="logistics-popup-content flex-column-between">
@@ -145,13 +145,11 @@
 					orderNum: this.orderId
 				};
 				this.$http
-					.post('/order/delivery', {
-						...params
-					})
+					.post('/order/delivery',params,true)
 					.then(res => {
 						// this.orderInfo = res;
 						uni.showToast({
-							title: '发货成功'
+							title: this.orderInfo.orderState == 1 ? '发货成功' :'修改成功'
 						});
 						this.closeLogisticsPopup();
 						this.queryInfo();
