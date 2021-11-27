@@ -49,7 +49,7 @@
 						<text class="font-24 color-6" v-if="item.totalMinute">今天已完成：{{item.minute || 0}}/{{item.totalMinute}}</text>
 					</view>
 					<!-- yellow -->
-					<button class="btn text-bold " :class="{ yellow: item.flag === 1 }" @click="taskClick(item)">{{item.flag == 0 ? '未完成' : '已完成'}}</button>
+					<button class="btn text-bold " :class="{ yellow: item.flag === 1 }" @click="taskClick(item)">{{item.flag == 0 ? '去完成' : '已完成'}}</button>
 				</view>
 			</view>
 		</scroll-view>

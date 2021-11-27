@@ -4,7 +4,7 @@
 		<!-- 头部 -->
 		<view class="flex-center-between my-top">
 			<view class="flex-center">
-				<image class="avatar-image" :src="storeInfo.avatar" mode="aspectFill"></image>
+				<image class="avatar-image" :src="storeInfo.avatar || defaultShopIcon" mode="aspectFill"></image>
 				<view>
 					<view class="name text-bold">{{ storeInfo.storeName }}</view>
 				</view>
@@ -18,7 +18,7 @@
 			</view>
 			<view class="flex-1 flex-center-center" @click="jump('quanyi')">
 				<image class="tabs-image" src="../../../static/images/icons/icon-gift.svg" mode="aspectFill"></image>
-				<text class="text-bold">权益中心</text>
+				<text class="text-bold">权益中心</text> 
 			</view>
 		</view>
 		<!-- 列表 -->
@@ -54,10 +54,12 @@
 <script>
 import { mapState } from 'vuex';
 
-export default {
+export default {                          
 	name: 'myIndex',
 	data() {
-		return {};
+		return {
+			defaultShopIcon:'../../../static/images/my/defaultShopIcon.png'
+		};
 	},
 	computed: {
 		...mapState([

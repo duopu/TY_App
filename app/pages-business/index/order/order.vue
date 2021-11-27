@@ -34,8 +34,11 @@ export default {
 		};
 	},
 	onLoad(options){
-		console.info(options.type);
-		this.tabsIndex = Number(options.type);
+		let tabsIndex = Number(options.type || '0');
+		if(tabsIndex == 2 ||  tabsIndex == 3 ){
+			tabsIndex = tabsIndex + 1
+		}
+		this.tabsIndex = tabsIndex
 	},
 	methods: {
 		//获取当前 tabs Index

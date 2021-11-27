@@ -3,7 +3,7 @@
 	<scroll-view scroll-y="true" class="index">
 		<view class="flex-center-between index-top">
 			<view class="flex-center">
-				<image class="avatar-image" :src="storeInfo.avatar" mode="aspectFill"></image>
+				<image class="avatar-image" :src="storeInfo.avatar || defaultShopIcon" mode="aspectFill"></image>
 				<view>
 					<view class="name text-bold">{{ storeInfo.storeName }}</view>
 				</view>
@@ -77,6 +77,7 @@ export default {
 	name: 'businessIndex',
 	data() {
 		return {
+			defaultShopIcon:'../../../static/images/my/defaultShopIcon.png',
 			// 显示当前用户状态\
 			showState: false,
 			userStatus: 1,
