@@ -37,6 +37,18 @@ export default {
 	},
 	methods:{
 		getLivePushUrl(){
+			if(!this.courseId || !this.courseClassId){
+				this.$tool.showToast('请选择课程')
+				return
+			}
+			if(!this.liveName){
+				this.$tool.showToast('请输入直播名称')
+				return
+			}
+			if(!this.liveIntro){
+				this.$tool.showToast('请输入直播简介')
+				return
+			}
 			const param = {
 				courseId:this.courseId,
 				liveName:this.liveName,
