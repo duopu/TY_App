@@ -108,18 +108,24 @@ export default {
 		// 删除优惠券
 		deleteTicket(id) {
 			console.log(id);
-			this.$http
-				.post(
-					'/coupon/delete',
-					{
-						couponId: id
-					},
-					false
-				)
-				.then(res => {
-					this.$refs.myScrollView.onRefresh();
-					// this.dataList = res;
-				});
+			uni.showModal({
+				title: '提示',
+				content: '是否确认删除该优惠券?',
+				success: (res) => {
+					if(res.confirm){
+						this.$http.post('/coupon/delete',
+							{
+								couponId: id
+							},
+							false
+						).then(res => {
+								this.$refs.myScrollView.onRefresh();
+								// this.dataList = res;
+							});
+					}
+				}
+
+			})
 		},
 		onChange(data) {
 			this.tabsIndex = data;

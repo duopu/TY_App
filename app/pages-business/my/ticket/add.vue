@@ -2,7 +2,7 @@
 <template>
 	<view class="add-ticket">
 		<view class="add-ticket-top flex-center">
-			<text class="color-9">取消</text>
+			<text class="color-9" @click="goBack">取消</text>
 			<text class="title text-bold">创建优惠券</text>
 			<text @click="createdTicket">创建</text>
 		</view>
@@ -184,6 +184,7 @@ export default {
 
 		// 创建优惠券
 		createdTicket(){
+			console.log(this.selectedGoods);
 			let params = {
 				...this.ticketFormData,
 				couponType: this.radioIndex,
@@ -191,7 +192,7 @@ export default {
 				effectType: this.timeRadio,
 				promoteType	: this.timeRadio,
 				goodsType: this.applyRange[this.applyIndex].key,
-				goodsIdList: [],
+				goodsIdList: this.selectedGoods.map(item => item.goodsId+''),
 				type: 2
 			};
 
@@ -203,9 +204,13 @@ export default {
 			}
 
 			this.$http.post('/coupon/create',params).then(res => {
+				console.log(res,'=====')
 				uni.redirectTo({
 					url:`/pages-business/my/ticket/ticket`
 				})
+			}).catch((err)=>{
+				console.log(err)
+				uni.showToast({title: err.message, icon: 'none',duration: 1500})
 			})
 
 		},
@@ -226,6 +231,9 @@ export default {
 			uni.navigateTo({
 				url: '/pages-business/my/ticket/select-goods'
 			});
+		},
+		goBack(){
+			uni.navigateBack();
 		}
 	},
 };
