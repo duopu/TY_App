@@ -150,9 +150,17 @@ export default {
 		},
 		actionGoodItem(dataItem,type){
 			// 对应ais下标 0 下架 1 新增 2 删除
-			let url = this.apis[type == 3 ? 2 : this.tabsIndex];
-			this.$http.post(url,{goodsId: dataItem.goodsId},true).then(res =>{
-				this.$refs.myScrollView.onRefresh();
+			uni.showModal({
+				title:'提示',
+				content:'您确定要执行此操作？',
+				success: (res) => {
+					if(res.confirm){
+						let url = this.apis[type == 3 ? 2 : this.tabsIndex];
+						this.$http.post(url,{goodsId: dataItem.goodsId},true).then(res =>{
+							this.$refs.myScrollView.onRefresh();
+						})
+					}
+				}
 			})
 		}
 	},
