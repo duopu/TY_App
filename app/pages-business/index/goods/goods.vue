@@ -150,9 +150,11 @@ export default {
 		},
 		actionGoodItem(dataItem,type){
 			// 对应ais下标 0 下架 1 新增 2 删除
+			console.log(this.tabsIndex,type);
+			let title = type === 3 ? '删除' : (!this.tabsIndex ? '下架' : '上架');
 			uni.showModal({
-				title:'提示',
-				content:'您确定要执行此操作？',
+				title: '提示',
+				content: `是否${title} ${dataItem.goodsName} 商品?`,
 				success: (res) => {
 					if(res.confirm){
 						let url = this.apis[type == 3 ? 2 : this.tabsIndex];
@@ -161,6 +163,7 @@ export default {
 						})
 					}
 				}
+
 			})
 		}
 	},
