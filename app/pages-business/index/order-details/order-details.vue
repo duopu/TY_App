@@ -33,7 +33,7 @@
 			<view class="title">订单信息</view>
 			<view class="flex row">
 				<text class="label">收货信息:</text>
-				<view class="text flex-1">{{ orderInfo.name }}，{{ orderInfo.mobile }}，{{ orderInfo.address }}</view>
+				<view class="text flex-1">{{ orderInfo.name || ''}}，{{ orderInfo.mobile || ''}}，{{ orderInfo.address || ''}}</view>
 			</view>
 			<view class="flex row">
 				<text class="label">订单编号:</text>
@@ -60,6 +60,14 @@
 					-
 					<text class="unit">¥</text>
 					{{ orderInfo.platformDiscountAmount }}
+				</view>
+			</view>
+			<view class="row">
+				<text class="label">金币抵扣:</text>
+				<view class="price color-grey text-bold">
+					-
+					<text class="unit">¥</text>
+					{{ orderInfo.goldDeductionAmount }}
 				</view>
 			</view>
 			<view class="row">
