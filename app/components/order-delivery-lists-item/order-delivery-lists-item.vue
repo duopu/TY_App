@@ -22,7 +22,7 @@
 				已支付：
 				<view class="price text-bold">
 					<text class="unit">￥</text>
-					{{orderItemData.payAmount / 100}}
+					{{orderItemData.payAmount}}
 				</view>
 			</view>
 		</view>

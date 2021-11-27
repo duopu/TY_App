@@ -51,7 +51,7 @@
 				<text class="label">商品原价:</text>
 				<view class="price color-yellow text-bold">
 					<text class="unit">¥</text>
-					{{ orderInfo.orderAmount / 100 }}
+					{{ orderInfo.orderAmount}}
 				</view>
 			</view>
 			<view class="row">
@@ -59,21 +59,21 @@
 				<view class="price color-grey text-bold">
 					-
 					<text class="unit">¥</text>
-					{{ orderInfo.platformDiscountAmount / 100 }}
+					{{ orderInfo.platformDiscountAmount }}
 				</view>
 			</view>
 			<view class="row">
 				<text class="label">实际支付:</text>
 				<view class="price color-yellow text-bold">
 					<text class="unit">¥</text>
-					{{ orderInfo.payAmount / 100 }}
+					{{ orderInfo.payAmount }}
 				</view>
 			</view>
 		</view>
 		<!-- 待发货 -->
 		<button v-if="orderInfo.orderState == 1" @click="openLogisticsPopup()" class="btn">发货</button>
 		<!-- 待收货 -->
-		<button class="btn" @click="queryLogistics">物流详情</button>
+		<button class="btn" @click="queryLogistics" v-if="orderInfo.orderState >=2 && !!orderInfo.entityGoodsId">物流详情</button>
 
 		<!-- 弹窗  物流 -->
 		<uni-popup type="bottom" ref="logisticsPopup">
@@ -122,7 +122,7 @@
 				},
 				index: -1,
 				list: [],
-				logisticsVO: []
+				logisticsVO: {}
 			};
 		},
 		onLoad(option) {

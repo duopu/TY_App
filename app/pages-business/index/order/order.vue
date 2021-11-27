@@ -8,7 +8,6 @@
 		<!-- 待付款 -->
 		<my-scroll-view ref="myScrollView" class="order-content" @loadData="onLoadData">
 			<template v-slot:list="slotProps">
-
 				<order-delivery-lists-item  v-for="(item, index) in slotProps.list"  :orderItemData="item" :key="index"></order-delivery-lists-item>
 			</template>
 		</my-scroll-view>
