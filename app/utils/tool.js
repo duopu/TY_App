@@ -358,6 +358,7 @@ const jumpWithCopyUrl = () => {
 	}
 }
 
+
 export default {
 	imTool,
 	systemInfo,
@@ -371,5 +372,5 @@ export default {
 	getUrlQuery,
 	isPhoneNumber,
 	openApp,
-	jumpWithCopyUrl
+	jumpWithCopyUrl,
 }

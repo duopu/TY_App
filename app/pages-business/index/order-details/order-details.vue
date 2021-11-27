@@ -5,7 +5,8 @@
 		<view class="box store">
 			<view class="flex-center-between top">
 				<view class="flex-center">
-					<image class="icon-store" src="../../../static/images/icons/icon-store.svg" mode="aspectFill"></image>
+					<image class="icon-store" src="../../../static/images/icons/icon-store.svg" mode="aspectFill">
+					</image>
 					<text>{{ orderInfo.storeName }}</text>
 				</view>
 				<image class="icon-dy" src="../../../static/images/icons/icon-dy.svg" mode="aspectFill"></image>
@@ -72,28 +73,32 @@
 		<!-- 待发货 -->
 		<button v-if="orderInfo.orderState == 1" @click="openLogisticsPopup()" class="btn">发货</button>
 		<!-- 待收货 -->
-		<button class="btn">物流详情</button>
-		
+		<button class="btn" @click="queryLogistics">物流详情</button>
+
 		<!-- 弹窗  物流 -->
 		<uni-popup type="bottom" ref="logisticsPopup">
 			<view class="logistics-popup-content flex-column-between">
 				<!-- 标题 -->
 				<view class="popup-top flex-center-between">
 					<view class="title text-bold">物流信息</view>
-					<image @click="closeLogisticsPopup" class="icon-close" src="../../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
+					<image @click="closeLogisticsPopup" class="icon-close"
+						src="../../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
 				</view>
 				<!-- 内容 -->
 				<view class="form">
 					<view class="form-item">
 						<text class="label">物流公司</text>
-						<picker class="picker flex-1 flex-center-end" @change="bindPickerChange" range-key="deliveryName" :range="list">
+						<picker class="picker flex-1 flex-center-end" @change="bindPickerChange"
+							range-key="deliveryName" :range="list">
 							<view class="uni-input">{{ index > -1 ? list[index].deliveryName : '请选择' }}</view>
 						</picker>
-						<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg" mode="aspectFill"></image>
+						<image class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"
+							mode="aspectFill"></image>
 					</view>
 					<view class="form-item">
 						<text class="label">物流单号</text>
-						<input type="text" @blur="inputChange" class="input" placeholder-class="input-placeholder" placeholder="请输入" />
+						<input type="text" @blur="inputChange" class="input" placeholder-class="input-placeholder"
+							placeholder="请输入" />
 					</view>
 				</view>
 
@@ -102,74 +107,92 @@
 				</view>
 			</view>
 		</uni-popup>
-		
+
+		<!-- 物流 弹窗 -->
+		<order-logistic-popup ref="logisticPopup" :data="logisticsVO"></order-logistic-popup>
 	</scroll-view>
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-			orderInfo: {
-				orderItemList: []
-			},
-			index: -1,
-			list: [],
-		};
-	},
-	onLoad(option) {
-		this.orderId = option.orderId;
-		this.queryInfo();
-		this.queryExpress();
-	},
-	methods: {
-		queryInfo() {
-			this.$http.get('/order/queryDetail', { orderNum: this.orderId }).then(res => {
-				this.orderInfo = res;
-			});
-		},
-		publishGoods() {
-			let params = {
-				...this.list[this.index],
-				deliveryNum: this.deliveryNum,
-				orderNum: this.orderId
+	export default {
+		data() {
+			return {
+				orderInfo: {
+					orderItemList: []
+				},
+				index: -1,
+				list: [],
+				logisticsVO: []
 			};
-			this.$http
-				.post('/order/delivery', {...params})
-				.then(res => {
-					// this.orderInfo = res;
-					uni.showToast({
-						title: '发货成功'
-					});
-					this.closeLogisticsPopup();
-					this.queryInfo();
-				})
-				.catch(err => {});
 		},
-		queryExpress() {
-			this.$http.get('/order/queryExpress', { orderNum: this.orderId }).then(res => {
-				this.list = res;
-			});
+		onLoad(option) {
+			this.orderId = option.orderId;
+			this.queryInfo();
+			this.queryExpress();
 		},
-		bindPickerChange(event) {
-			console.info(event.detail);
-			this.index = event.detail.value;
-		},
-		logistics() {},
-		// 弹窗 打开物流
-		openLogisticsPopup(){
-			this.$refs.logisticsPopup.open();
-		},
-		// 弹窗 关闭物流
-		closeLogisticsPopup(){
-			this.$refs.logisticsPopup.close();
-		},
-		inputChange(event){
-			console.log(event)
-			this.deliveryNum = event.detail.value
+		methods: {
+			queryInfo() {
+				this.$http.get('/order/queryDetail', {
+					orderNum: this.orderId
+				}).then(res => {
+					this.orderInfo = res;
+				});
+			},
+			publishGoods() {
+				let params = {
+					...this.list[this.index],
+					deliveryNum: this.deliveryNum,
+					orderNum: this.orderId
+				};
+				this.$http
+					.post('/order/delivery', {
+						...params
+					})
+					.then(res => {
+						// this.orderInfo = res;
+						uni.showToast({
+							title: '发货成功'
+						});
+						this.closeLogisticsPopup();
+						this.queryInfo();
+					})
+					.catch(err => {});
+			},
+			queryExpress() {
+				this.$http.get('/order/queryExpress', {
+					orderNum: this.orderId
+				}).then(res => {
+					this.list = res;
+				});
+			},
+			bindPickerChange(event) {
+				console.info(event.detail);
+				this.index = event.detail.value;
+			},
+			logistics() {},
+			// 查看物流
+			queryLogistics() {              
+				this.$http.get('/order/logistics', {
+					orderNum: this.orderId
+				}, true).then(res => {
+					this.logisticsVO = res;
+					this.$refs.logisticPopup.open();
+				});
+			},
+			// 发货 弹窗 打开物流
+			openLogisticsPopup() {
+				this.$refs.logisticsPopup.open();
+			},
+			// 弹窗 关闭物流
+			closeLogisticsPopup() {
+				this.$refs.logisticsPopup.close();
+			},
+			inputChange(event) {
+				console.log(event)
+				this.deliveryNum = event.detail.value
+			}
 		}
-	}
-};
+	};
 </script>
 
 <style src="./style.less" lang="less"></style>

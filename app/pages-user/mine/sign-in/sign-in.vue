@@ -101,8 +101,7 @@ export default {
 				// if(type == 2){
 				// 	uni.ge
 				// }
-				uni.navigateBack({
-				})
+				uni.navigateBack({})
 				this.$nextTick(()=>{
 					// 打开首页，活动,分销大使
 					// 跳转课程分销页面

@@ -68,8 +68,10 @@ export default {
 		};
 	},
 	onLoad(option) {
-		this.queryParams.categoryId = option.categoryId;
-		this.categoryItem = { categoryName: option.categoryName, categoryId: option.categoryId };
+		if(option.categoryId){
+			this.queryParams.categoryId = option.categoryId;
+			this.categoryItem = { categoryName: option.categoryName, categoryId: option.categoryId };
+		}
 	},
 	methods: {
 		//返回 上一级
