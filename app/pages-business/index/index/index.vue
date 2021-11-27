@@ -46,7 +46,7 @@
 		</view>
 		<!-- 优惠券 -->
 		<view class="flex-center-between index-title">
-			<text class="text">优惠卷</text>
+			<text class="text">优惠券</text>
 			<image class="icon-arrow" src="../../../static/images/icons/icon-business-more.svg" mode="aspectFill"></image>
 		</view>
 		<view class="lists block-box">
