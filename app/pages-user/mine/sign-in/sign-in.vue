@@ -98,19 +98,27 @@ export default {
 			// 类型：1-每日签到，2-每日学习，3-分享海报，4-参加坚持不懈
 			const type = task.type;
 			if(task.flag == 0){
-				// if(type == 2){
-				// 	uni.ge
-				// }
-				uni.navigateBack({})
-				this.$nextTick(()=>{
-					// 打开首页，活动,分销大使
-					// 跳转课程分销页面
-					uni.switchTab({
-						url: '/pages-user/index/index/index'
+				if(type == 2){
+					uni.navigateBack({})
+					this.$nextTick(()=>{
+						// 打开首页，活动,分销大使
+						// 跳转课程分销页面
+						uni.switchTab({
+							url: '/pages-user/classify/index/index'
+						})
 					})
-					// 打开首页，活动,分销大使
-					uni.$emit('activity-open',2)
-				})
+				}else if(type == 4){
+					uni.navigateBack({})
+					this.$nextTick(()=>{
+						// 打开首页，活动,分销大使
+						// 跳转课程分销页面
+						uni.switchTab({
+							url: '/pages-user/index/index/index'
+						})
+						// 打开首页，活动,分销大使
+						uni.$emit('activity-open',2)
+					})
+				}
 			}
 			console.log(task);
 		},
