@@ -89,6 +89,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/phrase-list/phrase-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "快捷短语",
+                "enablePullDownRefresh": false,
+				"app-plus": {
+				    "titleNView": {
+				        "buttons": [{
+				            "color": "#2C405A",
+				            "width": "60px",
+				            "text": "添加",
+				            "fontSize": "15px"
+				        }]
+				    }
+				}
+            }
+        }
     ],
 	"subPackages": [{
 			"root": "pages-user",

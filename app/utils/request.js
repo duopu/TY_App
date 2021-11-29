@@ -32,7 +32,7 @@ export default {
 			const res = response[1].data
 			const statusCode = response[1].statusCode;
 			const rescode = res.code;
-			const msg = res.message;
+			const msg = res.errorMsg || res.message;
 			const data = res.data;
 			const success = res.success;
 			console.log('============接口请求============');

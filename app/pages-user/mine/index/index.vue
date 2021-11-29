@@ -17,7 +17,7 @@
 		<scroll-view scroll-y="true" class="my-content">
 			<!-- 头像 -->
 			<view class="flex-center avatar" @click="gotoSetMineInfo">
-				<image class="avatar-image" :src="mineInfo.avatar" mode="aspectFill"></image>
+				<image class="avatar-image" :src="mineInfo.avatar || defaultUserIcon" mode="aspectFill"></image>
 				<view class="right">
 					<view class="flex-center">
 						<text class="name">{{mineInfo.nickName || '--'}}</text>
@@ -107,6 +107,7 @@
 	export default {
 		data() {
 			return {
+				defaultUserIcon:'../../../static/images/my/defaultUserIcon.png',
 				serviceLists: [{
 						image: '../../../static/images/my/my-money.png',
 						text: '我的钱包',

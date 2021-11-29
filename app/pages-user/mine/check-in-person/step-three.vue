@@ -30,7 +30,7 @@ export default {
 	},
 	computed:{
 		avatar(){
-			return this.shopInfo.avatar || '../../../static/images/other/girl.png'
+			return this.shopInfo.avatar
 		}
 	},
 	methods:{

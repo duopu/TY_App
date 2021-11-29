@@ -8,7 +8,6 @@
 		<!-- 待付款 -->
 		<my-scroll-view ref="myScrollView" class="order-content" @loadData="onLoadData">
 			<template v-slot:list="slotProps">
-
 				<order-delivery-lists-item  v-for="(item, index) in slotProps.list"  :orderItemData="item" :key="index"></order-delivery-lists-item>
 			</template>
 		</my-scroll-view>
@@ -35,8 +34,11 @@ export default {
 		};
 	},
 	onLoad(options){
-		console.info(options.type);
-		this.tabsIndex = Number(options.type);
+		let tabsIndex = Number(options.type || '0');
+		if(tabsIndex == 2 ||  tabsIndex == 3 ){
+			tabsIndex = tabsIndex + 1
+		}
+		this.tabsIndex = tabsIndex
 	},
 	methods: {
 		//获取当前 tabs Index

@@ -326,8 +326,8 @@
 			},
 			// 跳转分类页面
 			gotoClassCategory() {
-				uni.switchTab({
-					url: '/pages-user/classify/index/index'
+				uni.navigateTo({
+					url:'/pages-user/classify/details/details'
 				})
 			},
 			// 跳转商品详情

@@ -2,9 +2,9 @@
 <template>
 	<view class="delivery-item" @click="seeOrderInfo(orderItemData.orderNum)">
 		<view class="item-top flex-center">
-			<image class="avatar-image" src="../../static/images/other/girl.png" mode="aspectFill"></image>
-			<text class="name text-bold">用户A</text>
-			<text class="color-9">江苏省南京市</text>
+			<image class="avatar-image" :src="orderItemData.avatar" mode="aspectFill"></image>
+			<text class="name text-bold">{{orderItemData.userName}}</text>
+			<text class="color-9">{{orderItemData.province || ''}} </text>
 		</view>
 		<view class="item-content flex-center">
 			<image class="goods-image" :src="orderItemData.thumbnail" mode="aspectFill"></image>
@@ -22,7 +22,7 @@
 				已支付：
 				<view class="price text-bold">
 					<text class="unit">￥</text>
-					{{orderItemData.payAmount / 100}}
+					{{orderItemData.payAmount}}
 				</view>
 			</view>
 		</view>

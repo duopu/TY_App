@@ -37,6 +37,8 @@
 					mode="aspectFit" />
 				<image class="img-btn" @click="imgBtnClick" src="../../static/images/im/image_btn.png"
 					mode="aspectFit" />
+				<image class="img-btn" v-if="user.roleStatus !== 'user'" @click="quickPhrase" src="../../static/images/im/yy-left.png"
+					mode="aspectFit" />
 			</view>
 
 			<scroll-view scroll-y="true" v-if="isEmojiOpen">
@@ -80,6 +82,7 @@
 				messageList: [],
 				messageScrollTop: 0,
 				bottomPaddingBottom: '0rpx',
+				user:{},
 			};
 		},
 		watch: {
@@ -100,11 +103,14 @@
 		},
 		onUnload() {
 			uni.$off('AdvancedMsgListen', this.getNewMessage)
+			uni.$off('quickPhrase')
 		},
 		onReady() {
 			uni.setNavigationBarTitle({
 				title: this.navTitle
 			})
+			// 用户信息
+			this.user = getApp().globalData.user;
 			// 获取群历史消息
 			this.getGroupHistoryMessageList();
 
@@ -132,6 +138,11 @@
 			})
 
 			this.bottomPaddingBottom = this.$tool.systemInfo.platform == 'ios' ? '0rpx' : '30rpx'
+			
+			// 监听快捷短语选择
+			uni.$on('quickPhrase',(msg)=>{
+				this.messageText = msg
+			})
 		},
 		computed: {
 			navTitle() {
@@ -251,7 +262,12 @@
 					}
 				});
 			},
-
+			// 快捷短语事件
+			quickPhrase(){
+				uni.navigateTo({
+					url:'/pages/phrase-list/phrase-list'
+				})
+			},
 			// 看大图
 			showBigImage(clickMessage) {
 				console.log(this.messageList);

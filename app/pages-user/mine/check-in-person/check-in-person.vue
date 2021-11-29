@@ -113,7 +113,7 @@ export default {
 						...this.contractInfo
 					}
 					this.$http.post('/store/individuals',param,true).then(res=>{
-						this.$tool.showSuccess('入驻申请提交成功',()=>{
+						this.$tool.showSuccess('提交成功',()=>{
 							uni.navigateBack({})
 						})
 					})
