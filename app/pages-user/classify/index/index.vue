@@ -60,14 +60,23 @@ export default {
 			canDelete: false //能否删除
 		};
 	},
-	onLoad() {
-		this.getAllCategory();
-	},
 	computed:{
 		...mapState([
 			'interestList', // 兴趣点列表
 		])
 	},
+	onLoad() {
+		this.getAllCategory();
+	},
+	
+	onPullDownRefresh() {
+		this.$store.dispatch('queryInterestList')
+		this.getAllCategory();
+	    setTimeout(function () {
+	        uni.stopPullDownRefresh();
+	    }, 500);   
+	},
+	 
 	methods:{
 		
 		// 获取全部分类(热门+全平台)

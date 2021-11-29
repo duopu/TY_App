@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js'
 export default {
 	data() {
 		return {
@@ -115,7 +116,7 @@ export default {
 			let price = 0;
 			// 优惠金额 = 订单原始金额 - 支付金额
 			if(this.orderVO.orderAmount != null && this.orderVO.payAmount != null){
-				price = this.orderVO.orderAmount - this.orderVO.payAmount;
+				price = new BigNumber(this.orderVO.orderAmount).minus(this.orderVO.payAmount);
 			}
 			return price
 		}

@@ -34,7 +34,7 @@
 			"style": {
 				"navigationBarTitleText": "全部分类",
 				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages-user/course/index/index",
