@@ -30,7 +30,7 @@
 			</view>
 			
 			<!-- 商品评价 -->
-			<view class="box">
+			<view class="box" v-if="checkGoodsRexourceVO.entityGoodsCheck === 2">
 				<view class="flex-center">
 					<text class="text-bold box-title">商品评分</text>
 					<rate :readonly="false" @change="(num)=>{rateChange(1, num)}"></rate>
@@ -164,7 +164,7 @@ export default {
 		
 		// 发布评价
 		submit(){
-			if(this.evaluateVO.goodsScore === 0){
+			if(this.checkGoodsRexourceVO.entityGoodsCheck === 2 && this.evaluateVO.goodsScore === 0){
 				this.$tool.showToast("请给商品打分");
 				return
 			}

@@ -8,7 +8,7 @@
 			</view>
 			<scroll-view class="popup-content" scroll-y="true">
 				<view class="row flex-center-between" @click="changeDiscount(1)">
-					<view class="text">{{goldCoin}}金币 可抵扣{{goldDeductionAmount}}元</view>
+					<view class="text">{{maxGoldCoin}}金币 可抵扣{{maxGoldCoinAmount}}元</view>
 					<view class="radio" :class="{ on: isUseGoldCoin === 1 }"></view>
 				</view>
 				<view class="row flex-center-between" @click="changeDiscount(0)">
@@ -30,11 +30,11 @@ export default {
 			type: Number,
 			default: 0
 		},
-		goldCoin: { //能使用金币数量
+		maxGoldCoin: { //能使用金币数量
 			type: Number,
 			default: 0
 		},
-		goldDeductionAmount: { //金币抵扣金额
+		maxGoldCoinAmount: { //金币抵扣金额
 			type: Number,
 			default: 0
 		}
