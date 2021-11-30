@@ -6,7 +6,7 @@
 			<view class="title">全部评论（{{commentList.length}}）</view>
 			<view class="flex-center flex-1 color-yellow">
 				<text class="color-yellow">题库评分</text>
-				<rate class="rate" :number="score"></rate>
+				<rate class="rate" :number="questionScore"></rate>
 			</view>
 			<view class="flex-center">
 				更多
@@ -47,13 +47,13 @@ export default {
 	data() {
 		return {
 			commentList:this.questionCommentVOList, //题库评论
-			questionScore:this.score, //题库评分
+			questionScore:this.score || 5, //题库评分
 			content:this.questionBankVO.conent || "" //题库内容
 		};
 	},
 	watch:{
 		score(newV, oldV){
-			this.questionScore = newV;
+			this.questionScore = newV || 5;
 		},
 		questionBankVO(newV, oldV){
 			this.content = newV.content || "";

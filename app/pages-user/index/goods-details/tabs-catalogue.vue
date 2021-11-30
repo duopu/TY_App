@@ -50,13 +50,13 @@ export default {
 	data() {
 		return {
 			commentList:this.courseCommentVOList, //课程评论
-			courseScore:this.score || 0, //课程评分
+			courseScore:this.score || 5, //课程评分
 			courseClassVOList:this.courseVO.courseClassVOList //目录
 		};
 	},
 	watch:{
 		score(newV, oldV){
-			this.courseScore = newV;
+			this.courseScore = newV || 5;
 		},
 		courseVO(newV, oldV){
 			this.courseClassVOList = newV.courseClassVOList;

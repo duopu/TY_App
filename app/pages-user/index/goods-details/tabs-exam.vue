@@ -6,7 +6,7 @@
 			<view class="title">全部评论（{{commentList.length}}）</view>
 			<view class="flex-center flex-1 color-yellow">
 				<text class="color-yellow">考试评分</text>
-				<rate class="rate" :number="score"></rate>
+				<rate class="rate" :number="examScore"></rate>
 			</view>
 			<view class="flex-center" @click="moreComment()">
 				更多
@@ -47,13 +47,13 @@ export default {
 	data() {
 		return {
 			commentList:this.examCommentVOList, //考题评论
-			examScore:this.score, //考题评分
+			examScore:this.score || 5, //考题评分
 			content:this.examVO.conent //考题内容
 		};
 	},
 	watch:{
 		score(newV, oldV){
-			this.examScore = newV;
+			this.examScore = newV || 5;
 		},
 		examVO(newV, oldV){
 			this.content = newV.content;

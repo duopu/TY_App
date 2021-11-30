@@ -7,7 +7,7 @@
 			<view class="title">全部评论（{{commentList.length}}）</view>
 			<view class="flex-center flex-1 color-yellow">
 				<text class="color-yellow">商品评分</text>
-				<rate class="rate" :number="goodsScore || 0"></rate>
+				<rate class="rate" :number="goodsScore"></rate>
 			</view>
 			<view class="flex-center">
 				更多
@@ -48,13 +48,13 @@ export default {
 	data() {
 		return {
 			commentList:this.entityCommentVOList, //商品评论
-			goodsScore:this.score, //商品评分
+			goodsScore:this.score || 5, //商品评分
 			content:this.entityGoodsVO.conent || "" //商品内容
 		};
 	},
 	watch:{
 		score(newV, oldV){
-			this.goodsScore = newV;
+			this.goodsScore = newV || 5;
 		},
 		entityGoodsVO(newV, oldV){
 			this.content = newV.content || "";
