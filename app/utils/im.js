@@ -37,6 +37,8 @@ const login = (userId, userSig) => {
 	return new Promise((resolve, reject) => {
 		console.log();
 		txIm.login({
+			sdkAppID:'1400574852',
+			// sdkAppKey:'a317808214f70624395d853e24464a266ca241a01d007c52f57283ad8557c49d',
 			userId,
 			userSig
 		}, result => {
@@ -207,10 +209,12 @@ const downloadSound = (msgId) => {
 const joinGroup = (groupId) => {
 	return new Promise((resolve, reject) => {
 		txIm.joinGroup({
-			groupId
+			groupId,
+			msg:"申请加群",
 		}, result => {
-			console.log('加入群聊', result);
-			if (result.code == 0) {
+			console.log('加入群聊 群id',groupId);
+			console.log('加入群聊 返回结果', result);
+			if (result.code == 0 || result.code == 10013) {
 				resolve(result)
 			} else {
 				reject(result.errMsg);
@@ -320,6 +324,13 @@ const deleteConversation = (conversationId)=>{
 	})
 }
 
+// 获取群属性
+const getGroupAttributes = (groupId)=>{
+	    txIm.getGroupAttributes({groupId},result=>{
+	                    console.log('获取群属性',result);
+	                })
+}
+
 
 export default {
 	login,
@@ -336,4 +347,5 @@ export default {
 	markGroupMessageAsRead,
 	getTotalUnreadMessageCount,
 	deleteConversation,
+	getGroupAttributes,
 }

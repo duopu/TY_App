@@ -46,7 +46,7 @@
 		<!-- 底部 输入框 -->
 		<view class="live-room-bottom flex-center">
 			<input class="input" placeholder-class="input-placeholder" type="text" v-model="messageText"
-				placeholder="快来参与互动吧" confirm-type="send" />
+				placeholder="快来参与互动吧" confirm-type="send" @confirm="sendMessage"/>
 			<!-- <image class="icon" src="../../../static/images/icons/icon-talk.svg" mode="aspectFill"></image> -->
 			<text @click="sendMessage">发送</text>
 			<image class="icon" src="../../../static/images/icons/icon-share.svg" mode="aspectFill"></image>
@@ -101,11 +101,12 @@
 			},
 			groupId() {
 				// 加入群聊
-				this.$tool.imTool.joinGroup(this.groupId);
-				// 获取群历史
-				this.getGroupHistoryMessageList();
-				// 获取群在线成员数量
-				this.getLiveRoomUserCount();
+				this.$tool.imTool.joinGroup(this.groupId).then(res=>{
+					// 获取群历史
+					this.getGroupHistoryMessageList();
+					// 获取群在线成员数量
+					this.getLiveRoomUserCount();
+				})
 			}
 		},
 		methods: {
@@ -130,7 +131,7 @@
 			// 获取直播间人数
 			getLiveRoomUserCount(){
 				this.$tool.imTool.getGroupOnlineMemberCount(this.groupId).then(res=>{
-					
+					this.userCount = res.count
 				})
 			},
 			// 店铺收藏 

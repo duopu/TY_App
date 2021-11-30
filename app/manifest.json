@@ -133,20 +133,6 @@
             }
         },
         "nativePlugins" : {
-            "TX-TencentIM-Plus" : {
-                "__plugin_info__" : {
-                    "name" : "腾讯im增强版sdk qq群：933785472",
-                    "description" : "腾讯im插件助力轻松接入im的功能",
-                    "platforms" : "Android,iOS",
-                    "url" : "https://ext.dcloud.net.cn/plugin?id=5405",
-                    "android_package_name" : "com.ihomefnt.tyjy",
-                    "ios_bundle_id" : "com.ihomefnt.tyjy",
-                    "isCloud" : true,
-                    "bought" : 1,
-                    "pid" : "5405",
-                    "parameters" : {}
-                }
-            },
             "PP-Alipay" : {
                 "__plugin_info__" : {
                     "name" : "【66特惠】支付宝授权登录，支付宝，授权登录，使用简单，不冲突，更安全",
@@ -158,6 +144,20 @@
                     "isCloud" : true,
                     "bought" : 1,
                     "pid" : "1411",
+                    "parameters" : {}
+                }
+            },
+            "TX-TencentIM-Plus" : {
+                "__plugin_info__" : {
+                    "name" : "腾讯IM增强版sdk qq群：933785472",
+                    "description" : "腾讯im插件助力轻松接入im的功能",
+                    "platforms" : "Android,iOS",
+                    "url" : "https://ext.dcloud.net.cn/plugin?id=5405",
+                    "android_package_name" : "com.ihomefnt.tyjy",
+                    "ios_bundle_id" : "com.ihomefnt.tyjy",
+                    "isCloud" : true,
+                    "bought" : 1,
+                    "pid" : "5405",
                     "parameters" : {}
                 }
             }
