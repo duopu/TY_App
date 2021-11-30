@@ -51,7 +51,7 @@
 								<!-- 单选 | 判断题 -->
 								<view v-else class="radio" :class="[ flag.isTrue && 'right',flag.checked && 'on']">
 								</view>
-								<view>{{flag.optionLabel ? (flag.optionLabel + '、') : ''}}
+								<view class="option-content">{{flag.optionLabel ? (flag.optionLabel + '、') : ''}}
                   <text v-html="flag.content"></text>
                 </view>
 							</view>
