@@ -37,7 +37,7 @@
 					mode="aspectFit" />
 				<image class="img-btn" @click="imgBtnClick" src="../../static/images/im/image_btn.png"
 					mode="aspectFit" />
-				<image class="img-btn" v-if="user.roleStatus !== 'user'" @click="quickPhrase" src="../../static/images/im/yy-left.png"
+				<image class="img-btn" v-if="user.roleStatus !== 'user'" @click="quickPhrase" src="../../static/images/im/moban.png"
 					mode="aspectFit" />
 			</view>
 
