@@ -65,10 +65,10 @@
 					<text class="label">平台折扣</text>
 					<text class="flex-1 color-red">-¥{{ orderVO.platformDiscountAmount }}</text>
 				</view>
-				<view v-if="orderVO.goldCoin && orderVO.goldCoin > 0" class="row flex-center-between" @click="openPopup('dicountPopup')">
+				<view v-if="orderVO.maxGoldCoinAmount && orderVO.maxGoldCoinAmount > 0" class="row flex-center-between" @click="openPopup('dicountPopup')">
 					<text class="label">金币抵扣</text>
 					<text v-if="orderVO.goldDeductionAmount && orderVO.goldDeductionAmount > 0" class="flex-1 color-red">-¥{{ orderVO.goldDeductionAmount }}</text>
-					<text v-else class="flex-1 color-9">请选择</text>
+					<text v-else class="flex-1 color-9">{{orderVO.useGoldCoin === 0 ? '不使用金币抵扣' : '请选择'}}</text>
 					<image class="icon-arrow" mode="aspectFill" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 				</view>
 			</view>
@@ -96,11 +96,11 @@
 		:data="submitOrderVO"></common-payment-popup>
 		<!-- 金币抵扣弹窗 -->
 		<confirm-dicount-popup
-			v-if="orderVO.goldCoin && orderVO.goldCoin > 0"
+			v-if="orderVO.maxGoldCoinAmount && orderVO.maxGoldCoinAmount > 0"
 			ref="dicountPopup"
 			:useGoldCoin="orderVO.useGoldCoin"
-			:goldCoin="orderVO.goldCoin"
-			:goldDeductionAmount="orderVO.goldDeductionAmount"
+			:maxGoldCoin="orderVO.maxGoldCoin"
+			:maxGoldCoinAmount="orderVO.maxGoldCoinAmount"
 			@submit="goldCoinSubmit"
 		></confirm-dicount-popup>
 		<!-- 商家优惠券 -->
@@ -277,7 +277,7 @@ export default {
 			let { provinceName, cityName, areaName, streetName, address } = this.defaultAddress;
 
 			this.refreshOrderDetailParams = {
-				address: `${provinceName}${cityName}${areaName}${streetName}${address}`,
+				address: data.needAddress ? `${provinceName}${cityName}${areaName}${streetName}${address}` : undefined,
 				useGoldCoin: data.useGoldCoin,
 				mobile: this.defaultAddress.phone,
 				name: this.defaultAddress.name,
