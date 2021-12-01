@@ -104,8 +104,12 @@
 				this.$tool.imTool.joinGroup(this.groupId).then(res=>{
 					// 获取群历史
 					this.getGroupHistoryMessageList();
-					// 获取群在线成员数量
-					this.getLiveRoomUserCount();
+
+					console.log('ffk');
+					this.$tool.imTool.getGroupsInfo(this.groupId).then(info=>{
+						// 获取直播间人数
+						this.userCount = info.memberCount
+					})
 				})
 			}
 		},
@@ -126,12 +130,6 @@
 					this.liveInfo = res;
 					this.groupId = res.imGroupId;
 					this.livePullUrl = res.liveState == 2 ? res.liveVideoUrl : res.livePullUrl;
-				})
-			},
-			// 获取直播间人数
-			getLiveRoomUserCount(){
-				this.$tool.imTool.getGroupOnlineMemberCount(this.groupId).then(res=>{
-					this.userCount = res.count
 				})
 			},
 			// 店铺收藏 

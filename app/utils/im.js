@@ -331,6 +331,22 @@ const getGroupAttributes = (groupId)=>{
 	                })
 }
 
+// 拉取群资料
+const getGroupsInfo = (groupId)=>{
+	return new Promise((resolve, reject) => {
+		txIm.getGroupsInfo({groupIdList:[groupId]},result=>{
+			const groupInfoResult = result.groupInfoList[0]
+			console.log('拉取群资料 2',groupInfoResult);
+			if(groupInfoResult.code == 0){
+				resolve(groupInfoResult.info)
+			}else{
+				reject(groupInfoResult.msg)
+			}
+		})
+	})
+}
+
+
 
 export default {
 	login,
@@ -348,4 +364,5 @@ export default {
 	getTotalUnreadMessageCount,
 	deleteConversation,
 	getGroupAttributes,
+	getGroupsInfo,
 }

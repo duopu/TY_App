@@ -34,11 +34,8 @@ export default {
 		};
 	},
 	onLoad(options){
-		let tabsIndex = Number(options.type || '0');
-		if(tabsIndex == 2 ||  tabsIndex == 3 ){
-			tabsIndex = tabsIndex + 1
-		}
-		this.tabsIndex = tabsIndex
+		let tabsIndex = Number(options.tabsIndex || '0');
+		this.getTabsIndex(tabsIndex)
 	},
 	methods: {
 		//获取当前 tabs Index
@@ -49,7 +46,7 @@ export default {
 		onLoadData(pageNum = 1, pageSize, callback){
 			this.$http.get('/order/queryPage',{
 				page: pageNum,
-				orderState: this.tabsIndex,
+				orderState: this.tabsIndex == 3 ? 5 : this.tabsIndex,
 				size: pageSize,
 				searchText: this.searchText},true).
 			then(res=>{

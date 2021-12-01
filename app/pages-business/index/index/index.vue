@@ -24,7 +24,7 @@
 			<image class="icon-arrow" src="../../../static/images/icons/icon-business-more.svg" mode="aspectFill"></image>
 		</view>
 		<view class="order-lists flex-center block-box">
-			<view class="order-lists-item" @click="onJump(index)" v-for="(item, index) in ordersStateData" :key="index">
+			<view class="order-lists-item" @click="onJump(item)" v-for="(item, index) in ordersStateData" :key="index">
 				<image class="item-image" :src="item.icon" mode="aspectFill" />
 				<view class="number-tips" v-if="item.number">{{ item.number }}</view>
 				<text>{{ item.label }}</text>
@@ -88,25 +88,29 @@ export default {
 					key: 'noPayCount',
 					icon: '../../static/images/order/dfk.png',
 					number: 0,
-					label: '待付款'
+					label: '待付款',
+					tabsIndex:0
 				},
 				{
 					key: 'noDeliveryCount',
 					icon: '../../static/images/order/dfh.png',
 					number: 0,
-					label: '待发货'
+					label: '待发货',
+					tabsIndex:1
 				},
 				{
 					key: 'afterSaleCount',
 					icon: '../../static/images/order/dsh.png',
 					number: 0,
-					label: '待售后'
+					label: '待售后',
+					tabsIndex:3
 				},
 				{
 					key: 'noEvaluateCount',
 					icon: '../../static/images/order/dpj.png',
 					label: '待评价',
-					number: 0
+					number: 0,
+					tabsIndex:4
 				}
 			],
 			//商品
@@ -195,9 +199,9 @@ export default {
 				url: `/pages-business/index/notice/notice`
 			});
 		},
-		onJump(index) {
+		onJump(item) {
 			uni.navigateTo({
-				url: `/pages-business/index/order/order?type=`+index
+				url: `/pages-business/index/order/order?tabsIndex=${item.tabsIndex}`
 			});
 		},
 		jump(name, type) {
