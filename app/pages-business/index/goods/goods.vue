@@ -165,6 +165,28 @@ export default {
 				}
 
 			})
+		},
+		// 修改价格
+		changePrice(){
+			uni.showModal({
+				title:'改价',
+				content:'修改商品价格',
+				editable:true,
+				success: (res) => {
+					console.log(res);
+					if(res.confirm ){
+						if(!res.content){
+							this.$tool.showToast('请输入新价格')
+							return
+						}
+						const price = parseFloat(res.content)
+						if(!price){
+							this.$tool.showToast('请输入正确的价格')
+							return
+						}
+					}
+				}
+			})
 		}
 	},
 };

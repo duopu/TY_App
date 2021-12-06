@@ -9,14 +9,14 @@
 					</image>
 					<text>{{ orderInfo.storeName }}</text>
 				</view>
-				<image class="icon-dy" src="../../../static/images/icons/icon-dy.svg" mode="aspectFill"></image>
+				<!-- <image class="icon-dy" src="../../../static/images/icons/icon-dy.svg" mode="aspectFill"></image> -->
 			</view>
 			<view class="flex-center content">
 				<image class="avatar-image" :src="orderInfo.thumbnail" mode="aspectFill"></image>
 				<view class="flex-column content-column">
 					<text class="name">{{ orderInfo.goodsName }}</text>
 					<view class="flex-center-between">
-						<view class="tag-item">{{ orderInfo.attributesName }}</view>
+						<view class="tag-item" v-if="orderInfo.attributesName">{{ orderInfo.attributesName }}</view>
 						<view class="flex-baseline">
 							<view class="price color-yellow text-bold">
 								<text class="unit">¥</text>

@@ -17,7 +17,7 @@
 				<image class="icon" v-if="eye == 1" @click="()=>eye=2" src="../../static/images/login/eye-close.png"
 					mode="aspectFill"></image>
 				<image class="icon" v-if="eye == 2" @click="()=>eye=1" src="../../static/images/login/eye.png"
-					mode="aspectFill"></image>
+					mode="aspectFill"></image> 
 			</view>
 			<view class="item">
 				<input class="input" placeholder-class="input-placeholder" :type="eye == 1 ? 'password' : 'text'"
@@ -69,6 +69,7 @@
 					phone: this.phone,
 					smsType: 3
 				}, true).then(res => {
+					this.$tool.showSuccess('验证码发送成功')
 					this.startTimer();
 				})
 			},
@@ -91,7 +92,7 @@
 				if (!this.smsCode) {
 					this.$tool.showToast('请输入验证码')
 					return
-				}
+				} 
 				if (!this.pwd) {
 					this.$tool.showToast('请输入新密码')
 					return

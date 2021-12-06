@@ -242,6 +242,12 @@ export default {
 		openPopup(value) {
 			this.$refs[value].open();
 		},
+		// 跳转到选择配送地址页面
+		jumpChooseAddress(){
+			uni.navigateTo({
+				url: `/pages-user/index/address/address`
+			});
+		},
 		/**
 		 * 查询物流
 		 * @param {Object} logisticsVO 物流对象
