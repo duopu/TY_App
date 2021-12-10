@@ -176,13 +176,15 @@
 			},
 			// 语音按钮点击事件
 			voiceBtnClick() {
-				this.isRecord = !this.isRecord
+				// this.isRecord = !this.isRecord
 				if (this.isRecord) {
-					this.isEmojiOpen = false
-					this.textInputFocus = false
-				} else {
+					this.isRecord = false;
 					this.isEmojiOpen = false
 					this.textInputFocus = true
+				} else {
+					this.isRecord = true;
+					this.isEmojiOpen = false
+					this.textInputFocus = false
 				}
 			},
 			// 修改文本框焦点
@@ -191,16 +193,14 @@
 			},
 			// 表情按钮
 			handleEmoji() {
-				if (this.textInputFocus) {
-					this.textInputFocus = false
+				if(this.isEmojiOpen){
+					this.isRecord = false;
+					this.isEmojiOpen = false
+					this.textInputFocus = true
+				}else{
+					this.isRecord = false;
 					this.isEmojiOpen = true
-				} else {
-					if (this.isEmojiOpen) {
-						this.isEmojiOpen = false
-						this.textInputFocus = true
-					} else {
-						this.isEmojiOpen = true
-					}
+					this.textInputFocus = false
 				}
 			},
 			// 表情选中

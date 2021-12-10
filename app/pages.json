@@ -61,7 +61,10 @@
 			"path": "pages/im-message/im-message",
 			"style": {
 				"enablePullDownRefresh": false,
-				"navigationBarTextStyle": "black"
+				"navigationBarTextStyle": "black",
+				"app-plus":{
+					"softinputMode":"adjustResize"
+				}
 			}
 
 		},
