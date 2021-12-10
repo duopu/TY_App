@@ -49,7 +49,7 @@
 				placeholder="快来参与互动吧" confirm-type="send" @confirm="sendMessage"/>
 			<!-- <image class="icon" src="../../../static/images/icons/icon-talk.svg" mode="aspectFill"></image> -->
 			<text @click="sendMessage">发送</text>
-			<image class="icon" src="../../../static/images/icons/icon-share.svg" mode="aspectFill"></image>
+			<!-- <image class="icon" src="../../../static/images/icons/icon-share.svg" mode="aspectFill"></image> -->
 		</view>
 	</view>
 </template>
@@ -156,6 +156,10 @@
 			},
 			// 发送消息
 			sendMessage() {
+				if(!this.messageText){
+					this.$tool.showToast('请输入内容')
+					return;
+				}
 				this.$tool.imTool.sendGroupTextMessage(this.messageText, this.groupId).then(msg => {
 					this.messageList.push(msg);
 					this.messageText = ''

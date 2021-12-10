@@ -11,7 +11,7 @@
 			<view class="flex-column-between">
 				<view class="title text-bold">{{ orderItemData.goodsName }}</view>
 				<view class="flex-center-between">
-					<view class="tips">型号一</view>
+					<view class="tips" v-if="!!orderItemData.attributesName">{{orderItemData.attributesName}}</view>
 					<view class="number">×{{orderItemData.goodsNum}}</view>
 				</view>
 			</view>

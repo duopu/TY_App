@@ -58,6 +58,19 @@ export default {
 			]
 		};
 	},
+	onReady() {
+		 console.log('商家 异步获取客户端推送标识信息');
+		 plus.push.getClientInfoAsync((info) => {
+		 	console.log('商家 异步获取客户端推送标识信息', info);
+		 	const param = {
+		 		cid: info.clientid
+		 	} 
+		 	this.$http.post('/storeUser/updatePushId', param).then(res => {})
+		 }, (e) => { 
+		 	console.error('商家 异步获取客户端推送标识信息  失败');
+		 	console.error(JSON.stringify(e));
+		 })
+	},
 	onShow(){
 		const eventChannel = this.getOpenerEventChannel();
 		eventChannel.on('changeTab', (res) => {

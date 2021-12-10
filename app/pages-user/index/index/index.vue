@@ -59,6 +59,18 @@
 			})
 			// 初始化的时候更新一下消息未读数
 			this.$store.dispatch('refreshTotalUnreadMessageCount')
+			
+			console.log('用户 异步获取客户端推送标识信息');
+			plus.push.getClientInfoAsync((info) => {
+				console.log('用户 异步获取客户端推送标识信息', info);
+				const param = {
+					cid: info.clientid
+				}
+				this.$http.post('/user/updatePushId', param).then(res => {})
+			}, (e) => { 
+				console.error('用户 异步获取客户端推送标识信息  失败');
+				console.error(JSON.stringify(e));
+			})
 		},
 		onShow() {
 			setTimeout(()=>{

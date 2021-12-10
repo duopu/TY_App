@@ -5,7 +5,8 @@
 		// 全局数据对象
 		globalData: {
 			// 用户信息
-			user: {},
+			user: {
+			},
 			// im 消息
 			messageParam: {}
 		},
@@ -31,7 +32,7 @@
 
 			// 监听会话变化
 			uni.$on('ConversationListen', (data) => {
-				console.log('监听会话变化 22', data);
+				console.log('监听会话变化 app.vue', data);
 				if (data.type == 'onConversationChanged') {
 					this.$store.commit('onConversationChanged', data.conversationList)
 				}
@@ -46,6 +47,37 @@
 			const timer = setInterval(() => {
 				this.$http.refreshToken();
 			}, 60 * 60 * 1000);
+			
+			console.log('监听推送++');
+			plus.push.addEventListener('click', (message) => {
+			    console.log('推送click', message)
+			}, false)
+			
+			plus.push.addEventListener('receive', (message) => {
+			    console.log('推送receive', message)
+				// 延迟1s执行
+				setTimeout(()=>{
+					const user = this.globalData.user;
+					// 未登录状态不做处理
+					if(!user.token) return;
+					const payload = message.payload;
+					const type = payload.type;
+					if(type == 1 || type == 2){
+						// 商家端 订单消息
+						uni.navigateTo({
+							url:`/pages-business/index/order-details/order-details?orderId=${payload.data}`
+						})
+					}
+					if(type == 3){
+						// 用户端  直播开课
+						uni.navigateTo({
+							url:`/pages-user/index/live/live?courseId=${payload.data}`
+						})
+					}
+				},1000)
+				
+			 }, false)
+			 
 			// #endif
 		},
 		onShow: function() {

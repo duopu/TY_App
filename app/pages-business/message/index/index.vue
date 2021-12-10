@@ -92,6 +92,7 @@
 					let cov = this.groupConversationMap[group.groupId]
 					if (cov) {
 						const covInfo = this.$tool.imTool.getInfoFromConversation(cov);
+						console.log('fffffff',covInfo);
 						return {
 							...group,
 							...covInfo
@@ -148,37 +149,30 @@
 					})
 				}
 			},
+			// 右上角更多操作
 			jumpSetting(index) {
+				this.showPop = false;
 				switch (index) {
 					case 0:
 						// 设置全部已读
 						this.groupList.map((item,index) => {
-							this.$tool.imTool.markGroupMessageAsRead(item.groupId);
-							if(index == this.groupList.length - 1){
-								this.$tool.showSuccess('设置成功')
-							}
+							this.$tool.imTool.markGroupMessageAsRead(item.groupId).then(res=>{
+								if(index == this.groupList.length - 1){
+									this.$tool.showSuccess('操作成功')
+								}
+							})
 						});
 						break;
 					case 1:
 						this.groupList.map((item,index) => {
-							this.$tool.imTool.deleteConversation(item.groupId);
-							if(index == this.groupList.length - 1){
-								this.$tool.showSuccess('suanchuuuu                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     成功')
-							}
+							let cov = this.groupConversationMap[item.groupId]
+							let conversationId = cov.conversationId;
+							this.$tool.imTool.deleteConversation(conversationId).then(res=>{
+								if(index == this.groupList.length - 1){
+									this.$tool.showSuccess('操作成功')
+								}
+							})
 						});
-						// uni.navigateTo({
-						// 	url:`/pages-business/message/store/store`
-						// })
-						break;
-					case 2:
-						// uni.navigateTo({
-						// 	url:`/pages-business/message/store/store`
-						// })
-						break;
-					case 3:
-						uni.navigateTo({
-							url: `/pages-business/my/setting/setting`
-						})
 						break;
 				}
 			}

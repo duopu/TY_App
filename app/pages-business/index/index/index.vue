@@ -1,4 +1,4 @@
-<!--  -->
+<!-- 商家首页 -->
 <template>
 	<scroll-view scroll-y="true" class="index">
 		<view class="flex-center-between index-top">
@@ -160,14 +160,6 @@ export default {
 				]
 			}
 		};
-	},
-	onReady() {
-		plus.push.addEventListener('click', (message) => {
-		    console.log('推送click', message)
-		}, false)
-		plus.push.addEventListener('receive', (message) => {
-		    console.log('推送receive', message)
-		 }, false)
 	},
 	mounted(data) {
 		console.log('首页的用户信息打印', getApp().globalData.user);
