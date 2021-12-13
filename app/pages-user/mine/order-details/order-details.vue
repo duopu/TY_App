@@ -27,6 +27,10 @@
 								<text class="label">尾款（待支付）</text>
 								<text class="flex-1 color-9">¥{{ orderVO.goodsPrice - orderVO.maxPrice }} - ¥{{ orderVO.goodsPrice - orderVO.minPrice }}</text>
 							</block>
+							<block v-else-if="orderVO.orderState === 22">
+								<text class="label">尾款（待支付）</text>
+								<text class="flex-1 color-9">¥{{ orderVO.finalPayment }}</text>
+							</block>
 							<block v-else>
 								<text class="label">尾款（已支付）</text>
 								<text class="flex-1 color-9">¥{{ orderVO.finalPayment }}</text>
@@ -161,6 +165,8 @@ export default {
 					return '已取消';
 					break;
 				case 0:
+				case 21:
+				case 22:
 					return '待付款';
 					break;
 				case 1:
@@ -172,13 +178,12 @@ export default {
 				case 3:
 					return '待评价';
 					break;
+				case 4:
 				case 10:
 					return '已完成';
 					break;
 				case 5:
 				case 11:
-					return '申请退款中';
-					break;
 				case 6:
 				case 12:
 				case 14:
