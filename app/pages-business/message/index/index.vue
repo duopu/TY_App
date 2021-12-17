@@ -25,7 +25,7 @@
 			</view>
 			<!-- 交易信息 -->
 			<view class="lists-item" @click="jump('trade')">
-				<image src="" mode="aspectFill" class="item-image"></image>
+				<image src="../../../static/images/shop/jyxx.png" mode="aspectFill" class="item-image"></image>
 				<view class="flex-column flex-1">
 					<view class="name text-bold">交易信息</view>
 					<view class="desc">有{{newOrderMessageCount}}个新订单产生</view>
@@ -37,7 +37,7 @@
 			</view>
 			<!-- 店铺信息 -->
 			<view class="lists-item" @click="jump('store')">
-				<image src="" mode="aspectFill" class="item-image"></image>
+				<image src="../../../static/images/shop/dpxx.png" mode="aspectFill" class="item-image"></image>
 				<view class="flex-column flex-1">
 					<view class="name text-bold">店铺信息</view>
 					<view class="desc">有新的退款审批需处理</view>

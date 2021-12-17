@@ -3,13 +3,14 @@
 	<view class="live-room">
 		<!-- 视频 -->
 		<view class="live-room-top">
-			<video v-if="videoUrl" class="video" :key="videokey" @timeupdate="_timeupdate" @ended="_endUpdata" :src="videoUrl" controls :autoplay="true" />
+			<video v-if="videoUrl" class="video" :key="videokey" @timeupdate="_timeupdate" @ended="_endUpdata"
+				:src="videoUrl" controls :autoplay="true" />
 			<image v-else :src="detail.img ? detail.img[0] : ''" class="live-img" />
 			<view class="flex-center-between text-bold process">
 				<text class="title text-bold">{{detail.courseName}}</text>
 				<text v-if="!isLocal" class="color-red">{{detail.learnRate || 0}}%</text>
 			</view>
-		</view> 
+		</view>
 
 		<!-- 目录 -->
 		<scroll-view class="live-room-category" scroll-y="true">
@@ -19,27 +20,27 @@
 					<text class="text-bold title">{{(index + 1)}}、{{item.courseClassName}}</text>
 					<image class="icon" src="../../../static/images/icons/icon-collapse-arrow.svg" mode="aspectFill" />
 				</view>
-        <!-- 章节 -->
-        <view  v-if="item.checked" v-for="(subItem, subIndex) in item.nodes" :key="subIndex" class="collapse-content" style="margin-left:20rpx" @click.stop="periodClick(subItem)">
-          <view class="flex collapse-item">
-            <image class="icon-video" src="../../../static/images/icons/icon-video.svg" mode="aspectFill" />
-            <view class="flex-column flex-1">
-              <view class="flex-center">
-                <text>{{subItem.courseClassName}}</text>
-                <text class="tag">上次学到</text>
-              </view>
-              <view class="flex-center desc">
-                <text>{{subItem.learnDuration | filterDate}}分钟</text>
-                <block>
-                  <text class="m-left-40">已学习</text>
-                  <text
-                    class="color-red">{{ subItem.learnDuration | filterProgress(subItem.classDuration)}}%</text>
-                </block>
-              </view>
-            </view>
-          </view>
-        </view>
-				
+				<!-- 章节 -->
+				<view v-if="item.checked" v-for="(subItem, subIndex) in item.nodes" :key="subIndex"
+					class="collapse-content" style="margin-left:20rpx" @click.stop="periodClick(subItem)">
+					<view class="flex collapse-item">
+						<image class="icon-video" src="../../../static/images/icons/icon-video.svg" mode="aspectFill" />
+						<view class="flex-column flex-1">
+							<view class="flex-center">
+								<text>{{subItem.courseClassName}}</text>
+								<text class="tag">上次学到</text>
+							</view>
+							<view class="flex-center desc">
+								<text>{{subItem.learnDuration | filterDate}}分钟</text>
+								<block>
+									<text class="m-left-40">已学习</text>
+									<text
+										class="color-red">{{ subItem.learnDuration | filterProgress(subItem.classDuration)}}%</text>
+								</block>
+							</view>
+						</view>
+					</view>
+				</view>
 			</view>
 		</scroll-view>
 		<!-- 底部 -->
@@ -79,16 +80,16 @@
 				current: 0,
 				videoUrl: '',
 				videokey: Math.random(),
-				id: '', //课时id
+				id: '', //课程章节id
 				isLocal: false,
 				courseSyncList: uni.getStorageSync('courseList') || [],
-        currTime:0, //播放时长
-        classDuration:0, //课程总时长
+				currTime: 0, //播放时长
+				classDuration: 0, //课程总时长
 			};
 		},
 		filters: {
 
-	    // 时间转分钟
+			// 时间转分钟
 			filterDate(v) {
 				if (!v) return 0;
 				return dayjs(v).minute()
@@ -119,40 +120,44 @@
 
 			// 课时点击
 			periodClick(item) {
-        if(this.isLocal && !item.url){
-          this.$tool.showToast('未缓存此课')
-          return;
-        }
-        if(item.url){
-          this.id = item.id;
-          this.videoUrl = item.url
-          this.videokey = Math.random();
-        }
+				console.log('ffk',item);
+				if (this.isLocal && !item.url) {
+					this.$tool.showToast('未缓存此课')
+					return;
+				}
+				if (item.url) {
+					this.id = item.courseClassId;
+					this.videoUrl = item.url
+					this.videokey = Math.random();
+				}
 			},
 
-      // 播放时间监听
-      _timeupdate(event){
-        const {currentTime}  = event.detail
-        if(currentTime - this.currTime > 1){
-          this.currTime = currentTime;
-          this.courseUpdateTime();
-        }
-      },
+			// 播放时间监听
+			_timeupdate(event) {
+				const {
+					currentTime
+				} = event.detail
+				if (currentTime - this.currTime > 1) {
+					this.currTime = currentTime;
+					this.courseUpdateTime();
+				}
+			},
 
-      // 播放结束
-      _endUpdata(event){
-        this.currTime = this.classDuration;
-        this.courseUpdateTime();
-      },
+			// 播放结束
+			_endUpdata(event) {
+				this.currTime = this.classDuration;
+				this.courseUpdateTime();
+			},
 
-      // 更新进度接口 
-      courseUpdateTime(){
-          const params = {
-            learnDuration:parseInt(this.currTime),
-            id:this.id
-          }
-          this.$http.post('/userCourse/update', params, false)
-      },
+			// 更新进度接口 
+			courseUpdateTime() {
+				const params = {
+					learnDuration: parseInt(this.currTime),
+					courseClassId:this.id,
+					courseId:this.courseId
+				}
+				this.$http.post('/userCourse/update', params, false)
+			},
 
 			//树状结构 第一层点击 
 			firstCheck(data) {
@@ -175,10 +180,10 @@
 				courseSyncList.map(item => {
 					(item.userCourseClassList || []).map(subItem => {
 						isSync = (subItem.nodes).filter(flag => flag.id == this.id).length > 0;
-            if (isSync) {
-              this.$tool.showToast('您已经缓存过了')
-              return;
-            }
+						if (isSync) {
+							this.$tool.showToast('您已经缓存过了')
+							return;
+						}
 					})
 				})
 				uni.showLoading({
@@ -227,10 +232,10 @@
 				classList.map(item => {
 					(item.nodes || []).map(flag => {
 						if (flag.id === this.id) {
-              flag.url = file
-            } else {
-              flag.url = ''
-            }
+							flag.url = file
+						} else {
+							flag.url = ''
+						}
 					})
 				})
 				courseSyncList.push({
@@ -243,16 +248,16 @@
 				uni.setStorageSync('courseList', courseSyncList)
 			},
 
-      /**
-       * ios下文件名中文处理
-       * @param {String} filename
-       */
-      fileNameEscape(filename) {
-        if (uni.getSystemInfoSync().platform == "ios") {
-          filename = escape(filename);
-        }
-        return filename;
-      },
+			/**
+			 * ios下文件名中文处理
+			 * @param {String} filename
+			 */
+			fileNameEscape(filename) {
+				if (uni.getSystemInfoSync().platform == "ios") {
+					filename = escape(filename);
+				}
+				return filename;
+			},
 
 			// 跳转客服页面
 			toCustomerService() {
@@ -299,16 +304,16 @@
 				}
 				const data = await this.$http.get('/userCourse/queryDetail', params, true)
 				if (data.userCourseClassList) {
-					(data.userCourseClassList || []).map((item,index) => {
+					(data.userCourseClassList || []).map((item, index) => {
 						item.checked = index === 0;
 					})
-          if(data.userCourseClassList[0] && data.userCourseClassList[0].nodes.length>0){
-            if(data.userCourseClassList[0].nodes[0].url){
-              this.videoUrl = data.userCourseClassList[0].nodes[0].url;
-            }
-            this.classDuration = data.userCourseClassList[0].nodes[0].classDuration;
-            this.id = data.userCourseClassList[0].nodes[0].id;
-          }
+					if (data.userCourseClassList[0] && data.userCourseClassList[0].nodes.length > 0) {
+						if (data.userCourseClassList[0].nodes[0].url) {
+							this.videoUrl = data.userCourseClassList[0].nodes[0].url;
+						}
+						this.classDuration = data.userCourseClassList[0].nodes[0].classDuration;
+						this.id = data.userCourseClassList[0].nodes[0].id;
+					}
 				}
 				this.detail = data;
 			},
@@ -317,18 +322,19 @@
 			setDetail() {
 				const courseList = uni.getStorageSync('courseList')
 				const data = courseList.filter(item => item.courseId == this.courseId)[0]
-        const userCourseClassList = data.userCourseClassList
-        const checkCourseClassList = userCourseClassList.filter(item=>item.nodes && item.nodes.length>0 && item.nodes.filter(i=>i.url).length>0)
-        if (data.userCourseClassList) {
+				const userCourseClassList = data.userCourseClassList
+				const checkCourseClassList = userCourseClassList.filter(item => item.nodes && item.nodes.length > 0 && item
+					.nodes.filter(i => i.url).length > 0)
+				if (data.userCourseClassList) {
 					(data.userCourseClassList || []).map((item) => {
 						item.checked = item.id === checkCourseClassList[0].id;
 					})
-          const checkNodes = checkCourseClassList[0].nodes.filter(i=>i.url)[0];
-          if(checkNodes){
-            this.classDuration = checkNodes.classDuration
-            this.id = checkNodes.id
-            this.videoUrl = checkNodes.url
-          }
+					const checkNodes = checkCourseClassList[0].nodes.filter(i => i.url)[0];
+					if (checkNodes) {
+						this.classDuration = checkNodes.classDuration
+						this.id = checkNodes.id
+						this.videoUrl = checkNodes.url
+					}
 				}
 				this.detail = data
 			}
@@ -336,4 +342,5 @@
 	};
 </script>
 
-<style lang="less" src="./style.less"></style>
+<style lang="less" src="./style.less">
+</style>

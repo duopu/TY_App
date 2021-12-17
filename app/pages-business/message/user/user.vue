@@ -1,7 +1,6 @@
 <!-- 用户信息-用户查看 -->
 <template>
 	<view class="user">
-		<!--  -->
 		<!-- 头部 -->
 		<view class="user-top">
 			<view class="flex-center-between">
@@ -56,13 +55,16 @@
 export default {
 	data() {
 		return {
+			// 商家信息
 			goodsInfo: [],
+			// 用户信息
 			userInfo: [],
 			userId: '',
 			storeId:'',
+			// 用户统计信息
 			statistc:'',
-			list: [],
-			type: 1 //1 购买的商品 2 收藏的商品
+			// 订单列表
+			list: []
 		};
 	},
 	onLoad(option){
@@ -71,6 +73,7 @@ export default {
 		
 		this.getUserInfo();
 		this.getUserGoodsList();
+		this.queryLearnStatistic()
 	},
 	methods: {
 		// 返回事件
@@ -87,22 +90,14 @@ export default {
 			this.$http.get('/goods/queryListByUserId',{userId: this.userId,storeId:this.storeId},false).then(res => {
 				this.goodsInfo = res;
 				this.list = res.orderVOList;
-				console.log(this.list,'===========')
 			})
 		},
 		queryLearnStatistic(){
 			console.log(getApp().globalData.user)
-			this.$http.get('/dailyTask/queryLearnStatistic',{},false).then(res => {
+			this.$http.get('/dailyTask/queryLearnStatisticByUserId',{userId: this.userId},false).then(res => {
 				this.statistc = res;
 			})
 		}
-	},
-	watch:{
-		// type: {
-		// 	handler(){
-		// 		this.type == 1 ? this.goodsInfo.orderVOList : this.goodsInfo.goodsVOList
-		// 	}
-		// },
 	}
 };
 </script>

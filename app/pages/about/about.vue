@@ -20,7 +20,8 @@ export default {
 	},
 	methods:{
 		queryUsInfo(){
-			this.$http.get('/tencent/queryDetail',{},true).then(res=>{
+			this.$http.get('/tencent/queryDetail',{}).then(res=>{
+				console.log('ff',res);
 				this.info = res;
 			})
 		}

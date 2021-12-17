@@ -27,7 +27,7 @@
 			</view>
 		
 			<!-- 底部操作按钮 -->
-			<view class="flex-center-between bottom">
+			<view class="flex-center-between bottom" >
 				<!-- 更多按钮 -->
 				<view v-if="moreOptionBtns.length > 0" class="dots" @click="openMoreBtn">
 					<image class="icon-dots" src="../../static/images/icons/icon-dots.svg" mode="aspectFill"></image>
@@ -39,8 +39,8 @@
 				</view>
 		
 				<!-- 操作按钮，最多展示3个，超过3个后其余的放入更多中展示 -->
-				<view class="flex-center-end flex-1">
-					<button v-for="(value, index) in bottomOptionBtns" :class="value.class" :key="`bottom-btn-${index}`" @click.stop="handleFunctionCall(value.method)">
+				<view class="flex-center-end flex-1" :style="{'display': 'flex','flex-direction': 'row','flex':'1','justify-content': 'flex-end'}">
+					<button v-for="(value, index) in bottomOptionBtns" :class="value.class"  :key="`bottom-btn-${index}`" @click.stop="handleFunctionCall(value.method)">
 						{{ value.name }}
 					</button>
 				</view>
@@ -390,4 +390,6 @@ export default {
 };
 </script>
 
-<style src="./style.less" lang="less"></style>
+<style src="./style.less" lang="less">
+	
+</style>
