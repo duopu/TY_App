@@ -196,8 +196,8 @@ export default {
 		copyUrlClick(){
 			if(this.state === 2){ //商品分销
 				const linkType = config.linkType.goodsDistribute; 
-				const goodsId = item.goodsId;
-				const userId = item.userId;
+				const goodsId = this.detail.goodsId;
+				const userId = getApp().globalData.user.userId;
 				let url = `${config.urlLink.shareGoodsDetailUrl}?linkType=${linkType}&goodsId=${goodsId}&userId=${userId}`;
 				let shareMsg = `推荐一款超值的商品给你：${url}`;
 				// 复制链接到系统剪贴板中
