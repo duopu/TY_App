@@ -6,7 +6,7 @@ const h5Url = 'https://static-6379cc60-5114-44a4-bc2b-f3bdfb1a6061.bspapp.com'
 export default {
 	
 	// 接口地址
-	baseUrl:debug ? 'http://education.sinfinite.cn' : 'https://api.quickcer.com',
+	baseUrl:debug ? 'https://education.sinfinite.cn' : 'https://api.quickcer.com',
 	
 	// 打开H5页面的数据，存放此处，H5页面打开后从这里拿数据
 	H5Obj:{},
