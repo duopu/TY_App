@@ -77,8 +77,9 @@ export default {
 				extensionCount: 0,
 				title: undefined,
 				id: undefined,
-				userId: undefined, //只有商品分销才有该字段
-				type: undefined //只有平台分销才有该字段
+				userId: undefined, // 只有商品分销才有该字段
+				type: undefined, // 只有平台分销才有该字段
+				goodsId: undefined // 只有商品分销才有该字段
 			}
 		},
 		showCopy: { //是否显示复制链接按钮
@@ -160,7 +161,7 @@ export default {
 					return;
 				}
 				this.$http
-					.get('/distribution/queryGoodsRecordPage', {page:this.page, size: this.pageSize}, true)
+					.get('/distribution/queryGoodsRecordPage', {page:this.page, size: this.pageSize, userId:getApp().globalData.user.userId}, true)
 					.then(res => {
 						if(this.page == 1){
 							this.dataList = res.content;

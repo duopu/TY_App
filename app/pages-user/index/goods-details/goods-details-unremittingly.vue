@@ -465,7 +465,7 @@ export default {
 		 * 商品属性提交回调
 		 */
 		goodsAttributesSubmit({goodsAttributes,count}){
-			this.selectGoodsVO = {...goodsAttributes,goodsNum:count};						
+			this.selectGoodsVO = {...goodsAttributes,goodsNum:count};	
 			uni.navigateTo({
 				url: `/pages-user/index/confirm/confirm-unremittingly?goodsNum=${count}&attributesId=${goodsAttributes.attributesId}`
 			});

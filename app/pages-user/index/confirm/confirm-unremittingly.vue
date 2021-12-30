@@ -103,7 +103,7 @@ export default {
 		defaultAddress: {
 			handler: function(newV, oldV){
 				let {provinceName,cityName,areaName,streetName,address,phone,name} = newV;
-				this.params.address = `${provinceName}${cityName}${areaName}${streetName}${address}`;
+				this.params.address = provinceName ? `${provinceName}${cityName}${areaName}${streetName}${address}` : undefined;
 				this.params.name = name;
 				this.params.mobile = phone;
 			},
@@ -112,7 +112,7 @@ export default {
 	},
 	onLoad(option) {
 		this.detailParams = {
-			attributesId: option.attributesId,
+			attributesId: option.attributesId == 'undefined' ? null : option.attributesId,
 			goodsNum: option.goodsNum,
 			goodsId: this.unremittinglyVO.goodsId,
 			unremittinglyId: this.unremittinglyVO.unremittinglyId
@@ -162,7 +162,8 @@ export default {
 				return
 			}
 			
-			if(this.unremittinglyVO.needAddress && !this.defaultAddress.id){
+			
+			if(this.orderVO.needAddress && !this.defaultAddress.id){
 				this.$tool.showToast("请填写收货地址");
 				return
 			}

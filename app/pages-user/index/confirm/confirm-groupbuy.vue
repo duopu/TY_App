@@ -91,7 +91,7 @@ export default {
 		defaultAddress: {
 			handler: function(newV, oldV){
 				let {provinceName,cityName,areaName,streetName,address,phone,name} = newV;
-				this.params.address = `${provinceName}${cityName}${areaName}${streetName}${address}`;
+				this.params.address = provinceName ? `${provinceName}${cityName}${areaName}${streetName}${address}` : undefined;
 				this.params.name = name;
 				this.params.mobile = phone;
 			},

@@ -31,7 +31,6 @@
 			}
 		},
 		onLoad(data) {
-			//TODO: 这里可以通过data.userId拿到邀请人ID进行注册
 			this.userId = data.userId;
 			this.phone = data.phone
 			this.roleStatus = data.roleStatus
@@ -71,7 +70,8 @@
 					phone: this.phone,
 					smsCode: this.smsCode,
 					loginType: 1,
-					source
+					source,
+					inviterId: this.userId
 				}
 				
 				this.$http.post('/user/login', param, true).then(res => {

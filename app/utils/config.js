@@ -1,17 +1,12 @@
-
-const debug = true;
+// 是否开启debug
+const debug = true; 
 // H5地址
-const h5Url = 'https://static-71d6e5c1-8785-439f-bc7a-d627a1930796.bspapp.com'
+const h5Url = 'https://static-6379cc60-5114-44a4-bc2b-f3bdfb1a6061.bspapp.com'
 
 export default {
 	
-	// #ifdef H5
-		baseUrl:debug ? '/api' : 'https://api.quickcer.com',
-	// #endif
-	
-	// #ifndef H5 
-		baseUrl:debug ? 'http://education.sinfinite.cn' : 'https://api.quickcer.com', 
-	// #endif
+	// 接口地址
+	baseUrl:debug ? 'http://education.sinfinite.cn' : 'https://api.quickcer.com',
 	
 	// 打开H5页面的数据，存放此处，H5页面打开后从这里拿数据
 	H5Obj:{},

@@ -262,6 +262,7 @@ export default {
 						value.orderItemList &&
 						value.orderItemList.map(function(v) {
 							return {
+								distributorId: v.distributorId,
 								attributesId: v.attributesId,
 								goodsId: v.goodsId,
 								goodsNum: v.goodsNum

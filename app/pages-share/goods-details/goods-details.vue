@@ -199,7 +199,8 @@ export default {
 			platformCouponTypeContent:undefined, //平台最大优惠力度
 			storeCouponTypeContent:undefined, //商家最大优惠力度
 			groupBuyVO: {}, //组团优惠详情对象
-			linkType: undefined
+			linkType: undefined,
+			userId: undefined
 		};
 	},
 	watch: {
@@ -213,6 +214,7 @@ export default {
 	onLoad(option) {
 		this.goodsId = option.goodsId;
 		this.linkType = option.linkType;
+		this.userId = option.userId;
 		this.getGoodsResource();
 		this.getGoodsInfo();
 		this.getComment();
@@ -374,7 +376,8 @@ export default {
 		openApp(){
 			const linkType = this.linkType; 
 			const goodsId = this.goodsId;
-			let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}`;
+			const userId = this.userId;
+			let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}&userId=${userId}`;
 			let shareMsg = `推荐一款超值的商品给你：${url}`;
 			this.$tool.openApp(url)
 		}
