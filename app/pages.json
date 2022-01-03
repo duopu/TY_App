@@ -62,8 +62,8 @@
 			"style": {
 				"enablePullDownRefresh": false,
 				"navigationBarTextStyle": "black",
-				"app-plus":{
-					"softinputMode":"adjustResize"
+				"app-plus": {
+					"softinputMode": "adjustResize"
 				}
 			}
 
@@ -82,35 +82,31 @@
 				"navigationBarTitleText": "帮助与反馈",
 				"enablePullDownRefresh": false
 			}
-		}
-	    ,{
-            "path" : "pages/watch-h5/watch-h5",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/phrase-list/phrase-list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "快捷短语",
-                "enablePullDownRefresh": false,
+		}, {
+			"path": "pages/watch-h5/watch-h5",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/phrase-list/phrase-list",
+			"style": {
+				"navigationBarTitleText": "快捷短语",
+				"enablePullDownRefresh": false,
 				"app-plus": {
-				    "titleNView": {
-				        "buttons": [{
-				            "color": "#2C405A",
-				            "width": "60px",
-				            "text": "添加",
-				            "fontSize": "15px"
-				        }]
-				    }
+					"titleNView": {
+						"buttons": [{
+							"color": "#2C405A",
+							"width": "60px",
+							"text": "添加",
+							"fontSize": "15px"
+						}]
+					}
 				}
-            }
-        }
-    ],
+			}
+		}
+	],
 	"subPackages": [{
 			"root": "pages-user",
 			"pages": [{
@@ -174,13 +170,11 @@
 					"style": {
 						"navigationBarTitleText": "商品详情",
 						"enablePullDownRefresh": false,
-						"app-plus":{
-							"titleNView":{
-								"buttons":[
-									{
-										"type":"share"
-									}
-								]
+						"app-plus": {
+							"titleNView": {
+								"buttons": [{
+									"type": "share"
+								}]
 							}
 						}
 					}
@@ -318,7 +312,7 @@
 						"enablePullDownRefresh": false
 					}
 
-				},{
+				}, {
 					"path": "mine/secondhand/secondhand",
 					"style": {
 						"navigationBarTitleText": "二手商品专区",
@@ -633,14 +627,29 @@
 						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
-				},{
-					"path":"index/room/room",
-					"style":{
+				}, {
+					"path": "index/room/room",
+					"style": {
 						"navigationStyle": "custom",
 						"enablePullDownRefresh": false
 					}
+				}, {
+					"path": "index/switch-accounts/switch-accounts",
+					"style": {
+						"navigationBarTitleText": "切换账号",
+						"enablePullDownRefresh": false
+					}
 				}
-			]
+			    ,{
+                    "path" : "index/relation-account/relation-account",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "关联账号",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 		},
 		{
 			"root": "pages-share",
@@ -661,7 +670,7 @@
 				{
 					"path": "goods-details/goods-details",
 					"style": {
-						"navigationBarTitleText":"商品详情",
+						"navigationBarTitleText": "商品详情",
 						"enablePullDownRefresh": false
 					}
 				},
@@ -675,14 +684,14 @@
 				{
 					"path": "goods-group/goods-group",
 					"style": {
-						"navigationBarTitleText":"组团优惠",
+						"navigationBarTitleText": "组团优惠",
 						"enablePullDownRefresh": false
 					}
 				},
 				{
 					"path": "goods-unremittingly/goods-unremittingly",
 					"style": {
-						"navigationBarTitleText":"坚持不懈",
+						"navigationBarTitleText": "坚持不懈",
 						"enablePullDownRefresh": false
 					}
 				},

@@ -6,6 +6,7 @@
 				<image class="avatar-image" :src="storeInfo.avatar || defaultShopIcon" mode="aspectFill"></image>
 				<view>
 					<view class="name text-bold">{{ storeInfo.storeName }}</view>
+					<view class="qhzh" @click="qhzhAction">切换其他账号 ></view>
 				</view>
 			</view>
 		</view>
@@ -188,6 +189,12 @@ export default {
 				console.log(res);
 				this.noticeList = res.content || [];
 			});
+		},
+		// 切换其他账号
+		qhzhAction(){
+			uni.navigateTo({
+				url:'/pages-business/index/switch-accounts/switch-accounts'
+			})
 		},
 		jumpGoodList(type) {
 			uni.navigateTo({

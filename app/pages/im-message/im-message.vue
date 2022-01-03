@@ -20,7 +20,7 @@
 			</message-item>
 		</scroll-view>
 
-		<view class="bottom" :style="{paddingBottom:bottomPaddingBottom}">
+		<view class="bottom" :style="{paddingBottom:bottomPaddingBottom}" v-if="canTalk">
 			<view class="input-bar">
 				<view class="text-input" v-if="!isRecord">
 					<input class="input" type="text" v-model="messageText" confirm-type="send" cursor-spacing="10"
@@ -83,6 +83,8 @@
 				messageScrollTop: 0,
 				bottomPaddingBottom: '0rpx',
 				user:{},
+				// 是否能发言
+				canTalk:true
 			};
 		},
 		watch: {
@@ -143,6 +145,14 @@
 			uni.$on('quickPhrase',(msg)=>{
 				this.messageText = msg
 			})
+			
+			// 如果是商家端，进来检查一下是否能发言
+			if(this.user.roleStatus === 'business'){
+				this.$http.get('/im/getGroupDetail',{groupId:this.groupId}).then(res=>{
+					console.log('如果是商家端，进来检查一下是否能发言',res);
+					this.canTalk = res.imList.includes(this.user.imNum)
+				})
+			}
 		},
 		computed: {
 			navTitle() {

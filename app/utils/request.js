@@ -122,21 +122,16 @@ export default {
 					mask: true,
 				})
 			}
-			
+			console.log('文件上传',config.baseUrl + '/image/upload',data);
 			uni.uploadFile({
 				url: config.baseUrl + '/image/upload', 
-				filePath: data.path,
-				name: 'file',
-				formData: {
-					file:data.file
-				},
-				header:{
-					'x-uid':1
-				},
+				files:[{
+					uri:data.path
+				}],
 				success: (uploadFileRes) => {
 
 					const res = JSON.parse(uploadFileRes.data);
-					console.log('上传结束',res);
+					console.log('上传结束',res,uploadFileRes);
 					
 					const rescode = res.code;
 					const msg = res.message;
