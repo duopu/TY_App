@@ -6,7 +6,7 @@
 				<view class="name">{{item.nickName}}</view>
 				<view class="phone">{{item.phone}}</view>
 			</view>
-			<view class="delete-btn" @click="removeRelationAccount(item)">删除</view>
+			<view class="delete-btn" @click="removeRelationAccount(item)">取消关联</view>
 		</view>
 		<view class="bottom-btn" @click="navRelationAccount">关联更多账户</view>
 	</view>
@@ -35,6 +35,13 @@
 			// 移除关联账号
 			removeRelationAccount(item){
 				console.log(item);
+				const param = {
+					storeUserId:item.storeUserId
+				}
+				this.$http.post('/storeUser/cancelRelate',param,true).then(res=>{
+					this.$tool.showSuccess('已经取消关联')
+					this.getAccountList()
+				})
 			},
 			// 跳转关联账号页面
 			navRelationAccount(){
