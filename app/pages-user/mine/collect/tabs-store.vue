@@ -31,8 +31,15 @@ export default {
 	data() {
 		return {
 			idList: [], //要删除的店铺收藏ID
-			isSelectAll: false //是否全选
+			isSelectAll:false,
 		};
+	},
+	watch:{
+		idList(newV, oldV){
+			if (this.$refs.scrollView) {
+				this.isSelectAll = newV.length === this.$refs.scrollView.dataList.length
+			}
+		}
 	},
 	methods: {
 		/**
