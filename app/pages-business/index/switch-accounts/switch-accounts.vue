@@ -1,12 +1,12 @@
 <template>
 	<view class="switchAccount">
-		<view class="account-cell" v-for="(item,index) in accountList">
+		<view class="account-cell" v-for="(item,index) in accountList" @click="switchAccount(item)">
 			<image class="avatar" :src="item.avatar" mode="aspectFill"></image>
 			<view class="text-view">
 				<view class="name">{{item.nickName}}</view>
 				<view class="phone">{{item.phone}}</view>
 			</view>
-			<view class="delete-btn" @click="removeRelationAccount(item)">取消关联</view>
+			<view class="delete-btn" @click.stop="removeRelationAccount(item)">取消关联</view>
 		</view>
 		<view class="bottom-btn" @click="navRelationAccount">关联更多账户</view>
 	</view>
@@ -19,28 +19,37 @@
 				accountList:[]
 			};
 		},
-		onReady() {
+		onShow() {
 			this.getAccountList()
 		},
 		methods:{
 			// 查询关联的账户列表
 			getAccountList(){
 				this.$http.get('/storeUser/queryRelateAccount').then(res=>{
-					this.accountList = [{
-						nickName:'敖德萨',
-						phone:'1891175509'
-					}] //  res;
+					this.accountList = res;
 				})
 			},
 			// 移除关联账号
 			removeRelationAccount(item){
-				console.log(item);
+				console.log('移除关联账号',item);
 				const param = {
 					storeUserId:item.storeUserId
 				}
 				this.$http.post('/storeUser/cancelRelate',param,true).then(res=>{
 					this.$tool.showSuccess('已经取消关联')
 					this.getAccountList()
+				})
+			},
+			// 切换为这个账号
+			switchAccount(item){
+				console.log('切换为这个账号',item);
+				const param = {
+					userName:item.userName
+				}
+				this.$http.post('/storeUser/relateLogin',param,true).then(res=>{
+					this.$tool.showSuccess('切换成功',()=>{
+						this.$tool.login(res)
+					})
 				})
 			},
 			// 跳转关联账号页面
@@ -66,6 +75,7 @@
 	.switchAccount{
 		@extend .flex;
 		min-height: 100vh;
+		padding-top: 10rpx;
 		background-color: #f3f4f5;
 		
 		.account-cell{

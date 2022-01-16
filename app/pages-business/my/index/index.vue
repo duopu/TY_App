@@ -4,9 +4,9 @@
 		<!-- 头部 -->
 		<view class="flex-center-between my-top">
 			<view class="flex-center">
-				<image class="avatar-image" :src="storeInfo.avatar || defaultShopIcon" mode="aspectFill"></image>
+				<image class="avatar-image" :src="user.avatar || defaultShopIcon" mode="aspectFill"></image>
 				<view>
-					<view class="name text-bold">{{ storeInfo.storeName }}</view>
+					<view class="name text-bold">{{ user.userName }}</view>
 				</view>
 			</view>
 		</view>
@@ -58,13 +58,17 @@ export default {
 	name: 'myIndex',
 	data() {
 		return {
-			defaultShopIcon:'../../../static/images/my/defaultShopIcon.png'
+			defaultShopIcon:'../../../static/images/my/defaultShopIcon.png',
 		};
 	},
 	computed: {
 		...mapState([
-			'storeInfo' // 兴趣点列表
+			'storeInfo', // 兴趣点列表
+			'user'
 		])
+	},
+	mounted() {
+		
 	},
 	methods: {
 		logout() {

@@ -164,13 +164,15 @@
 				mineInfo: {},
 				// 学习情况信息
 				learnInfo: {},
-			};
-		},
+			}; 
+ 		},
 		onPullDownRefresh() {
 			this.queryMineInfo()
+			this.queryLearnInfo()
 		},
 		onShow() {
 			this.queryMineInfo()
+			this.queryLearnInfo()
 		},
 		computed:{
 			unReadMessageTotalCount(){

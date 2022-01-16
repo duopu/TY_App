@@ -23,10 +23,14 @@ const store = new Vuex.Store({
 		inviterGoodsId: undefined, //邀请人分销的商品ID,
 		unReadMessageTotalCount: 0, // 未读消息总数量
 		copyUrlParams: undefined, //剪贴板里获取链接的参数对象
+		user:{},
 	},
 
 	mutations: {
-
+		// 设置user 
+		setUser(state,user){
+			state.user = user;
+		},
 		/**初始化搜索记录
 		 * @param {Object} state
 		 * @param {Object} list

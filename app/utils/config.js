@@ -57,6 +57,8 @@ export default {
 	
 	// 复制链接的固定头部地址
 	copyUrl: h5Url,
+	// 是否上线
+	isOnline:false,
 	
 	// iOS下载地址  ***是上线之后的appId
 	iosDownloadUrl: 'http://itunes.apple.com/app/******',
