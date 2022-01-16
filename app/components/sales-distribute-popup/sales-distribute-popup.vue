@@ -46,7 +46,9 @@
 						</view>
 						<view class="cell" v-if="state === 2">已关联</view>
 						<view class="cell">{{item.gold}}</view>
-						<view class="cell">{{item.commissionStatus === 1 ? '未完成' : '已分佣'}}</view>
+						<view class="cell" v-if="item.commissionStatus === 1">未完成</view>
+						<view class="cell" v-else-if="item.commissionStatus === 2">等待分佣</view>
+						<view class="cell" v-else-if="item.commissionStatus === 3">已分佣</view>
 					</view>
 				</view>
 				<uni-load-more :status="loadStatus" :icon-size="16" :content-text="contentText" />
