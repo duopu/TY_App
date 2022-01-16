@@ -25,7 +25,6 @@
 			<view v-if="showBottom" class="row no-border flex-center-center">
 				<input v-if="unremittinglyVO.unremittinglyNumberFlag === 1" 
 				class="input flex-1" 
-			
 				placeholder="请输入活动号" 
 				placeholder-class="input-placeholder" 
 				:maxlength="20" 

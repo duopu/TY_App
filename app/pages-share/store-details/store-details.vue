@@ -127,7 +127,7 @@ export default {
 		 * 打开APP
 		 */
 		openApp(){
-			let url = `${config.copyUrl}?linkType=${this.linkType}&storeId=${this.storeId}`;
+			let url = `${config.schema}?linkType=${this.linkType}&storeId=${this.storeId}`;
 			let shareMsg = `推荐一款超赞的店铺给你：${url}`;
 			this.$tool.openApp(shareMsg)
 		}

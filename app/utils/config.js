@@ -57,6 +57,10 @@ export default {
 	
 	// 复制链接的固定头部地址
 	copyUrl: h5Url,
+	
+	// SCHEMA，专门用来生成打开APP时的头部固定地址
+	schema: 'tyjy://open',
+	
 	// 是否上线
 	isOnline:false,
 	

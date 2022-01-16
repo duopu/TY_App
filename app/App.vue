@@ -87,7 +87,7 @@
 				success: (res) => {
 					console.log('读取剪贴板中的信息',res.data);
 					let copyLink = res.data;
-					if (!copyLink.includes(config.copyUrl)) {
+					if (!copyLink.includes(config.schema)) {
 						return
 					}
 					console.log('剪贴板由内容');

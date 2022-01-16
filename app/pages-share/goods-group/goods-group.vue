@@ -66,7 +66,7 @@
 			 * 打开App
 			 */
 			openApp(){
-				let url = `${config.copyUrl}?linkType=${this.linkType}&goodsId=${this.groupBuyVO.goodsId}&userId=${this.userId}`;
+				let url = `${config.schema}?linkType=${this.linkType}&goodsId=${this.groupBuyVO.goodsId}&userId=${this.userId}`;
 				let shareMsg = `推荐一个超划算的活动给你：${url}`;
 				this.$tool.openApp(shareMsg)
 			}

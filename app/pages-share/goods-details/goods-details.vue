@@ -379,7 +379,7 @@
 				const linkType = this.linkType;
 				const goodsId = this.goodsId;
 				const userId = this.userId;
-				let url = `${config.copyUrl}?linkType=${linkType}&goodsId=${goodsId}&userId=${userId}`;
+				let url = `${config.schema}?linkType=${linkType}&goodsId=${goodsId}&userId=${userId}`;
 				let shareMsg = `推荐一款超值的商品给你：${url}`;
 				this.$tool.openApp(url)
 			}

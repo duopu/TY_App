@@ -61,7 +61,7 @@ export default {
 		openApp(){
 			const linkType = this.linkType; 
 			const couponId = this.couponId;
-			let url = `${config.copyUrl}?linkType=${linkType}&couponId=${couponId}`;
+			let url = `${config.schema}?linkType=${linkType}&couponId=${couponId}`;
 			let shareMsg = `分享一张优惠券给你：${url}`;
 			this.$tool.openApp(url)
 		}
