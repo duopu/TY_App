@@ -29,8 +29,8 @@
 			<!-- 任务 -->
 			<view class="flex-center task-lists">
 				<view class="item">
-					<text class="text">{{(learnInfo.minuteTotal || 0).toFixed(1) / 60}}小时</text>
-					<text class="desc">学习超过</text>
+					<text class="text">{{((learnInfo.minuteTotal || 0) / 60).toFixed(1)}}小时</text>
+					<text class="desc">学习时长</text>
 				</view>
 				<view class="item">
 					<text class="text">{{(learnInfo.beyondPlatformTotal || 0).toFixed(1)}}%学员</text>
