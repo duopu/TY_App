@@ -37,7 +37,7 @@
 						<view class="cell">预计分佣</view>
 						<view class="cell">分佣状态</view>
 					</view>
-					<view class="table-row" v-for="(item,index) in dataList" :key="`sales-distribute-{index}`">
+					<view class="table-row" v-for="(item,index) in dataList" :key="`sales-distribute-${index}`">
 						<view class="cell">
 							<view class="flex-center">
 								<image class="avatar-image" :src="item.userAvatar" mode="aspectFill"></image>
@@ -163,7 +163,7 @@ export default {
 					return;
 				}
 				this.$http
-					.get('/distribution/queryGoodsRecordPage', {page:this.page, size: this.pageSize, userId:getApp().globalData.user.userId}, true)
+					.get('/distribution/queryGoodsRecordPage', {page:this.page, size: this.pageSize, goodsId:this.detail.goodsId}, true)
 					.then(res => {
 						if(this.page == 1){
 							this.dataList = res.content;
