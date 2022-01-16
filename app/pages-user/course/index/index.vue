@@ -28,7 +28,8 @@
 			</view>
 		</view>
 		<!-- 横向菜单 -->
-		<custom-horizontal-tabs class="custom-tabs" :data="tabsData" :current-index="tabsIndex" @change="getTabsIndex"></custom-horizontal-tabs>
+		<custom-horizontal-tabs class="custom-tabs" :data="tabsData" :current-index="tabsIndex" @change="getTabsIndex">
+		</custom-horizontal-tabs>
 		<!--列表 -->
 
 		<!-- 我的课程 -->
@@ -43,40 +44,42 @@
 </template>
 
 <script>
-import TabMyCourse from './tab-my-course.vue';
-import TabStorageCourse from './tab-storage-course.vue';
-import TabQuestionBank from './tab-question-bank.vue';
-export default {
-	components: {
-		TabMyCourse,
-		TabStorageCourse,
-		TabQuestionBank
-	},
-	data() {
-		return {
-			tabsData: ['我的课程', '我的题库', '缓存课程'],
-			tabsIndex: 0,
-			learnStatistic: {},
-      myCourseKey:0, // 解决页面返回子组件数据不刷新
-		};
-	},
-	onShow() {
-		this.queryLearnStatistic();
-    this.$refs.myCourse.onLoadData();
-    this.myCourseKey += 1;
-	},
-	methods: {
-		// 获取当前 tab index
-		getTabsIndex(value) {
-			this.tabsIndex = value;
+	import TabMyCourse from './tab-my-course.vue';
+	import TabStorageCourse from './tab-storage-course.vue';
+	import TabQuestionBank from './tab-question-bank.vue';
+	export default {
+		components: {
+			TabMyCourse,
+			TabStorageCourse,
+			TabQuestionBank
 		},
+		data() {
+			return {
+				tabsData: ['我的课程', '我的题库', '缓存课程'],
+				tabsIndex: 0,
+				learnStatistic: {},
+				myCourseKey: 0, // 解决页面返回子组件数据不刷新
+			};
+		},
+		onShow() {
+			this.queryLearnStatistic();
+			if(this.$refs.myCourse){
+				this.$refs.myCourse.onLoadData();
+			}
+			this.myCourseKey += 1;
+		},
+		methods: {
+			// 获取当前 tab index
+			getTabsIndex(value) {
+				this.tabsIndex = value;
+			},
 
-		async queryLearnStatistic() {
-			const data = (await this.$http.get('/dailyTask/queryLearnStatistic', {}, true)) || {};
-			this.learnStatistic = data;
+			async queryLearnStatistic() {
+				const data = (await this.$http.get('/dailyTask/queryLearnStatistic', {}, true)) || {};
+				this.learnStatistic = data;
+			}
 		}
-	}
-};
+	};
 </script>
 
 <style lang="less" src="./style.less"></style>
