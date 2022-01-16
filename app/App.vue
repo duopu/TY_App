@@ -80,54 +80,59 @@
 		},
 		onShow: function() {
 			console.log('App Show');
-
-			// 读取剪贴板中的信息
-			// #ifdef APP-PLUS
-			uni.getClipboardData({
-				success: (res) => {
-					console.log('读取剪贴板中的信息',res.data);
-					let copyLink = res.data;
-					if (!copyLink.includes(config.schema)) {
-						return
-					}
-					console.log('剪贴板由内容');
-					// 这里直接让剪贴板的内容复制为空字符串，避免重复复制链接的功能
-					uni.setClipboardData({
-						data: '',
-						success: () => {
-							uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
-						},
-					});
-
-					let params = this.$tool.getUrlQuery(copyLink);
-					this.$store.commit('setCopyUrlParams', params);
-
-					// 如果用户已经登录过，则直接跳转对应页面，否则先去登录，再去跳转
-					if (getApp().globalData.user.token) {
-						this.$tool.jumpWithCopyUrl()
-					} else {
-						uni.getStorage({
-							key: config.storageKeys.loginUserKey,
-							success: res => {
-								const user = res.data;
-								if (user.token) {
-									this.$tool.jumpWithCopyUrl()
-								}
-							},
-							fail(err) {
-								// 为啥这样写  我先注释了  丁乐
-								// uni.reLaunch({
-								// 	url: '/pages/login/login'
-								// });
-							}
-						})
-					}
-				}
-			});
-			// #endif
-
-
+			setTimeout(()=>{
+				this.watchClipboardData()
+			},2000)
 		},
+		methods:{
+			watchClipboardData(){
+				// 读取剪贴板中的信息
+				// #ifdef APP-PLUS
+				uni.getClipboardData({
+					success: (res) => {
+						console.log('读取剪贴板中的信息',res.data);
+						let copyLink = res.data;
+						if (!copyLink.includes(config.schema)) {
+							return
+						}
+						console.log('剪贴板由内容');
+						// 这里直接让剪贴板的内容复制为空字符串，避免重复复制链接的功能
+						uni.setClipboardData({
+							data: '',
+							success: () => {
+								uni.hideToast(); //这里去掉系统级粘贴成功的弹窗效果
+							},
+						});
+
+						let params = this.$tool.getUrlQuery(copyLink);
+						this.$store.commit('setCopyUrlParams', params);
+
+						// 如果用户已经登录过，则直接跳转对应页面，否则先去登录，再去跳转
+						if (getApp().globalData.user.token) {
+							this.$tool.jumpWithCopyUrl()
+						} else {
+							uni.getStorage({
+								key: config.storageKeys.loginUserKey,
+								success: res => {
+									const user = res.data;
+									if (user.token) {
+										this.$tool.jumpWithCopyUrl()
+									}
+								},
+								fail(err) {
+									// 为啥这样写  我先注释了  丁乐
+									// uni.reLaunch({
+									// 	url: '/pages/login/login'
+									// });
+								}
+							})
+						}
+					}
+				});
+				// #endif
+			}
+		},
+
 		onHide: function() {
 			console.log('App Hide');
 		},

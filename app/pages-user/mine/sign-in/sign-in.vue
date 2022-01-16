@@ -49,7 +49,7 @@
 						<text class="font-24 color-6" v-if="item.totalMinute">今天已完成：{{item.minute || 0}}/{{item.totalMinute}}</text>
 					</view>
 					<!-- yellow -->
-					<button class="btn text-bold " :class="{ yellow: item.flag === 1 }" @click="taskClick(item)">{{item.flag == 0 ? '去完成' : '已完成'}}</button>
+					<button class="btn text-bold " :class="{ yellow: item.flag === 1 }" @click="taskClick(item)">{{getFlagStr(item.flag)}}</button>
 				</view>
 			</view>
 		</scroll-view>
@@ -95,19 +95,19 @@ export default {
 		},
 		// 任务事件
 		taskClick(task){
-			// 类型：1-每日签到，2-每日学习，3-分享海报，4-参加坚持不懈
-			const type = task.type;
-			if(task.flag == 0){
-				if(type == 2){
-					uni.navigateBack({})
-					this.$nextTick(()=>{
-						// 打开首页，活动,分销大使
-						// 跳转课程分销页面
-						uni.switchTab({
-							url: '/pages-user/classify/index/index'
-						})
+			// 类型：1-每日签到，2-每日学习，，4-参加坚持不懈
+			if(task.flag == 0 && task.type == 2){
+				// 2 - 每日学习
+				uni.navigateBack({})
+				this.$nextTick(()=>{
+					// 跳转课程分销页面
+					uni.switchTab({
+						url: '/pages-user/classify/index/index'
 					})
-				}else if(type == 4){
+				})
+			}else if( task.type == 4){
+				// 4-参加坚持不懈
+				if(task.flag == 0 ){
 					uni.navigateBack({})
 					this.$nextTick(()=>{
 						// 打开首页，活动,分销大使
@@ -116,15 +116,23 @@ export default {
 							url: '/pages-user/index/index/index'
 						})
 						// 打开首页，活动,分销大使
-						uni.$emit('activity-open',2)
+						uni.$emit('activity-open',1)
+					})
+				}else if(task.flag == 2){
+					this.$http.post('/dailyTask/create',{type:4,gold:task.gold},true).then(res=>{
+						this.queryLearnStatistic()
 					})
 				}
 			}
-			console.log(task);
 		},
 		// 返回上一级
 		goBack() {
 			uni.navigateBack({});
+		},
+		// 获取状态对应的文字
+		getFlagStr(flag){
+			const flagStr = ['未完成','已完成','待领取']
+			return flagStr[flag] || '--'
 		}
 	}
 };
