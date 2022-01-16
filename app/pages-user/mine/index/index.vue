@@ -29,15 +29,15 @@
 			<!-- 任务 -->
 			<view class="flex-center task-lists">
 				<view class="item">
-					<text class="text">{{(learnInfo.minuteTotal || 0) / 60}}小时</text>
+					<text class="text">{{(learnInfo.minuteTotal || 0).toFixed(1) / 60}}小时</text>
 					<text class="desc">学习超过</text>
 				</view>
 				<view class="item">
-					<text class="text">{{learnInfo.beyondPlatformTotal || 0}}%学员</text>
-					<text class="desc">超过平台</text>
+					<text class="text">{{(learnInfo.beyondPlatformTotal || 0).toFixed(1)}}%学员</text>
+					<text class="desc">超过平台</text> 
 				</view>
 				<view class="item">
-					<text class="text">{{learnInfo.daskNum || 0}}次</text>
+					<text class="text">{{(learnInfo.daskNum || 0).toFixed(0)}}次</text>
 					<text class="desc">完成任务</text>
 				</view>
 			</view>

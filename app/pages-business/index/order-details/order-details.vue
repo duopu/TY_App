@@ -9,7 +9,7 @@
 					</image>
 					<text>{{ orderInfo.storeName }}</text>
 				</view>
-				<!-- <image class="icon-dy" src="../../../static/images/icons/icon-dy.svg" mode="aspectFill"></image> -->
+				<image class="icon-dy" src="../../../static/images/icons/icon-dy.png" mode="aspectFill"  @click="dyClick"></image>
 			</view>
 			<view class="flex-center content">
 				<image class="avatar-image" :src="orderInfo.thumbnail" mode="aspectFill"></image>
@@ -163,6 +163,14 @@
 						this.queryInfo();
 					})
 					.catch(err => {});
+			},
+			dyClick(){
+				const param = {
+					orderNum:this.orderInfo.orderNum
+				}
+				this.$http.post('/order/printOrder',param,true).then(res=>{
+					this.$tool.showSuccess('操作成功')
+				})
 			},
 			queryExpress() {
 				this.$http.get('/order/queryExpress', {
