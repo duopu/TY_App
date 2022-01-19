@@ -4,7 +4,6 @@
 		<template v-slot:list="slotProps">
 			<course-video-item v-for="(item, index) in slotProps.list" :key="index" :data="item" :state="0"
 				@clickItem="clickItem" />
-
 		</template>
 	</my-scroll-view>
 </template>

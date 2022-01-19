@@ -10,7 +10,6 @@
 			messageParam: {}
 		},
 		onLaunch: function() {
-
 			// #ifdef APP-PLUS
 			// 从本地恢复登录信息;
 			uni.getStorage({
@@ -80,17 +79,17 @@
 		},
 		onShow: function() {
 			console.log('App Show');
-			setTimeout(()=>{
+			setTimeout(() => {
 				this.watchClipboardData()
-			},2000)
+			}, 2000)
 		},
-		methods:{
-			watchClipboardData(){
+		methods: {
+			watchClipboardData() {
 				// 读取剪贴板中的信息
 				// #ifdef APP-PLUS
 				uni.getClipboardData({
 					success: (res) => {
-						console.log('读取剪贴板中的信息',res.data);
+						console.log('读取剪贴板中的信息', res.data);
 						let copyLink = res.data;
 						if (!copyLink.includes(config.schema)) {
 							return

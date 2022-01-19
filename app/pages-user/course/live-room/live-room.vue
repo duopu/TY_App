@@ -8,7 +8,7 @@
 			<image v-else :src="detail.img ? detail.img[0] : ''" class="live-img" />
 			<view class="flex-center-between text-bold process">
 				<text class="title text-bold">{{detail.courseName}}</text>
-				<text v-if="!isLocal" class="color-red">{{detail.learnRate || 0}}%</text>
+				<text v-if="!isLocal" class="color-red">{{detail.learnRate * 100}}%</text>
 			</view>
 		</view>
 
@@ -31,11 +31,11 @@
 								<text class="tag">上次学到</text>
 							</view>
 							<view class="flex-center desc">
-								<text>{{subItem.learnDuration | filterDate}}分钟</text>
+								<text>{{filterDate(subItem.learnDuration)}}分钟</text>
 								<block>
 									<text class="m-left-40">已学习</text>
 									<text
-										class="color-red">{{ subItem.learnDuration | filterProgress(subItem.classDuration)}}%</text>
+										class="color-red">{{filterProgress(subItem.learnDuration,subItem.classDuration)}}%</text>
 								</block>
 							</view>
 						</view>
@@ -83,25 +83,8 @@
 				id: '', //课程章节id
 				isLocal: false,
 				courseSyncList: uni.getStorageSync('courseList') || [],
-				currTime: 0, //播放时长
 				classDuration: 0, //课程总时长
 			};
-		},
-		filters: {
-
-			// 时间转分钟
-			filterDate(v) {
-				if (!v) return 0;
-				return dayjs(v).minute()
-			},
-
-			// 课时学习进度
-			filterProgress(v1, v2) {
-				if (!v1 || !v2) {
-					return 0
-				}
-				return parseInt(v1 / v2 * 100)
-			},
 		},
 		async onLoad(option) {
 			const {
@@ -115,12 +98,14 @@
 			} else {
 				this.queryDetail()
 			}
+			
+			this.currTime = 0 // 播放时长
 		},
 		methods: {
 
 			// 课时点击
 			periodClick(item) {
-				console.log('ffk',item);
+				console.log('ffk', item);
 				if (this.isLocal && !item.url) {
 					this.$tool.showToast('未缓存此课')
 					return;
@@ -131,32 +116,43 @@
 					this.videokey = Math.random();
 				}
 			},
-
 			// 播放时间监听
 			_timeupdate(event) {
+				
 				const {
-					currentTime
+					currentTime , duration
 				} = event.detail
-				if (currentTime - this.currTime > 1) {
+				
+				if ( currentTime - this.currTime >= 60) {
 					this.currTime = currentTime;
-					this.courseUpdateTime();
+					this.courseUpdateTime(currentTime,duration);
+					this.dailyTask();
 				}
 			},
-
 			// 播放结束
 			_endUpdata(event) {
-				this.currTime = this.classDuration;
-				this.courseUpdateTime();
+				const {
+					currentTime , duration
+				} = event.detail
+				this.courseUpdateTime(currentTime , duration);
 			},
-
 			// 更新进度接口 
-			courseUpdateTime() {
+			courseUpdateTime(currentTime , duration) {
 				const params = {
-					learnDuration: parseInt(this.currTime),
-					courseClassId:this.id,
-					courseId:this.courseId
+					learnDuration: currentTime,
+					classDuration:duration,
+					courseClassId: this.id,
+					courseId: this.courseId,
+					type:1,
 				}
 				this.$http.post('/userCourse/update', params, false)
+			},
+			dailyTask(){
+				const taskParam = {
+					minute:1,
+					type:2 ,// 1-每日签到，2-每日学习，3-分享海报，4-参加坚持不懈
+				}
+				this.$http.post('/dailyTask/create',taskParam)
 			},
 
 			//树状结构 第一层点击 
@@ -337,6 +333,19 @@
 					}
 				}
 				this.detail = data
+			},
+			// 时间转分钟
+			filterDate(v) {
+				if (!v) return 0;
+				return (v / 60).toFixed(1)
+			},
+			
+			// 课时学习进度
+			filterProgress(v1, v2) {
+				if (!v1 || !v2) {
+					return 0
+				}
+				return (v1 / v2 * 100).toFixed(1)
 			}
 		}
 	};

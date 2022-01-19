@@ -7,7 +7,8 @@
 				<view class="flex-center">
 					<image class="avatar-image" :src="liveInfo.storeAvatar" mode="aspectFill"></image>
 					<text>{{liveInfo.storeName}}</text>
-					<button class="btn-border yellow" @click="onCollect">{{liveInfo.storeCollectionCheck == 1 ? '未收藏' : '已收藏'}}</button>
+					<button class="btn-border yellow"
+						@click="onCollect">{{liveInfo.storeCollectionCheck == 1 ? '未收藏' : '已收藏'}}</button>
 					<image class="icon-user" src="../../../static/images/icons/icon-user.svg" mode="aspectFill"></image>
 					<text>{{userCount}}</text>
 				</view>
@@ -15,7 +16,8 @@
 					@click="closePage"></image>
 			</view>
 			<!-- 视频 直播 兼容-->
-			<video class="video-wrapper" :src="livePullUrl" :autoplay="true" controls></video>
+			<video class="video-wrapper" :src="livePullUrl" :autoplay="true" controls @timeupdate="_timeupdate"
+				@ended="_endUpdata"></video>
 			<!-- 菜单 -->
 			<custom-horizontal-tabs :currentIndex="tabsIndex" :data="tabsData" @change="getCurrentIndex">
 			</custom-horizontal-tabs>
@@ -46,7 +48,7 @@
 		<!-- 底部 输入框 -->
 		<view class="live-room-bottom flex-center">
 			<input class="input" placeholder-class="input-placeholder" type="text" v-model="messageText"
-				placeholder="快来参与互动吧" confirm-type="send" @confirm="sendMessage"/>
+				placeholder="快来参与互动吧" confirm-type="send" @confirm="sendMessage" />
 			<!-- <image class="icon" src="../../../static/images/icons/icon-talk.svg" mode="aspectFill"></image> -->
 			<text @click="sendMessage">发送</text>
 			<!-- <image class="icon" src="../../../static/images/icons/icon-share.svg" mode="aspectFill"></image> -->
@@ -55,17 +57,16 @@
 </template>
 
 <script>
-
 	export default {
 		data() {
 			return {
 				// 直播id
 				liveId: '',
 				// 直播详情
-				liveInfo:{},
+				liveInfo: {},
 				tabsIndex: 0,
 				// 当前人数
-				userCount:0,
+				userCount: 0,
 				tabsData: ['评论', '简介'],
 				// 拉流地址
 				livePullUrl: '',
@@ -75,12 +76,12 @@
 				messageText: '',
 				// 消息列表
 				messageList: [],
-				messageScrollTop: 0,
-
+				messageScrollTop: 0
 			};
 		},
 		onLoad(option) {
 			this.liveId = option.liveId;
+			this.currTime = 0 // 播放时长
 			// 监听群消息
 			uni.$on('AdvancedMsgListen', this.getNewMessage)
 		},
@@ -89,9 +90,10 @@
 		},
 		onUnload() {
 			uni.$off('AdvancedMsgListen', this.getNewMessage)
+			clearInterval(this.timer)
 		},
 		computed: {
-			
+
 		},
 		watch: {
 			messageList() {
@@ -101,12 +103,12 @@
 			},
 			groupId() {
 				// 加入群聊
-				this.$tool.imTool.joinGroup(this.groupId).then(res=>{
+				this.$tool.imTool.joinGroup(this.groupId).then(res => {
 					// 获取群历史
 					this.getGroupHistoryMessageList();
 
 					console.log('ffk');
-					this.$tool.imTool.getGroupsInfo(this.groupId).then(info=>{
+					this.$tool.imTool.getGroupsInfo(this.groupId).then(info => {
 						// 获取直播间人数
 						this.userCount = info.memberCount
 					})
@@ -133,8 +135,10 @@
 				})
 			},
 			// 店铺收藏 
-			onCollect(){
-				this.$http.post('/store/collect',{storeId:this.liveInfo.storeId},true).then(res=>{
+			onCollect() {
+				this.$http.post('/store/collect', {
+					storeId: this.liveInfo.storeId
+				}, true).then(res => {
 					this.queryLiveDetail();
 				})
 			},
@@ -145,6 +149,46 @@
 					this.messageList = historys.filter(msg => msg.elemType == 1).reverse()
 				})
 			},
+			// 播放时间监听
+			_timeupdate(event) {
+				const {
+					currentTime , duration
+				} = event.detail
+				
+				if ( currentTime - this.currTime >= 60) {
+					this.currTime = currentTime;
+					this.courseUpdateTime(currentTime,duration);
+					this.dailyTask();
+				}
+			},
+			// 播放结束
+			_endUpdata(event) {
+				const {
+					currentTime , duration
+				} = event.detail
+				this.courseUpdateTime(currentTime , duration);
+			},
+
+			// 更新进度接口 
+			courseUpdateTime(currentTime,duration) {
+				const params = {
+					learnDuration: currentTime,
+					classDuration:duration,
+					courseClassId: this.liveInfo.courseClassId ,
+					courseId: this.liveInfo.courseId,
+					liveId:this.liveInfo.liveId,
+					type: 2
+				}
+				this.$http.post('/userCourse/update', params, false)
+			},
+			dailyTask() {
+				const taskParam = {
+					minute: 1,
+					type: 2, // 1-每日签到，2-每日学习，3-分享海报，4-参加坚持不懈
+				}
+				this.$http.post('/dailyTask/create', taskParam)
+			},
+
 			// 收到新消息
 			getNewMessage(message) {
 				this.getLiveRoomUserCount();
@@ -156,7 +200,7 @@
 			},
 			// 发送消息
 			sendMessage() {
-				if(!this.messageText){
+				if (!this.messageText) {
 					this.$tool.showToast('请输入内容')
 					return;
 				}
