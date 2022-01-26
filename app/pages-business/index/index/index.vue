@@ -163,7 +163,6 @@ export default {
 		};
 	},
 	mounted(data) {
-		console.log('首页的用户信息打印', getApp().globalData.user);
 
 		// 获取公告列表
 		this.queryNoticeList();

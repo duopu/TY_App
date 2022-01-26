@@ -639,17 +639,21 @@
 						"navigationBarTitleText": "切换账号",
 						"enablePullDownRefresh": false
 					}
+				}, {
+					"path": "index/relation-account/relation-account",
+					"style": {
+						"navigationBarTitleText": "关联账号",
+						"enablePullDownRefresh": false
+					}
+
+				}, {
+					"path": "dy/dy",
+					"style": {
+						"navigationBarTitleText": "打印机配置",
+						"enablePullDownRefresh": false
+					}
 				}
-			    ,{
-                    "path" : "index/relation-account/relation-account",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "关联账号",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+			]
 		},
 		{
 			"root": "pages-share",

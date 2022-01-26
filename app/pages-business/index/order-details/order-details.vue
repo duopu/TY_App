@@ -164,6 +164,7 @@
 					})
 					.catch(err => {});
 			},
+			// 打印
 			dyClick(){
 				const param = {
 					orderNum:this.orderInfo.orderNum

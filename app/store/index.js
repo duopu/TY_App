@@ -224,27 +224,20 @@ const store = new Vuex.Store({
 			})
 		},
 		// 获取群组会话列表
-		getGroupConversationMap({
-			commit
-		}) {
+		getGroupConversationMap({commit}) {
 			imtool.getGroupConversationMap().then(map => {
 				console.log('获取群组会话列表', map);
 				commit('setGroupConversationMap', map)
 			})
 		},
 		// 获取店铺信息
-		queryStoreInfo({
-			commit
-		}) {
+		queryStoreInfo({commit}) {
 			request.get('/store/queryStoreDetail').then(res => {
 				commit('setStoreInfo', res)
 			})
-
 		},
 		//获取消息未读数
-		refreshTotalUnreadMessageCount({
-			commit
-		}) {
+		refreshTotalUnreadMessageCount({commit}) {
 			// 获取消息未读数
 			imtool.getTotalUnreadMessageCount().then(totalCount => {
 				commit('setUnReadMessageTotalCount', totalCount);
