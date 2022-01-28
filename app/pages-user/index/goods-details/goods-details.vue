@@ -620,10 +620,10 @@ export default {
 
 		// 跳转到商品分销页面
 		goGoodsApply() {
-			//TODO: 商品分销
-			// uni.navigateTo({
-			// 	url: `/pages-user/index/address/address`
-			// });
+			uni.switchTab({
+				url: '/pages-user/index/index/index'
+			})
+			uni.$emit('activity-open', 2) // 打开首页->活动->分销大使
 		},
 		
 		// 参与拼团按钮点击

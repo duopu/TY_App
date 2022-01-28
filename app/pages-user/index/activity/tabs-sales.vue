@@ -131,6 +131,9 @@ export default {
 	},
 	created() {
 		this.queryPlantformDistribution();
+		uni.$on('sales-open',(index)=>{
+			this.changeTabsIndex(index || this.tabsIndex)
+		})
 	},
 	methods: {
 		// change tabs index
