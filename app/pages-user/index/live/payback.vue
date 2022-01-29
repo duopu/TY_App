@@ -52,9 +52,12 @@ export default {
 		// 查询直播列表
 		queryLiveList(){
 			this.$http.get('/live/queryLivePage',{pageSize:1000,pageIndex:1},true).then(res=>{
-				this.hotLive = res.content[0]
-				this.liveList = res.content.slice(1);
-				console.log(this.liveList);
+				if(res.content && res.content.length > 0){
+					this.hotLive = res.content[0]
+					this.liveList = res.content.slice(1);
+					console.log(this.liveList);
+				}
+				
 			})
 		},
 		// 跳转商品详情

@@ -7,8 +7,8 @@
 				<view class="flex-center">
 					<image class="image-eduction" src="../../../static/images/index/eduction-course.png"
 						mode="aspectFill"></image>
-					<text class="line"></text>
-					<text class="color-yellow">slogn可换</text>
+					<!-- <text class="line"></text>
+					<text class="color-yellow">slogn可换</text> -->
 				</view>
 				<view class="flex-center">
 					<image class="icon-image" src="../../../static/images/icons/icon-search.svg" mode="aspectFill"

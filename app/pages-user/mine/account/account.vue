@@ -13,23 +13,23 @@
 			<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 		</view>
 		<view class="row flex-center-between">
-			<text class="text-bold">支付宝</text>
+			<text class="text-bold">邮箱</text>
 			<view class="flex-1 flex-center-end">
-				<text class="color-6">尚未绑定</text>
+				<text class="color-6">{{mineInfo.email ? mineInfo.email : '尚未绑定' }}</text>
 				<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
 		</view>
 		<view class="row flex-center-between">
 			<text class="text-bold">微信</text>
 			<view class="flex-1 flex-center-end">
-				<text class="color-6">尚未绑定</text>
+				<text class="color-6">{{wxBind ? '已绑定' : '尚未绑定' }}</text>
 				<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
 		</view>
 		<view class="row flex-center-between">
 			<text class="text-bold">QQ</text>
 			<view class="flex-1 flex-center-end">
-				<text class="color-6">尚未绑定</text>
+				<text class="color-6">{{qqBind ? '已绑定' : '尚未绑定' }}</text>
 				<image mode="aspectFill" class="icon-arrow" src="../../../static/images/icons/icon-arrow-right.svg"></image>
 			</view>
 		</view>
@@ -43,8 +43,17 @@ export default {
 			mineInfo: {},
 		};
 	},
+	computed: {
+		wxBind() {
+			return !!this.mineInfo.wechatState
+		},
+		qqBind(){
+			return !!this.mineInfo.qqState
+		}
+	},
 	onLoad() {
 		this.queryMineInfo()
+		console.log('用户信息',getApp().globalData.user);
 	},
 	onNavigationBarButtonTap(event){
 		this.saveUserInfo()

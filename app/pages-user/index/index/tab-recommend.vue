@@ -161,6 +161,10 @@
 			<course-lists-item :data="clsssData" v-if="clsssData">
 			</course-lists-item>
 		</view>
+		<!-- 弹窗 -->
+		<classify-category-popup ref="categoryPopup" 
+			:data="{hotCategoryVOList:hotCategoryVOList,
+					categoryVOList:categoryVOList}" ></classify-category-popup>
 	</scroll-view>
 </template>
 
@@ -223,6 +227,8 @@
 				showDiverted :false,
 				// 显示精品课程
 				showCourse :false,
+				hotCategoryVOList:[], //热门分类
+				categoryVOList:[], //分类
 			};
 		},
 		mounted() {
@@ -230,6 +236,8 @@
 			this.queryNewArticle();
 			// 查询腾云课堂自定义模块化信息（高新转行、考试题库）
 			this.queryHomeConfig();
+			
+			this.getAllCategory()
 		},
 		computed: {
 			...mapState([
@@ -259,6 +267,14 @@
 			}
 		},
 		methods: {
+			// 获取全部分类(热门+全平台)
+			getAllCategory(){
+				this.$http.get('/category/queryAll',{},true).then(res=>{
+					this.hotCategoryVOList = res.hotCategoryVOList || [];
+					this.categoryVOList = res.categoryVOList || [];
+				})
+			},
+			
 			// 查询轮播图
 			queryBannerList() {
 				this.$http.get('/navigate/queryBannerList',{platform:1}).then(res => {
@@ -326,9 +342,7 @@
 			},
 			// 跳转分类页面
 			gotoClassCategory() {
-				uni.navigateTo({
-					url:'/pages-user/classify/details/details'
-				})
+				 this.$refs.categoryPopup.open();
 			},
 			// 跳转商品详情
 			gotoGoodsDetail(goodsData) {
