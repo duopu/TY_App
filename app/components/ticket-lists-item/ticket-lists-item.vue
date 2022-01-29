@@ -58,6 +58,11 @@ export default {
 			default: false
 		}
 	},
+	watch: {
+		isSelect(newV, oldV){
+			this.select = newV
+		}
+	},
 	data() {
 		return {
 			select:this.isSelect

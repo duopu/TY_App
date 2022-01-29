@@ -7,10 +7,10 @@
 				<image @click="close()" class="icon-close" src="../../static/images/icons/icon-cha.svg" mode="aspectFill"></image>
 			</view>
 			<scroll-view class="popup-content" scroll-y="true">
-				<block v-for="(item, index) in couponList" :key="`store-coupon-${index}`">
+				<block v-for="(item, index) in dataList" :key="`store-coupon-${index}`">
 					<ticket-lists-item :data="item" 
 					:canSelect="true" 
-					:isSelect="selectCouponId === item.couponId" 
+					:isSelect="chooseStoreCouponId === item.couponId" 
 					@onSelect="onSelect"></ticket-lists-item>
 				</block>
 			</scroll-view>
@@ -53,6 +53,7 @@ export default {
 		},
 		selectCouponId(newV, oldV){
 			this.couponId = newV;
+			this.chooseStoreCouponId = newV;
 		}
 	},
 	methods: {
