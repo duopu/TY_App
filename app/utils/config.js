@@ -16,7 +16,9 @@ export default {
 		// 登录用户的信息
 		loginUserKey:'storageLoginUserKey',
 		// 历史搜索 
-		historySearchKey:'storageHistorySearchKey'
+		historySearchKey:'storageHistorySearchKey',
+		// 引导页面
+		guideKey:'guideKey',
 	},
 	
 	// 各种链接地址

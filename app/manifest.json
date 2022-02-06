@@ -135,6 +135,15 @@
                         "spotlight@3x" : "unpackage/res/icons/120x120.png"
                     }
                 }
+            },
+            "splashscreen" : {
+                "androidStyle" : "default",
+                "useOriginalMsgbox" : false,
+                "android" : {
+                    "hdpi" : "static/images/launch/launch480.png",
+                    "xhdpi" : "static/images/launch/launch720.png",
+                    "xxhdpi" : "static/images/launch/launch1080.png"
+                }
             }
         },
         "nativePlugins" : {

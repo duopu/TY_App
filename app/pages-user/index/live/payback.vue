@@ -57,7 +57,6 @@ export default {
 					this.liveList = res.content.slice(1);
 					console.log(this.liveList);
 				}
-				
 			})
 		},
 		// 跳转商品详情

@@ -11,21 +11,34 @@
 		},
 		onLaunch: function() {
 			// #ifdef APP-PLUS
-			// 从本地恢复登录信息;
+			
+			// 从本地获取引导页面信息
 			uni.getStorage({
-				key: config.storageKeys.loginUserKey,
+				key: config.storageKeys.guideKey,
 				success: res => {
-					const user = res.data;
-					if (user.token) {
-						this.$tool.login(user);
-					}
+					// 从本地恢复登录信息;
+					uni.getStorage({
+						key: config.storageKeys.loginUserKey,
+						success: res => {
+							const user = res.data;
+							if (user.token) {
+								this.$tool.login(user);
+							}
+						},
+						fail(err) {
+							uni.reLaunch({
+								url: '/pages/login/login'
+							});
+						}
+					});
 				},
 				fail(err) {
 					uni.reLaunch({
-						url: '/pages/login/login'
+						url: '/pages/guide/guide'
 					});
 				}
 			});
+			
 
 			// 监听会话变化
 			uni.$on('ConversationListen', (data) => {
