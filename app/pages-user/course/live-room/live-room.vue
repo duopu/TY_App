@@ -86,7 +86,7 @@
 				classDuration: 0, //课程总时长
 			};
 		},
-		async onLoad(option) {
+		onLoad(option) {
 			const {
 				courseId,
 				from
@@ -98,19 +98,22 @@
 			} else {
 				this.queryDetail()
 			}
-			
+
 			this.currTime = 0 // 播放时长
 		},
 		methods: {
 
 			// 课时点击
 			periodClick(item) {
-				console.log('ffk', item);
-				if (this.isLocal && !item.url) {
-					this.$tool.showToast('未缓存此课')
-					return;
-				}
-				if (item.url) {
+				if (this.isLocal) {
+					if(item.localUrl){
+						this.id = item.courseClassId;
+						this.videoUrl = item.localUrl
+						this.videokey = Math.random();
+					}else{
+						this.$tool.showToast('未缓存此课')
+					}
+				}else if (item.url){
 					this.id = item.courseClassId;
 					this.videoUrl = item.url
 					this.videokey = Math.random();
@@ -118,41 +121,42 @@
 			},
 			// 播放时间监听
 			_timeupdate(event) {
-				
 				const {
-					currentTime , duration
+					currentTime,
+					duration
 				} = event.detail
-				
-				if ( currentTime - this.currTime >= 60) {
+
+				if (currentTime - this.currTime >= 60) {
 					this.currTime = currentTime;
-					this.courseUpdateTime(currentTime,duration);
+					this.courseUpdateTime(currentTime, duration);
 					this.dailyTask();
 				}
 			},
 			// 播放结束
 			_endUpdata(event) {
 				const {
-					currentTime , duration
+					currentTime,
+					duration
 				} = event.detail
-				this.courseUpdateTime(currentTime , duration);
+				this.courseUpdateTime(currentTime, duration);
 			},
 			// 更新进度接口 
-			courseUpdateTime(currentTime , duration) {
+			courseUpdateTime(currentTime, duration) {
 				const params = {
 					learnDuration: currentTime,
-					classDuration:duration,
+					classDuration: duration,
 					courseClassId: this.id,
 					courseId: this.courseId,
-					type:1,
+					type: 1,
 				}
 				this.$http.post('/userCourse/update', params, false)
 			},
-			dailyTask(){
+			dailyTask() {
 				const taskParam = {
-					minute:1,
-					type:2 ,// 1-每日签到，2-每日学习，3-分享海报，4-参加坚持不懈
+					minute: 1,
+					type: 2, // 1-每日签到，2-每日学习，3-分享海报，4-参加坚持不懈
 				}
-				this.$http.post('/dailyTask/create',taskParam)
+				this.$http.post('/dailyTask/create', taskParam)
 			},
 
 			//树状结构 第一层点击 
@@ -166,50 +170,51 @@
 
 			//下载课程 
 			down() {
-				let that = this;
-				if (!this.videoUrl) {
-					this.$tool.showToast('请选择您要缓存的课时')
+				const saveCourse = this.courseSyncList.find(course=>course.courseId == this.courseId)
+				if(saveCourse){
+					this.$tool.showToast('您已经缓存过了')
 					return;
 				}
-				const courseSyncList = this.courseSyncList;
-				let isSync = false;
-				courseSyncList.map(item => {
-					(item.userCourseClassList || []).map(subItem => {
-						isSync = (subItem.nodes).filter(flag => flag.id == this.id).length > 0;
-						if (isSync) {
-							this.$tool.showToast('您已经缓存过了')
-							return;
-						}
-					})
-				})
-				uni.showLoading({
-					title: '下载中...'
-				})
-				uni.downloadFile({
-					url: that.videoUrl,
-					success: (res) => {
-						if (res.statusCode === 200) {
-							let tempFilePath = res.tempFilePath;
-							that.$tool.showSuccess('下载成功', () => {
-								uni.saveFile({
-									tempFilePath,
+				this.$tool.showToast('下载中...')
+				const promiseList = []
+				this.detail.userCourseClassList.forEach(classData => {
+					classData.nodes.forEach(node => {
+						if (!!node.url) {
+							const downPromise = new Promise((resolve,reject)=>{
+								uni.downloadFile({
+									url: node.url,
 									success: (res) => {
-										let savedFilePath = this.fileNameEscape(res
-											.savedFilePath);
-										this.saveCourseList(savedFilePath)
-									},
-									fail: (err) => {
-										that.$tool.showToast(err.msg || '保存本地失败')
+										if (res.statusCode === 200) {
+											uni.saveFile({
+												tempFilePath: res.tempFilePath,
+												success: (res) => {
+													let savedFilePath = this
+														.fileNameEscape(res
+															.savedFilePath);
+													console.log('本地视频', savedFilePath)
+													node.localUrl = savedFilePath
+													resolve('22')
+												}
+											});
+										}else{
+											reject()
+										}
 									}
 								});
 							})
-
+							promiseList.push(downPromise)
 						}
-					},
-					complete: () => {
-						uni.hideLoading()
-					}
-				});
+					})
+				})
+				
+				Promise.all(promiseList).then(res=>{
+					this.$tool.showToast('保存成功')
+					const newCourseSyncList = [...this.courseSyncList,this.detail]
+					uni.setStorageSync('courseList', newCourseSyncList)
+					this.courseSyncList = newCourseSyncList;
+				}).catch(err=>{
+					this.$tool.showToast('保存本地失败')
+				})
 			},
 
 			/**
@@ -241,7 +246,15 @@
 					storeName,
 					userCourseClassList: classList
 				})
-				uni.setStorageSync('courseList', courseSyncList)
+
+				console.log('发斯蒂芬', {
+					courseId: this.courseId,
+					courseName,
+					thumbnail,
+					storeName,
+					userCourseClassList: classList
+				});
+				// uni.setStorageSync('courseList', courseSyncList)
 			},
 
 			/**
@@ -321,7 +334,8 @@
 				const userCourseClassList = data.userCourseClassList
 				const checkCourseClassList = userCourseClassList.filter(item => item.nodes && item.nodes.length > 0 && item
 					.nodes.filter(i => i.url).length > 0)
-				if (data.userCourseClassList) {
+				console.log('发都是发送到', checkCourseClassList);
+				if (data.userCourseClassList && checkCourseClassList && checkCourseClassList.length > 0) {
 					(data.userCourseClassList || []).map((item) => {
 						item.checked = item.id === checkCourseClassList[0].id;
 					})
@@ -339,7 +353,7 @@
 				if (!v) return 0;
 				return (v / 60).toFixed(1)
 			},
-			
+
 			// 课时学习进度
 			filterProgress(v1, v2) {
 				if (!v1 || !v2) {

@@ -2,7 +2,7 @@
 <template>
 	<!-- 项 -->
 	<view class="course-lists-item" @click="itemOnClick">
-		<image :src="data.storeAvatar" mode="aspectFill" class="item-image" />
+		<image :src="data.storeAvatar || data.avatar" mode="aspectFill" class="item-image" />
 		<view class="item-content">
 			<view class="flex-1">
 				<view class="name text-bold text-ellipsis">{{state === 1 ? data.title : data.courseName }}</view>
