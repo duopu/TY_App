@@ -23,6 +23,7 @@
 </template>
 
 <script>
+	import config from '../../../utils/config.js';
 	export default {
 		data() {
 			return {
@@ -32,9 +33,25 @@
 		methods:{
 			// 检查版本
 			checkVersion(){
-				// App 版本号
-				const versionStr = (plus.runtime.version).split('.').join('');
-				this.$tool.showSuccess('当时是最新版本')
+				
+				this.$http.post('/value/config/batchQuery',{codeList:['APP_VERSION']},true).then(res=>{
+					const versionData = JSON.parse(res[0].content)
+					const version = versionData.version;
+					const myVersion = plus.runtime.version;
+					if(myVersion == version){
+						this.$tool.showSuccess('当时是最新版本')
+					}else{
+						uni.showModal({
+							title:'提示',
+							content:'发现新版本，是否更新',
+							success: (res) => {
+								if(res.confirm){
+									plus.runtime.openURL(versionData.androidUrl || config.androidDownloadUrl)
+								}
+							}
+						})
+					}
+				})
 			},
 			callUs(){
 				uni.navigateTo({
